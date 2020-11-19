@@ -1,0 +1,33 @@
+<div id="{{methodName}}">
+    <table class="array-report method-table">
+        <thead class="method-thead">
+            <tr>
+                <th class="method-name-column" colspan="2">
+                    <span class="strong">{{title}}</span>
+                </th>
+            </tr>
+            <tr>
+                <th class="method-name-column">
+                    <span class="strong">Old code</span>
+                </th>
+                <th class="method-name-column">
+                    <span class="strong">New code</span>
+                </th>
+            </tr>
+            <tr>
+                <th class="method-name-column">
+                    <span class="strong">Complexity: {{oldComplexity}}</span>
+                </th>
+                <th class="method-name-column">
+                    <span class="strong">Complexity: {{newComplexity}}</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="method-body">
+            <tr class="code-row">
+                {{>methodCode code=oldCode}}
+                {{>methodCode code=newCode}}
+            </tr>
+        </tbody>
+    </table>
+</div>

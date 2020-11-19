@@ -1,0 +1,23 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "module": "commonjs",
+        "resolveJsonModule": true,
+        "target": "es2018",
+        "types": [
+            "node"
+        ],
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "outDir": "dist"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "package.json"
+    ]
+}

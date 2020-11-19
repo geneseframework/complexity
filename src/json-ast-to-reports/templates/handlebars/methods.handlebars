@@ -1,0 +1,26 @@
+<div id="{{methodName}}">
+    <table class="array-report method-table">
+        <thead class="method-thead">
+        <tr>
+            <th class="method-name-column">
+                <span class="strong">{{methodName}}</span>
+            </th>
+            <th class="right bgwhite">Complexity Index</th>
+            <th class="bg{{method.cognitiveColor}}">{{method.cpxIndex}}</th>
+            <th class="right bgwhite">Cyclomatic complexity</th>
+            <th class="bg{{method.cyclomaticColor}}">{{method.cyclomaticValue}}</th>
+        </tr>
+        </thead>
+        <tbody class="method-body">
+        <tr class="code-row">
+            <td colspan="5">
+                    <pre>
+                <code class="language-js">
+                    {{method.code}}
+                </code>
+            </pre>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

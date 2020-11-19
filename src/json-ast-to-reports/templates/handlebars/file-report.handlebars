@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Genese complexity report</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/prism.css" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/prettify.css" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/report.css" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<div class="header">
+    <div class="header-left">
+        <div>
+            <h1>Genese complexity report</h1>
+        </div>
+        <div class="pad1y">
+                <span class="backLink" onclick="history.back()"><-</span>
+                    {{stats.subject}}
+        </div>
+        <div class="clearfix">
+            <div class='fl pad1y space-right2'>
+                <span>Methods : </span>
+                <span class="strong">{{stats.numberOfMethods}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="clearfix padly">
+            <div class='fl pad1y space-right2'>
+                <span>Complexity index : </span>
+                <span class="strong">{{stats.totalCognitiveComplexity}}</span>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class='fl pad1y space-right2'>
+                <span>Cyclomatic complexity :</span>
+                <span class="strong">{{stats.totalCyclomaticComplexity}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--        -------------------------------------------------------------------------------------->
+<!--        -----------------------------------   Stats and charts   ----------------------------->
+<!--        -------------------------------------------------------------------------------------->
+
+
+<div class="mainContainer">
+    <div class="stats-and-charts">
+
+        <!--        -----------------------------------   Cognitive complexity   ---------------------------->
+
+        <div class="stats-cognitive">
+            <div class="stats-and-doughnut stats-and-doughnut-cognitive">
+                <div class="doughnut">
+                    <canvas id="doughnut-cognitive-cpx" height="220"></canvas>
+                </div>
+                <div class="stats">
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">Cognitive complexity</span>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">{{stats.percentsByStatus.cognitive.correct}} %</span>
+                            <span class="quiet"> Correct</span>
+                            <span
+                                    class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.correct}}/{{stats.numberOfMethods}}</span>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">{{stats.percentsByStatus.cognitive.warning}} %</span>
+                            <span class="quiet"> Warning</span>
+                            <span
+                                    class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.warning}}/{{stats.numberOfMethods}}</span>
+                            <span class="quiet">(threshold : {{thresholds.cognitive.warning}})</span>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">{{stats.percentsByStatus.cognitive.error}} %</span>
+                            <span class="quiet"> Error</span>
+                            <span
+                                    class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.error}}/{{stats.numberOfMethods}}</span>
+                            <span class="quiet">(threshold : {{thresholds.cognitive.error}})</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bar bar-cognitive">
+                <canvas id="bar-cognitive-cpx" class="cognitive-charts"></canvas>
+            </div>
+        </div>
+
+        <!--        -----------------------------------   Cyclomatic complexity   ---------------------------->
+
+        <div class="stats-cyclomatic">
+            <div class="stats-and-doughnut-cyclomatic">
+                <div class="doughnut">
+                    <canvas id="doughnut-cyclomatic-cpx" height="220"></canvas>
+                </div>
+                <div class="stats-cy">
+                    <div class="clearfix cyclomatic-subtitle">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">Cyclomatic complexity</span>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">{{stats.percentsByStatus.cyclomatic.correct}} %</span>
+                            <span class="quiet"> Correct</span>
+                            <span
+                                    class='fraction'>{{stats.numberOfMethodsByStatus.cyclomatic.correct}}/{{stats.numberOfMethods}}</span>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">{{stats.percentsByStatus.cyclomatic.warning}} %</span>
+                            <span class="quiet"> Warning</span>
+                            <span
+                                    class='fraction'>{{stats.numberOfMethodsByStatus.cyclomatic.warning}}/{{stats.numberOfMethods}}</span>
+                            <span class="quiet">(threshold : {{thresholds.cyclomatic.warning}})</span>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">{{stats.percentsByStatus.cyclomatic.error}} %</span>
+                            <span class="quiet"> Error</span>
+                            <span
+                                    class='fraction'>{{stats.numberOfMethodsByStatus.cyclomatic.error}}/{{stats.numberOfMethods}}</span>
+                            <span class="quiet">(threshold : {{thresholds.cyclomatic.error}})</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bar bar-cyclomatic">
+                <canvas id="bar-cyclomatic-cpx" class="cyclomatic-charts"></canvas>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!--        -------------------------------------------------------------------------------------->
+    <!--        -----------------------------------   Methods arrays   ------------------------------->
+    <!--        -------------------------------------------------------------------------------------->
+
+
+    <div idclass="subfolders">
+        <div class="clearfix file-methods-subtitle">
+            <div class='fl pad1y space-right2'>
+                <span class="strong">Methods of <span class="italic">{{stats.subject}}</span></span>
+            </div>
+        </div>
+
+        {{#each methods}}
+            {{>method method=.}}
+        {{/each}}
+    </div>
+
+</div>
+
+
+<!--        -------------------------------------------------------------------------------------->
+<!--        -----------------------------------   Scripts   -------------------------------------->
+<!--        -------------------------------------------------------------------------------------->
+
+
+
+<script src="./{{relativeRootReports}}/reports-styles/Chart.js"></script>
+<script src="{{relativeRootReports}}/reports-styles/prism.js"></script>
+
+{{>cognitiveDoughnutScript}}
+{{>cognitiveBarchartScript}}
+{{>cyclomaticDoughnutScript}}
+{{>cyclomaticBarchartScript}}
+
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+{{#with rowFile}}
+    <tr>
+        <td><a href="{{linkFile}}">{{filename}}</a></td>
+        <td><a href="{{linkFile}}#{{methodName}}">{{methodName}}</a></td>
+        <td class="center {{cognitiveColor}}">{{cpxIndex}}</td>
+        <td class="center {{cyclomaticColor}}">{{cyclomaticValue}}</td>
+    </tr>
+{{/with}}

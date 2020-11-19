@@ -1,0 +1,58 @@
+<script>
+    var ctxBarCyclomatic = document.getElementById('bar-cyclomatic-cpx').getContext("2d");
+    var barCyclomatic = new Chart(ctxBarCyclomatic, {
+        type: 'bar',
+        data: {
+            labels: [
+                {{#each stats.barChartCyclomatic.data}}
+                    {{this.x}},
+                {{/each}}
+            ],
+            datasets: [{
+                data: [
+                    {{#each stats.barChartCyclomatic.data}}
+                        {{this.y}},
+                    {{/each}}
+                ],
+                backgroundColor: [
+                    {{#each stats.barChartCyclomatic.data}}
+                        '{{this.color}}',
+                    {{/each}}
+                ],
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: false,
+                text: 'Cyclomatic complexity',
+                position: 'top'
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Cyclomatic complexity'
+                    },
+                    ticks: {
+                        suggestedMin: 0
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of methods'
+                    },
+                    ticks: {
+                        suggestedMin: 0
+                    }
+                }]
+            }
+        }
+    });
+</script>

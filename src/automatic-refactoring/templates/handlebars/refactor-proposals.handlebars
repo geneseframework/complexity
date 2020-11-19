@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Genese complexity refactoring report</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./{{relativeRoot}}/reports-styles/prism.css" />
+    <link rel="stylesheet" href="./{{relativeRoot}}/reports-styles/prettify.css" />
+    <link rel="stylesheet" href="./{{relativeRoot}}/reports-styles/report.css" />
+    <link rel="stylesheet" href="./{{relativeRoot}}/reports-styles/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="header">
+        Refactor Proposals
+    </div>
+
+
+    <div class="mainContainer">
+
+        {{#each proposals}}
+            {{>refactorComparaison proposal=.}}
+        {{/each}}
+
+    </div>
+
+
+
+    <script src="./{{relativeRoot}}/reports-styles/Chart.js"></script>
+    <script src="./{{relativeRoot}}/reports-styles/prism.js"></script>
+
+</body>
+
+</html>

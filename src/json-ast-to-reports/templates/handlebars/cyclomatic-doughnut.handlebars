@@ -1,0 +1,45 @@
+<script>
+    var ctxDougnutCyclomatic = document.getElementById('doughnut-cyclomatic-cpx').getContext("2d");
+    var doughnutCyclomatic = new Chart(ctxDougnutCyclomatic, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [
+                    {{stats.numberOfMethodsByStatus.cyclomatic.correct}},
+                    {{stats.numberOfMethodsByStatus.cyclomatic.warning}},
+                    {{stats.numberOfMethodsByStatus.cyclomatic.error}},
+                ],
+                backgroundColor: [
+                    {{#each colors}}
+                        '{{this}}',
+                    {{/each}}
+                ]
+            }],
+            labels: [
+                'correct methods {{options.cyclomaticCpx.correctThreshold}}',
+                'warning methods {{options.cyclomaticCpx.warningThreshold}}',
+                'error methods {{options.cyclomaticCpx.errorThreshold}}',
+            ]
+        },
+        options: {
+            layout: {
+                padding: {
+                    maintainAspectRatio: false,
+                    responsive: false,
+                    left: 50,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                }
+            },
+            legend: {
+                display: false
+            },
+            position: 'left',
+            title: {
+                display: true,
+                text: 'Cyclomatic complexity'
+            }
+        }
+    });
+</script>
