@@ -28,7 +28,7 @@ export class RefactorReportService {
         this.registerPartial('refactorComparaison', 'refactor-comparaison');
         this.registerPartial('methodCode', 'method-script');
 
-        const TEMPLATE_PATH = `${Options.pathGeneseNodeJs}/src/complexity/automatic-refactoring/templates/handlebars/refactor-proposals.handlebars`;
+        const TEMPLATE_PATH = `${Options.pathGeneseNodeJs}/automatic-refactoring/templates/handlebars/refactor-proposals.handlebars`;
         const REPORT_TEMPLATE = this.getFileFromPath(TEMPLATE_PATH);
         this.template = Handlebars.compile(REPORT_TEMPLATE);
         this.writeRefactorReport();
@@ -54,7 +54,7 @@ export class RefactorReportService {
      * @returns {void}
      */
     private registerPartial(partialName: string, filename: string): void {
-        const PARTIAL_PATH = `${Options.pathGeneseNodeJs}/src/complexity/automatic-refactoring/templates/handlebars/${filename}.handlebars`;
+        const PARTIAL_PATH = `${Options.pathGeneseNodeJs}/automatic-refactoring/templates/handlebars/${filename}.handlebars`;
         const PARTIAL = this.getFileFromPath(PARTIAL_PATH);
         Handlebars.registerPartial(partialName, PARTIAL);
     }

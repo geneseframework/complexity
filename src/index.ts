@@ -14,9 +14,9 @@ const spinner = ora();
 const ARGS: string[] = process.argv.slice(2);
 const PATH_TO_ANALYSE = ARGS[0] ?? '.';
 const LANGUAGE = ARGS[1] ?? 'ts';
-const ENABLE_MARKDOWN_REPORT = ARGS[2] ?? false;
-const ENABLE_CONSOLE_REPORT = ARGS[3] ?? false;
-const ENABLE_REFACTORING = ARGS[4] ?? false;
+const ENABLE_MARKDOWN_REPORT = ARGS[2] === 'true';
+const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
+const ENABLE_REFACTORING = ARGS[4] === 'true';
 
 let pathToAnalyse: string;
 if (path.isAbsolute(PATH_TO_ANALYSE)) {
@@ -26,7 +26,9 @@ if (path.isAbsolute(PATH_TO_ANALYSE)) {
 }
 
 start()
-    .then(exitCode => process.exit(exitCode))
+    .then(exitCode => {
+        process.exit(exitCode)
+    })
     .catch(err => {
         spinner.fail();
         console.log(err);
