@@ -39,7 +39,7 @@ async function start(): Promise<number> {
     }
 
     spinner.start('AST generation');
-    await this.useWorker(
+    await useWorker(
         `${__dirname}/workers/ast-worker.js`,
         {
             pathCommand: process.cwd(),
@@ -50,7 +50,7 @@ async function start(): Promise<number> {
     spinner.succeed();
 
     spinner.start('Report generation');
-    const reportResult: { message: any; astFolder: AstFolder } = await this.useWorker(
+    const reportResult: { message: any; astFolder: AstFolder } = await useWorker(
         `${__dirname}/workers/report-worker.js`,
         {
             pathCommand: process.cwd(),
@@ -63,7 +63,7 @@ async function start(): Promise<number> {
 
     if (LANGUAGE === Language.TS && !ENABLE_CONSOLE_REPORT && ENABLE_REFACTORING) {
         spinner.start('Refactoring generation');
-        await this.useWorker(
+        await useWorker(
             `${__dirname}/workers/refactoring-worker.js`,
             {
                 pathCommand: Options.pathCommand,
