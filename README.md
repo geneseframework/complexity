@@ -47,22 +47,28 @@ Genese Complexity is available for JS, TS, JSX, TSX and JAVA.
 [Top](#table-of-contents)
 ## 2. Installation
 
-Genese complexity is a part of the genese module itself, so if you installed globally genese yet, you have nothing to do. If not, please install globally the genese module :
+Genese complexity is used through the genese-cli. You need to install it first:
 
 ```sh
-npm i -g genese
+npm i -g @genese/cli
+```
+
+Then, you can install the complexity module:
+
+```sh
+npm i -g @genese/complexity
 ```
 
 [Top](#table-of-contents)
 ## 3. Usage
 
-Genese complexity is launched with the Genese CLI included in the genese module. The main command-line is
+Genese complexity is launched with the Genese CLI module. The main command-line is
 
 ```sh
-genese cpx [directory]
+genese cpx [pathDir]
 ```
 
-The "directory" param is the folder of the project to audit. It can be relative or absolute.
+The "pathDir" param is the folder of the project to audit. It can be relative or absolute.
 
 ***Example:***
 ```sh
