@@ -1,5 +1,5 @@
 {
-  "name": "@genese/complexity",
+  "name": "genese-complexity",
   "version": "0.0.4",
   "description": "Tool analyzing cognitive complexity of source code",
   "scripts": {
