@@ -50,13 +50,13 @@ Genese Complexity is available for JS, TS, JSX, TSX and JAVA.
 Genese complexity is used through the genese-cli. You need to install it first:
 
 ```sh
-npm i -g @genese/cli
+npm i -g genese-cli
 ```
 
 Then, you can install the complexity module:
 
 ```sh
-npm i -g @genese/complexity
+npm i -g genese-complexity
 ```
 
 [Top](#table-of-contents)

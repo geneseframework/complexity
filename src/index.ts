@@ -25,6 +25,7 @@ if (path.isAbsolute(PATH_TO_ANALYSE)) {
     pathToAnalyse = `${process.cwd()}/${PATH_TO_ANALYSE}`.split('/').filter(e => e !== '.').join('/');
 }
 
+
 start()
     .then(exitCode => {
         process.exit(exitCode)
