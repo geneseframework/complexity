@@ -40,7 +40,6 @@ export class AstFileGenerationService {
             console.warn('No path or AstFolder : impossible to create AstFile');
             return undefined;
         }
-        console.log('PATH : ', path, project.getSourceFiles().map(s => s.getFilePath()))
         const sourceFile: SourceFile = project.getSourceFileOrThrow(path);
         return {
             name: getFilename(path),

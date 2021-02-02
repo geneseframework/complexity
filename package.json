@@ -1,6 +1,6 @@
 {
   "name": "genese-complexity",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tool analyzing cognitive complexity of source code",
   "scripts": {
     "build": "tsc && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/automatic-refactoring/templates dist/src/automatic-refactoring/templates && cp -r src/core/chartjs dist/src/core/chartjs",
