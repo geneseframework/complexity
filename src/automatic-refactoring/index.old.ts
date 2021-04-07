@@ -1,13 +1,10 @@
 #!/usr/bin/env node
 
 import {Worker} from 'worker_threads';
-import { Options } from './core/models/options.model';
-import { createOutDir, deleteFile } from './core/services/file.service';
-import { AstFolder } from './json-ast-to-reports/models/ast/ast-folder.model';
-import { Language } from './core/enum/language.enum';
-import * as chalk from 'chalk';
-import { LanguageToJsonAst } from './languages-to-json-ast/language-to-json-ast';
-import { JsonAstToReports } from './json-ast-to-reports/json-ast-to-reports';
+import { Options } from '../core/models/options.model';
+import { createOutDir, deleteFile } from '../core/services/file.service';
+import { AstFolder } from '../json-ast-to-reports/models/ast/ast-folder.model';
+import { Language } from '../core/enum/language.enum';
 
 const ora = require('ora');
 const path = require('path');
@@ -54,6 +51,7 @@ async function start(): Promise<number> {
             language: LANGUAGE
         });
     spinner.succeed();
+
     spinner.start('Report generation');
     const reportResult: { message: any; astFolder: AstFolder } = await useWorker(
         `${__dirname}/workers/report-worker.js`,
@@ -66,16 +64,26 @@ async function start(): Promise<number> {
         });
     spinner.succeed();
 
-    if (reportResult.message?.length > 0) {
+    if (LANGUAGE === Language.TS && !ENABLE_CONSOLE_REPORT && ENABLE_REFACTORING) {
+        spinner.start('Refactoring generation');
+        await useWorker(
+            `${__dirname}/workers/refactoring-worker.js`,
+            {
+                pathCommand: Options.pathCommand,
+                modifiedPath: pathToAnalyse,
+                pathGeneseNodeJs: __dirname,
+                astFolder: reportResult.astFolder
+            });
+        spinner.succeed();
+    }
+
+    deleteFile('./json-ast.json');
+
+    if (reportResult.message && reportResult.message.length > 0) {
         console.log();
         if (typeof reportResult.message === 'object') {
             console.table(reportResult.message, ['filename', 'methodName', 'cpxIndex']);
         } else {
-            const stats: any = reportResult.astFolder['_stats'];
-            console.log(chalk.blueBright('Files : '), stats.numberOfFiles);
-            console.log(chalk.blueBright('Methods : '), stats.numberOfMethods);
-            console.log(chalk.blueBright('Cognitive Complexity : '), stats.totalCognitiveComplexity);
-            console.log(chalk.blueBright('Cyclomatic Complexity : '), stats.totalCyclomaticComplexity);
             console.log(reportResult.message);
         }
         if (ENABLE_CONSOLE_REPORT) {
@@ -84,7 +92,6 @@ async function start(): Promise<number> {
     }
     return 0;
 }
-
 
 function useWorker(filepath, data): any {
     return new Promise((resolve, reject) => {

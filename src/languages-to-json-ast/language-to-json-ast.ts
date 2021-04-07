@@ -22,25 +22,24 @@ export class LanguageToJsonAst {
      */
     static start(pathToAnalyze: string, language?: Language): void {
         let jsonAst: JsonAstInterface;
-        const path = pathToAnalyze.slice(-1) === '/' ? pathToAnalyze.slice(0, -1) : pathToAnalyze;
         switch (language) {
             case Language.TS:
-                project.addSourceFilesAtPaths(`${path}/**/*.ts`);
+                project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.ts`);
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break
             case Language.JAVA:
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.JS:
-                project.addSourceFilesAtPaths(`${path}/**/*.js`);
+                project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.js`);
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.TSX:
-                project.addSourceFilesAtPaths(`${path}/**/*.tsx`);
+                project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.tsx`);
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.JSX:
-                project.addSourceFilesAtPaths(`${path}/**/*.jsx`);
+                project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.jsx`);
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break;
             default:

@@ -1,11 +1,12 @@
 {
   "name": "genese-complexity",
-  "version": "0.0.6",
-  "description": "Tool analyzing cognitive complexity of source code",
+  "version": "0.1.0",
+  "description": "Tool analyzing cognitive complexity of source code. Part of Genese framework.",
   "scripts": {
     "build": "tsc && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/automatic-refactoring/templates dist/src/automatic-refactoring/templates && cp -r src/core/chartjs dist/src/core/chartjs",
     "start": "npm run build && node dist/src/index.js",
-    "publish_package": "npm run build && npm publish"
+    "publish_package": "npm run build && npm publish",
+    "republish_package": "npm run build && npm unpublish -f && npm publish"
   },
   "bin": "dist/src/index.js",
   "repository": {
@@ -23,6 +24,7 @@
   "homepage": "https://github.com/geneseframework/genese-complexity#readme",
   "dependencies": {
     "@types/node": "^14.14.8",
+    "chalk": "^4.1.0",
     "eol": "^0.9.1",
     "fs-extra": "^9.0.1",
     "genese-mapper": "^1.0.6",
