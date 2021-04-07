@@ -1,7 +1,7 @@
 {
-  "name": "genese-complexity",
-  "version": "0.1.0",
-  "description": "Tool analyzing cognitive complexity of source code. Part of Genese framework.",
+  "name": "@genese/complexity",
+  "version": "1.0.0",
+  "description": "Analyzes cyclomatic and cognitive complexity of source code. Part of @genese framework.",
   "scripts": {
     "build": "tsc && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/automatic-refactoring/templates dist/src/automatic-refactoring/templates && cp -r src/core/chartjs dist/src/core/chartjs",
     "start": "npm run build && node dist/src/index.js",
@@ -19,9 +19,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/geneseframework/genese-complexity/issues"
+    "url": "https://github.com/geneseframework/complexity/issues"
   },
-  "homepage": "https://github.com/geneseframework/genese-complexity#readme",
+  "homepage": "https://github.com/geneseframework/complexity#readme",
   "dependencies": {
     "@types/node": "^14.14.8",
     "chalk": "^4.1.0",
