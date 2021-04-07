@@ -7,7 +7,7 @@ This module creates an HTML report displaying an overview of the complexities in
 ![Dashboard `@genese/complexity`](./readme-dashboard.png?raw=true "Dashboard")
 
 ## Table of Contents
-* [Why use `@genese/complexity` ?](#1-why-use-genesecomplexity-)
+* [Why use @genese/complexity ?](#1-why-use-genesecomplexity-)
 * [Installation](#2-installation)
 * [Usage](#3-usage)
 * [Interpretation of results](#4-interpretation-of-results)
@@ -38,7 +38,7 @@ This module creates an HTML report displaying an overview of the complexities in
     * [Exhaustive list of the kinds of node](#84-exhaustive-list-of-the-kinds-of-node)
 
 
-## 1. Why use `@genese/complexity` ?
+## 1. Why use @genese/complexity ?
 
 `@genese/complexity` is an audit tool which allows you to identify quickly the bad practices concerning cognitive or cyclomatic complexity.
 You will be able to find quickly the methods with too high complexity index or which should be examined carefully.
