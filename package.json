@@ -1,6 +1,6 @@
 {
     "name": "@genese/complexity",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Analyzes cyclomatic and cognitive complexity of source code. Part of @genese framework.",
     "scripts": {
         "build": "tsc && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/automatic-refactoring/templates dist/src/automatic-refactoring/templates && cp -r src/core/chartjs dist/src/core/chartjs",
