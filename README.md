@@ -456,7 +456,7 @@ There are hundreds kinds of TypeScript AST nodes, so it can be fastidious to "bi
 
 ### 7.3 Add 'use complexity' values for other languages or libraries
 
-In genese-complexity, the `use complexity` is defined in Json files defining the `use complexity` values for methods which can increase significantly the difficulty to understand them. This is an 'in progress' feature, which is only able for now to add `use complexity` for TypeScript methods. We need at first to complete the list of TypeScript methods which have a significant `use complexity`. In a second time, we need to do the same for other languages : any help will be appreciated. And last but not least, we need to add `use complexity` Json files for libraries which are widely used.
+In @genese/complexity, the `use complexity` is defined in Json files defining the `use complexity` values for methods which can increase significantly the difficulty to understand them. This is an 'in progress' feature, which is only able for now to add `use complexity` for TypeScript methods. We need at first to complete the list of TypeScript methods which have a significant `use complexity`. In a second time, we need to do the same for other languages : any help will be appreciated. And last but not least, we need to add `use complexity` Json files for libraries which are widely used.
 
 
 
