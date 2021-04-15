@@ -62,7 +62,7 @@ npm i -g @genese/complexity
 [Top](#table-of-contents)
 ## 3. Usage
 
-`@genese/complexity` is launched with the Genese CLI module. The main command-line is
+@genese/complexity is launched with the Genese CLI module. The main command-line is
 
 ```sh
 genese cpx [pathDir]
@@ -75,7 +75,7 @@ The "pathDir" param is the folder of the project to audit. It can be relative or
 genese cpx ./src
 ```
 
-By default, `@genese/complexity` is launched for TS files.
+By default, @genese/complexity is launched for TS files.
 You can modify this with the `-l` option
 
 ***Exemple:***
@@ -268,7 +268,7 @@ With the definition of the measure unit of the cognitive complexity, we can now 
 > #### Cognitive Complexity Index
 > The Cognitive Complexity Index is the measure of the Cognitive Complexity of a program’s source code by considering the logic door `if` as measure unit.
 
-In `@genese/complexity` module the expression "Complexity Index" will always imply "Cognitive Complexity Index". The following chapters provide an overview of the different ways to evaluate this Complexity Index.
+In @genese/complexity module the expression "Complexity Index" will always imply "Cognitive Complexity Index". The following chapters provide an overview of the different ways to evaluate this Complexity Index.
 
 ### 6.3 Complexity Factors
 
@@ -282,7 +282,7 @@ Every time someone will demonstrate that a factor should be weighted differently
 
 Each unbreakable piece of code have a Complexity Index which is weak, but not null. The name of a variable or a method, a keyword like `this`, `import`, `class`, `if`, ... are trivial, but they need to be red, taken in account and memorized by the human brain. A long method, even without particular problems, is more difficult to understand than a short function having the same "density of complexity".
 
-Each of these trivial nodes have a non null Complexity Index due to their existence. `@genese/complexity` uses an "atomic weight" equal to 0.1.
+Each of these trivial nodes have a non null Complexity Index due to their existence. @genese/complexity uses an "atomic weight" equal to 0.1.
 
 - Example
 
@@ -331,7 +331,7 @@ if (a) { // ---------------------------------- + x
 ```
 => Complexity Index : `x + y + n`
 
-`@genese/complexity` adds nesting complexity for the loops (`for`, `while`, ...), the conditions (`if`, `else`, `switch`, ...), the ternaries (`a = b ? 0 : 1`), the arrays (`a[b[c]]`) and the functions (`a = b.f(e => e + 1))`).
+@genese/complexity adds nesting complexity for the loops (`for`, `while`, ...), the conditions (`if`, `else`, `switch`, ...), the ternaries (`a = b ? 0 : 1`), the arrays (`a[b[c]]`) and the functions (`a = b.f(e => e + 1))`).
 
 - ***Aggregation***
 
@@ -445,12 +445,12 @@ Each time the algorithm will be updated, the version indicated at the top of the
 
 ### 7.2 Add new languages
 
-`@genese/complexity` is available for JS, TS, JSX, TSX and JAVA, but you can "plug" any language into this module.
-What does it mean ? To be simple, `@genese/complexity` parses a Json file with a specific format : [JsonAst](#722-jsonast-specifications).
+@genese/complexity is available for JS, TS, JSX, TSX and JAVA, but you can "plug" any language into this module.
+What does it mean ? To be simple, @genese/complexity parses a Json file with a specific format : [JsonAst](#722-jsonast-specifications).
 This format corresponds to a simplified AST (Abstract Syntax Tree) of the source code.
-So if you want to be able to "plug" your language into `@genese/complexity`, you "just" need to convert the specific AST structure of your language into JsonAst format.
+So if you want to be able to "plug" your language into @genese/complexity, you "just" need to convert the specific AST structure of your language into JsonAst format.
 In other words, your AST nodes must "match" with the nodes of the JsonAst format.
-If your plugin is correct, we will add it to `@genese/complexity` module.
+If your plugin is correct, we will add it to @genese/complexity module.
 
 There are hundreds kinds of TypeScript AST nodes, so it can be fastidious to "bind" all of them to the AST nodes of your language. Fortunately, JsonAst only needs few kinds of nodes; you will find them [below](#81-kinds-of-nodes).
 
@@ -480,17 +480,17 @@ You will find below the list of all the different kinds of AST nodes. If you wan
 | ClassDeclaration | `class MyClass { ... }` | Abstract node designating a declaration of a class. This node is the root node of a class. It doesn't increase complexity (empty category). |
 | ConditionalExpression | `a = b ? 0 : 1;` | This node is a conditional node and increases the nesting complexity. In this example, the ConditionalExpression node have 5 children : Identifier `b`, QuestionToken `?`, NumericLiteral `0`, ColonToken `:` and NumericLiteral `1`. |
 | DoStatement | `do { ... }` | Do instruction. Increases the nesting complexity. |
-| ElementAccessExpression | `a[b]` | Considered as an array by `@genese/complexity`. In this example, the ElementAccessExpression is a node with two children : an Identifier `a` and another Identifier `b`. |
+| ElementAccessExpression | `a[b]` | Considered as an array by`@genese/complexity. In this example, the ElementAccessExpression is a node with two children : an Identifier `a` and another Identifier `b`. |
 | EndOfFileToken | `... }` | The last element of the source code. |
 | ExpressionStatement | `a = b ? 0 : 1;`<br/> `a.filter(e => e + 1)` | Abstract node containing an expression, like a BinaryExpression or a CallExpression. This node doesn't increase complexity (empty category). |
 | FirstAssignment | `let a = b === 1` | Abstract node corresponding to the `EqualsToken` in a binary expression. It doesn't increase complexity (empty category). |
 | FirstStatement | `let a = 3;` | Abstract node declaring a variable (alias of VariableStatement). This node doesn't increase complexity (empty category). |
-| ForStatement | `for (let i = 0; i < 2; i++) { ... }`  | For loop. Increases the nesting complexity. <br/>Caution : `a.forEach(...)` is considered by TypeScript as a PropertyAccessExpression and not as a ForStatement, but `@genese/complexity` consider it as a classic `for` loop. |
+| ForStatement | `for (let i = 0; i < 2; i++) { ... }`  | For loop. Increases the nesting complexity. <br/>Caution : `a.forEach(...)` is considered by TypeScript as a PropertyAccessExpression and not as a ForStatement, but`@genese/complexity consider it as a classic `for` loop. |
 | ForInStatement | `for (let a of arr) { ... }` | For loop with `in` statement. Increases the nesting complexity. |
 | ForOfStatement | `for (let a of arr) { ... }` | For loop with `of` statement. Increases the nesting complexity. |
 | FunctionDeclaration | `function f() { ... }` | Abstract node designating a declaration of a function. This node doesn't increase complexity (empty category). |
 | FunctionExpression | `f(function(b) { ... }` | Abstract node designating a function expression. Increases the nesting complexity. |
-| Identifier | `f(a) { ... }` | The node corresponding to the identifier of a variable, a function, etc. In this example, there are two identifiers : `f` and `a`. An identifier is considered by `@genese/complexity` as an atomic node which increases the atomic complexity. |
+| Identifier | `f(a) { ... }` | The node corresponding to the identifier of a variable, a function, etc. In this example, there are two identifiers : `f` and `a`. An identifier is considered by`@genese/complexity as an atomic node which increases the atomic complexity. |
 | IfStatement | `if(a) { ... }` | The IF condition. Increases the nesting complexity. |
 | Keyword | `return` | Alias for any language keyword (`let`, `const`, `var`, `export`, `return`, ...). Increases atomic complexity. |
 | Literal | `2` <br/> `'a'` | Alias for any kind of literal assignment (`StringLiteral`, `NumericLiteral`, ...). Increases atomic complexity. |
@@ -505,7 +505,7 @@ You will find below the list of all the different kinds of AST nodes. If you wan
 | WhileStatement | `while (a < 10) { ... }` | While loop. Increases the nesting complexity. |
 
 
-`@genese/complexity` will consider all the other kinds of nodes as atomic nodes. This means that every node in the JsonAst which is not in the previous list file will add a cognitive complexity corresponding to atomic nodes, as `StringLiteral`, `TrueKeyword`, etc. If you don't want to increase complexity for a given kind of node, you will be able to set a property "empty" to true in the corresponding field of the JsonAst file.
+@genese/complexity will consider all the other kinds of nodes as atomic nodes. This means that every node in the JsonAst which is not in the previous list file will add a cognitive complexity corresponding to atomic nodes, as `StringLiteral`, `TrueKeyword`, etc. If you don't want to increase complexity for a given kind of node, you will be able to set a property "empty" to true in the corresponding field of the JsonAst file.
 
 
 ### 8.2 JsonAst specifications
@@ -567,7 +567,7 @@ Corresponds to an AST node of the source code of a file.
 
 ### 8.3 Structure of the AST nodes
 
-You must respect some conventions to be able to create JsonAst files correctly interpreted by `@genese/complexity`.
+You must respect some conventions to be able to create JsonAst files correctly interpreted by @genese/complexity.
 
 -  ***IfStatement***
 
