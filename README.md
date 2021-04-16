@@ -1,6 +1,6 @@
 # @genese/complexity [![npm version](https://badge.fury.io/js/%40genese%2Fcomplexity.svg)](https://badge.fury.io/js/%40genese%2Fcomplexity)
 
-`@genese/complexity` is a part of the [@genese]('https://github.com/geneseframework/genese') framework which improves you to increase your code quality by analysing the cognitive complexity and the cyclomatic complexity of your source code.
+@genese/complexity is a part of the [@genese]('https://github.com/geneseframework/genese') framework which improves you to increase your code quality by analysing the cognitive complexity and the cyclomatic complexity of your source code.
 This module creates an HTML report displaying an overview of the complexities index of each folder, file or method of your project. Moreover, you will find for each method the elements increasing complexity index, which will help you to refactor easier your code.
 
 
