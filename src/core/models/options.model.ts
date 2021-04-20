@@ -13,12 +13,12 @@ export var WINDOWS = false;
  */
 export class Options {
 
-    static cognitiveCpx: Complexity = { // Options concerning the cognitive complexity
-        errorThreshold: 20, // A complexity strictly greater than errorThreshold will be seen as error (can be overriden)
-        type: ComplexityType.COGNITIVE, // Sets the complexity type for this option (can't be overriden)
-        warningThreshold: 10, // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overriden)
+    static cognitiveCpx: Complexity = {     // Options concerning the cognitive complexity
+        errorThreshold: 20,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overriden)
+        type: ComplexityType.COGNITIVE,     // Sets the complexity type for this option (can't be overriden)
+        warningThreshold: 10,               // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overriden)
     };
-    static colors: ChartColor[] = [ // The colors of the charts
+    static colors: ChartColor[] = [         // The colors of the charts
         ChartColor.CORRECT,
         ChartColor.WARNING,
         ChartColor.ERROR,
