@@ -56,7 +56,7 @@ function myMethod(): void {
 } // Cognitive Complexity = 9
 ```
 
-SonarQube© uses some other rules to increase or decrease the score when something is intuitively increasing or decreasing the difficulty to understand the code. For example, they don't increase the score when you use a nullish-coalescing operator instead a `if`:
+SonarQube© uses some other rules to increase or decrease the score when something is intuitively increasing or decreasing the difficulty to understand the code. For example, they don't increase the score when you use an optional-chaining operator instead a `if`:
 
 **Example** (in TypeScript)
 ```ts
@@ -170,7 +170,7 @@ This module, [@genese/complexity](https://github.com/geneseframework/complexity)
 
 Like on the SonarQube©'s algorithm, I use weights which are arbitrary by nature. That's only when we will experimentally measure the time required to understand some code snippets that we will be able to use non-arbitrary coefficients.
 
-## Participate in the improvement of the knowledge !
+## Contribute to the improvement of the knowledge !
 
 The main idea of the *@Complexity project* is this one: we will never be able to measure exactly the cognitive complexity, but we could write an algorithm which will return every day a better approximation than the day before.
 
@@ -178,11 +178,12 @@ The weights used in the @genese/complexity module are not fixed for the eternity
 
 ## Acknowledgements
 
-I'm not the only one which worked on the *@Complexity* project. Many friends or colleagues helped me, and I want to thank all of them for the trust they placed in me and for their contribution to the code of the @genese/complexity module :
+I'm not the only one which worked on the *@Complexity* project: many friends or colleagues helped me, and I want to thank all of them for the trust they placed in me and for their contribution to the code of the @genese/complexity module :
 
 By alphabetical order :
 
 * M'hamad Abbas
+* Fabien Brisset
 * Thibault Fischer
 * Cédric Girard
 * Albert Grisvard
@@ -190,6 +191,7 @@ By alphabetical order :
 * Alexandre Kueny
 * Vincent Marignier
 * Gabriel Martin
+* Samir Mimoun
 * François Planet
 * Thibaud Thedon
 
