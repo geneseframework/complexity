@@ -1,10 +1,12 @@
 # @genese/complexity [![npm version](https://badge.fury.io/js/%40genese%2Fcomplexity.svg)](https://badge.fury.io/js/%40genese%2Fcomplexity)
 
-@genese/complexity is a part of the [@genese]('https://github.com/geneseframework/genese') framework which improves you to increase your code quality by analysing the cognitive complexity and the cyclomatic complexity of your source code.
-This module creates an HTML report displaying an overview of the complexities index of each folder, file or method of your project. Moreover, you will find for each method the elements increasing complexity index, which will help you to refactor easier your code.
+@genese/complexity analyzes the source code of your project and "measure" the cognitive complexity of each code snippet. It creates an HTML report displaying an overview of the complexities index for each folder, file or method of your project. Moreover, you will find for each method the elements increasing the cognitive complexity, which will help you to refactor your code.
 
+This module is a part of the [@genese]('https://github.com/geneseframework/genese') tool suite which is an opensource project whose aim is to provide tools helping developers to code faster and with a better code quality.
 
-![Dashboard `@genese/complexity`](./readme-dashboard.png?raw=true "Dashboard")
+@genese/complexity is also a part of [the @Complexity project](#7-the-complexity-project).
+
+![Dashboard @genese/complexity](./readme-dashboard.png?raw=true "Dashboard")
 
 ## Table of Contents
 * [Why use @genese/complexity ?](#1-why-use-genesecomplexity-)
@@ -16,7 +18,7 @@ This module creates an HTML report displaying an overview of the complexities in
 * [Configuration](#5-configuration)
     * [Thresholds](#51-thresholds)
     * [Folders to ignore](#52-folders-to-ignore)
-    * [Paths of folder to analyze](#53-path-of-folder-to-analyse)
+    * [Path of folder to analyze](#53-path-of-folder-to-analyse)
     * [Reports path](#54-reports-path)
 * [Documentation](#6-documentation)
     * [Cyclomatic complexity](#61-cyclomatic-complexity)
@@ -27,8 +29,8 @@ This module creates an HTML report displaying an overview of the complexities in
     * [Complexity Factors](#63-complexity-factors)
         * [Factor categories](#631-factor-categories)
         * [Table of weights](#632-table-of-weights-v100)
-* [How to contribute ?](#7-how-to-contribute-)
-    * [Confirm, refute, specify](#71-confirm-refute-specify)
+* [The *@Complexity* project](#7-the-complexity-project)
+    * [How to contribute ?](#71-how-to-contribute-)
     * [Add new languages](#72-add-new-languages)
     * [Add use-complexity for other languages and libraries](#73-add-use-complexity-values-for-other-languages-or-libraries)
 * [Specifications](#8-specifications)
@@ -40,20 +42,20 @@ This module creates an HTML report displaying an overview of the complexities in
 
 ## 1. Why use @genese/complexity ?
 
-`@genese/complexity` is an audit tool which allows you to identify quickly the bad practices concerning cognitive or cyclomatic complexity.
-You will be able to find quickly the methods with too high complexity index or which should be examined carefully.
-`@genese/complexity` is available for JS, TS, JSX, TSX and JAVA.
+@genese/complexity is an audit tool which allows you to identify quickly the bad practices concerning cognitive or cyclomatic complexity.
+With this module, you will be able to find quickly the methods with too high complexity index and which should be examined carefully.
+@genese/complexity is available for JS, TS, JSX, TSX and JAVA.
 
 [Top](#table-of-contents)
 ## 2. Installation
 
-`@genese/complexity` is used through the [@genese/cli](https://www.npmjs.com/package/@genese/cli). You need to install it first:
+@genese/complexity is used through the [@genese/cli](https://www.npmjs.com/package/@genese/cli). You need to install it first:
 
 ```sh
 npm i -g @genese/cli
 ```
 
-Then, you can install the complexity module:
+Then, you can install the @genese/complexity module:
 
 ```sh
 npm i -g @genese/complexity
@@ -199,9 +201,9 @@ By default, the genese complexity report will be located here : `current_folder/
 ```
 
 [Top](#table-of-contents)
-## 6. Documentation
+## 6. Cyclomatic complexity
 
-### 6.1 Cyclomatic complexity
+### 6.1 Definition
 
 The cyclomatic complexity is defined as below :
 
@@ -214,23 +216,37 @@ The force of the cyclomatic complexity is its simplicity: approximately, all bre
 
 If you are a human, you will read your code differently than a machine would do it. So if you want to know if your code is really maintainable, you must look at its cognitive complexity.
 
-### 6.2 Cognitive complexity
+## 7. Cognitive complexity
 
-#### 6.2.1 Definition
+A project is maintainable if each method of each file is easy to understand. That is the goal of the cognitive complexity, which should probably be seen as the most important indicator of code maintainability.
+
+### 7.1 Definition
 
 The cognitive complexity could be defined as below :
 
 >#### Cognitive Complexity
-> The Cognitive Complexity is a quantitative measure of the time required for a human to understand a program’s source code
+> The Cognitive Complexity is the time required by a human being to understand some code snippet.
 
+The definition above needs to be clarified: who is this human being ? What means exactly "understand" ? And how could we measure this time in the real world ? All of these questions are important, and will be detailed in a future article.
 
-A project is maintainable if each method of each file is easy to understand. That is the goal of the cognitive complexity, which should be seen as the most important indicator of code maintainability.
+For now, let's use this approximative definition, and let's try to clarify another question : what is difficult to understand and what is not ? Is an `if - else` more complex than a `for`, a `while` or a `switch` ? How many times a recursive method is more complex than a "normal" one ? Optional chaining or nullish coalescing clearly decrease the complexity of a method, but in which proportion ? There are no indisputable responses.
 
-The definition above needs to be clarified: what is difficult to understand and what is not ? Is an `if - else` more complex than a `for`, a `while` or a `switch` ? How many times a recursive method is more complex than a "normal" one ? Optional chaining or nullish coalescing clearly decrease the complexity of a method, but in which proportion ? There are no indisputable responses.
+In the future, when we will agree with some experimental protocol, we will be able to do some measures in the real world. At this moment, we will be able to check if, for example, a `if` nested in another `if` is more difficult to understand than a `if` alone, and if yes, how many times more complex it is.
 
-That's why we need to weight each complexity factor with a value which corresponds to its relative difficulty. To be able to do that, we need at first to define the measure unit of cognitive complexity.
+Today, we only can weight each code structure according to our experience and our intuition. To be able to do that, we need to define the measure unit of the cognitive complexity.
 
-#### 6.2.2 Measure unit
+Then, we will be able to choose for each case a value which corresponds, on our opinion, to the relative difficulty of understanding this case in relation to this measure unit.
+
+### 7.2 Measure unit
+
+The cognitive complexity is *the time required by a human being to understand some code snippet*. That means that when we want to measure the cognitive complexity, we need to measure a duration. That's why the measure unit of the cognitive complexity is the same than the measure unit of time, *i.e.* the second.
+
+>#### Measure unit
+> The measure unit of the Cognitive Complexity is the second.
+
+### 7.3 Complexity Index
+
+Even if the natural measure unit of the cognitive complexity is the second, it is clear that it is not very convenient to write it directly in this unit. For example, the cognitive complexity for a simple `if` is probably around some milliseconds, and it will not be handy to write something like `c("if()") = 0.001023 s`. That's why we will define a score called the *complexity index* which represents the ratio between the cognitive complexity (in seconds) of a given code snippet and the cognitive complexity (in seconds) of a code snippet *"reference"* that we will now define.
 
 A measure unit must be relative to an "atomic" piece of code, something which can be defined accurately. That's why we will use the definition below :
 
@@ -261,7 +277,6 @@ if () {
 }
 ```
 
-#### 6.2.3 Complexity Index
 
 With the definition of the measure unit of the cognitive complexity, we can now define the Cognitive Complexity Index :
 
@@ -433,13 +448,15 @@ This table of weights should never be seen as the exact way to calculate the Com
 
 
 [Top](#table-of-contents)
-## 7. How to contribute ?
+## 7. The *@Complexity* project
 
-### 7.1 Confirm, refute, specify
+### 7.1 How to contribute ?
 
-The estimation of the cognitive complexity will always be a simple approximation. The time required for a human to understand a source code depends of thousands of factors which must be studied severely. Our goal is only to give the better approximation of the measure of the Cognitive Complexity, that is, the Complexity Index.
+@genese/complexity is a part of the *@Complexity* project, which is a collective open-source project whose aim is to provide a better knowledge on software complexity. You can contribute to this project in many ways.
 
-You can help in many ways by confirming, refuting or specifying the actual mode of computation of the Cognitive Complexity. This page is the receptacle of the different propositions coming from the community. Of course, we accept results coming from research labs or statistic studies, but we accept too the simple feedbacks coming from developers themselves. Each element or idea which is able to improve our algorithm is welcome. If you think that something is wrong in our approach, your opinion is welcome. If you think about a new complexity factor or a new way to estimate some kind of complexity, your idea is welcome too !
+The measure of the cognitive complexity will always be a simple approximation. The time required for a human to understand a source code depends on thousands of factors which must be studied severely. Our goal is only to give the better approximation of the measure of the Cognitive Complexity, that is, the Complexity Index.
+
+You can help in many ways by confirming, refuting or specifying the actual mode of computation of the Cognitive Complexity. This page is the receptacle of the different propositions coming from the community. Of course, we accept results coming from research labs or statistic studies, but simple feedbacks coming from developers themselves are welcome ! Each element or idea which is able to improve our algorithm is welcome. If you think that something is wrong in our approach, your opinion is welcome. If you think about a new complexity factor or a new way to estimate some kind of complexity, your idea is welcome too !
 
 Each time the algorithm will be updated, the version indicated at the top of the Table of Weights will be updated too.
 
