@@ -4,7 +4,7 @@
 
 This module is a part of the [@genese]('https://github.com/geneseframework/genese') tool suite which is an opensource project whose aim is to provide tools helping developers to code faster and with a better code quality.
 
-@genese/complexity is also a part of [the @Complexity project](#7-the-complexity-project).
+@genese/complexity is also a part of the [*@ComplexityProject*](#8-the-complexityproject).
 
 ![Dashboard @genese/complexity](./readme-dashboard.png?raw=true "Dashboard")
 
@@ -20,24 +20,24 @@ This module is a part of the [@genese]('https://github.com/geneseframework/genes
     * [Folders to ignore](#52-folders-to-ignore)
     * [Path of folder to analyze](#53-path-of-folder-to-analyse)
     * [Reports path](#54-reports-path)
-* [Documentation](#6-documentation)
-    * [Cyclomatic complexity](#61-cyclomatic-complexity)
-    * [Cognitive complexity](#62-cognitive-complexity)
-        * [Definition](#621-definition)
-        * [Measure unit](#622-measure-unit)
-        * [Complexity Index](#623-complexity-index)
-    * [Complexity Factors](#63-complexity-factors)
-        * [Factor categories](#631-factor-categories)
-        * [Table of weights](#632-table-of-weights-v100)
-* [The *@Complexity* project](#7-the-complexity-project)
-    * [How to contribute ?](#71-how-to-contribute-)
-    * [Add new languages](#72-add-new-languages)
-    * [Add use-complexity for other languages and libraries](#73-add-use-complexity-values-for-other-languages-or-libraries)
-* [Specifications](#8-specifications)
-    * [Kinds of nodes](#81-kinds-of-nodes)
-    * [JsonAst specifications](#82-jsonast-specifications)
-    * [Structure of the AST nodes](#83-structure-of-the-ast-nodes)
-    * [Exhaustive list of the kinds of node](#84-exhaustive-list-of-the-kinds-of-node)
+* [Cyclomatic complexity](#6-cyclomatic-complexity)
+    * [Definition](#61-definition)
+* [Cognitive complexity](#7-cognitive-complexity)
+    * [Definition](#71-definition)
+    * [Measure unit](#72-measure-unit)
+    * [Complexity Index](#73-complexity-index)
+    * [Complexity Factors](#74-complexity-factors)
+    * [Factor categories](#741-factor-categories)
+    * [Table of weights](#742-table-of-weights-v100)
+* [The *@ComplexityProject*](#8-the-complexityproject)
+    * [How to contribute ?](#81-how-to-contribute-)
+    * [Add new languages](#82-add-new-languages)
+    * [Add use-complexity for other languages and libraries](#83-add-use-complexity-values-for-other-languages-or-libraries)
+* [Specifications](#9-specifications)
+    * [Kinds of nodes](#91-kinds-of-nodes)
+    * [JsonAst specifications](#92-jsonast-specifications)
+    * [Structure of the AST nodes](#93-structure-of-the-ast-nodes)
+    * [Exhaustive list of the kinds of node](#94-exhaustive-list-of-the-kinds-of-node)
 
 
 ## 1. Why use @genese/complexity ?
@@ -214,11 +214,11 @@ This notion is a good way to calculate the number of unit tests that we must do 
 
 The force of the cyclomatic complexity is its simplicity: approximately, all breakflows (for, if, switch, ...) increase the complexity score of 1. However, this score is weakly correlated to the maintainability of the source code, which is much more important: even if your code coverage is excellent, a source code which is too complex to understand will be unmaintainable.
 
-If you are a human, you will read your code differently than a machine would do it. So if you want to know if your code is really maintainable, you must look at its cognitive complexity.
+If you are a developer, you will read your code differently than a machine would do it. So if you want to know if your code is really maintainable, you must look at its cognitive complexity.
 
 ## 7. Cognitive complexity
 
-A project is maintainable if each method of each file is easy to understand. That is the goal of the cognitive complexity, which should probably be seen as the most important indicator of code maintainability.
+A project is maintainable if each method of each file is easy to understand. That is the goal of the cognitive complexity, which should probably be seen as the most important indicator of the code maintainability.
 
 ### 7.1 Definition
 
@@ -235,8 +235,6 @@ In the future, when we will agree with some experimental protocol, we will be ab
 
 Today, we only can weight each code structure according to our experience and our intuition. To be able to do that, we need to define the measure unit of the cognitive complexity.
 
-Then, we will be able to choose for each case a value which corresponds, on our opinion, to the relative difficulty of understanding this case in relation to this measure unit.
-
 ### 7.2 Measure unit
 
 The cognitive complexity is *the time required by a human being to understand some code snippet*. That means that when we want to measure the cognitive complexity, we need to measure a duration. That's why the measure unit of the cognitive complexity is the same than the measure unit of time, *i.e.* the second.
@@ -244,60 +242,72 @@ The cognitive complexity is *the time required by a human being to understand so
 >#### Measure unit
 > The measure unit of the Cognitive Complexity is the second.
 
+>#### The Cognitive Complexity function
+> We call *c* the function *c: **S** -> **R**<sup>+</sup>* where **S** is the set of all code snippets and **R**<sup>+</sup> the set of real positive numbers which assign to a given code snippet its cognitive complexity.
+>
+> In other terms, if *s* is a given code snippet, *c(s) = cognitiveComplexity(s)*.
+
 ### 7.3 Complexity Index
 
-Even if the natural measure unit of the cognitive complexity is the second, it is clear that it is not very convenient to write it directly in this unit. For example, the cognitive complexity for a simple `if` is probably around some milliseconds, and it will not be handy to write something like `c("if()") = 0.001023 s`. That's why we will define a score called the *complexity index* which represents the ratio between the cognitive complexity (in seconds) of a given code snippet and the cognitive complexity (in seconds) of a code snippet *"reference"* that we will now define.
+Even if the natural measure unit of the cognitive complexity is the second, it is clear that it is not very convenient to write it directly in this unit. For example, the cognitive complexity for a simple `if` is probably around some milliseconds, and it will not be handy to write something like `c("if()") = 0.001023 s`. That's why we will define a score called the *complexity index* which represents the ratio between the cognitive complexity (in seconds) of a given code snippet, and the cognitive complexity (in seconds) of a code snippet *"reference"* that we will now define.
 
-A measure unit must be relative to an "atomic" piece of code, something which can be defined accurately. That's why we will use the definition below :
+This complexity index must be relative to a piece of code "reference", something which can be defined accurately :
 
->#### Measure unit
-> The measure unit of the Cognitive Complexity is the time required for a human to understand the logic door `if`.
+>#### Complexity Index
+> The Complexity Index is the ratio between the cognitive complexity (in seconds) of a given code snippet, and the cognitive complexity (in seconds) of the code snippet *"reference"* equal to the keyword `if`.
 
-With this measure unit, we can calculate the Cognitive Complexity of any method by comparing the time needed to understand it with the time required to understand the logic door `if`. For example, a method with a Cognitive Complexity of 10 is a method which needs the same time to understand than a method with 10 `if`.
+In other words, the cognitive complexity of the keyword `if` is equal to the time required for a human being to understand that there is a conditional expression.
 
-We must insist on an important point : the measure unit must be defined in relation with an "atomic" piece of code. It is necessary to be able to quantify it "in the reality", *ie* by measuring the average time to understand it. That's why we define the measure unit of Cognitive Complexity with the "logic door `if`" and not with a `if` "with something inside".
+>#### The Complexity Index function
+> We call *i* the function *i: **S** -> **R**<sup>+</sup>* where **S** is the set of all code snippets and **R**<sup>+</sup> the set of real positive numbers which assign to a given code snippet its complexity index.
+> In other terms, if *s* is a given code snippet, *i(s) = complexityIndex(s)*.
 
-Let us try to be more explicit: the code below is not atomic, because there is a `console.log` inside it. Admittedly, the difficulty of a `console.log` is low, but not null. That's why we can't use this code as measure unit.
+>#### Consequence
+> The Complexity Index of the keyword `if` is equal to 1.
+> This affirmation is equivalent to the equation : `i('if') = 1`.
+
+Let us try to be more explicit: Let's call *s* the code snippet below :
 ```ts
 if (a) {
     console.log(a);
 }
 ```
 
-We have the same problem with the next code, which is not atomic too. The `a` is not "nothing" and me bust be understand too. Moreover, `if(a)` have different significations according to the used language. For example, in JavaScript and TypeScript, it doesn't mean "if a is true" but "if a is not a falsy value", which is slightly different.
+We can affirm that *i(s) > 1* because *s* strictly includes the keyword `if`. The difficulty to understand a `console.log` is low, but not null.
+
+That's the same with the code snippet *t* below :
 ```ts
 if (a) {
 
 }
 ```
-The only real "atomic" code is the "mathematic" `if`, understood as a pure logic door :
-```ts
-if () {
 
-}
-```
+We can affirm that *i(t) > 1* because *t* strictly includes the keyword `if`. The identifier `a` is not "nothing" and me bust be understood too.
 
+>#### Conjecture
+> The cognitive complexity of the code snippet "reference" `if` is equal to the lower limit of the cognitive complexities corresponding to the code snippets of type `if(...)`.
 
-With the definition of the measure unit of the cognitive complexity, we can now define the Cognitive Complexity Index :
+* Example
 
-> #### Cognitive Complexity Index
-> The Cognitive Complexity Index is the measure of the Cognitive Complexity of a program’s source code by considering the logic door `if` as measure unit.
+Assume that a `if` nested in another `if` is 1.5 times more long to understand than a `if` alone. In this case, we can write *i("nested keyword `if`") = 1.5*.
 
-In @genese/complexity module the expression "Complexity Index" will always imply "Cognitive Complexity Index". The following chapters provide an overview of the different ways to evaluate this Complexity Index.
+Generally speaking, if a code snippet *s* is two times longer to understand than a code snippet *t*, we can write *i(s) = 2i(t)* (and also *c(s) = 2c(s)*).
 
-### 6.3 Complexity Factors
+The following chapters provide an overview of the different ways to evaluate the Complexity Index.
 
-The Complexity Index depends on multiple factors of different weights which can be grouped in several categories. These factors, weights and categories are for now only based on intuition and feedbacks: ***they SHOULD NOT be interpreted as immutable and definitive values***. These elements are only the best way as things stand to measure the Complexity Index. With the help of the community and the increase of knowledge, the weights will be revalued, other factors will appear and other categories will be discovered.
+### 7.4 Complexity Factors
+
+The Complexity Index depends on multiple factors of different weights which can be grouped in several categories. These factors, weights and categories are for now only based on intuition and feedbacks: *they SHOULD NOT be interpreted as immutable and definitive values*. These elements are only the best way as things stand to measure the Complexity Index. With the help of the community and the increase of knowledge, the weights will be revalued, other factors will appear and other categories will be discovered.
 
 Every time someone will demonstrate that a factor should be weighted differently or that another category should be taken into account, this page will be updated with a new version number.
 
-#### 6.3.1 Factor categories
+#### 7.4.1 Factor categories
 
 - ***Atomic***
 
 Each unbreakable piece of code have a Complexity Index which is weak, but not null. The name of a variable or a method, a keyword like `this`, `import`, `class`, `if`, ... are trivial, but they need to be red, taken in account and memorized by the human brain. A long method, even without particular problems, is more difficult to understand than a short function having the same "density of complexity".
 
-Each of these trivial nodes have a non null Complexity Index due to their existence. @genese/complexity uses an "atomic weight" equal to 0.1.
+Each of these trivial nodes have a non-null Complexity Index due to their existence. @genese/complexity uses an "atomic weight" equal to 0.1.
 
 - Example
 
@@ -419,7 +429,7 @@ function f(a) {
 ```
 
 
-#### 6.3.2 Table of weights (v1.0.0)
+#### 7.4.2 Table of weights (v1.0.0)
 
 This table of weights should never be seen as the exact way to calculate the Complexity Index. It's only the best approximation on the basis of the current knowledge.
 
@@ -448,11 +458,11 @@ This table of weights should never be seen as the exact way to calculate the Com
 
 
 [Top](#table-of-contents)
-## 7. The *@Complexity* project
+## 8. The *@ComplexityProject*
 
-### 7.1 How to contribute ?
+### 8.1 How to contribute ?
 
-@genese/complexity is a part of the *@Complexity* project, which is a collective open-source project whose aim is to provide a better knowledge on software complexity. You can contribute to this project in many ways.
+@genese/complexity is a part of the *@ComplexityProject*, which is a collective open-source project whose aim is to provide a better knowledge on software complexity. You can contribute to this project in many ways.
 
 The measure of the cognitive complexity will always be a simple approximation. The time required for a human to understand a source code depends on thousands of factors which must be studied severely. Our goal is only to give the better approximation of the measure of the Cognitive Complexity, that is, the Complexity Index.
 
@@ -460,7 +470,7 @@ You can help in many ways by confirming, refuting or specifying the actual mode 
 
 Each time the algorithm will be updated, the version indicated at the top of the Table of Weights will be updated too.
 
-### 7.2 Add new languages
+### 8.2 Add new languages
 
 @genese/complexity is available for JS, TS, JSX, TSX and JAVA, but you can "plug" any language into this module.
 What does it mean ? To be simple, @genese/complexity parses a Json file with a specific format : [JsonAst](#722-jsonast-specifications).
@@ -471,16 +481,16 @@ If your plugin is correct, we will add it to @genese/complexity module.
 
 There are hundreds kinds of TypeScript AST nodes, so it can be fastidious to "bind" all of them to the AST nodes of your language. Fortunately, JsonAst only needs few kinds of nodes; you will find them [below](#81-kinds-of-nodes).
 
-### 7.3 Add 'use complexity' values for other languages or libraries
+### 8.3 Add 'use complexity' values for other languages or libraries
 
 In @genese/complexity, the `use complexity` is defined in Json files defining the `use complexity` values for methods which can increase significantly the difficulty to understand them. This is an 'in progress' feature, which is only able for now to add `use complexity` for TypeScript methods. We need at first to complete the list of TypeScript methods which have a significant `use complexity`. In a second time, we need to do the same for other languages : any help will be appreciated. And last but not least, we need to add `use complexity` Json files for libraries which are widely used.
 
 
 
 [Top](#table-of-contents)
-## 8. Specifications
+## 9. Specifications
 
-### 8.1 Kinds of nodes
+### 9.1 Kinds of nodes
 
 You will find below the list of all the different kinds of AST nodes. If you want to understand exactly what they mean, you may refer to the TypeScript documentation : for example, the node's kind `IfStatement` refers to the TypeScript AST node `ts.SyntaxKind.IfStatement`. The exhaustive list of TypeScript SyntaxKinds are accessible [here](https://github.com/microsoft/TypeScript/blob/master/lib/typescript.d.ts) (from line 77 to 447).
 
@@ -525,7 +535,7 @@ You will find below the list of all the different kinds of AST nodes. If you wan
 @genese/complexity will consider all the other kinds of nodes as atomic nodes. This means that every node in the JsonAst which is not in the previous list file will add a cognitive complexity corresponding to atomic nodes, as `StringLiteral`, `TrueKeyword`, etc. If you don't want to increase complexity for a given kind of node, you will be able to set a property "empty" to true in the corresponding field of the JsonAst file.
 
 
-### 8.2 JsonAst specifications
+### 9.2 JsonAst specifications
 
 
 #### ***JsonAst***
@@ -582,7 +592,7 @@ Corresponds to an AST node of the source code of a file.
 | pos  | Integer | yes | The position of the first character of the AST node in the source code of the file |
 
 
-### 8.3 Structure of the AST nodes
+### 9.3 Structure of the AST nodes
 
 You must respect some conventions to be able to create JsonAst files correctly interpreted by @genese/complexity.
 
@@ -634,7 +644,7 @@ Your JsonAst MUST be structured like this :
 
 The AstNode "IfStatement" always have a first son which is what is inside the `if` brackets and a second son which is what is inside the `if` condition (the curly brackets). This AstNode MAY has a third son which is the AstNode corresponding to the `ElseStatement`, like in the example above.
 
-### 8.4 Exhaustive list of the kinds of node
+### 9.4 Exhaustive list of the kinds of node
 
 This list corresponds to the [ts.SyntaxKind enum](https://github.com/microsoft/TypeScript/blob/master/lib/typescript.d.ts) (from line 77 to 447)
 ```
