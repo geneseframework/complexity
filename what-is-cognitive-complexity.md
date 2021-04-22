@@ -188,6 +188,7 @@ By alphabetical order :
 * Cédric Girard
 * Albert Grisvard
 * Bachir Guendouz
+* Laurenne Kocher
 * Alexandre Kueny
 * Vincent Marignier
 * Gabriel Martin

@@ -1,10 +1,10 @@
 # @genese/complexity [![npm version](https://badge.fury.io/js/%40genese%2Fcomplexity.svg)](https://badge.fury.io/js/%40genese%2Fcomplexity)
 
-@genese/complexity analyzes the source code of your project and "measure" the cognitive complexity of each code snippet. It creates an HTML report displaying an overview of the complexities index of each folder, file or method of your project. Moreover, you will find for each method the elements increasing complexity index, which will help you to refactor easier your code.
+@genese/complexity analyzes the source code of your project and "measure" the cognitive complexity of each code snippet. It creates an HTML report displaying an overview of the complexities index for each folder, file or method of your project. Moreover, you will find for each method the elements increasing the cognitive complexity, which will help you to refactor your code.
 
 This module is a part of the [@genese]('https://github.com/geneseframework/genese') tool suite which is an opensource project whose aim is to provide tools helping developers to code faster and with a better code quality.
 
-@genese/complexity is also a part of [the *@Complexity* project](#7-the-complexity-project).
+@genese/complexity is also a part of [the @Complexity project](#7-the-complexity-project).
 
 ![Dashboard @genese/complexity](./readme-dashboard.png?raw=true "Dashboard")
 
@@ -18,7 +18,7 @@ This module is a part of the [@genese]('https://github.com/geneseframework/genes
 * [Configuration](#5-configuration)
     * [Thresholds](#51-thresholds)
     * [Folders to ignore](#52-folders-to-ignore)
-    * [Paths of folder to analyze](#53-path-of-folder-to-analyse)
+    * [Path of folder to analyze](#53-path-of-folder-to-analyse)
     * [Reports path](#54-reports-path)
 * [Documentation](#6-documentation)
     * [Cyclomatic complexity](#61-cyclomatic-complexity)
@@ -201,9 +201,9 @@ By default, the genese complexity report will be located here : `current_folder/
 ```
 
 [Top](#table-of-contents)
-## 6. Documentation
+## 6. Cyclomatic complexity
 
-### 6.1 Cyclomatic complexity
+### 6.1 Definition
 
 The cyclomatic complexity is defined as below :
 
@@ -216,11 +216,11 @@ The force of the cyclomatic complexity is its simplicity: approximately, all bre
 
 If you are a human, you will read your code differently than a machine would do it. So if you want to know if your code is really maintainable, you must look at its cognitive complexity.
 
-### 6.2 Cognitive complexity
+## 7. Cognitive complexity
 
 A project is maintainable if each method of each file is easy to understand. That is the goal of the cognitive complexity, which should probably be seen as the most important indicator of code maintainability.
 
-#### 6.2.1 Definition
+### 7.1 Definition
 
 The cognitive complexity could be defined as below :
 
@@ -229,13 +229,24 @@ The cognitive complexity could be defined as below :
 
 The definition above needs to be clarified: who is this human being ? What means exactly "understand" ? And how could we measure this time in the real world ? All of these questions are important, and will be detailed in a future article.
 
-For now, let's use this approximative definition, and let's try to clarify another question : what is difficult to understand and what is not ? Is an `if - else` more complex than a `for`, a `while` or a `switch` ? How many times a recursive method is more complex than a "normal" one ? Optional chaining or nullish coalescing clearly decrease the complexity of a method, but in which proportion ? There are no indisputable responses. In the future, when we will agree with some experimental protocol, we will be able to do some measures in the real world. At this moment, we will be able to check if, for example, a `if` nested in another `if` is more difficult to understand than a `if` alone, and if yes, how many times more complex it is.
+For now, let's use this approximative definition, and let's try to clarify another question : what is difficult to understand and what is not ? Is an `if - else` more complex than a `for`, a `while` or a `switch` ? How many times a recursive method is more complex than a "normal" one ? Optional chaining or nullish coalescing clearly decrease the complexity of a method, but in which proportion ? There are no indisputable responses.
 
-Today, we only can weight each code structure according to our experience and our intuition. To be able to do that, we need at first to define the measure unit of cognitive complexity.
+In the future, when we will agree with some experimental protocol, we will be able to do some measures in the real world. At this moment, we will be able to check if, for example, a `if` nested in another `if` is more difficult to understand than a `if` alone, and if yes, how many times more complex it is.
+
+Today, we only can weight each code structure according to our experience and our intuition. To be able to do that, we need to define the measure unit of the cognitive complexity.
 
 Then, we will be able to choose for each case a value which corresponds, on our opinion, to the relative difficulty of understanding this case in relation to this measure unit.
 
-#### 6.2.2 Measure unit
+### 7.2 Measure unit
+
+The cognitive complexity is *the time required by a human being to understand some code snippet*. That means that when we want to measure the cognitive complexity, we need to measure a duration. That's why the measure unit of the cognitive complexity is the same than the measure unit of time, *i.e.* the second.
+
+>#### Measure unit
+> The measure unit of the Cognitive Complexity is the second.
+
+### 7.3 Complexity Index
+
+Even if the natural measure unit of the cognitive complexity is the second, it is clear that it is not very convenient to write it directly in this unit. For example, the cognitive complexity for a simple `if` is probably around some milliseconds, and it will not be handy to write something like `c("if()") = 0.001023 s`. That's why we will define a score called the *complexity index* which represents the ratio between the cognitive complexity (in seconds) of a given code snippet and the cognitive complexity (in seconds) of a code snippet *"reference"* that we will now define.
 
 A measure unit must be relative to an "atomic" piece of code, something which can be defined accurately. That's why we will use the definition below :
 
@@ -266,7 +277,6 @@ if () {
 }
 ```
 
-#### 6.2.3 Complexity Index
 
 With the definition of the measure unit of the cognitive complexity, we can now define the Cognitive Complexity Index :
 
