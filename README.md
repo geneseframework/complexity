@@ -4,7 +4,7 @@
 
 This module is a part of the [@genese]('https://github.com/geneseframework/genese') tool suite which is an opensource project whose aim is to provide tools helping developers to code faster and with a better code quality.
 
-@genese/complexity is also a part of the [*@ComplexityProject*](#8-the-complexityproject).
+@genese/complexity is also a part of the [*@TheComplexityProject*](#8-thecomplexityproject).
 
 ![Dashboard @genese/complexity](./readme-dashboard.png?raw=true "Dashboard")
 
@@ -29,7 +29,7 @@ This module is a part of the [@genese]('https://github.com/geneseframework/genes
     * [Complexity Factors](#74-complexity-factors)
     * [Factor categories](#741-factor-categories)
     * [Table of weights](#742-table-of-weights-v100)
-* [The *@ComplexityProject*](#8-the-complexityproject)
+* [*@TheComplexityProject*](#8-thecomplexityproject)
     * [How to contribute ?](#81-how-to-contribute-)
     * [Add new languages](#82-add-new-languages)
     * [Add use-complexity for other languages and libraries](#83-add-use-complexity-values-for-other-languages-or-libraries)
@@ -458,11 +458,11 @@ This table of weights should never be seen as the exact way to calculate the Com
 
 
 [Top](#table-of-contents)
-## 8. The *@ComplexityProject*
+## 8. *@TheComplexityProject*
 
 ### 8.1 How to contribute ?
 
-@genese/complexity is a part of the *@ComplexityProject*, which is a collective open-source project whose aim is to provide a better knowledge on software complexity. You can contribute to this project in many ways.
+@genese/complexity is a part of *@TheComplexityProject*, which is a collective open-source project whose aim is to provide a better knowledge on software complexity. You can contribute to this project in many ways.
 
 The measure of the cognitive complexity will always be a simple approximation. The time required for a human to understand a source code depends on thousands of factors which must be studied severely. Our goal is only to give the better approximation of the measure of the Cognitive Complexity, that is, the Complexity Index.
 
@@ -473,7 +473,7 @@ Each time the algorithm will be updated, the version indicated at the top of the
 ### 8.2 Add new languages
 
 @genese/complexity is available for JS, TS, JSX, TSX and JAVA, but you can "plug" any language into this module.
-What does it mean ? To be simple, @genese/complexity parses a Json file with a specific format : [JsonAst](#722-jsonast-specifications).
+What does it mean ? To be simple, @genese/complexity parses a Json file with a specific format : [JsonAst](#92-jsonast-specifications).
 This format corresponds to a simplified AST (Abstract Syntax Tree) of the source code.
 So if you want to be able to "plug" your language into @genese/complexity, you "just" need to convert the specific AST structure of your language into JsonAst format.
 In other words, your AST nodes must "match" with the nodes of the JsonAst format.

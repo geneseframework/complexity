@@ -164,7 +164,7 @@ Absolutely ! It is not so difficult to add some rules to fix the problems descri
 
 That's what I did: I created an open-source module which is able to give, on my opinion, a much better "measure" of the cognitive complexity. Of course, it is just my opinion, and as no one measured the cognitive complexity in the real world, it is impossible to prove it. You will form your own opinion.
 
-This module, [@genese/complexity](https://github.com/geneseframework/complexity), is now a part of the *@Complexity* project, which is a collective open-source project whose aim is to provide a better knowledge on software complexity.
+This module, [@genese/complexity](https://github.com/geneseframework/complexity), is now a part of *@TheComplexityProject*, which is a collective open-source project whose aim is to provide a better knowledge on software complexity.
 
 @genese/complexity takes into account the length of the code, the loops (`for`, `while`, ...), the logic doors (`AND`, `OR`), the conditions (`if`, `else`, `switch`, ...), the recursions, the callbacks, the nesting, the aggregation and a lot of other little things.
 
@@ -172,13 +172,13 @@ Like on the SonarQube©'s algorithm, I use weights which are arbitrary by nature
 
 ## Contribute to the improvement of the knowledge !
 
-The main idea of the *@Complexity project* is this one: we will never be able to measure exactly the cognitive complexity, but we could write an algorithm which will return every day a better approximation than the day before.
+The main idea of *@TheComplexityProject* is this one: we will never be able to measure exactly the cognitive complexity, but we could write an algorithm which will return every day a better approximation than the day before.
 
 The weights used in the @genese/complexity module are not fixed for the eternity: they will change each time that the experimentation or the opinion of the community will tell us that we should change it. *@Complexity* is a collective project, and we need your help. Do you have a different opinion on the weights that we should assign ? Tell us. Are you able to demonstrate that some elements of our algorithm are wrong ? Tell us ! Are you a scientific, a researcher which is studying the concept of cognitive complexity ? You are welcome !
 
 ## Acknowledgements
 
-I'm not the only one which worked on the *@Complexity* project: many friends or colleagues helped me, and I want to thank all of them for the trust they placed in me and for their contribution to the code of the @genese/complexity module :
+I'm not the only one which worked on the *@TheComplexityProject*: many friends or colleagues helped me, and I want to thank all of them for the trust they placed in me and for their contribution to the code of the @genese/complexity module :
 
 By alphabetical order :
 
