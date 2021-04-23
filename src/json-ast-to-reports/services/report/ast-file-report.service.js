@@ -17,22 +17,11 @@ var AstFileReportService = /** @class */ (function () {
         this.astFile = astFile;
     }
     /**
-     * Generates the file's report
+     * Returns the array of methods with their analysis
      */
-    AstFileReportService.prototype.generateReport = function () {
+    AstFileReportService.prototype.getMethodsArray = function () {
         var _a;
-        this.setMethodsArray();
-        this.relativeRootReports = file_service_1.getRouteToRoot((_a = this.astFile.astFolder) === null || _a === void 0 ? void 0 : _a.relativePath);
-        this.setPartials();
-        var reportTemplate = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/handlebars/file-report.handlebars", 'utf-8'));
-        this.template = Handlebars.compile(reportTemplate);
-        this.writeReport();
-    };
-    /**
-     * Sets the array of methods with their analysis
-     */
-    AstFileReportService.prototype.setMethodsArray = function () {
-        var _a;
+        var report = [];
         for (var _i = 0, _b = this.astFile.astMethods; _i < _b.length; _i++) {
             var method = _b[_i];
             var methodReport = {
@@ -43,8 +32,25 @@ var AstFileReportService = /** @class */ (function () {
                 cyclomaticValue: method.cyclomaticCpx,
                 methodName: method.name
             };
-            this.methodReports.push(methodReport);
+            report.push(methodReport);
         }
+        return report;
+    };
+    /**
+     * Generates the file's report
+     */
+    AstFileReportService.prototype.generateReport = function () {
+        var _a;
+        this.methodReports = this.getMethodsArray();
+        this.relativeRootReports = file_service_1.getRouteToRoot((_a = this.astFile.astFolder) === null || _a === void 0 ? void 0 : _a.relativePath);
+        this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
+        this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');
+        this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');
+        this.registerPartial("cyclomaticDoughnutScript", 'cyclomatic-doughnut');
+        this.registerPartial("method", 'methods');
+        var reportTemplate = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/handlebars/file-report.handlebars", 'utf-8'));
+        this.template = Handlebars.compile(reportTemplate);
+        this.writeReport();
     };
     /**
      * Creates the file of the report
@@ -65,22 +71,12 @@ var AstFileReportService = /** @class */ (function () {
         fs.writeFileSync(pathReport, template, { encoding: 'utf-8' });
     };
     /**
-     * Sets the HandleBar's partials
-     */
-    AstFileReportService.prototype.setPartials = function () {
-        this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
-        this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');
-        this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');
-        this.registerPartial("cyclomaticDoughnutScript", 'cyclomatic-doughnut');
-        this.registerPartial("method", 'methods');
-    };
-    /**
      * Registers a HandleBar's partial for a given partial's name and a given filename
      * @param partialName   // The name of the partial
      * @param filename      // The name of the file
      */
     AstFileReportService.prototype.registerPartial = function (partialName, filename) {
-        var partial = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/handlebars/" + filename + ".handlebars", 'utf-8'));
+        var partial = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/handlebars/" + filename + ".handlebars", 'utf-8'));
         Handlebars.registerPartial(partialName, partial);
     };
     return AstFileReportService;

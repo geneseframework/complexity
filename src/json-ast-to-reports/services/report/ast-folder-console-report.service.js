@@ -1,18 +1,14 @@
 "use strict";
 exports.__esModule = true;
-exports.AstFolderMarkdownReportService = void 0;
-var fs = require("fs-extra");
-var eol = require("eol");
-var Handlebars = require("handlebars");
-var file_service_1 = require("../../../core/services/file.service");
+exports.AstFolderConsoleReportService = void 0;
 var ast_folder_service_1 = require("../ast/ast-folder.service");
 var options_model_1 = require("../../../core/models/options.model");
 var ast_method_service_1 = require("../ast/ast-method.service");
 /**
  * Service generating folders reports
  */
-var AstFolderMarkdownReportService = /** @class */ (function () {
-    function AstFolderMarkdownReportService(astFolder) {
+var AstFolderConsoleReportService = /** @class */ (function () {
+    function AstFolderConsoleReportService(astFolder) {
         this.astFolder = undefined; // The AstFolder relative to this service
         this.astFolderService = new ast_folder_service_1.AstFolderService(); // The service relative to AstFolders
         this.methodsArrayReport = []; // The array of methods reports
@@ -23,26 +19,26 @@ var AstFolderMarkdownReportService = /** @class */ (function () {
     /**
      * Generates the folder's report
      */
-    AstFolderMarkdownReportService.prototype.generateReport = function () {
+    AstFolderConsoleReportService.prototype.generateReport = function () {
         this.setMethodsArraySortedByDecreasingCognitiveCpx(this.astFolder);
-        var reportTemplate = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/handlebars/folder-markdown-report.handlebars", 'utf-8'));
-        this.template = Handlebars.compile(reportTemplate);
-        this.writeReport();
+        return this.methodsArrayReport;
+        // this.writeReport();
     };
     /**
      * Set the array of methods sorted by decreasing cognitive complexity
      * @param astFolder    // The AstFolder to analyse
      */
-    AstFolderMarkdownReportService.prototype.setMethodsArraySortedByDecreasingCognitiveCpx = function (astFolder) {
+    AstFolderConsoleReportService.prototype.setMethodsArraySortedByDecreasingCognitiveCpx = function (astFolder) {
         this.setTsFileReport(astFolder);
         this.setMethodsArrayReport(astFolder);
         this.methodsArrayReport = ast_method_service_1.AstMethodService.sortByDecreasingCognitiveCpx(this.methodsArrayReport);
+        this.methodsArrayReport = this.methodsArrayReport.filter(function (e) { return e.cpxIndex >= options_model_1.Options.getThresholds().cognitive.warning; });
     };
     /**
      * Recursion setting the array of methods reports of each subFolder
      * @param astFolder    // The AstFolder to analyse
      */
-    AstFolderMarkdownReportService.prototype.setMethodsArrayReport = function (astFolder) {
+    AstFolderConsoleReportService.prototype.setMethodsArrayReport = function (astFolder) {
         for (var _i = 0, _a = astFolder.children; _i < _a.length; _i++) {
             var subFolder = _a[_i];
             this.setTsFileReport(subFolder);
@@ -53,7 +49,7 @@ var AstFolderMarkdownReportService = /** @class */ (function () {
      * Recursion setting the array of methods reports of each subFolder's files
      * @param astFolder    // The AstFolder to analyse
      */
-    AstFolderMarkdownReportService.prototype.setTsFileReport = function (astFolder) {
+    AstFolderConsoleReportService.prototype.setTsFileReport = function (astFolder) {
         for (var _i = 0, _a = astFolder.astFiles; _i < _a.length; _i++) {
             var tsFile = _a[_i];
             this.setAstMethodReport(tsFile);
@@ -63,7 +59,7 @@ var AstFolderMarkdownReportService = /** @class */ (function () {
      * Recursion setting the array of methods reports of each file's methods
      * @param astFile    // The AstFile to analyse
      */
-    AstFolderMarkdownReportService.prototype.setAstMethodReport = function (astFile) {
+    AstFolderConsoleReportService.prototype.setAstMethodReport = function (astFile) {
         for (var _i = 0, _a = astFile.astMethods; _i < _a.length; _i++) {
             var astMethod = _a[_i];
             this.methodsArrayReport.push({
@@ -71,8 +67,8 @@ var AstFolderMarkdownReportService = /** @class */ (function () {
                 cpxIndex: astMethod.cpxIndex,
                 cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
                 cyclomaticValue: astMethod.cyclomaticCpx,
-                filename: astFile.name,
-                linkFile: undefined,
+                filename: "file://" + astFile.astFolder.path + "/" + astFile.name,
+                linkFile: astFile.astFolder.path + "/" + astFile.name,
                 methodName: astMethod.name
             });
         }
@@ -80,23 +76,9 @@ var AstFolderMarkdownReportService = /** @class */ (function () {
     /**
      * Fills the HandleBar's template
      */
-    AstFolderMarkdownReportService.prototype.writeReport = function () {
-        var template = this.template({
-            rowFile: this.methodsArrayReport
-        });
-        if (this.astFolder.relativePath) {
-            file_service_1.createRelativeDir(this.astFolder.relativePath);
-        }
-        var pathOutDir = file_service_1.constructLink(options_model_1.Options.pathOutDir);
-        var relativePath = file_service_1.constructLink(this.astFolder.relativePath);
-        var pathReport = file_service_1.deleteLastSlash(pathOutDir) + "/" + file_service_1.deleteLastSlash(relativePath) + "/folder-report.md";
-        try {
-            fs.writeFileSync(pathReport, template, { encoding: "utf-8" });
-        }
-        catch (err) {
-            console.log(err);
-        }
+    AstFolderConsoleReportService.prototype.writeReport = function () {
+        console.table(this.methodsArrayReport, ['file', 'methodName', 'cpxIndex']);
     };
-    return AstFolderMarkdownReportService;
+    return AstFolderConsoleReportService;
 }());
-exports.AstFolderMarkdownReportService = AstFolderMarkdownReportService;
+exports.AstFolderConsoleReportService = AstFolderConsoleReportService;

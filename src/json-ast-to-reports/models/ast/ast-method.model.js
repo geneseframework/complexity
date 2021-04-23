@@ -1,18 +1,4 @@
 "use strict";
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-};
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-};
-var _astNode, _codeLines, _cognitiveStatus, _cpxFactors, _cyclomaticCpx, _cpxIndex, _cyclomaticStatus, _displayedCode, _maxLineLength, _name;
 exports.__esModule = true;
 exports.AstMethod = void 0;
 var cyclomatic_cpx_service_1 = require("../../services/cyclomatic-cpx.service");
@@ -30,56 +16,56 @@ var options_model_1 = require("../../../core/models/options.model");
  */
 var AstMethod = /** @class */ (function () {
     function AstMethod() {
-        _astNode.set(this, undefined); // The AST of the method itself
-        _codeLines.set(this, []); // The array of CodeLine of the AstMethod (elements of the array of CodeLine of the corresponding AstFile)
-        _cognitiveStatus.set(this, evaluation_status_enum_1.MethodStatus.CORRECT); // The cognitive status of the method
-        _cpxFactors.set(this, undefined); // The complexity factors of the AstMethod
-        _cyclomaticCpx.set(this, 0); // The cyclomatic complexity of the AstMethod
-        _cpxIndex.set(this, undefined); // The complexity index of the method
-        _cyclomaticStatus.set(this, evaluation_status_enum_1.MethodStatus.CORRECT); // The cyclomatic status of the method
-        _displayedCode.set(this, undefined); // The code to display in the report
-        _maxLineLength.set(this, 0); // The max length of the lines of the code
-        _name.set(this, undefined); // The name of the method
+        this._astNode = undefined; // The AST of the method itself
+        this._codeLines = []; // The array of CodeLine of the AstMethod (elements of the array of CodeLine of the corresponding AstFile)
+        this._cognitiveStatus = evaluation_status_enum_1.MethodStatus.CORRECT; // The cognitive status of the method
+        this._cpxFactors = undefined; // The complexity factors of the AstMethod
+        this._cyclomaticCpx = 0; // The cyclomatic complexity of the AstMethod
+        this._cpxIndex = undefined; // The complexity index of the method
+        this._cyclomaticStatus = evaluation_status_enum_1.MethodStatus.CORRECT; // The cyclomatic status of the method
+        this._displayedCode = undefined; // The code to display in the report
+        this._maxLineLength = 0; // The max length of the lines of the code
+        this._name = undefined; // The name of the method
     }
     Object.defineProperty(AstMethod.prototype, "astNode", {
         // ---------------------------------------------------------------------------------
         //                                Getters and setters
         // ---------------------------------------------------------------------------------
         get: function () {
-            return __classPrivateFieldGet(this, _astNode);
+            return this._astNode;
         },
         set: function (astNode) {
-            __classPrivateFieldSet(this, _astNode, astNode);
+            this._astNode = astNode;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstMethod.prototype, "codeLines", {
         get: function () {
-            return __classPrivateFieldGet(this, _codeLines);
+            return this._codeLines;
         },
         set: function (codeLines) {
-            __classPrivateFieldSet(this, _codeLines, codeLines);
+            this._codeLines = codeLines;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstMethod.prototype, "cognitiveStatus", {
         get: function () {
-            return __classPrivateFieldGet(this, _cognitiveStatus);
+            return this._cognitiveStatus;
         },
         set: function (cognitiveStatus) {
-            __classPrivateFieldSet(this, _cognitiveStatus, cognitiveStatus);
+            this._cognitiveStatus = cognitiveStatus;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstMethod.prototype, "cpxFactors", {
         get: function () {
-            return __classPrivateFieldGet(this, _cpxFactors);
+            return this._cpxFactors;
         },
         set: function (cpxFactors) {
-            __classPrivateFieldSet(this, _cpxFactors, cpxFactors);
+            this._cpxFactors = cpxFactors;
         },
         enumerable: false,
         configurable: true
@@ -87,34 +73,34 @@ var AstMethod = /** @class */ (function () {
     Object.defineProperty(AstMethod.prototype, "cpxIndex", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _cpxIndex)) !== null && _a !== void 0 ? _a : this.cpxFactors.total;
+            return (_a = this._cpxIndex) !== null && _a !== void 0 ? _a : this.cpxFactors.total;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstMethod.prototype, "cyclomaticCpx", {
         get: function () {
-            return __classPrivateFieldGet(this, _cyclomaticCpx);
+            return this._cyclomaticCpx;
         },
         set: function (cyclomaticCpx) {
-            __classPrivateFieldSet(this, _cyclomaticCpx, cyclomaticCpx);
+            this._cyclomaticCpx = cyclomaticCpx;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstMethod.prototype, "cyclomaticStatus", {
         get: function () {
-            return __classPrivateFieldGet(this, _cyclomaticStatus);
+            return this._cyclomaticStatus;
         },
         set: function (cyclomaticStatus) {
-            __classPrivateFieldSet(this, _cyclomaticStatus, cyclomaticStatus);
+            this._cyclomaticStatus = cyclomaticStatus;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstMethod.prototype, "displayedCode", {
         get: function () {
-            return __classPrivateFieldGet(this, _displayedCode);
+            return this._displayedCode;
         },
         enumerable: false,
         configurable: true
@@ -129,22 +115,22 @@ var AstMethod = /** @class */ (function () {
     Object.defineProperty(AstMethod.prototype, "maxLineLength", {
         get: function () {
             var _a;
-            if (__classPrivateFieldGet(this, _maxLineLength)) {
-                return __classPrivateFieldGet(this, _maxLineLength);
+            if (this._maxLineLength) {
+                return this._maxLineLength;
             }
-            __classPrivateFieldSet(this, _maxLineLength, Math.max.apply(Math, (_a = this.codeLines) === null || _a === void 0 ? void 0 : _a.map(function (l) { return l.end - l.start; })));
-            return __classPrivateFieldGet(this, _maxLineLength);
+            this._maxLineLength = Math.max.apply(Math, (_a = this.codeLines) === null || _a === void 0 ? void 0 : _a.map(function (l) { return l.end - l.start; }));
+            return this._maxLineLength;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstMethod.prototype, "name", {
         get: function () {
-            if (__classPrivateFieldGet(this, _name)) {
-                return __classPrivateFieldGet(this, _name);
+            if (this._name) {
+                return this._name;
             }
-            __classPrivateFieldSet(this, _name, __classPrivateFieldGet(this, _astNode).name);
-            return __classPrivateFieldGet(this, _name);
+            this._name = this._astNode.name;
+            return this._name;
         },
         enumerable: false,
         configurable: true
@@ -183,11 +169,11 @@ var AstMethod = /** @class */ (function () {
      */
     AstMethod.prototype.calculateCpxFactors = function () {
         var _a, _b, _c;
-        if (!(((_b = (_a = __classPrivateFieldGet(this, _displayedCode)) === null || _a === void 0 ? void 0 : _a.lines) === null || _b === void 0 ? void 0 : _b.length) > 0)) {
+        if (!(((_b = (_a = this._displayedCode) === null || _a === void 0 ? void 0 : _a.lines) === null || _b === void 0 ? void 0 : _b.length) > 0)) {
             this.createDisplayedCode();
         }
         this.cpxFactors = new cpx_factors_model_1.CpxFactors();
-        for (var _i = 0, _d = (_c = __classPrivateFieldGet(this, _displayedCode)) === null || _c === void 0 ? void 0 : _c.lines; _i < _d.length; _i++) {
+        for (var _i = 0, _d = (_c = this._displayedCode) === null || _c === void 0 ? void 0 : _c.lines; _i < _d.length; _i++) {
             var line = _d[_i];
             this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
         }
@@ -219,16 +205,16 @@ var AstMethod = /** @class */ (function () {
         this.setDisplayedCodeLines();
         this.setDeclarationCpxFactors();
         this.setCpxFactorsToDisplayedCode(astNode, false);
-        __classPrivateFieldGet(this, _displayedCode).setLinesDepthAndNestingCpx();
+        this._displayedCode.setLinesDepthAndNestingCpx();
         this.addCommentsToDisplayedCode();
         this.calculateCpxFactors();
-        __classPrivateFieldGet(this, _displayedCode).setTextWithLines();
+        this._displayedCode.setTextWithLines();
     };
     /**
      * Creates the Code object corresponding to the code to display
      */
     AstMethod.prototype.setDisplayedCodeLines = function () {
-        __classPrivateFieldSet(this, _displayedCode, new code_model_1.Code());
+        this._displayedCode = new code_model_1.Code();
         for (var _i = 0, _a = this.codeLines; _i < _a.length; _i++) {
             var line = _a[_i];
             var displayedLine = new code_line_model_1.CodeLine();
@@ -237,7 +223,7 @@ var AstMethod = /** @class */ (function () {
             displayedLine.start = line.start;
             displayedLine.text = line.text;
             displayedLine.text = this.getDisplayedLineText(displayedLine);
-            __classPrivateFieldGet(this, _displayedCode).lines.push(displayedLine);
+            this._displayedCode.lines.push(displayedLine);
         }
     };
     /**
@@ -259,8 +245,8 @@ var AstMethod = /** @class */ (function () {
         return text;
     };
     AstMethod.prototype.setDeclarationCpxFactors = function () {
-        this.increaseLineCpxFactors(this.astNode, __classPrivateFieldGet(this, _displayedCode).getLine(this.astNode.lineStart));
-        __classPrivateFieldGet(this, _displayedCode).getLine(this.astNode.lineStart).astNodes.push(this.astNode);
+        this.increaseLineCpxFactors(this.astNode, this._displayedCode.getLine(this.astNode.lineStart));
+        this._displayedCode.getLine(this.astNode.lineStart).astNodes.push(this.astNode);
     };
     /**
      * Calculates the complexity factors of each CodeLine
@@ -272,13 +258,13 @@ var AstMethod = /** @class */ (function () {
         if (startedUncommentedLines === void 0) { startedUncommentedLines = false; }
         var _loop_1 = function (childAst) {
             var issue = Math.max(childAst.lineStart, (_a = this_1.codeLines[0]) === null || _a === void 0 ? void 0 : _a.issue);
-            var codeLine = __classPrivateFieldGet(this_1, _displayedCode).lines.find(function (l) { return l.issue === issue; });
+            var codeLine = this_1._displayedCode.lines.find(function (l) { return l.issue === issue; });
             if (ast_service_1.Ast.isElseStatement(childAst)) {
                 childAst.cpxFactors.atomic.node = cpx_factors_1.cpxFactors.atomic.node;
                 issue--;
             }
             this_1.increaseLineCpxFactors(childAst, codeLine);
-            __classPrivateFieldGet(this_1, _displayedCode).getLine(issue).astNodes.push(childAst);
+            this_1._displayedCode.getLine(issue).astNodes.push(childAst);
             this_1.setCpxFactorsToDisplayedCode(childAst, startedUncommentedLines);
         };
         var this_1 = this;
@@ -302,7 +288,7 @@ var AstMethod = /** @class */ (function () {
      */
     AstMethod.prototype.addCommentsToDisplayedCode = function () {
         var _this = this;
-        __classPrivateFieldGet(this, _displayedCode).lines
+        this._displayedCode.lines
             .filter(function (line) { return line.cpxFactors.total > 0; })
             .forEach(function (line) {
             var comment = "+" + line.cpxFactors.total.toFixed(1) + " Complexity index (+" + line.cpxFactors.totalAtomic.toFixed(1) + " " + factor_category_enum_1.FactorCategory.ATOMIC;
@@ -313,10 +299,9 @@ var AstMethod = /** @class */ (function () {
             comment = line.cpxFactors.totalStructural > 0 ? comment + ", +" + line.cpxFactors.totalStructural + " " + factor_category_enum_1.FactorCategory.STRUCTURAL : comment;
             comment = line.cpxFactors.totalUse > 0 ? comment + ", +" + line.cpxFactors.totalUse + " " + factor_category_enum_1.FactorCategory.USE : comment;
             comment = comment + ")";
-            __classPrivateFieldGet(_this, _displayedCode).getLine(line.issue).addComment(comment, _this.maxLineLength);
+            _this._displayedCode.getLine(line.issue).addComment(comment, _this.maxLineLength);
         });
     };
     return AstMethod;
 }());
 exports.AstMethod = AstMethod;
-_astNode = new WeakMap(), _codeLines = new WeakMap(), _cognitiveStatus = new WeakMap(), _cpxFactors = new WeakMap(), _cyclomaticCpx = new WeakMap(), _cpxIndex = new WeakMap(), _cyclomaticStatus = new WeakMap(), _displayedCode = new WeakMap(), _maxLineLength = new WeakMap(), _name = new WeakMap();

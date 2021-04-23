@@ -71,6 +71,7 @@ export class LanguageToJsonAst {
         return jsonAst;
     }
 
+
     private static findInObject(o, f) {
         return Object.keys(o).some(function (a) {
             if (Array.isArray(o[a]) || typeof o[a] === 'object' && o[a] !== null) {

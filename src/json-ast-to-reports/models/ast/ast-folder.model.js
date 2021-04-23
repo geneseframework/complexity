@@ -1,18 +1,4 @@
 "use strict";
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-};
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-};
-var _astFiles, _astFolderService, _children, _complexitiesByStatus, _cpxFactors, _cyclomaticCpx, _numberOfFiles, _numberOfMethods, _parent, _path, _relativePath, _stats;
 exports.__esModule = true;
 exports.AstFolder = void 0;
 var complexities_by_status_interface_1 = require("../../interfaces/complexities-by-status.interface");
@@ -21,72 +7,72 @@ var ast_folder_service_1 = require("../../services/ast/ast-folder.service");
 var chalk = require("chalk");
 var AstFolder = /** @class */ (function () {
     function AstFolder() {
-        _astFiles.set(this, []); // The array of files of this folder (not in the subfolders)
-        _astFolderService.set(this, new ast_folder_service_1.AstFolderService()); // The service managing AstFolders
-        _children.set(this, []); // The subfolders of this folder
-        _complexitiesByStatus.set(this, new complexities_by_status_interface_1.ComplexitiesByStatus()); // The folder complexities spread by complexity status
-        _cpxFactors.set(this, undefined); // The complexity factors of the AstFolder
-        _cyclomaticCpx.set(this, 0); // The cyclomatic complexity of the AstFolder
-        _numberOfFiles.set(this, undefined); // The number of files of the AstFolder
-        _numberOfMethods.set(this, undefined); // The number of methods of the AstFolder
-        _parent.set(this, undefined); // The AstFolder corresponding to the parent folder of this AstFolder
-        _path.set(this, undefined); // The absolute path of this folder
-        _relativePath.set(this, undefined); // The relative path of this folder compared to the root folder of the analyse
-        _stats.set(this, undefined); // The stats corresponding to this folder
+        this._astFiles = []; // The array of files of this folder (not in the subfolders)
+        this._astFolderService = new ast_folder_service_1.AstFolderService(); // The service managing AstFolders
+        this._children = []; // The subfolders of this folder
+        this._complexitiesByStatus = new complexities_by_status_interface_1.ComplexitiesByStatus(); // The folder complexities spread by complexity status
+        this._cpxFactors = undefined; // The complexity factors of the AstFolder
+        this._cyclomaticCpx = 0; // The cyclomatic complexity of the AstFolder
+        this._numberOfFiles = undefined; // The number of files of the AstFolder
+        this._numberOfMethods = undefined; // The number of methods of the AstFolder
+        this._parent = undefined; // The AstFolder corresponding to the parent folder of this AstFolder
+        this._path = undefined; // The absolute path of this folder
+        this._relativePath = undefined; // The relative path of this folder compared to the root folder of the analyse
+        this._stats = undefined; // The stats corresponding to this folder
     }
     Object.defineProperty(AstFolder.prototype, "astFiles", {
         // ---------------------------------------------------------------------------------
         //                                Getters and setters
         // ---------------------------------------------------------------------------------
         get: function () {
-            return __classPrivateFieldGet(this, _astFiles);
+            return this._astFiles;
         },
         set: function (astFiles) {
-            __classPrivateFieldSet(this, _astFiles, astFiles);
+            this._astFiles = astFiles;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFolder.prototype, "children", {
         get: function () {
-            return __classPrivateFieldGet(this, _children);
+            return this._children;
         },
         set: function (children) {
-            __classPrivateFieldSet(this, _children, children);
+            this._children = children;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFolder.prototype, "complexitiesByStatus", {
         get: function () {
-            return __classPrivateFieldGet(this, _complexitiesByStatus);
+            return this._complexitiesByStatus;
         },
         set: function (complexitiesByStatus) {
-            __classPrivateFieldSet(this, _complexitiesByStatus, complexitiesByStatus);
+            this._complexitiesByStatus = complexitiesByStatus;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFolder.prototype, "cpxFactors", {
         get: function () {
-            if (__classPrivateFieldGet(this, _cpxFactors)) {
-                return __classPrivateFieldGet(this, _cpxFactors);
+            if (this._cpxFactors) {
+                return this._cpxFactors;
             }
             this.evaluate();
-            return __classPrivateFieldGet(this, _cpxFactors);
+            return this._cpxFactors;
         },
         set: function (cpxFactors) {
-            __classPrivateFieldSet(this, _cpxFactors, cpxFactors);
+            this._cpxFactors = cpxFactors;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFolder.prototype, "cyclomaticCpx", {
         get: function () {
-            return __classPrivateFieldGet(this, _cyclomaticCpx);
+            return this._cyclomaticCpx;
         },
         set: function (cyclomaticCpx) {
-            __classPrivateFieldSet(this, _cyclomaticCpx, cyclomaticCpx);
+            this._cyclomaticCpx = cyclomaticCpx;
         },
         enumerable: false,
         configurable: true
@@ -94,10 +80,10 @@ var AstFolder = /** @class */ (function () {
     Object.defineProperty(AstFolder.prototype, "numberOfFiles", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _numberOfFiles)) !== null && _a !== void 0 ? _a : __classPrivateFieldGet(this, _astFolderService).getNumberOfFiles(this);
+            return (_a = this._numberOfFiles) !== null && _a !== void 0 ? _a : this._astFolderService.getNumberOfFiles(this);
         },
         set: function (numberOfFiles) {
-            __classPrivateFieldSet(this, _numberOfFiles, numberOfFiles);
+            this._numberOfFiles = numberOfFiles;
         },
         enumerable: false,
         configurable: true
@@ -105,30 +91,30 @@ var AstFolder = /** @class */ (function () {
     Object.defineProperty(AstFolder.prototype, "numberOfMethods", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _numberOfMethods)) !== null && _a !== void 0 ? _a : __classPrivateFieldGet(this, _astFolderService).getNumberOfMethods(this);
+            return (_a = this._numberOfMethods) !== null && _a !== void 0 ? _a : this._astFolderService.getNumberOfMethods(this);
         },
         set: function (numberOfMethods) {
-            __classPrivateFieldSet(this, _numberOfMethods, numberOfMethods);
+            this._numberOfMethods = numberOfMethods;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFolder.prototype, "parent", {
         get: function () {
-            return __classPrivateFieldGet(this, _parent);
+            return this._parent;
         },
         set: function (parent) {
-            __classPrivateFieldSet(this, _parent, parent);
+            this._parent = parent;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFolder.prototype, "path", {
         get: function () {
-            return __classPrivateFieldGet(this, _path);
+            return this._path;
         },
         set: function (path) {
-            __classPrivateFieldSet(this, _path, path);
+            this._path = path;
         },
         enumerable: false,
         configurable: true
@@ -136,17 +122,17 @@ var AstFolder = /** @class */ (function () {
     Object.defineProperty(AstFolder.prototype, "relativePath", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _relativePath)) !== null && _a !== void 0 ? _a : __classPrivateFieldGet(this, _astFolderService).getRelativePath(this);
+            return (_a = this._relativePath) !== null && _a !== void 0 ? _a : this._astFolderService.getRelativePath(this);
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFolder.prototype, "stats", {
         get: function () {
-            return __classPrivateFieldGet(this, _stats);
+            return this._stats;
         },
         set: function (stats) {
-            __classPrivateFieldSet(this, _stats, stats);
+            this._stats = stats;
         },
         enumerable: false,
         configurable: true
@@ -160,8 +146,20 @@ var AstFolder = /** @class */ (function () {
     AstFolder.prototype.evaluate = function () {
         this.cpxFactors = new cpx_factors_model_1.CpxFactors();
         this.evaluateCpxFactors(this);
-        this.numberOfMethods = __classPrivateFieldGet(this, _astFolderService).getNumberOfMethods(this);
-        this.stats = __classPrivateFieldGet(this, _astFolderService).calculateStats(this);
+        this.numberOfMethods = this._astFolderService.getNumberOfMethods(this);
+        this.stats = this._astFolderService.calculateStats(this);
+    };
+    /**
+     * Evaluates and sets the complexities of the AstFiles of this AstFolder
+     * But not based on methods
+     */
+    AstFolder.prototype.evaluateStandalone = function () {
+        this.cpxFactors = new cpx_factors_model_1.CpxFactors();
+        var astFile = this.astFiles[0];
+        astFile.evaluateStandalone();
+        this.addCpx(astFile);
+        this.numberOfMethods = 0;
+        this.stats = this._astFolderService.calculateStats(this);
     };
     /**
      * Evaluates and sets the complexities of the AstFiles of a given AstFolder (including its subfolders)
@@ -220,4 +218,3 @@ var AstFolder = /** @class */ (function () {
     return AstFolder;
 }());
 exports.AstFolder = AstFolder;
-_astFiles = new WeakMap(), _astFolderService = new WeakMap(), _children = new WeakMap(), _complexitiesByStatus = new WeakMap(), _cpxFactors = new WeakMap(), _cyclomaticCpx = new WeakMap(), _numberOfFiles = new WeakMap(), _numberOfMethods = new WeakMap(), _parent = new WeakMap(), _path = new WeakMap(), _relativePath = new WeakMap(), _stats = new WeakMap();

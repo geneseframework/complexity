@@ -7,4 +7,7 @@ var Language;
     Language["PHP"] = "php";
     Language["TS"] = "ts";
     Language["TYPESCRIPT"] = "typescript";
+    Language["JS"] = "js";
+    Language["TSX"] = "tsx";
+    Language["JSX"] = "jsx";
 })(Language = exports.Language || (exports.Language = {}));

@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.deleteLastSlash = exports.constructLink = exports.antislash = exports.getOS = exports.createFile = exports.windowsPath = exports.platformPath = exports.copyFile = exports.createOutDir = exports.createRelativeDir = exports.getLanguageExtensions = exports.getFilenameWithoutExtension = exports.getFileExtension = exports.getRouteToRoot = exports.getPathWithSlash = exports.getPathWithDotSlash = exports.getArrayOfPathsWithDotSlash = exports.getAllFiles = exports.getFilename = void 0;
+exports.deleteLastSlash = exports.constructLink = exports.antislash = exports.getOS = exports.createFile = exports.windowsPath = exports.platformPath = exports.copyFile = exports.deleteFile = exports.createOutDir = exports.createRelativeDir = exports.getLanguageExtensions = exports.getFilenameWithoutExtension = exports.getFileExtension = exports.getRouteToRoot = exports.getPathWithSlash = exports.getPathWithDotSlash = exports.getArrayOfPathsWithDotSlash = exports.getAllFiles = exports.getFilename = void 0;
 var fs = require("fs-extra");
 var os_enum_1 = require("../../json-ast-to-reports/enums/os.enum");
 var options_model_1 = require("../models/options.model");
@@ -159,6 +159,12 @@ function createOutDir() {
     }
 }
 exports.createOutDir = createOutDir;
+function deleteFile(fileName) {
+    if (fs.existsSync(fileName)) {
+        fs.unlinkSync(fileName);
+    }
+}
+exports.deleteFile = deleteFile;
 /**
  * Copy a file from a path to another one
  * @param originPath        // The origin's path
@@ -169,7 +175,8 @@ function copyFile(originPath, targetPath) {
 }
 exports.copyFile = copyFile;
 function platformPath(path) {
-    return options_model_1.WINDOWS ? windowsPath(path) : path;
+    var modifiedPath = path.split('/').filter(function (e) { return e !== '.'; }).join('/');
+    return options_model_1.WINDOWS ? windowsPath(modifiedPath) : modifiedPath;
 }
 exports.platformPath = platformPath;
 function windowsPath(path) {

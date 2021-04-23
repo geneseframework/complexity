@@ -20,6 +20,7 @@ const LANGUAGE = ARGS[1] ?? 'ts';
 const ENABLE_MARKDOWN_REPORT = ARGS[2] === 'true';
 const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 const ENABLE_REFACTORING = ARGS[4] === 'true';
+const DEBUG = true;
 
 let pathToAnalyse: string;
 if (path.isAbsolute(PATH_TO_ANALYSE)) {
@@ -39,6 +40,9 @@ start()
     })
 
 async function start(): Promise<number> {
+    if (DEBUG) {
+        pathToAnalyse = `${process.cwd()}/src/core/mocks`;
+    }
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {
         createOutDir();
