@@ -8,13 +8,13 @@ In the domain of software development, the Cognitive Complexity could be approxi
 >
 > The Cognitive Complexity is the time required by a human being to understand some code snippet.
 >
-Unfortunately, this definition is still ambiguous: who is this human being ? What means *"understand"* ? All these questions are important and should be clarified. I'll try to do it in a future article. For now, let's use the definition above.
+Unfortunately, this definition is still ambiguous: who is this human being ? What means *"understand"* ? All of these questions are important and should be clarified. I'll try to do it in a future article. For now, let's use the definition above.
 
 ## What is the purpose of the Cognitive Complexity ?
 
 The understandability of the code is probably the most important component of the maintainability of a software. It is hard and painful to modify or fix bugs in a code which is difficult to understand, especially if it's not you which wrote it. A non-understandable code is a dead code.
 
-The cost of the implementation of the code is only a part of its life-cycle cost of a software: its maintenance is frequently more expensive than its creation. That's why the cognitive complexity is a so important indicator: it is a good way to evaluate the difficulty to maintain the code, and therefore a good indicator of its future cost.
+The cost of the maintenance of a software is frequently higher than the cost of its implementation. That's why the cognitive complexity is a so important indicator: it is a good way to evaluate the difficulty to maintain the code, and therefore a good indicator of its future cost.
 
 ## How to measure the Cognitive Complexity ?
 
@@ -30,7 +30,7 @@ Since the objective of this article is only the vulgarisation of the concept of 
 
 SonarQube© is probably the most well-known open-source software quality tool (and my favourite). As far as I know, it's the only one which uses explicitly the concept of Cognitive Complexity. They explain how they measure it in a document called [*"Cognitive complexity: a new way to measure understandability"*](https://www.sonarsource.com/docs/CognitiveComplexity.pdf) written by Ann Campbell for the SonarSource© company in 2017. I will explain now its main ideas.
 
-At first, SonarQube© assigns some "weight" to code structures which should increase cognitive complexity. For example, they assign the weight 1 to a `if` or a `for`. If this `if` or this `for` is nested in another `if` or `for` or something else breaking the linear flow, they add 1 for each nesting rank. When all the weights are assigned to the different elements of the code snippet, they calculate a "cognitive complexity score" by adding all these weights.
+At first, SonarQube© assigns some "weight" to code structures which should increase cognitive complexity. For example, they assign the weight 1 to a `if` or a `for`. If this `if` or this `for` is nested in another `if` or `for` (or something else breaking the linear flow), they add 1 for each nesting rank. When all the weights are assigned to the different elements of the code snippet, they calculate a "cognitive complexity score" by adding all these weights.
 
 This is a well-known technique which is used in many academic papers since decades, and it is on my opinion a good way to "measure" the cognitive complexity. Their methodology is described here :
 
@@ -74,7 +74,7 @@ As I said above, the principle of using weights and rules to calculate something
 
 ### Is SonarQube©'s cognitive complexity score relevant ?
 
-At first, let's remember the most important: the cognitive complexity is a notion relative to human cognition. Consequently, we will ***never*** be able to write an algorithm which will return a score reflecting the exact value of the cognitive complexity (defined as above). Never. We *maybe* could calculate a good approximation of something measuring the time needed to understand a snippet code for a human being, but never an exact value. This point is probably the most important of this article.
+At first, let's remember the most important: the cognitive complexity is a notion relative to human cognition. Consequently, we will ***never*** be able to write an algorithm which will return a score reflecting the exact value of the cognitive complexity (defined as above). **Never**. We ***maybe*** could calculate a good approximation of the time needed to understand a code snippet, but never an exact value. This point is probably the most important of this article.
 
 Now, can we consider the SonarQube©'s algorithm as a good approximation of the cognitive complexity defined as above ? Let's leave aside the ambiguities about the terms *understand* and *human being* of the definition of the cognitive complexity, and let us concentrate on what we should measure: the time.
 
@@ -96,7 +96,7 @@ However, intuitively, the rules and the weights of their algorithm seem to be co
     }
   } // Cognitive Complexity = 3
   ```
-  OK, it is probably true that it is more complicated to understand the second `if` because it is nested inside the first one. However, is it really *2 times* more complicated than the first `if` ? Why not 3, or 1.5 ? Do we really need 2 more time to understand the second `if` ? If *in reality* it's not 2 but 1.9, the approximation is good. If it's nearer to 1.1, we should seriously doubt of the validity of the score given by SonarQube©.
+  OK, it is probably true that it is more complicated to understand the second `if` because it is nested inside the first one. However, is it really *2 times* more complicated than the first `if` ? Why not 3, or 1.5 ? Do we really need twice the time to understand the second `if` ? If *in reality* it's not 2 but 1.9, the approximation is good. If it's nearer to 1.1, we should seriously doubt of the validity of the score given by SonarQube©.
 
 * **A problem of differentiation**
 
@@ -110,13 +110,13 @@ However, intuitively, the rules and the weights of their algorithm seem to be co
   if (this.someMethod(a) > this.someProperty[2] + this.otherProperty - 1) { ... } // Cognitive Complexity = 1
   ```
 
-  There is no doubt that the second example is more difficult to read and understand than the first one, but the score given by SonarQube© is the same. It is a problem.
+  There is no doubt that the second example is more difficult to read and understand than the first one, but the score given by SonarQube© is the same. It is counterintuitive.
 
 * **A problem of length**
 
   In reality, the cognitive complexity score returned by the SonarQube©'s algorithm not depends on the length of the code snippet. For example, a method with 50 lines without elements increasing the cognitive complexity (defined on SonarQube©'s sense) will have a score which will simply be equal to 0 !
 
-  If we admit that the cognitive complexity is defined by *the time required by a human being to understand some code snippet*, all the code snippets should have a score strictly higher than zero. Even if there is only one word, you must read this word and understand it, and you will need some time for that.
+  If we admit that the cognitive complexity is defined by *the time required by a human being to understand some code snippet*, any code snippet should have a score strictly higher than zero. Even if there is only one word, you must read this word and understand it, and you will need some time for that.
 
   Other little problem: in the real world, two identical lines should have different cognitive complexity !
 
@@ -150,7 +150,9 @@ However, intuitively, the rules and the weights of their algorithm seem to be co
   Do you understand what is doing the function above ? Yes ? Congratulations ! Me, no...
   If you had not understood, you should be a little offended, because for SonarQube©'s algorithm, the cognitive complexity of this function is equal to 0 !
 
-  Normal: no `if`, no `switch`, no `for`, no `while`, etc. Of course, this example is an extreme case, but it shows clearly that a code snippet which is very difficult to understand may have a low SonarQube©'s cognitive complexity score.
+  Normal: no `if`, no `switch`, no `for`, no `while`, etc.
+
+  Of course, this example is an extreme case, but it shows clearly that a code snippet which is very difficult to understand may have a low SonarQube©'s cognitive complexity score.
 
 ### Should we continue to use the SonarQube©'s Cognitive Complexity score ?
 
@@ -162,25 +164,19 @@ Even if this tool is far from perfect, it will highlight some functions which ha
 
 Absolutely ! It is not so difficult to add some rules to fix the problems described above. In fact, it will not be a real fix because, as we said, we will never be able to give the exact value of the cognitive complexity. However, we can add rules which will give us a better approximation of the reality.
 
-That's what I did: I created an open-source module which is able to give, on my opinion, a much better "measure" of the cognitive complexity. Of course, it is just my opinion, and as no one measured the cognitive complexity in the real world, it is impossible to prove it. You will form your own opinion.
+That's why I created an open-source module which is able to give, on my opinion, a much better "measure" of the cognitive complexity. Of course, as no one measured the cognitive complexity (designed as above) in the real world, it is impossible to prove it. You will form your own opinion.
 
 This module, [@genese/complexity](https://github.com/geneseframework/complexity), is now a part of *@TheComplexityProject*, which is a collective open-source project whose aim is to provide a better knowledge on software complexity.
 
 @genese/complexity takes into account the length of the code, the loops (`for`, `while`, ...), the logic doors (`AND`, `OR`), the conditions (`if`, `else`, `switch`, ...), the recursions, the callbacks, the nesting, the aggregation and a lot of other little things.
 
-Like on the SonarQube©'s algorithm, I use weights which are arbitrary by nature. That's only when we will experimentally measure the time required to understand some code snippets that we will be able to use non-arbitrary coefficients.
-
-## Contribute to the improvement of the knowledge !
-
-The main idea of *@TheComplexityProject* is this one: we will never be able to measure exactly the cognitive complexity, but we could write an algorithm which will return every day a better approximation than the day before.
-
-The weights used in the @genese/complexity module are not fixed for the eternity: they will change each time that the experimentation or the opinion of the community will tell us that we should change it. *@Complexity* is a collective project, and we need your help. Do you have a different opinion on the weights that we should assign ? Tell us. Are you able to demonstrate that some elements of our algorithm are wrong ? Tell us ! Are you a scientific, a researcher which is studying the concept of cognitive complexity ? You are welcome !
+Like on the SonarQube©'s algorithm, @genese/complexity uses weights which are arbitrary by nature. That's only when we will experimentally measure the time required to understand some code snippets that we will be able to use non-arbitrary coefficients. One of the goals of *@TheComplexityProject* is to specify, day after day, weights which will reflect better the reality.
 
 ## Acknowledgements
 
-I'm not the only one which worked on the *@TheComplexityProject*: many friends or colleagues helped me, and I want to thank all of them for the trust they placed in me and for their contribution to the code of the @genese/complexity module :
+I'm not the only one which worked on the @genese/complexity module: many friends and colleagues helped me, and I want to thank all of them for the trust they placed in me, and for their contribution to the implementation of this module :
 
-By alphabetical order :
+Main contributors, by alphabetical order :
 
 * M'hamad Abbas
 * Fabien Brisset
