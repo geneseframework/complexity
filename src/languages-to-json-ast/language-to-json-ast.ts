@@ -8,6 +8,7 @@ import { project } from './globals.const';
 import { Project } from 'ts-morph';
 import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
 import { AstNodeInterface } from '../core/interfaces/ast/ast-node.interface';
+import { Ts } from './ts/services/ts.service';
 
 /**
  * Main process of the parsing to JsonAst format

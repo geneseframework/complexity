@@ -3,12 +3,6 @@ const zzz = () => {
 }
 
 
-function fff() {
-    let a = 2;
-}
-
-class ccc {
-    mthd(r) {
-        return 3;
-    }
-}
+// function fff() {
+//     let a = 2;
+// }

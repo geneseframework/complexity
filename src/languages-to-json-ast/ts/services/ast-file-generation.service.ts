@@ -8,6 +8,7 @@ import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interf
 import { project, WEIGHTED_METHODS, WEIGHTS } from '../../globals.const';
 import { Ts } from './ts.service';
 import { randomString } from '../../../core/services/tools.service';
+import * as chalk from 'chalk';
 
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)
@@ -53,7 +54,8 @@ export class AstFileGenerationService {
      * Returns the Node children of a given Node
      * @param node      // The Node to analyze
      */
-    createAstNodeChildren(node: Node): AstNodeInterface {
+    private createAstNodeChildren(node: Node): AstNodeInterface {
+        console.log(chalk.yellowBright('cCCCreateAstNodeChildren'), Ts.getName(node), Ts.getKindAlias(node));
         let astNode: AstNodeInterface = {
             end: node.getEnd(),
             kind: Ts.getKindAlias(node),
