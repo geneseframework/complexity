@@ -41,3 +41,11 @@ The ***real*** problem is that the cognitive complexity score provided by this t
 ## Experimentation
 
 ## Conclusion
+
+## *@TheComplexityProject*
+
+The main idea of *@TheComplexityProject* is to contribute to the improvement of the knowledge around the notions of software complexity and maintainability. Its members are researchers or developers which are interested in these themes.  and which want to share ideas, articles.   On this article, I talked only about the cognitive complexity, which is on my opinion the best indicator of the time needed to maintain a software, and so a good way to estimate its cost.
+
+We will never be able to measure exactly the cognitive complexity, but we could write an algorithm which will return every day a better approximation than the day before. That's the main goal of *@TheComplexityProject*, and each contribution to the development of this algorithm
+
+The weights used in the @genese/complexity module are not fixed for the eternity: they will change each time that the experimentation or the opinion of the community will tell us that we should change it. *@TheComplexityProject* is a collective project, and we need your help. Do you have a different opinion on the weights that we should assign ? Tell us. Are you able to demonstrate that some elements of our algorithm are wrong ? Tell us ! Are you a scientific, a researcher which is studying the concept of cognitive complexity ? You are welcome !
