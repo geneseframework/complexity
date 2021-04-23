@@ -51,7 +51,7 @@ export class AstFileGenerationService {
 
     /**
      * Returns the Node children of a given Node
-     * @param node      // The Node to analyse
+     * @param node      // The Node to analyze
      */
     createAstNodeChildren(node: Node): AstNodeInterface {
         let astNode: AstNodeInterface = {
@@ -76,7 +76,7 @@ export class AstFileGenerationService {
 
     /**
      * Adds the type to identifiers or parameters and calculates the CpxFactors of identifiers
-     * @param node          // The Node to analyse
+     * @param node          // The Node to analyze
      * @param astNode       // The AstNode which will be updated with its type and CpxFactors
      */
     private addTypeAndCpxFactors(node: Node, astNode: AstNodeInterface): AstNodeInterface {
@@ -95,7 +95,7 @@ export class AstFileGenerationService {
 
     /**
      * Returns the CpxFactors of a given Node (Identifier)
-     * @param node      // The Node to analyse
+     * @param node      // The Node to analyze
      */
     private getCpxFactors(node: Node): CpxFactorsInterface {
         if (node.getKindName() !== SyntaxKind.Identifier) {
