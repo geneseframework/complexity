@@ -11,8 +11,8 @@ import useRequest from '../../hooks/useRequest.hook';
 import i18n from '../../i18n/i18n';
 import style, { tabsStyle } from './Categories.style';
 
-function Categories() {
-// const Categories: React.FC = () => {
+// function Categories() {
+const Categories: React.FC = () => {
     useNavBar(2);
     useHeader(HeaderType.DEFAULT, i18n.t('Header.categories'));
     const [menuItems, setMenuItems] = useState<Resource[][]>([]);

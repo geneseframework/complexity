@@ -79,81 +79,81 @@ function RegisterProfessional() {
             isLoading(false);
         }
     };
-    //
-    // const companyChose = (companyData: Company) => {
-    //     setCompany(companyData);
-    //     modalRef.current.close();
-    //     store.dispatch(
-    //         addNotification({
-    //             text: i18n.t('RegisterProfessional.addressChosen'),
-    //             type: NotificationType.SUCCESS,
-    //         })
-    //     );
-    // };
-    //
-    // const validate = () =>
-    //     navigate('RegisterPersonal', {
-    //         company: company?.name,
-    //         siren: siren,
-    //         siret: company?.siret,
-    //         country,
-    //         blGroup: params?.blGroup,
-    //     });
-    //
-    // const isSearchEnabled = () => country?.length > 0 && siren.length === 9;
-    //
-    // const Informations = (information: string) => {
-    //     const label = i18n.t(`Company.${information}`);
-    //
-    //     return label ? (
-    //         <View key={information} style={style.companyDetails}>
-    //             <Text style={style.label}>{label} : </Text>
-    //             <Text style={style.value}>{company[information]} </Text>
-    //         </View>
-    //     ) : null;
-    // };
-    //
-    // const SearchFields = () => {
-    //     return company ? (
-    //         <View style={style.row}>
-    //             <Text style={style.label}>{i18n.t('RegisterProfessional.siren')} : </Text>
-    //             <Text style={style.value}>{siren}</Text>
-    //             <Pen
-    //                 height={20}
-    //                 width={20}
-    //                 style={style.icon}
-    //                 onPress={() => setCompany(undefined)}
-    //             />
-    //         </View>
-    //     ) : (
-    //         <View>
-    //             <DFUI.TextInput
-    //                 styles={style}
-    //                 placeholder={i18n.t('RegisterProfessional.siren')}
-    //                 value={siren}
-    //                 setValue={(value) => setSiren(value)}
-    //                 placeholderTextColor={CONST.COLORS.MID_CONTRAST}
-    //                 maxLength={9}
-    //                 keyboardType={DFUI.KeyboardType.NUMBER_PAD}
-    //                 pattern={'(?=.*\\d)'}
-    //             />
-    //             <RNPickerSelect
-    //                 style={pickerSelectStyles}
-    //                 placeholder={{ label: i18n.t('RegisterProfessional.country') }}
-    //                 onValueChange={(value) => setCountry(value)}
-    //                 items={COUNTRIES}
-    //             />
-    //             <DFUI.Button
-    //                 underlayColor={CONST.COLORS.PRIMARY}
-    //                 onPress={searchSiren}
-    //                 style={isSearchEnabled() ? enabledButton : disabledButton}
-    //                 text={i18n.t('RegisterProfessional.search')}
-    //                 disabled={!isSearchEnabled()}
-    //             />
-    //             <Text>{i18n.t('RegisterPersonal.mandatorySentence')}</Text>
-    //         </View>
-    //     );
-    // };
+
+    const companyChose = (companyData: Company) => {
+        setCompany(companyData);
+        modalRef.current.close();
+        store.dispatch(
+            addNotification({
+                text: i18n.t('RegisterProfessional.addressChosen'),
+                type: NotificationType.SUCCESS,
+            })
+        );
+    };
+
+    const validate = () =>
+        navigate('RegisterPersonal', {
+            company: company?.name,
+            siren: siren,
+            siret: company?.siret,
+            country,
+            blGroup: params?.blGroup,
+        });
+
+    const isSearchEnabled = () => country?.length > 0 && siren.length === 9;
+
+    const Informations = (information: string) => {
+        const label = i18n.t(`Company.${information}`);
+
+        return label ? (
+            <View key={information} style={style.companyDetails}>
+                <Text style={style.label}>{label} : </Text>
+                <Text style={style.value}>{company[information]} </Text>
+            </View>
+        ) : null;
+    };
+
+    const SearchFields = () => {
+        return company ? (
+            <View style={style.row}>
+                <Text style={style.label}>{i18n.t('RegisterProfessional.siren')} : </Text>
+                <Text style={style.value}>{siren}</Text>
+                <Pen
+                    height={20}
+                    width={20}
+                    style={style.icon}
+                    onPress={() => setCompany(undefined)}
+                />
+            </View>
+        ) : (
+            <View>
+                <DFUI.TextInput
+                    styles={style}
+                    placeholder={i18n.t('RegisterProfessional.siren')}
+                    value={siren}
+                    setValue={(value) => setSiren(value)}
+                    placeholderTextColor={CONST.COLORS.MID_CONTRAST}
+                    maxLength={9}
+                    keyboardType={DFUI.KeyboardType.NUMBER_PAD}
+                    pattern={'(?=.*\\d)'}
+                />
+                <RNPickerSelect
+                    style={pickerSelectStyles}
+                    placeholder={{ label: i18n.t('RegisterProfessional.country') }}
+                    onValueChange={(value) => setCountry(value)}
+                    items={COUNTRIES}
+                />
+                <DFUI.Button
+                    underlayColor={CONST.COLORS.PRIMARY}
+                    onPress={searchSiren}
+                    style={isSearchEnabled() ? enabledButton : disabledButton}
+                    text={i18n.t('RegisterProfessional.search')}
+                    disabled={!isSearchEnabled()}
+                />
+                <Text>{i18n.t('RegisterPersonal.mandatorySentence')}</Text>
+            </View>
+        );
+    };
 
     return (
         <>
