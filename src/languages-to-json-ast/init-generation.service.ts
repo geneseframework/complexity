@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
 import { AstFileGenerationJavaService } from './java/services/ast-file-generation-java.service';
-import { platformPath } from '../core/services/file.service';
+import { getFileExtension, platformPath } from '../core/services/file.service';
 import { Options } from '../core/models/options.model';
 import { AstFolderInterface } from '../core/interfaces/ast/ast-folder.interface';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
@@ -113,6 +113,7 @@ export class InitGenerationService {
      * @returns boolean
      */
     private isFileToGenerate(path: string, language: Language): boolean {
-        return (!LIMIT_GENERATIONS) || path === DEV_MOCK;
+        return (getFileExtension(path) === language && !LIMIT_GENERATIONS) || path === DEV_MOCK;
+        // return (!LIMIT_GENERATIONS) || path === DEV_MOCK;
     }
 }

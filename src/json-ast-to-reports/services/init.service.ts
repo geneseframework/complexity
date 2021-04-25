@@ -104,13 +104,15 @@ export class InitService {
         for (const astNode of varStatements) {
             const variableDeclarationList = astNode.children?.[0];
             const variableDeclaration = variableDeclarationList?.children?.[0];
-            const arrowFunction = new AstMethod();
-            arrowFunction.name = variableDeclaration.children[0]?.name;
-            arrowFunction.astNode = variableDeclaration;
-            arrowFunction.astNode.text = this.astNodeService.getCode(variableDeclaration);
-            arrowFunction.isArrowFunction = true;
-            arrowFunction.codeLines = variableDeclaration.astFile?.code?.lines?.slice(variableDeclaration.linePos - 1, variableDeclaration.lineEnd);
-            arrowFunctions.push(arrowFunction);
+            if (variableDeclaration) {
+                const arrowFunction = new AstMethod();
+                arrowFunction.name = variableDeclaration.children[0]?.name;
+                arrowFunction.astNode = variableDeclaration;
+                arrowFunction.astNode.text = this.astNodeService.getCode(variableDeclaration);
+                arrowFunction.isArrowFunction = true;
+                arrowFunction.codeLines = variableDeclaration.astFile?.code?.lines?.slice(variableDeclaration.linePos - 1, variableDeclaration.lineEnd);
+                arrowFunctions.push(arrowFunction);
+            }
         }
         return arrowFunctions;
     }
