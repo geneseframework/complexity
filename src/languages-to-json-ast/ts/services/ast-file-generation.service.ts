@@ -9,6 +9,8 @@ import { project, WEIGHTED_METHODS, WEIGHTS } from '../../globals.const';
 import { Ts } from './ts.service';
 import { randomString } from '../../../core/services/tools.service';
 import * as chalk from 'chalk';
+import { Options } from '../../../core/models/options.model';
+import { ReactService } from './specific/react.service';
 
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)
@@ -42,11 +44,15 @@ export class AstFileGenerationService {
             return undefined;
         }
         const sourceFile: SourceFile = project.getSourceFileOrThrow(path);
-        return {
+        const astFileInterface: AstFileInterface = {
             name: getFilename(path),
             text: sourceFile.getFullText(),
             astNode: this.createAstNodeChildren(sourceFile)
         };
+        if (Options.react) {
+            ReactService.extractHooksAndArrowFunctions(astFileInterface.astNode);
+        }
+        return astFileInterface;
     }
 
 

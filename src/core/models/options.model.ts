@@ -34,7 +34,7 @@ export class Options {
     static pathFolderToAnalyze = './';      // The path of the folder to analyse (can be overridden)
     static pathGeneseNodeJs = '';           // The path of the node_module Genese in the nodejs user environment (can't be overridden)
     static pathOutDir = '';                 // The path where the reports are created (can be overridden)
-    static react = false;                   // Checks if it's a React application
+    static react = true;                   // Checks if it's a React application
 
     /**
      * Sets the options of genese-complexity module
@@ -97,7 +97,7 @@ export class Options {
 
 
     /**
-     * Separate paths which needs to start by "./" and others
+     * Separate paths which needs to extractHooksAndArrowFunctions by "./" and others
      * @param ignorePaths
      * @returns {String[]}
      */

@@ -1528,7 +1528,7 @@ function getAlpha(string) {
 // generators
 function hexString(rgba, a) {
    var a = (a !== undefined && rgba.length === 3) ? a : rgba[3];
-   return "#" + hexDouble(rgba[0]) 
+   return "#" + hexDouble(rgba[0])
               + hexDouble(rgba[1])
               + hexDouble(rgba[2])
               + (
@@ -10312,7 +10312,7 @@ var core_helpers = function() {
 			return -1;
 		};
 	helpers$1.findNextWhere = function(arrayToSearch, filterCallback, startIndex) {
-		// Default to start of the array
+		// Default to extractHooksAndArrowFunctions of the array
 		if (helpers$1.isNullOrUndef(startIndex)) {
 			startIndex = -1;
 		}
@@ -10968,7 +10968,7 @@ helpers$1.extend(DateAdapter.prototype, /** @lends DateAdapter */ {
 	diff: abstract,
 
 	/**
-	 * Returns start of `unit` for the given `timestamp`.
+	 * Returns extractHooksAndArrowFunctions of `unit` for the given `timestamp`.
 	 * @param {number} timestamp - the input timestamp
 	 * @param {Unit} unit - the unit as string
 	 * @param {number} [weekday] - the ISO day of the week with 1 being Monday
@@ -14006,7 +14006,7 @@ function getMax(options) {
 /**
  * Returns an array of {time, pos} objects used to interpolate a specific `time` or position
  * (`pos`) on the scale, by searching entries before and after the requested value. `pos` is
- * a decimal between 0 and 1: 0 being the start of the scale (left or top) and 1 the other
+ * a decimal between 0 and 1: 0 being the extractHooksAndArrowFunctions of the scale (left or top) and 1 the other
  * extremity (left + width or top + height). Note that it would be more optimized to directly
  * store pre-computed pixels, but the scale dimensions are not guaranteed at the time we need
  * to create the lookup table. The table ALWAYS contains at least two items: min and max.
@@ -14239,7 +14239,7 @@ function generate(scale, min, max, capacity) {
 }
 
 /**
- * Returns the start and end offsets from edges in the form of {start, end}
+ * Returns the extractHooksAndArrowFunctions and end offsets from edges in the form of {extractHooksAndArrowFunctions, end}
  * where each value is a relative width to the scale and ranges between 0 and 1.
  * They add extra margins on the both sides by scaling down the original scale.
  * Offsets are added when the `offset` option is true.
@@ -14330,7 +14330,7 @@ var defaultConfig$4 = {
 		unit: false, // false == automatic or override with week, month, year, etc.
 		round: false, // none, or override with week, month, year, etc.
 		displayFormat: false, // DEPRECATED
-		isoWeekday: false, // override week start day - see https://momentjs.com/docs/#/get-set/iso-weekday/
+		isoWeekday: false, // override week extractHooksAndArrowFunctions day - see https://momentjs.com/docs/#/get-set/iso-weekday/
 		minUnit: 'millisecond',
 		displayFormats: {}
 	},

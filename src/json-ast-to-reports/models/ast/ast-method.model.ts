@@ -206,7 +206,6 @@ export class AstMethod implements Evaluate {
         this.addCommentsToDisplayedCode();
         this.calculateCpxFactors();
         this._displayedCode.setTextWithLines();
-        // console.log(chalk.cyanBright('THIS  CPX FATTTTTTT'), this.cpxFactors);
     }
 
 
