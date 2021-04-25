@@ -201,14 +201,12 @@ export class AstMethod implements Evaluate {
     createDisplayedCode(astNode: AstNode = this.astNode): void {
         this.setDisplayedCodeLines();
         this.setDeclarationCpxFactors();
-        if (this.isArrowFunction) {
-            this.modifyCpxFactorsForArrowFunctions();
-        }
         this.setCpxFactorsToDisplayedCode(astNode, false);
         this._displayedCode.setLinesDepthAndNestingCpx();
         this.addCommentsToDisplayedCode();
         this.calculateCpxFactors();
         this._displayedCode.setTextWithLines();
+        // console.log(chalk.cyanBright('THIS  CPX FATTTTTTT'), this.cpxFactors);
     }
 
 
@@ -315,35 +313,8 @@ export class AstMethod implements Evaluate {
             this.createDisplayedCode();
         }
         this.cpxFactors = new CpxFactors();
-        for (let i = 0; i < this._displayedCode?.lines.length; i++) {
-            // console.log(chalk.magentaBright('LINE CPX FACTORSSSS CODEEEEE'), lines[i].text);
-            // console.log(chalk.magentaBright('LINE CPX FACTORSSSS FUNC'), lines[i].cpxFactors.structural.func);
-            this.cpxFactors = this.cpxFactors.add(lines[i].cpxFactors);
+        for (const line of this._displayedCode?.lines) {
+            this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
         }
     }
-
-
-    private modifyCpxFactorsForArrowFunctions(): void {
-        const firstLine: CodeLine = this._displayedCode?.lines[0];
-        firstLine.cpxFactors.structural.func = firstLine.cpxFactors.structural.func - 1;
-        firstLine.cpxFactors.atomic.declaration = firstLine.cpxFactors.atomic.declaration - 0.1;
-        console.log(chalk.magentaBright('LINE CPX FACTORSSSS CODEEEEE'), firstLine.text);
-        console.log(chalk.magentaBright('LINE CPX FACTORSSSS FUNC'), firstLine.cpxFactors.structural.func);
-    }
-
-
-    /**
-     * Calculates the Complexity Factors of the method
-     */
-    // private calculateCpxFactors(): void {
-    //     if (!(this._displayedCode?.lines?.length > 0)) {
-    //         this.createDisplayedCode();
-    //     }
-    //     this.cpxFactors = new CpxFactors();
-    //     for (const line of this._displayedCode?.lines) {
-    //         console.log(chalk.magentaBright('LINE CPX FACTORSSSS CODEEEEE'), line.code);
-    //         console.log(chalk.magentaBright('LINE CPX FACTORSSSS FUNC'), line.cpxFactors.structural.func);
-    //         this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
-    //     }
-    // }
 }

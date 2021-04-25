@@ -1,8 +1,9 @@
-const zzz = () => {
-    let a = 2;
-}
+// const simpleArrowFunction = () => {
+//     let a = 2;
+// }
 
-
-function fff() {
-    let b = 2;
+const arrowFunctionWithIf = (a: number) => {
+    if (a === 2) {
+        a++;
+    }
 }

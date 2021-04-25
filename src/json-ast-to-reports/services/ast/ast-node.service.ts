@@ -136,8 +136,6 @@ export class AstNodeService {
      * @param astNodes     // The "accumulator"
      */
     flatMapAstNodes(astNode: AstNode, astNodes: AstNode[]): AstNode[] {
-        // console.log(chalk.redBright('FLAT MAPPP NODE KINDDDD'), astNode.kind);
-        // console.log(chalk.yellowBright('FLAT MAPPP NODE KINDDDD astNode?.children'), astNode?.children);
         for (const childAstNode of astNode?.children) {
             astNodes.push(childAstNode);
             if (childAstNode.children.length > 0) {

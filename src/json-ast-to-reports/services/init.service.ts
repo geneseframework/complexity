@@ -102,7 +102,6 @@ export class InitService {
         const varStatements: AstNode[] = astFile.astNode?.children?.filter(n => n.kind === 'VariableStatement');
         const arrowFunctions: AstMethod[] = [];
         for (const astNode of varStatements) {
-            console.log(chalk.magentaBright('ADD VAR STATMMMMT'), astNode.kind, astNode.text);
             const variableDeclarationList = astNode.children?.[0];
             const variableDeclaration = variableDeclarationList?.children?.[0];
             const arrowFunction = new AstMethod();
@@ -111,7 +110,6 @@ export class InitService {
             arrowFunction.astNode.text = this.astNodeService.getCode(variableDeclaration);
             arrowFunction.isArrowFunction = true;
             arrowFunction.codeLines = variableDeclaration.astFile?.code?.lines?.slice(variableDeclaration.linePos - 1, variableDeclaration.lineEnd);
-            // console.log(chalk.magentaBright('ARROW FNNNNN'), arrowFunction.codeLines[0].cpxFactors);
             arrowFunctions.push(arrowFunction);
         }
         return arrowFunctions;

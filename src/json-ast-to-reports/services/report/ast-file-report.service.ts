@@ -33,7 +33,6 @@ export class AstFileReportService {
     getMethodsArray(): MethodReport[] {
         let report: MethodReport[] = [];
         for (const method of this.astFile.astMethods) {
-            console.log(chalk.blueBright('getMethodsArrayYYYYY'), method?.name);
             const methodReport: MethodReport = {
                 code: method.displayedCode?.text,
                 cognitiveColor: method.cognitiveStatus.toLowerCase(),
