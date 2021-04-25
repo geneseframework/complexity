@@ -11,7 +11,6 @@ import useRequest from '../../hooks/useRequest.hook';
 import i18n from '../../i18n/i18n';
 import style, { tabsStyle } from './Categories.style';
 
-// function Categories() {
 const Categories: React.FC = () => {
     useNavBar(2);
     useHeader(HeaderType.DEFAULT, i18n.t('Header.categories'));
@@ -27,7 +26,7 @@ const Categories: React.FC = () => {
      */
     const mapCategory = (resource: Resource) => (
         <CategoryItem key={JSON.stringify(resource)} resource={resource} />
-);
+    );
 
     /**
      * Map resources to a tab
@@ -35,16 +34,16 @@ const Categories: React.FC = () => {
      */
     const mapTab = (resources: Resource[]) => (
         <ScrollView key={JSON.stringify(resources)} style={style.container}>
-    <View style={style.content}>{resources.map(mapCategory)}</View>
+            <View style={style.content}>{resources.map(mapCategory)}</View>
         </ScrollView>
-);
+    );
 
     return (
         <SafeAreaView style={style.container}>
         <DFUI.Tabs
             titles={[i18n.t('Categories.hairDressing'), i18n.t('Categories.aesthetic')]}
-    styles={tabsStyle}>
-        {menuItems.map(mapTab)}
+            styles={tabsStyle}>
+            {menuItems.map(mapTab)}
         </DFUI.Tabs>
         </SafeAreaView>
 );

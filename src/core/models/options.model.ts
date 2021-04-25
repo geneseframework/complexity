@@ -14,33 +14,33 @@ export var WINDOWS = false;
 export class Options {
 
     static cognitiveCpx: Complexity = {     // Options concerning the cognitive complexity
-        errorThreshold: 20,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overriden)
-        type: ComplexityType.COGNITIVE,     // Sets the complexity type for this option (can't be overriden)
-        warningThreshold: 10,               // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overriden)
+        errorThreshold: 20,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
+        type: ComplexityType.COGNITIVE,     // Sets the complexity type for this option (can't be overridden)
+        warningThreshold: 10,               // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
     };
     static colors: ChartColor[] = [         // The colors of the charts
         ChartColor.CORRECT,
         ChartColor.WARNING,
         ChartColor.ERROR,
     ];
-    static cyclomaticCpx: Complexity = { // Options concerning the cognitive complexity
-        errorThreshold: 10, // A complexity strictly greater than errorThreshold will be seen as error (can be overriden)
-        type: ComplexityType.CYCLOMATIC, // Sets the complexity type for this option (can't be overriden)
-        warningThreshold: 5, // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overriden)
+    static cyclomaticCpx: Complexity = {    // Options concerning the cognitive complexity
+        errorThreshold: 10,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
+        type: ComplexityType.CYCLOMATIC,    // Sets the complexity type for this option (can't be overridden)
+        warningThreshold: 5,                // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
     };
-    static ignore: string[] = []; // The paths of the files or folders to ignore
+    static ignore: string[] = [];           // The paths of the files or folders to ignore
     static ignoreRegex: string = '';
-    static pathCommand = ''; // The path of the folder where the command-line was entered (can't be overriden)
-    static pathFolderToAnalyze = './'; // The path of the folder to analyse (can be overriden)
-    static pathGeneseNodeJs = ''; // The path of the node_module Genese in the nodejs user environment (can't be overriden)
-    static pathOutDir = ''; // The path where the reports are created (can be overriden)
-
+    static pathCommand = '';                // The path of the folder where the command-line was entered (can't be overridden)
+    static pathFolderToAnalyze = './';      // The path of the folder to analyse (can be overridden)
+    static pathGeneseNodeJs = '';           // The path of the node_module Genese in the nodejs user environment (can't be overridden)
+    static pathOutDir = '';                 // The path where the reports are created (can be overridden)
+    static react = false;                   // Checks if it's a React application
 
     /**
      * Sets the options of genese-complexity module
-     * @param pathCommand               // The path of the folder where the command-line was entered (can't be overriden)
-     * @param pathFolderToAnalyze       // The path of the folder to analyse (can be overriden)
-     * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overriden)
+     * @param pathCommand               // The path of the folder where the command-line was entered (can't be overridden)
+     * @param pathFolderToAnalyze       // The path of the folder to analyse (can be overridden)
+     * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overridden)
      */
     static setOptions(
         pathCommand: string,
@@ -62,9 +62,9 @@ export class Options {
 
     /**
      * Sets the options of genese-complexity module with command-line options (lower priority than geneseconfig.json options)
-     * @param pathCommand               // The path of the folder where the command-line was entered (can't be overriden)
-     * @param pathFolderToAnalyze       // The path of the folder to analyse (can be overriden)
-     * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overriden)
+     * @param pathCommand               // The path of the folder where the command-line was entered (can't be overridden)
+     * @param pathFolderToAnalyze       // The path of the folder to analyse (can be overridden)
+     * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overridden)
      */
     static setOptionsFromCommandLine(pathCommand: string, pathFolderToAnalyze: string, pathGeneseNodeJs: string): void {
         Options.pathCommand = pathCommand;
@@ -86,14 +86,13 @@ export class Options {
             Options.ignoreRegex += i !== Options.ignore.length - 1 ? `${this.pathTransformator(path)}|` : `${this.pathTransformator(path)}`;
         });
 
-        Options.pathFolderToAnalyze =
-            config.complexity?.pathFolderToAnalyze ??
-            Options.pathFolderToAnalyze;
-        Options.pathOutDir =
-            config.complexity?.pathReports ?? Options.pathOutDir;
+        Options.pathFolderToAnalyze = config.complexity?.pathFolderToAnalyze ?? Options.pathFolderToAnalyze;
+        Options.pathOutDir = config.complexity?.pathReports ?? Options.pathOutDir;
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
+        // TODO : use geneseconfig
+        Options.react = true;
     }
 
 
