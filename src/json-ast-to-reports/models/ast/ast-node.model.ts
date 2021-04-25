@@ -32,7 +32,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     private _intrinsicNestingCpx: number = undefined;                                   // The nesting of the AstNode inside its method (not including its parent's nesting)
     private _isCallback: boolean = undefined;                                           // True if the astNode is a method with a Callback, false if not
     private _isRecursiveMethod: boolean = undefined;                                    // True if the astNode is a recursive method, false if not
-    private _isVarArrowFunction: boolean = undefined;                                   // True if the astNode is an ArrowFunction which corresponds of a VariableStatement, false if not
     private _kind?: SyntaxKind = undefined;                                             // The kind of the node ('MethodDeclaration, IfStatement, ...)
     private _lineEnd?: number = undefined;                                              // The issue of the line containing the character at the AstNode.end
     private _linePos?: number = undefined;                                              // The issue of the line containing the character at the AstNode.pos
@@ -198,7 +197,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     get isVarArrowFunction(): boolean {
         const ancestor: AstNode = this.parent?.parent?.parent;
-        // console.log(chalk.redBright('ANCESTORRRRR'), this.kind, ancestor?.kind);
         return this.kind === 'ArrowFunction' && ancestor?.kind === 'VariableStatement' && ancestor.parent?.kind === 'SourceFile';
     }
 
@@ -403,7 +401,6 @@ z
 
     private setArrowFunctionStructuralCpx(): void {
         if (this.isVarArrowFunction) {
-            // console.log(chalk.cyanBright('isVarArrowFunctionNNNNN'), this.cpxFactors);
             this.cpxFactors.nesting.func = 0;
             this.cpxFactors.structural.func = 0;
             this.cpxFactors.atomic.node = 0;
