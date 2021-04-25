@@ -8,7 +8,8 @@ import { Project } from 'ts-morph';
 export const KindAliases: KindAlias[] = [
     {
         name: 'Keyword',
-        aliases: ['AnyKeyword', 'CaseClause', 'DefaultClause', 'FalseKeyword', 'NewExpression', 'ReturnStatement', 'StringKeyword', 'TrueKeyword', 'VariableStatement', 'VoidKeyword']
+        aliases: ['AnyKeyword', 'CaseClause', 'DefaultClause', 'FalseKeyword', 'NewExpression', 'ReturnStatement', 'StringKeyword', 'TrueKeyword', 'VoidKeyword']
+        // aliases: ['AnyKeyword', 'CaseClause', 'DefaultClause', 'FalseKeyword', 'NewExpression', 'ReturnStatement', 'StringKeyword', 'TrueKeyword', 'VariableStatement', 'VoidKeyword']
     },
     {
         name: 'Literal',

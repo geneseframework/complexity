@@ -10,6 +10,7 @@ import { CodeLine } from '../code/code-line.model';
 import { cpxFactors } from '../../../core/const/cpx-factors';
 import { FactorCategory } from '../../enums/factor-category.enum';
 import { Options } from '../../../core/models/options.model';
+import * as chalk from 'chalk';
 
 /**
  * Element of the AstNode structure corresponding to a given method
@@ -24,6 +25,7 @@ export class AstMethod implements Evaluate {
     private _cpxIndex = undefined;                                              // The complexity index of the method
     private _cyclomaticStatus: MethodStatus = MethodStatus.CORRECT;             // The cyclomatic status of the method
     private _displayedCode?: Code = undefined;                                  // The code to display in the report
+    private _isArrowFunction ?= false;
     private _maxLineLength ?= 0;                                                // The max length of the lines of the code
     private _name: string = undefined;                                          // The name of the method
 
@@ -109,6 +111,16 @@ export class AstMethod implements Evaluate {
     }
 
 
+    get isArrowFunction(): boolean {
+        return this._isArrowFunction;
+    }
+
+
+    set isArrowFunction(isArrowFunction: boolean) {
+        this._isArrowFunction = isArrowFunction;
+    }
+
+
     get maxLineLength(): number {
         if (this._maxLineLength) {
             return this._maxLineLength;
@@ -124,6 +136,11 @@ export class AstMethod implements Evaluate {
         }
         this._name = this._astNode.name;
         return this._name;
+    }
+
+
+    set name(name: string) {
+        this._name = name;
     }
 
 
@@ -157,20 +174,6 @@ export class AstMethod implements Evaluate {
 
 
     /**
-     * Calculates the Complexity Factors of the method
-     */
-    private calculateCpxFactors(): void {
-        if (!(this._displayedCode?.lines?.length > 0)) {
-            this.createDisplayedCode();
-        }
-        this.cpxFactors = new CpxFactors();
-        for (const line of this._displayedCode?.lines) {
-            this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
-        }
-    }
-
-
-    /**
      * Gets the complexity status of the method for a given complexity type
      * @param cpxType
      */
@@ -198,6 +201,9 @@ export class AstMethod implements Evaluate {
     createDisplayedCode(astNode: AstNode = this.astNode): void {
         this.setDisplayedCodeLines();
         this.setDeclarationCpxFactors();
+        if (this.isArrowFunction) {
+            this.modifyCpxFactorsForArrowFunctions();
+        }
         this.setCpxFactorsToDisplayedCode(astNode, false);
         this._displayedCode.setLinesDepthAndNestingCpx();
         this.addCommentsToDisplayedCode();
@@ -277,7 +283,6 @@ export class AstMethod implements Evaluate {
         if (!codeLine.isCommented) {
             codeLine.cpxFactors = codeLine.cpxFactors.add(astNode?.cpxFactors);
         }
-
     }
 
 
@@ -299,4 +304,46 @@ export class AstMethod implements Evaluate {
                 this._displayedCode.getLine(line.issue).addComment(comment, this.maxLineLength);
             });
     }
+
+
+    /**
+     * Calculates the Complexity Factors of the method
+     */
+    private calculateCpxFactors(): void {
+        const lines: CodeLine[] = this._displayedCode?.lines;
+        if (lines.length === 0) {
+            this.createDisplayedCode();
+        }
+        this.cpxFactors = new CpxFactors();
+        for (let i = 0; i < this._displayedCode?.lines.length; i++) {
+            // console.log(chalk.magentaBright('LINE CPX FACTORSSSS CODEEEEE'), lines[i].text);
+            // console.log(chalk.magentaBright('LINE CPX FACTORSSSS FUNC'), lines[i].cpxFactors.structural.func);
+            this.cpxFactors = this.cpxFactors.add(lines[i].cpxFactors);
+        }
+    }
+
+
+    private modifyCpxFactorsForArrowFunctions(): void {
+        const firstLine: CodeLine = this._displayedCode?.lines[0];
+        firstLine.cpxFactors.structural.func = firstLine.cpxFactors.structural.func - 1;
+        firstLine.cpxFactors.atomic.declaration = firstLine.cpxFactors.atomic.declaration - 0.1;
+        console.log(chalk.magentaBright('LINE CPX FACTORSSSS CODEEEEE'), firstLine.text);
+        console.log(chalk.magentaBright('LINE CPX FACTORSSSS FUNC'), firstLine.cpxFactors.structural.func);
+    }
+
+
+    /**
+     * Calculates the Complexity Factors of the method
+     */
+    // private calculateCpxFactors(): void {
+    //     if (!(this._displayedCode?.lines?.length > 0)) {
+    //         this.createDisplayedCode();
+    //     }
+    //     this.cpxFactors = new CpxFactors();
+    //     for (const line of this._displayedCode?.lines) {
+    //         console.log(chalk.magentaBright('LINE CPX FACTORSSSS CODEEEEE'), line.code);
+    //         console.log(chalk.magentaBright('LINE CPX FACTORSSSS FUNC'), line.cpxFactors.structural.func);
+    //         this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
+    //     }
+    // }
 }

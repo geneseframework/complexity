@@ -1,0 +1,11 @@
+{
+    "complexity": {
+        "ast": {
+            "sourceFile": {
+                "variableStatement": {
+                    "context": "skip"
+                }
+            }
+        }
+    }
+}

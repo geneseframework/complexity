@@ -12,6 +12,7 @@ import { MethodReport } from '../../models/report/method-report.model';
 import { AstFile } from '../../models/ast/ast-file.model';
 import { Options } from '../../../core/models/options.model';
 import { mainModule } from "process";
+import * as chalk from 'chalk';
 
 /**
  * Service generating files reports
@@ -32,6 +33,7 @@ export class AstFileReportService {
     getMethodsArray(): MethodReport[] {
         let report: MethodReport[] = [];
         for (const method of this.astFile.astMethods) {
+            console.log(chalk.blueBright('getMethodsArrayYYYYY'), method?.name);
             const methodReport: MethodReport = {
                 code: method.displayedCode?.text,
                 cognitiveColor: method.cognitiveStatus.toLowerCase(),

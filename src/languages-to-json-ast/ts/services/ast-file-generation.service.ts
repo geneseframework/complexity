@@ -55,7 +55,7 @@ export class AstFileGenerationService {
      * @param node      // The Node to analyze
      */
     private createAstNodeChildren(node: Node): AstNodeInterface {
-        console.log(chalk.yellowBright('cCCCreateAstNodeChildren'), Ts.getName(node), Ts.getKindAlias(node));
+        // console.log(chalk.yellowBright('cCCCreateAstNodeChildren'), Ts.getName(node), Ts.getKindAlias(node));
         let astNode: AstNodeInterface = {
             end: node.getEnd(),
             kind: Ts.getKindAlias(node),
