@@ -7,3 +7,8 @@ export enum Language {
     TSX = 'tsx',
     JSX = 'jsx'
 }
+
+
+export function isLanguage(extension: string): extension is Language {
+    return Object.values(Language).includes(extension as Language);
+}

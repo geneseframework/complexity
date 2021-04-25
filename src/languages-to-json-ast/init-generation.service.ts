@@ -5,7 +5,7 @@ import { Options } from '../core/models/options.model';
 import { AstFolderInterface } from '../core/interfaces/ast/ast-folder.interface';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
 import { DEV_MOCK, LIMIT_GENERATIONS } from './globals.const';
-import { Language } from '../core/enum/language.enum';
+import { isLanguage, Language } from '../core/enum/language.enum';
 import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
 import * as chalk from 'chalk';
 
@@ -113,7 +113,8 @@ export class InitGenerationService {
      * @returns boolean
      */
     private isFileToGenerate(path: string, language: Language): boolean {
-        return (getFileExtension(path) === language && !LIMIT_GENERATIONS) || path === DEV_MOCK;
-        // return (!LIMIT_GENERATIONS) || path === DEV_MOCK;
+        // console.log(chalk.greenBright('LANGGGGGGG'), getFileExtension(path), isLanguage(getFileExtension(path)));
+        return (isLanguage(getFileExtension(path)) && !LIMIT_GENERATIONS) || path === DEV_MOCK;
+        // return (getFileExtension(path) === language && !LIMIT_GENERATIONS) || path === DEV_MOCK;
     }
 }

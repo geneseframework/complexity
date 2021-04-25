@@ -1,6 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "allowJs": true,
         "jsx": "react",
         "module": "commonjs",
         "resolveJsonModule": true,

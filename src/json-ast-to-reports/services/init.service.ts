@@ -99,12 +99,12 @@ export class InitService {
 
 
     private addArrowFunctions(astFile: AstFile): AstMethod[] {
-        const varStatements: AstNode[] = astFile.astNode?.children?.filter(n => n.kind === 'VariableStatement');
+        const varStatements: AstNode[] = astFile.astNode?.children?.filter(n => n.kind === 'Keyword');
         const arrowFunctions: AstMethod[] = [];
         for (const astNode of varStatements) {
             const variableDeclarationList = astNode.children?.[0];
             const variableDeclaration = variableDeclarationList?.children?.[0];
-            if (variableDeclaration) {
+            if (variableDeclaration && variableDeclaration.children[1]?.kind === 'ArrowFunction') {
                 const arrowFunction = new AstMethod();
                 arrowFunction.name = variableDeclaration.children[0]?.name;
                 arrowFunction.astNode = variableDeclaration;
