@@ -104,7 +104,7 @@ export class InitService {
         for (const astNode of varStatements) {
             const variableDeclarationList = astNode.children?.[0];
             const variableDeclaration = variableDeclarationList?.children?.[0];
-            if (variableDeclaration && variableDeclaration.children[1]?.kind === 'ArrowFunction') {
+            if (variableDeclaration && this.hasArrowFunctionChild(variableDeclaration)) {
                 const arrowFunction = new AstMethod();
                 arrowFunction.name = variableDeclaration.children[0]?.name;
                 arrowFunction.astNode = variableDeclaration;
@@ -115,6 +115,11 @@ export class InitService {
             }
         }
         return arrowFunctions;
+    }
+
+
+    private hasArrowFunctionChild(astNode: AstNode): boolean {
+        return astNode.children.map(c => c.kind).includes(SyntaxKind.ArrowFunction);
     }
 
 
