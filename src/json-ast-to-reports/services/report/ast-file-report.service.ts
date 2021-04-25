@@ -12,6 +12,7 @@ import { MethodReport } from '../../models/report/method-report.model';
 import { AstFile } from '../../models/ast/ast-file.model';
 import { Options } from '../../../core/models/options.model';
 import { mainModule } from "process";
+import * as chalk from 'chalk';
 
 /**
  * Service generating files reports

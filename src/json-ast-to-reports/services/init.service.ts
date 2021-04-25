@@ -7,6 +7,7 @@ import { AstMethod } from '../models/ast/ast-method.model';
 import { CodeService } from './code.service';
 import { AstNodeService } from './ast/ast-node.service';
 import { Ast } from './ast/ast.service';
+import * as chalk from 'chalk';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree of a folder
@@ -91,7 +92,27 @@ export class InitService {
                 return Ast.isFunctionOrMethod(e)
             })
             .map(e => e.astMethod);
+        const arrowFunctions: AstMethod[] = this.addArrowFunctions(newAstFile);
+        newAstFile.astMethods = newAstFile.astMethods.concat(arrowFunctions);
         return newAstFile;
+    }
+
+
+    private addArrowFunctions(astFile: AstFile): AstMethod[] {
+        const varStatements: AstNode[] = astFile.astNode?.children?.filter(n => n.kind === 'VariableStatement');
+        const arrowFunctions: AstMethod[] = [];
+        for (const astNode of varStatements) {
+            const variableDeclarationList = astNode.children?.[0];
+            const variableDeclaration = variableDeclarationList?.children?.[0];
+            const arrowFunction = new AstMethod();
+            arrowFunction.name = variableDeclaration.children[0]?.name;
+            arrowFunction.astNode = variableDeclaration;
+            arrowFunction.astNode.text = this.astNodeService.getCode(variableDeclaration);
+            arrowFunction.isArrowFunction = true;
+            arrowFunction.codeLines = variableDeclaration.astFile?.code?.lines?.slice(variableDeclaration.linePos - 1, variableDeclaration.lineEnd);
+            arrowFunctions.push(arrowFunction);
+        }
+        return arrowFunctions;
     }
 
 

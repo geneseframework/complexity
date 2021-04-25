@@ -10,6 +10,7 @@ import { CodeLine } from '../code/code-line.model';
 import { cpxFactors } from '../../../core/const/cpx-factors';
 import { FactorCategory } from '../../enums/factor-category.enum';
 import { Options } from '../../../core/models/options.model';
+import * as chalk from 'chalk';
 
 /**
  * Element of the AstNode structure corresponding to a given method
@@ -24,6 +25,7 @@ export class AstMethod implements Evaluate {
     private _cpxIndex = undefined;                                              // The complexity index of the method
     private _cyclomaticStatus: MethodStatus = MethodStatus.CORRECT;             // The cyclomatic status of the method
     private _displayedCode?: Code = undefined;                                  // The code to display in the report
+    private _isArrowFunction ?= false;
     private _maxLineLength ?= 0;                                                // The max length of the lines of the code
     private _name: string = undefined;                                          // The name of the method
 
@@ -109,6 +111,16 @@ export class AstMethod implements Evaluate {
     }
 
 
+    get isArrowFunction(): boolean {
+        return this._isArrowFunction;
+    }
+
+
+    set isArrowFunction(isArrowFunction: boolean) {
+        this._isArrowFunction = isArrowFunction;
+    }
+
+
     get maxLineLength(): number {
         if (this._maxLineLength) {
             return this._maxLineLength;
@@ -124,6 +136,11 @@ export class AstMethod implements Evaluate {
         }
         this._name = this._astNode.name;
         return this._name;
+    }
+
+
+    set name(name: string) {
+        this._name = name;
     }
 
 
@@ -153,20 +170,6 @@ export class AstMethod implements Evaluate {
         this.cognitiveStatus = this.getComplexityStatus(ComplexityType.COGNITIVE);
         this.cyclomaticCpx = CS.calculateCyclomaticCpx(this.astNode);
         this.cyclomaticStatus = this.getComplexityStatus(ComplexityType.CYCLOMATIC);
-    }
-
-
-    /**
-     * Calculates the Complexity Factors of the method
-     */
-    private calculateCpxFactors(): void {
-        if (!(this._displayedCode?.lines?.length > 0)) {
-            this.createDisplayedCode();
-        }
-        this.cpxFactors = new CpxFactors();
-        for (const line of this._displayedCode?.lines) {
-            this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
-        }
     }
 
 
@@ -203,6 +206,7 @@ export class AstMethod implements Evaluate {
         this.addCommentsToDisplayedCode();
         this.calculateCpxFactors();
         this._displayedCode.setTextWithLines();
+        // console.log(chalk.cyanBright('THIS  CPX FATTTTTTT'), this.cpxFactors);
     }
 
 
@@ -277,7 +281,6 @@ export class AstMethod implements Evaluate {
         if (!codeLine.isCommented) {
             codeLine.cpxFactors = codeLine.cpxFactors.add(astNode?.cpxFactors);
         }
-
     }
 
 
@@ -298,5 +301,20 @@ export class AstMethod implements Evaluate {
                 comment = `${comment})`;
                 this._displayedCode.getLine(line.issue).addComment(comment, this.maxLineLength);
             });
+    }
+
+
+    /**
+     * Calculates the Complexity Factors of the method
+     */
+    private calculateCpxFactors(): void {
+        const lines: CodeLine[] = this._displayedCode?.lines;
+        if (lines.length === 0) {
+            this.createDisplayedCode();
+        }
+        this.cpxFactors = new CpxFactors();
+        for (const line of this._displayedCode?.lines) {
+            this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
+        }
     }
 }

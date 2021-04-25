@@ -3,7 +3,7 @@ exports.__esModule = true;
 exports.JsonAstToReports = void 0;
 var init_service_1 = require("./services/init.service");
 var reports_service_1 = require("./services/report/reports.service");
-var chalk = require("chalk");
+var terminalLink = require("terminal-link");
 /**
  * Main process jsonAst analysis and reports
  */
@@ -14,23 +14,37 @@ var JsonAstToReports = /** @class */ (function () {
      * Starts the analysis
      * @param pathCommand
      * @param jsonAstPath
+     * @param markdown
+     * @param consoleMode
      */
-    JsonAstToReports.start = function (pathCommand, jsonAstPath, markdown) {
+    JsonAstToReports.start = function (pathCommand, jsonAstPath, markdown, consoleMode) {
         if (jsonAstPath === void 0) { jsonAstPath = '/json-ast.json'; }
-        if (markdown === void 0) { markdown = false; }
-        console.log(chalk.blueBright('STARTS REPORTS GENERATION FROM JSON_AST'));
-        console.log('Please wait...');
+        var result = undefined;
         var jsonAst = new init_service_1.InitService().generateAllFromJsonAst(JsonAstToReports.getJsonAst(pathCommand + jsonAstPath));
         jsonAst.astFolder.evaluate();
         if (markdown) {
             reports_service_1.ReportsService.generateMarkdownReports(jsonAst);
         }
+        else if (consoleMode) {
+            result = reports_service_1.ReportsService.generateConsoleReports(jsonAst);
+        }
         else {
             reports_service_1.ReportsService.generateAllReports(jsonAst);
+            var link = terminalLink('folder-report.html', "file://" + pathCommand + "/genese/complexity/reports/folder-report.html");
+            result = "Please open in your browser the file " + link + " located in your genese reports folder.";
         }
-        console.log(chalk.greenBright('REPORTS GENERATED SUCCESSFULLY'));
-        console.log('Please open in your browser the file "folder-report.html" located in your genese reports folder.');
         this.astFolder = jsonAst.astFolder;
+        return result;
+    };
+    /**
+     * Get the complexity value of the given JsonAst
+     * @param jsonAst
+     * @returns {number}
+     */
+    JsonAstToReports.getTotalCpx = function (jsonAst) {
+        var json = new init_service_1.InitService().generateAllFromJsonAst(jsonAst);
+        json.astFolder.evaluateStandalone();
+        return json.astFolder.stats.totalCognitiveComplexity;
     };
     /**
      * Returns the content of the JsonAst file

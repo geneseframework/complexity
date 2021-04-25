@@ -2,6 +2,7 @@ import { AstNode } from '../../models/ast/ast-node.model';
 import { Ast } from './ast.service';
 import { AstMethod } from '../../models/ast/ast-method.model';
 import { SyntaxKind } from '../../../core/enum/syntax-kind.enum';
+import * as chalk from 'chalk';
 
 /**
  * Service managing AstNodes

@@ -16,7 +16,7 @@ var AstFolderReportService = /** @class */ (function () {
         this.astFolder = undefined; // The AstFolder relative to this service
         this.astFolderService = new ast_folder_service_1.AstFolderService(); // The service relative to AstFolders
         this.filesArray = []; // The array of files reports
-        this.foldersArray = []; // The array of subFolders reports
+        this.foldersArray = []; // The array of subfolders reports
         this.isRootFolder = false; // True if the AstFolder relative to this service is the root folder of the analysis
         this.methodsArray = []; // The array of methods reports
         this.relativeRootReports = ''; // The route between the pos of the current TsFolder and the root of the analysis
@@ -25,101 +25,120 @@ var AstFolderReportService = /** @class */ (function () {
         this.astFolderService.astFolder = this.astFolder;
     }
     /**
-     * Generates the folder's report
-     */
-    AstFolderReportService.prototype.generateReport = function () {
-        var parentFolder = new ast_folder_model_1.AstFolder();
-        parentFolder.children.push(this.astFolder);
-        this.relativeRootReports = file_service_1.getRouteToRoot(this.astFolder.relativePath);
-        this.setFilesArray(this.astFolder);
-        this.setFoldersArray(parentFolder);
-        this.methodsArray = this.astFolderService.getMethodsArraySortedByDecreasingCognitiveCpx(parentFolder);
-        this.setPartials();
-        var reportTemplate = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/handlebars/folder-report.handlebars", 'utf-8'));
-        this.template = Handlebars.compile(reportTemplate);
-        this.writeReport();
-    };
-    /**
-     * Sets the array of subFolders with their analysis
+     * Returns the array of subfolders with their analysis
      * @param astFolder    // The AstFolder to analyse
      */
-    AstFolderReportService.prototype.setFoldersArray = function (astFolder) {
+    AstFolderReportService.prototype.getFoldersArray = function (astFolder) {
+        var report = [];
         if (file_service_1.getPathWithSlash(this.astFolder.path) !== file_service_1.getPathWithSlash(options_model_1.Options.pathFolderToAnalyze)) {
-            this.foldersArray.push(this.getFolderReportRow(astFolder, true));
+            report.push(this.addRowBackToParentFolder());
         }
-        this.setSubFoldersArray(astFolder);
+        return report.concat(this.getSubfoldersArray(astFolder));
     };
     /**
-     * Recursion setting the array of subFolders reports
+     * Recursion returning the array of subfolders reports
      * @param astFolder        // The AstFolder to analyse
-     * @param iSubFolder       // True if astFolder is a subFolder (used for recursivity)
+     * @param isSubfolder       // True if astFolder is a subfolder (used for recursivity)
      */
-    AstFolderReportService.prototype.setSubFoldersArray = function (astFolder, isSubFolder) {
-        if (isSubFolder === void 0) { isSubFolder = false; }
-        for (var _i = 0, _a = astFolder.children; _i < _a.length; _i++) {
-            var subFolder = _a[_i];
-            if (subFolder.relativePath !== '') {
-                this.foldersArray.push(this.getFolderReportRow(subFolder));
+    AstFolderReportService.prototype.getSubfoldersArray = function (astFolder, isSubfolder) {
+        var _a, _b, _c;
+        if (isSubfolder === void 0) { isSubfolder = false; }
+        var report = [];
+        for (var _i = 0, _d = astFolder.children; _i < _d.length; _i++) {
+            var subfolder = _d[_i];
+            if (subfolder.relativePath !== '') {
+                var routeFromCurrentFolderBase = this.astFolderService.getRouteFromFolderToSubFolder(this.astFolder, subfolder);
+                var subfolderReport = {
+                    complexitiesByStatus: (_a = subfolder.stats) === null || _a === void 0 ? void 0 : _a.numberOfMethodsByStatus,
+                    numberOfFiles: (_b = subfolder.stats) === null || _b === void 0 ? void 0 : _b.numberOfFiles,
+                    numberOfMethods: (_c = subfolder.stats) === null || _c === void 0 ? void 0 : _c.numberOfMethods,
+                    path: subfolder.relativePath,
+                    routeFromCurrentFolder: file_service_1.deleteLastSlash(routeFromCurrentFolderBase)
+                };
+                report.push(subfolderReport);
             }
-            if (!isSubFolder) {
-                this.setSubFoldersArray(subFolder, true);
+            if (!isSubfolder) {
+                report = report.concat(this.getSubfoldersArray(subfolder, true));
             }
         }
+        return report;
     };
     /**
-     * Gets the folder report row
-     * @param subFolder         // The subFolder to parse
-     * @param parentFolder      // Is the folder the root
+     * Adds a backLink to the parent folder
      */
-    AstFolderReportService.prototype.getFolderReportRow = function (subFolder, parentFolder) {
-        var _a, _b, _c;
-        if (parentFolder === void 0) { parentFolder = false; }
-        if (parentFolder) {
-            return {
-                complexitiesByStatus: undefined,
-                numberOfFiles: undefined,
-                numberOfMethods: undefined,
-                path: '../',
-                routeFromCurrentFolder: '..'
-            };
-        }
-        var routeFromCurrentFolderBase = this.astFolderService.getRouteFromFolderToSubFolder(this.astFolder, subFolder);
+    AstFolderReportService.prototype.addRowBackToParentFolder = function () {
         return {
-            complexitiesByStatus: (_a = subFolder.stats) === null || _a === void 0 ? void 0 : _a.numberOfMethodsByStatus,
-            numberOfFiles: (_b = subFolder.stats) === null || _b === void 0 ? void 0 : _b.numberOfFiles,
-            numberOfMethods: (_c = subFolder.stats) === null || _c === void 0 ? void 0 : _c.numberOfMethods,
-            path: subFolder.relativePath,
-            routeFromCurrentFolder: file_service_1.deleteLastSlash(routeFromCurrentFolderBase)
+            complexitiesByStatus: undefined,
+            numberOfFiles: undefined,
+            numberOfMethods: undefined,
+            path: '../',
+            routeFromCurrentFolder: '..'
         };
     };
     /**
-     * Sets the array of files with their analysis
+     * Returns the array of files with their analysis
      * @param astFolder    // The AstFolder to analyse
      */
-    AstFolderReportService.prototype.setFilesArray = function (astFolder) {
+    AstFolderReportService.prototype.getFilesArray = function (astFolder) {
+        var report = [];
         for (var _i = 0, _a = astFolder.astFiles; _i < _a.length; _i++) {
             var tsFile = _a[_i];
-            this.setAstMethodReport(tsFile);
+            for (var _b = 0, _c = tsFile.astMethods; _b < _c.length; _b++) {
+                var astMethod = _c[_b];
+                report.push({
+                    cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
+                    cpxIndex: astMethod.cpxIndex,
+                    cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
+                    cyclomaticValue: astMethod.cyclomaticCpx,
+                    filename: tsFile.name,
+                    linkFile: this.getFileLink(tsFile),
+                    methodName: astMethod.name
+                });
+            }
         }
-        this.filesArray.sort(function (a, b) { return b.cpxIndex - a.cpxIndex; });
+        return report.sort(function (a, b) { return b.cpxIndex - a.cpxIndex; });
     };
     /**
-     * Sets the astMethodReport
-     * @param astFile       // The file to analyse
+     * Returns the array of methods sorted by decreasing cognitive complexity
+     * @param astFolder    // The AstFolder to analyse
      */
-    AstFolderReportService.prototype.setAstMethodReport = function (astFile) {
-        for (var _i = 0, _a = astFile.astMethods; _i < _a.length; _i++) {
-            var astMethod = _a[_i];
-            this.filesArray.push({
-                cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
-                cpxIndex: astMethod.cpxIndex,
-                cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
-                cyclomaticValue: astMethod.cyclomaticCpx,
-                filename: astFile.name,
-                linkFile: this.getFileLink(astFile),
-                methodName: astMethod.name
-            });
+    AstFolderReportService.prototype.getMethodsArraySortedByDecreasingCognitiveCpx = function (astFolder) {
+        var report = this.getMethodsArray(astFolder);
+        return this.sortByDecreasingCognitiveCpx(report);
+    };
+    /**
+     * Recursion returning the array of methods reports of each subfolder
+     * @param astFolder    // The AstFolder to analyse
+     */
+    AstFolderReportService.prototype.getMethodsArray = function (astFolder) {
+        var report = [];
+        for (var _i = 0, _a = astFolder.children; _i < _a.length; _i++) {
+            var subfolder = _a[_i];
+            for (var _b = 0, _c = subfolder.astFiles; _b < _c.length; _b++) {
+                var tsFile = _c[_b];
+                for (var _d = 0, _e = tsFile.astMethods; _d < _e.length; _d++) {
+                    var astMethod = _e[_d];
+                    report.push({
+                        cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
+                        cpxIndex: astMethod.cpxIndex,
+                        cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
+                        cyclomaticValue: astMethod.cyclomaticCpx,
+                        filename: tsFile.name,
+                        linkFile: this.getFileLink(tsFile),
+                        methodName: astMethod.name
+                    });
+                }
+            }
+            report = report.concat(this.getMethodsArray(subfolder));
         }
+        return report;
+    };
+    /**
+     * The method sorting the rows of the methods report by decreasing cognitive complexity
+     * @param methodsReport     // The array to sort
+     */
+    AstFolderReportService.prototype.sortByDecreasingCognitiveCpx = function (methodsReport) {
+        return methodsReport.sort(function (a, b) { return b.cpxIndex - a.cpxIndex; });
     };
     /**
      * Returns the path to the report's page of a given AstFile
@@ -132,6 +151,26 @@ var AstFolderReportService = /** @class */ (function () {
         }
         var route = this.astFolderService.getRouteFromFolderToFile(this.astFolder, astFile);
         return file_service_1.deleteLastSlash(route) + "/" + file_service_1.getFilenameWithoutExtension(astFile.name) + ".html";
+    };
+    /**
+     * Generates the folder's report
+     */
+    AstFolderReportService.prototype.generateReport = function () {
+        var parentFolder = new ast_folder_model_1.AstFolder();
+        parentFolder.children.push(this.astFolder);
+        this.relativeRootReports = file_service_1.getRouteToRoot(this.astFolder.relativePath);
+        this.filesArray = this.getFilesArray(this.astFolder);
+        this.foldersArray = this.getFoldersArray(parentFolder);
+        this.methodsArray = this.getMethodsArraySortedByDecreasingCognitiveCpx(parentFolder);
+        this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
+        this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');
+        this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');
+        this.registerPartial("cyclomaticDoughnutScript", 'cyclomatic-doughnut');
+        this.registerPartial("rowFolder", 'row-folders');
+        this.registerPartial("rowFile", 'row-files');
+        var reportTemplate = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/handlebars/folder-report.handlebars", 'utf-8'));
+        this.template = Handlebars.compile(reportTemplate);
+        this.writeReport();
     };
     /**
      * Fills the HandleBar's template
@@ -161,23 +200,12 @@ var AstFolderReportService = /** @class */ (function () {
         }
     };
     /**
-     * Sets the HandleBar's partials
-     */
-    AstFolderReportService.prototype.setPartials = function () {
-        this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
-        this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');
-        this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');
-        this.registerPartial("cyclomaticDoughnutScript", 'cyclomatic-doughnut');
-        this.registerPartial("rowFolder", 'row-folders');
-        this.registerPartial("rowFile", 'row-files');
-    };
-    /**
      * Registers a HandleBar's partial
      * @param partialName
      * @param filename
      */
     AstFolderReportService.prototype.registerPartial = function (partialName, filename) {
-        var partial = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/handlebars/" + filename + ".handlebars", 'utf-8'));
+        var partial = eol.auto(fs.readFileSync(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/handlebars/" + filename + ".handlebars", 'utf-8'));
         Handlebars.registerPartial(partialName, partial);
     };
     return AstFolderReportService;

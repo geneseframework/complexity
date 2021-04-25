@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
@@ -20,7 +20,6 @@ var complexity_type_enum_1 = require("../../enums/complexity-type.enum");
 var barchart_service_1 = require("../report/barchart.service");
 var file_service_1 = require("../../../core/services/file.service");
 var os_enum_1 = require("../../enums/os.enum");
-var ast_method_service_1 = require("./ast-method.service");
 /**
  * - AstFolders generation from Abstract Syntax AstNode of a folder
  * - Other services for AstFolders
@@ -31,17 +30,8 @@ var AstFolderService = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this._stats = undefined; // The statistics of the AstFolder
         _this.astFolder = undefined; // The AstFolder corresponding to this service
-        _this.methodsArrayReport = [];
         return _this;
     }
-    /**
-     * Get the array of methods sorted by decreasing cognitive complexity
-     * @param astFolder    // The AstFolder to analyse
-     */
-    AstFolderService.prototype.getMethodsArraySortedByDecreasingCognitiveCpx = function (astFolder) {
-        this.setMethodsArrayReport(astFolder);
-        return ast_method_service_1.AstMethodService.sortByDecreasingCognitiveCpx(this.methodsArrayReport);
-    };
     /**
      * Calculates the statistics of the AstFolder
      * @param astFolder        // The AstFolder to analyse
@@ -56,45 +46,6 @@ var AstFolderService = /** @class */ (function (_super) {
         this.calculateAstFolderCpxByStatus(astFolder);
         this._stats.setPercentages();
         return this._stats;
-    };
-    /**
-     * Recursion setting the array of methods reports of each subFolder
-     * @param astFolder    // The AstFolder to analyse
-     */
-    AstFolderService.prototype.setMethodsArrayReport = function (astFolder) {
-        for (var _i = 0, _a = astFolder.children; _i < _a.length; _i++) {
-            var subFolder = _a[_i];
-            this.setTsFileReport(subFolder);
-            this.setMethodsArrayReport(subFolder);
-        }
-    };
-    /**
-     * Recursion setting the array of methods reports of each subFolder's files
-     * @param astFolder    // The AstFolder to analyse
-     */
-    AstFolderService.prototype.setTsFileReport = function (astFolder) {
-        for (var _i = 0, _a = astFolder.astFiles; _i < _a.length; _i++) {
-            var tsFile = _a[_i];
-            this.setAstMethodReport(tsFile);
-        }
-    };
-    /**
-     * Recursion setting the array of methods reports of each file's methods
-     * @param astFile    // The AstFile to analyse
-     */
-    AstFolderService.prototype.setAstMethodReport = function (astFile) {
-        for (var _i = 0, _a = astFile.astMethods; _i < _a.length; _i++) {
-            var astMethod = _a[_i];
-            this.methodsArrayReport.push({
-                cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
-                cpxIndex: astMethod.cpxIndex,
-                cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
-                cyclomaticValue: astMethod.cyclomaticCpx,
-                filename: astFile.name,
-                linkFile: undefined,
-                methodName: astMethod.name
-            });
-        }
     };
     /**
      * Calculates and sets to _stats the Complexities by Status of a given AstFolder
@@ -131,9 +82,9 @@ var AstFolderService = /** @class */ (function (_super) {
         this._stats.numberOfMethodsByStatus[type].warning += tsFileStats.numberOfMethodsByStatus[type].warning;
     };
     /**
-     * Sets the relative path of an AstFolder
+     * Returns the relative path of an AstFolder
      */
-    AstFolderService.prototype.setNameOrPath = function (astFolder) {
+    AstFolderService.prototype.getNameOrPath = function (astFolder) {
         this._stats.subject = astFolder.relativePath;
     };
     /**
@@ -232,21 +183,20 @@ var AstFolderService = /** @class */ (function (_super) {
      * @param astFile        // The path of the AstFile
      */
     AstFolderService.prototype.getRouteFromFolderToFile = function (astFolder, astFile) {
-        if ((astFile === null || astFile === void 0 ? void 0 : astFile.astFolder.path.slice(0, astFolder === null || astFolder === void 0 ? void 0 : astFolder.path.length)) === (astFolder === null || astFolder === void 0 ? void 0 : astFolder.path)) {
-            var linkStarter = this.getLinkStarter(astFolder);
-            return "" + linkStarter + astFile.astFolder.path.slice(astFolder.path.length);
+        if (!astFile || !astFolder) {
+            return undefined;
         }
-        else {
+        if (astFile.astFolder.path.slice(0, astFolder.path.length) !== astFolder.path) {
             console.log("The file " + astFile.name + " is not inside the folder " + astFolder.path);
             return undefined;
         }
+        else {
+            var linkStarter = this.getLinkStarter(astFolder);
+            return "" + linkStarter + astFile.astFolder.path.slice(astFolder.path.length + 1);
+        }
     };
-    /**
-     * Get the starter link
-     * @param astFolder         // The concerned astFolder
-     */
     AstFolderService.prototype.getLinkStarter = function (astFolder) {
-        return file_service_1.getOS() !== os_enum_1.OS.WINDOWS ? (astFolder === null || astFolder === void 0 ? void 0 : astFolder.relativePath) === "" ? "./" : "." : (astFolder === null || astFolder === void 0 ? void 0 : astFolder.relativePath) === "" ? "./" : "";
+        return file_service_1.getOS() !== os_enum_1.OS.WINDOWS ? "./" : (astFolder === null || astFolder === void 0 ? void 0 : astFolder.relativePath) === "" ? "./" : "";
     };
     /**
      * Returns the route from the folder of a AstFolder to one of its subfolders
@@ -267,23 +217,13 @@ var AstFolderService = /** @class */ (function (_super) {
             return finalLink;
         }
     };
-    /**
-     * Return if slash exists on string
-     * @param text          // Text to analyse
-     * @param parentText    // Parent text to analyse
-     */
     AstFolderService.prototype.isSlashExist = function (text, parentText) {
         return file_service_1.constructLink(text[parentText.length + 1]) === file_service_1.constructLink("/");
     };
-    /**
-     * Return string section separate by a slash from a string
-     * @param text          // Text to analyse
-     * @param parentText    // Parent text to analyse
-     */
     AstFolderService.prototype.linkSlicer = function (text, parentText) {
         return this.isSlashExist(text, parentText)
-            ? text.slice(parentText.length + 1)
-            : text.slice(parentText.length);
+            ? text.slice(parentText.length + 2)
+            : text.slice(parentText.length + 1);
     };
     return AstFolderService;
 }(stats_service_1.StatsService));

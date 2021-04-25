@@ -7,7 +7,7 @@ var file_service_1 = require("../core/services/file.service");
 var options_model_1 = require("../core/models/options.model");
 var globals_const_1 = require("./globals.const");
 var language_enum_1 = require("../core/enum/language.enum");
-var ast_file_generation_service_1 = require("./java/services/ast-file-generation.service");
+var ast_file_generation_service_1 = require("./ts/services/ast-file-generation.service");
 /**
  * - AstFolders generation from Abstract Syntax Tree (AST) of its files (including files in subfolders)
  * - Conversion in JsonAst format
@@ -32,6 +32,23 @@ var InitGenerationService = /** @class */ (function () {
         };
     };
     /**
+     * Generates the AstFolder for the given source code
+     * @param sourceCode
+     * @returns {{astFolder: {path: string, astFiles: AstFileInterface[]}}}
+     */
+    InitGenerationService.prototype.generateAstFolderFromString = function (sourceCode) {
+        sourceCode = sourceCode + "\n";
+        var astFileGenerationService = new ast_file_generation_service_1.AstFileGenerationService();
+        return {
+            astFolder: {
+                path: '',
+                astFiles: [
+                    astFileGenerationService.generateFromString(sourceCode)
+                ]
+            }
+        };
+    };
+    /**
      * Generates the AstFolder corresponding to a given path and to its potential AstFolder parent
      * @param  {string} path              // The path of the AstFolder
      * @param  {Language} language
@@ -43,7 +60,20 @@ var InitGenerationService = /** @class */ (function () {
             path: file_service_1.platformPath(path),
             astFiles: []
         };
-        var initService = language === language_enum_1.Language.TS ? new ast_file_generation_service_1.AstFileGenerationService() : new ast_file_generation_java_service_1.AstFileGenerationJavaService();
+        var initService;
+        switch (language) {
+            case language_enum_1.Language.JS:
+            case language_enum_1.Language.TS:
+            case language_enum_1.Language.JSX:
+            case language_enum_1.Language.TSX:
+                initService = new ast_file_generation_service_1.AstFileGenerationService();
+                break;
+            case language_enum_1.Language.JAVA:
+                initService = new ast_file_generation_java_service_1.AstFileGenerationJavaService();
+                break;
+            default:
+                initService = new ast_file_generation_service_1.AstFileGenerationService();
+        }
         var filesOrDirs = fs.readdirSync(path);
         var currentFile = undefined;
         try {

@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.isLastIndex = exports.isLastKey = exports.addObjects = exports.percent = exports.incrementIdentifierDuration = exports.duration = exports.capitalize = void 0;
+exports.randomString = exports.isLastIndex = exports.isLastKey = exports.addObjects = exports.percent = exports.incrementIdentifierDuration = exports.duration = exports.capitalize = void 0;
 /**
  * Sets in capitals the first letter of a text
  * @param text
@@ -75,3 +75,13 @@ function isLastIndex(i, arr) {
     return (i === arr.length - 1);
 }
 exports.isLastIndex = isLastIndex;
+function randomString(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+exports.randomString = randomString;

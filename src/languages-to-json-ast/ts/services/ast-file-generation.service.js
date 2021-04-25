@@ -5,12 +5,27 @@ var file_service_1 = require("../../../core/services/file.service");
 var syntax_kind_enum_1 = require("../../../core/enum/syntax-kind.enum");
 var globals_const_1 = require("../../globals.const");
 var ts_service_1 = require("./ts.service");
+var tools_service_1 = require("../../../core/services/tools.service");
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)
  */
 var AstFileGenerationService = /** @class */ (function () {
     function AstFileGenerationService() {
     }
+    /**
+     * Generate the AstFile corresponding to a given source code
+     * @param sourceCode
+     * @returns {{astNode: AstNodeInterface, name: string, text: string}}
+     */
+    AstFileGenerationService.prototype.generateFromString = function (sourceCode) {
+        var randomName = tools_service_1.randomString(10);
+        var sourceFile = globals_const_1.project.createSourceFile("./" + randomName + ".ts", sourceCode);
+        return {
+            name: randomName + ".ts",
+            text: sourceFile.getFullText(),
+            astNode: this.createAstNodeChildren(sourceFile)
+        };
+    };
     /**
      * Generates the AstFile corresponding to a given path and a given AstFolder
      * @param path          // The path of the file
@@ -30,7 +45,7 @@ var AstFileGenerationService = /** @class */ (function () {
     };
     /**
      * Returns the Node children of a given Node
-     * @param node      // The Node to analyse
+     * @param node      // The Node to analyze
      */
     AstFileGenerationService.prototype.createAstNodeChildren = function (node) {
         var _this = this;
@@ -42,17 +57,19 @@ var AstFileGenerationService = /** @class */ (function () {
             start: node.getStart()
         };
         astNode = this.addTypeAndCpxFactors(node, astNode);
-        node.forEachChild(function (childNode) {
-            if (!astNode.children) {
-                astNode.children = [];
-            }
-            astNode.children.push(_this.createAstNodeChildren(childNode));
-        });
+        if (node.getKindName() !== syntax_kind_enum_1.SyntaxKind.JsxElement) {
+            node.forEachChild(function (childNode) {
+                if (!astNode.children) {
+                    astNode.children = [];
+                }
+                astNode.children.push(_this.createAstNodeChildren(childNode));
+            });
+        }
         return astNode;
     };
     /**
      * Adds the type to identifiers or parameters and calculates the CpxFactors of identifiers
-     * @param node          // The Node to analyse
+     * @param node          // The Node to analyze
      * @param astNode       // The AstNode which will be updated with its type and CpxFactors
      */
     AstFileGenerationService.prototype.addTypeAndCpxFactors = function (node, astNode) {
@@ -69,7 +86,7 @@ var AstFileGenerationService = /** @class */ (function () {
     };
     /**
      * Returns the CpxFactors of a given Node (Identifier)
-     * @param node      // The Node to analyse
+     * @param node      // The Node to analyze
      */
     AstFileGenerationService.prototype.getCpxFactors = function (node) {
         var _a;

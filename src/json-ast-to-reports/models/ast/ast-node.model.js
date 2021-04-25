@@ -1,18 +1,4 @@
 "use strict";
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-};
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-};
-var _astFile, _astMethod, _astNodeService, _children, _context, _cpxFactors, _cpxFactorsFromJsonAST, _cyclomaticCpx, _end, _factorCategory, _intrinsicDepthCpx, _intrinsicNestingCpx, _isCallback, _isRecursiveMethod, _kind, _lineEnd, _linePos, _lineStart, _name, _parent, _pos, _start, _text, _type;
 exports.__esModule = true;
 exports.AstNode = void 0;
 var syntax_kind_enum_1 = require("../../../core/enum/syntax-kind.enum");
@@ -27,30 +13,29 @@ var chalk = require("chalk");
 var code_service_1 = require("../../services/code.service");
 var AstNode = /** @class */ (function () {
     function AstNode() {
-        _astFile.set(this, undefined); // The AstFile containing the AST node of the AstNode
-        _astMethod.set(this, undefined); // The method at the root of the current ast (if this ast is inside a method)
-        _astNodeService.set(this, new ast_node_service_1.AstNodeService()); // The service managing AstNodes
-        _children.set(this, []); // The children AstNodes of the AstNode
-        _context.set(this, undefined); // The context of the AstNode
-        _cpxFactors.set(this, undefined); // The complexity factors of the AstNode
-        _cpxFactorsFromJsonAST.set(this, undefined); // The complexity factors added manually in JsonAST (have priority on calculated cpxFactors)
-        _cyclomaticCpx.set(this, 0); // The cyclomatic complexity of the AstNode
-        _end.set(this, 0); // The pos of the end of the source code of the AstNode in the source code of the AstFile
-        _factorCategory.set(this, undefined); // The NodeFeature of the node of the AstNode
-        _intrinsicDepthCpx.set(this, undefined); // The depth of the AstNode inside its method (not including its parent's depth)
-        _intrinsicNestingCpx.set(this, undefined); // The nesting of the AstNode inside its method (not including its parent's nesting)
-        _isCallback.set(this, undefined); // True if the astNode is a method with a Callback, false if not
-        _isRecursiveMethod.set(this, undefined); // True if the astNode is a recursive method, false if not
-        _kind.set(this, undefined); // The kind of the node ('MethodDeclaration, IfStatement, ...)
-        _lineEnd.set(this, undefined); // The issue of the line containing the character at the AstNode.end
-        _linePos.set(this, undefined); // The issue of the line containing the character at the AstNode.pos
-        _lineStart.set(this, undefined); // The issue of the line containing the character at the AstNode.start
-        _name.set(this, undefined); // The name of the AstNode
-        _parent.set(this, void 0); // The ast of the parent of the current node
-        _pos.set(this, 0); // The pos of the beginning of the AST node, including spaces and comments before it. (start <= start)
-        _start.set(this, 0); // The pos of the beginning of the AST node, without spaces and comments before it. (start >= start)
-        _text.set(this, undefined); // The code of the AstNode
-        _type.set(this, undefined); // The type of the AstNode (if given)
+        this._astFile = undefined; // The AstFile containing the AST node of the AstNode
+        this._astMethod = undefined; // The method at the root of the current ast (if this ast is inside a method)
+        this._astNodeService = new ast_node_service_1.AstNodeService(); // The service managing AstNodes
+        this._children = []; // The children AstNodes of the AstNode
+        this._context = undefined; // The context of the AstNode
+        this._cpxFactors = undefined; // The complexity factors of the AstNode
+        this._cpxFactorsFromJsonAST = undefined; // The complexity factors added manually in JsonAST (have priority on calculated cpxFactors)
+        this._cyclomaticCpx = 0; // The cyclomatic complexity of the AstNode
+        this._end = 0; // The pos of the end of the source code of the AstNode in the source code of the AstFile
+        this._factorCategory = undefined; // The NodeFeature of the node of the AstNode
+        this._intrinsicDepthCpx = undefined; // The depth of the AstNode inside its method (not including its parent's depth)
+        this._intrinsicNestingCpx = undefined; // The nesting of the AstNode inside its method (not including its parent's nesting)
+        this._isCallback = undefined; // True if the astNode is a method with a Callback, false if not
+        this._isRecursiveMethod = undefined; // True if the astNode is a recursive method, false if not
+        this._kind = undefined; // The kind of the node ('MethodDeclaration, IfStatement, ...)
+        this._lineEnd = undefined; // The issue of the line containing the character at the AstNode.end
+        this._linePos = undefined; // The issue of the line containing the character at the AstNode.pos
+        this._lineStart = undefined; // The issue of the line containing the character at the AstNode.start
+        this._name = undefined; // The name of the AstNode
+        this._pos = 0; // The pos of the beginning of the AST node, including spaces and comments before it. (start <= start)
+        this._start = 0; // The pos of the beginning of the AST node, without spaces and comments before it. (start >= start)
+        this._text = undefined; // The code of the AstNode
+        this._type = undefined; // The type of the AstNode (if given)
     }
     Object.defineProperty(AstNode.prototype, "aggregationCpx", {
         // ---------------------------------------------------------------------------------
@@ -65,20 +50,20 @@ var AstNode = /** @class */ (function () {
     });
     Object.defineProperty(AstNode.prototype, "astFile", {
         get: function () {
-            return __classPrivateFieldGet(this, _astFile);
+            return this._astFile;
         },
         set: function (astFile) {
-            __classPrivateFieldSet(this, _astFile, astFile);
+            this._astFile = astFile;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "astMethod", {
         get: function () {
-            return __classPrivateFieldGet(this, _astMethod);
+            return this._astMethod;
         },
         set: function (astMethod) {
-            __classPrivateFieldSet(this, _astMethod, astMethod);
+            this._astMethod = astMethod;
         },
         enumerable: false,
         configurable: true
@@ -93,10 +78,10 @@ var AstNode = /** @class */ (function () {
     });
     Object.defineProperty(AstNode.prototype, "children", {
         get: function () {
-            return __classPrivateFieldGet(this, _children);
+            return this._children;
         },
         set: function (children) {
-            __classPrivateFieldSet(this, _children, children);
+            this._children = children;
         },
         enumerable: false,
         configurable: true
@@ -104,40 +89,40 @@ var AstNode = /** @class */ (function () {
     Object.defineProperty(AstNode.prototype, "context", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _context)) !== null && _a !== void 0 ? _a : __classPrivateFieldGet(this, _astNodeService).getContext(this);
+            return (_a = this._context) !== null && _a !== void 0 ? _a : this._astNodeService.getContext(this);
         },
         set: function (treeNode) {
-            __classPrivateFieldSet(this, _context, treeNode);
+            this._context = treeNode;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "cpxFactors", {
         get: function () {
-            return __classPrivateFieldGet(this, _cpxFactors);
+            return this._cpxFactors;
         },
         set: function (cpxFactors) {
-            __classPrivateFieldSet(this, _cpxFactors, cpxFactors);
+            this._cpxFactors = cpxFactors;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "cpxFactorsFromJsonAST", {
         get: function () {
-            return __classPrivateFieldGet(this, _cpxFactorsFromJsonAST);
+            return this._cpxFactorsFromJsonAST;
         },
         set: function (cpxFactorsFromJsonAST) {
-            __classPrivateFieldSet(this, _cpxFactorsFromJsonAST, cpxFactorsFromJsonAST);
+            this._cpxFactorsFromJsonAST = cpxFactorsFromJsonAST;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "cyclomaticCpx", {
         get: function () {
-            return __classPrivateFieldGet(this, _cyclomaticCpx);
+            return this._cyclomaticCpx;
         },
         set: function (cyclomaticCpx) {
-            __classPrivateFieldSet(this, _cyclomaticCpx, cyclomaticCpx);
+            this._cyclomaticCpx = cyclomaticCpx;
         },
         enumerable: false,
         configurable: true
@@ -152,10 +137,10 @@ var AstNode = /** @class */ (function () {
     });
     Object.defineProperty(AstNode.prototype, "end", {
         get: function () {
-            return __classPrivateFieldGet(this, _end);
+            return this._end;
         },
         set: function (end) {
-            __classPrivateFieldSet(this, _end, end);
+            this._end = end;
         },
         enumerable: false,
         configurable: true
@@ -163,7 +148,7 @@ var AstNode = /** @class */ (function () {
     Object.defineProperty(AstNode.prototype, "factorCategory", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _factorCategory)) !== null && _a !== void 0 ? _a : new factor_category_service_1.FactorCategoryService().getNodeFeature(this.kind);
+            return (_a = this._factorCategory) !== null && _a !== void 0 ? _a : new factor_category_service_1.FactorCategoryService().getNodeFeature(this.kind);
         },
         enumerable: false,
         configurable: true
@@ -177,31 +162,31 @@ var AstNode = /** @class */ (function () {
     });
     Object.defineProperty(AstNode.prototype, "intrinsicDepthCpx", {
         get: function () {
-            return __classPrivateFieldGet(this, _intrinsicDepthCpx);
+            return this._intrinsicDepthCpx;
         },
         set: function (cpx) {
-            __classPrivateFieldSet(this, _intrinsicDepthCpx, cpx);
+            this._intrinsicDepthCpx = cpx;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "intrinsicNestingCpx", {
         get: function () {
-            return __classPrivateFieldGet(this, _intrinsicNestingCpx);
+            return this._intrinsicNestingCpx;
         },
         set: function (cpx) {
-            __classPrivateFieldSet(this, _intrinsicNestingCpx, cpx);
+            this._intrinsicNestingCpx = cpx;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "isCallback", {
         get: function () {
-            if (__classPrivateFieldGet(this, _isCallback)) {
-                return __classPrivateFieldGet(this, _isCallback);
+            if (this._isCallback) {
+                return this._isCallback;
             }
-            __classPrivateFieldSet(this, _isCallback, __classPrivateFieldGet(this, _astNodeService).isCallback(this));
-            return __classPrivateFieldGet(this, _isCallback);
+            this._isCallback = this._astNodeService.isCallback(this);
+            return this._isCallback;
         },
         enumerable: false,
         configurable: true
@@ -229,21 +214,21 @@ var AstNode = /** @class */ (function () {
     });
     Object.defineProperty(AstNode.prototype, "isRecursiveMethod", {
         get: function () {
-            if (__classPrivateFieldGet(this, _isRecursiveMethod)) {
-                return __classPrivateFieldGet(this, _isRecursiveMethod);
+            if (this._isRecursiveMethod) {
+                return this._isRecursiveMethod;
             }
-            __classPrivateFieldSet(this, _isRecursiveMethod, __classPrivateFieldGet(this, _astNodeService).isRecursiveMethod(this));
-            return __classPrivateFieldGet(this, _isRecursiveMethod);
+            this._isRecursiveMethod = this._astNodeService.isRecursiveMethod(this);
+            return this._isRecursiveMethod;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "kind", {
         get: function () {
-            return __classPrivateFieldGet(this, _kind);
+            return this._kind;
         },
         set: function (kind) {
-            __classPrivateFieldSet(this, _kind, kind);
+            this._kind = kind;
         },
         enumerable: false,
         configurable: true
@@ -251,11 +236,11 @@ var AstNode = /** @class */ (function () {
     Object.defineProperty(AstNode.prototype, "lineEnd", {
         get: function () {
             var _a;
-            if (__classPrivateFieldGet(this, _lineEnd)) {
-                return __classPrivateFieldGet(this, _lineEnd);
+            if (this._lineEnd) {
+                return this._lineEnd;
             }
-            __classPrivateFieldSet(this, _lineEnd, code_service_1.CodeService.getLineIssue((_a = this.astFile) === null || _a === void 0 ? void 0 : _a.code, this.end));
-            return __classPrivateFieldGet(this, _lineEnd);
+            this._lineEnd = code_service_1.CodeService.getLineIssue((_a = this.astFile) === null || _a === void 0 ? void 0 : _a.code, this.end);
+            return this._lineEnd;
         },
         enumerable: false,
         configurable: true
@@ -263,11 +248,11 @@ var AstNode = /** @class */ (function () {
     Object.defineProperty(AstNode.prototype, "linePos", {
         get: function () {
             var _a;
-            if (__classPrivateFieldGet(this, _linePos)) {
-                return __classPrivateFieldGet(this, _linePos);
+            if (this._linePos) {
+                return this._linePos;
             }
-            __classPrivateFieldSet(this, _linePos, code_service_1.CodeService.getLineIssue((_a = this.astFile) === null || _a === void 0 ? void 0 : _a.code, this.pos));
-            return __classPrivateFieldGet(this, _linePos);
+            this._linePos = code_service_1.CodeService.getLineIssue((_a = this.astFile) === null || _a === void 0 ? void 0 : _a.code, this.pos);
+            return this._linePos;
         },
         enumerable: false,
         configurable: true
@@ -275,11 +260,11 @@ var AstNode = /** @class */ (function () {
     Object.defineProperty(AstNode.prototype, "lineStart", {
         get: function () {
             var _a;
-            if (__classPrivateFieldGet(this, _lineStart)) {
-                return __classPrivateFieldGet(this, _lineStart);
+            if (this._lineStart) {
+                return this._lineStart;
             }
-            __classPrivateFieldSet(this, _lineStart, code_service_1.CodeService.getLineIssue((_a = this.astFile) === null || _a === void 0 ? void 0 : _a.code, this.start));
-            return __classPrivateFieldGet(this, _lineStart);
+            this._lineStart = code_service_1.CodeService.getLineIssue((_a = this.astFile) === null || _a === void 0 ? void 0 : _a.code, this.start);
+            return this._lineStart;
         },
         enumerable: false,
         configurable: true
@@ -294,10 +279,10 @@ var AstNode = /** @class */ (function () {
     Object.defineProperty(AstNode.prototype, "name", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _name)) !== null && _a !== void 0 ? _a : '';
+            return (_a = this._name) !== null && _a !== void 0 ? _a : '';
         },
         set: function (name) {
-            __classPrivateFieldSet(this, _name, name);
+            this._name = name;
         },
         enumerable: false,
         configurable: true
@@ -312,30 +297,30 @@ var AstNode = /** @class */ (function () {
     });
     Object.defineProperty(AstNode.prototype, "parent", {
         get: function () {
-            return __classPrivateFieldGet(this, _parent);
+            return this._parent;
         },
         set: function (treeNode) {
-            __classPrivateFieldSet(this, _parent, treeNode);
+            this._parent = treeNode;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "pos", {
         get: function () {
-            return __classPrivateFieldGet(this, _pos);
+            return this._pos;
         },
         set: function (pos) {
-            __classPrivateFieldSet(this, _pos, pos);
+            this._pos = pos;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "start", {
         get: function () {
-            return __classPrivateFieldGet(this, _start);
+            return this._start;
         },
         set: function (start) {
-            __classPrivateFieldSet(this, _start, start);
+            this._start = start;
         },
         enumerable: false,
         configurable: true
@@ -366,20 +351,20 @@ var AstNode = /** @class */ (function () {
     Object.defineProperty(AstNode.prototype, "text", {
         get: function () {
             var _a;
-            return (_a = __classPrivateFieldGet(this, _text)) !== null && _a !== void 0 ? _a : __classPrivateFieldGet(this, _astNodeService).getCode(this);
+            return (_a = this._text) !== null && _a !== void 0 ? _a : this._astNodeService.getCode(this);
         },
         set: function (text) {
-            __classPrivateFieldSet(this, _text, text);
+            this._text = text;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstNode.prototype, "type", {
         get: function () {
-            return __classPrivateFieldGet(this, _type);
+            return this._type;
         },
         set: function (type) {
-            __classPrivateFieldSet(this, _type, type);
+            this._type = type;
         },
         enumerable: false,
         configurable: true
@@ -393,7 +378,7 @@ var AstNode = /** @class */ (function () {
     AstNode.prototype.evaluate = function () {
         this.calculateAndSetCpxFactors();
         this.addParentCpx();
-        for (var _i = 0, _a = __classPrivateFieldGet(this, _children); _i < _a.length; _i++) {
+        for (var _i = 0, _a = this._children; _i < _a.length; _i++) {
             var child = _a[_i];
             child.evaluate();
         }
@@ -420,7 +405,7 @@ var AstNode = /** @class */ (function () {
         this.intrinsicNestingCpx = this.cpxFactors.totalNesting;
         this.intrinsicDepthCpx = this.cpxFactors.totalDepth;
         this.forceCpxFactors();
-        return __classPrivateFieldGet(this, _cpxFactors);
+        return this._cpxFactors;
     };
     /**
      * Sets the nesting and structural complexities for "usual" cases
@@ -521,4 +506,3 @@ var AstNode = /** @class */ (function () {
     return AstNode;
 }());
 exports.AstNode = AstNode;
-_astFile = new WeakMap(), _astMethod = new WeakMap(), _astNodeService = new WeakMap(), _children = new WeakMap(), _context = new WeakMap(), _cpxFactors = new WeakMap(), _cpxFactorsFromJsonAST = new WeakMap(), _cyclomaticCpx = new WeakMap(), _end = new WeakMap(), _factorCategory = new WeakMap(), _intrinsicDepthCpx = new WeakMap(), _intrinsicNestingCpx = new WeakMap(), _isCallback = new WeakMap(), _isRecursiveMethod = new WeakMap(), _kind = new WeakMap(), _lineEnd = new WeakMap(), _linePos = new WeakMap(), _lineStart = new WeakMap(), _name = new WeakMap(), _parent = new WeakMap(), _pos = new WeakMap(), _start = new WeakMap(), _text = new WeakMap(), _type = new WeakMap();

@@ -195,6 +195,12 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get isVarArrowFunction(): boolean {
+        const ancestor: AstNode = this.parent?.parent?.parent;
+        return this.kind === 'ArrowFunction' && ancestor?.kind === 'VariableStatement' && ancestor.parent?.kind === 'SourceFile';
+    }
+
+
     get isParam(): boolean {
         return Ast.isParam(this);
     }
@@ -363,6 +369,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
         this.cpxFactors = new CpxFactors();
         this.setGeneralCaseCpxFactors();
         this.setFunctionStructuralCpx();
+        this.setArrowFunctionStructuralCpx();
         this.setRecursionOrCallbackCpxFactors();
         this.setElseCpxFactors();
         this.setRegexCpxFactors();
@@ -388,6 +395,15 @@ z
     private setFunctionStructuralCpx(): void {
         if (this.type === 'function' && this.parent?.kind !== SyntaxKind.MethodDeclaration) {
             this.cpxFactors.structural.method = cpxFactors.structural.method;
+        }
+    }
+
+
+    private setArrowFunctionStructuralCpx(): void {
+        if (this.isVarArrowFunction) {
+            this.cpxFactors.nesting.func = 0;
+            this.cpxFactors.structural.func = 0;
+            this.cpxFactors.atomic.node = 0;
         }
     }
 

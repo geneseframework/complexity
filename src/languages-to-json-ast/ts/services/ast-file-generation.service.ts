@@ -8,6 +8,7 @@ import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interf
 import { project, WEIGHTED_METHODS, WEIGHTS } from '../../globals.const';
 import { Ts } from './ts.service';
 import { randomString } from '../../../core/services/tools.service';
+import * as chalk from 'chalk';
 
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)
@@ -51,9 +52,10 @@ export class AstFileGenerationService {
 
     /**
      * Returns the Node children of a given Node
-     * @param node      // The Node to analyse
+     * @param node      // The Node to analyze
      */
-    createAstNodeChildren(node: Node): AstNodeInterface {
+    private createAstNodeChildren(node: Node): AstNodeInterface {
+        // console.log(chalk.yellowBright('cCCCreateAstNodeChildren'), Ts.getName(node), Ts.getKindAlias(node));
         let astNode: AstNodeInterface = {
             end: node.getEnd(),
             kind: Ts.getKindAlias(node),
@@ -76,7 +78,7 @@ export class AstFileGenerationService {
 
     /**
      * Adds the type to identifiers or parameters and calculates the CpxFactors of identifiers
-     * @param node          // The Node to analyse
+     * @param node          // The Node to analyze
      * @param astNode       // The AstNode which will be updated with its type and CpxFactors
      */
     private addTypeAndCpxFactors(node: Node, astNode: AstNodeInterface): AstNodeInterface {
@@ -95,7 +97,7 @@ export class AstFileGenerationService {
 
     /**
      * Returns the CpxFactors of a given Node (Identifier)
-     * @param node      // The Node to analyse
+     * @param node      // The Node to analyze
      */
     private getCpxFactors(node: Node): CpxFactorsInterface {
         if (node.getKindName() !== SyntaxKind.Identifier) {

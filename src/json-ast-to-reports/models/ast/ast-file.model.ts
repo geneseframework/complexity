@@ -162,6 +162,7 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
     // ---------------------------------------------------------------------------------
 
 
+
     /**
      * Evaluates the complexities of the AstNodes and the AstMethods of this AstFile
      */

@@ -46,7 +46,7 @@ var Options = /** @class */ (function () {
      */
     Options.setOptionsFromConfig = function (geneseConfigPath) {
         var _this = this;
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         var config = require(geneseConfigPath);
         Options.ignore = (_a = this.filterIgnorePathsForDotSlash(config.complexity.ignore)) !== null && _a !== void 0 ? _a : Options.ignore;
         Options.ignore.forEach(function (path, i) {
@@ -55,6 +55,8 @@ var Options = /** @class */ (function () {
         Options.pathFolderToAnalyze = (_c = (_b = config.complexity) === null || _b === void 0 ? void 0 : _b.pathFolderToAnalyze) !== null && _c !== void 0 ? _c : Options.pathFolderToAnalyze;
         Options.pathOutDir = (_e = (_d = config.complexity) === null || _d === void 0 ? void 0 : _d.pathReports) !== null && _e !== void 0 ? _e : Options.pathOutDir;
         Options.ignore.push(Options.pathOutDir);
+        Options.cognitiveCpx = (_f = config.complexity.cognitiveCpx) !== null && _f !== void 0 ? _f : Options.cognitiveCpx;
+        Options.cyclomaticCpx = (_g = config.complexity.cyclomaticCpx) !== null && _g !== void 0 ? _g : Options.cyclomaticCpx;
     };
     /**
      * Separate paths which needs to start by "./" and others

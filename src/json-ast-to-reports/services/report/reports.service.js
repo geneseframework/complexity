@@ -6,6 +6,7 @@ var ast_folder_report_service_1 = require("./ast-folder-report.service");
 var ast_file_report_service_1 = require("./ast-file-report.service");
 var options_model_1 = require("../../../core/models/options.model");
 var ast_folder_markdown_report_service_1 = require("./ast-folder-markdown-report.service");
+var ast_folder_console_report_service_1 = require("./ast-folder-console-report.service");
 /**
  * Service for reports generation
  */
@@ -29,6 +30,15 @@ var ReportsService = /** @class */ (function () {
         var parentFolder = jsonAst.astFolder;
         var folderMakdownReport = new ast_folder_markdown_report_service_1.AstFolderMarkdownReportService(parentFolder);
         folderMakdownReport.generateReport();
+    };
+    /**
+     * LanguageToJsonAst console reports generation process
+     * @param jsonAst
+     */
+    ReportsService.generateConsoleReports = function (jsonAst) {
+        var parentFolder = jsonAst.astFolder;
+        var folderConsoleReport = new ast_folder_console_report_service_1.AstFolderConsoleReportService(parentFolder);
+        return folderConsoleReport.generateReport();
     };
     /**
      * Generates reports of children recursively
@@ -66,12 +76,12 @@ var ReportsService = /** @class */ (function () {
      */
     ReportsService.createStyleFiles = function () {
         file_service_1.createRelativeDir('reports-styles');
-        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/styles/report.css", options_model_1.Options.pathOutDir + "/reports-styles/report.css");
-        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/styles/styles.css", options_model_1.Options.pathOutDir + "/reports-styles/styles.css");
-        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/styles/prettify.css", options_model_1.Options.pathOutDir + "/reports-styles/prettify.css");
-        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/styles/prism.css", options_model_1.Options.pathOutDir + "/reports-styles/prism.css");
-        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/json-ast-to-reports/templates/styles/prism.js", options_model_1.Options.pathOutDir + "/reports-styles/prism.js");
-        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/src/complexity/core/chartjs/Chart.js", options_model_1.Options.pathOutDir + "/reports-styles/Chart.js");
+        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/styles/report.css", options_model_1.Options.pathOutDir + "/reports-styles/report.css");
+        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/styles/styles.css", options_model_1.Options.pathOutDir + "/reports-styles/styles.css");
+        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/styles/prettify.css", options_model_1.Options.pathOutDir + "/reports-styles/prettify.css");
+        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/styles/prism.css", options_model_1.Options.pathOutDir + "/reports-styles/prism.css");
+        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/json-ast-to-reports/templates/styles/prism.js", options_model_1.Options.pathOutDir + "/reports-styles/prism.js");
+        file_service_1.copyFile(options_model_1.Options.pathGeneseNodeJs + "/core/chartjs/Chart.js", options_model_1.Options.pathOutDir + "/reports-styles/Chart.js");
     };
     return ReportsService;
 }());

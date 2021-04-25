@@ -1,120 +1,109 @@
 "use strict";
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-};
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-};
-var _astFolder, _astMethods, _astNode, _astNodes, _code, _complexitiesByStatus, _cpxFactors, _cyclomaticCpx, _end, _name, _stats;
 exports.__esModule = true;
 exports.AstFile = void 0;
 var ast_file_service_1 = require("../../services/ast/ast-file.service");
 var cpx_factors_model_1 = require("../../../core/models/cpx-factor/cpx-factors.model");
 var ast_method_service_1 = require("../../services/ast/ast-method.service");
 var chalk = require("chalk");
+var nesting_cpx_model_1 = require("../../../core/models/cpx-factor/nesting-cpx.model");
+var depth_cpx_model_1 = require("../../../core/models/cpx-factor/depth-cpx.model");
+var tools_service_1 = require("../../../core/services/tools.service");
 var AstFile = /** @class */ (function () {
     function AstFile() {
-        _astFolder.set(this, undefined); // The AstFolder which includes this AstFile
-        _astMethods.set(this, []); // The AstMethods included in this AstFile
-        _astNode.set(this, undefined); // The AstNode corresponding to the file itself
-        _astNodes.set(this, undefined); // Array of all the AstNodes which are children of this.AstNode (including itself)
-        _code.set(this, undefined); // The Code object corresponding to the AstFile
-        _complexitiesByStatus.set(this, undefined); // The file complexities spread by complexity status
-        _cpxFactors.set(this, undefined); // The complexity factors of the AstFile
-        _cyclomaticCpx.set(this, 0); // The complexity factors of the AstFile
-        _end.set(this, undefined); // The pos of the end of the source code
-        _name.set(this, undefined); // The name of the AstFile
-        _stats.set(this, undefined); // The statistics of the AstFile
+        this._astFolder = undefined; // The AstFolder which includes this AstFile
+        this._astMethods = []; // The AstMethods included in this AstFile
+        this._astNode = undefined; // The AstNode corresponding to the file itself
+        this._astNodes = undefined; // Array of all the AstNodes which are children of this.AstNode (including itself)
+        this._code = undefined; // The Code object corresponding to the AstFile
+        this._complexitiesByStatus = undefined; // The file complexities spread by complexity status
+        this._cpxFactors = undefined; // The complexity factors of the AstFile
+        this._cyclomaticCpx = 0; // The complexity factors of the AstFile
+        this._end = undefined; // The pos of the end of the source code
+        this._name = undefined; // The name of the AstFile
+        this._stats = undefined; // The statistics of the AstFile
     }
     Object.defineProperty(AstFile.prototype, "astFolder", {
         // ---------------------------------------------------------------------------------
         //                                Getters and setters
         // ---------------------------------------------------------------------------------
         get: function () {
-            return __classPrivateFieldGet(this, _astFolder);
+            return this._astFolder;
         },
         set: function (astFolder) {
-            __classPrivateFieldSet(this, _astFolder, astFolder);
+            this._astFolder = astFolder;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "astMethods", {
         get: function () {
-            if (__classPrivateFieldGet(this, _astMethods)) {
-                return __classPrivateFieldGet(this, _astMethods);
+            if (this._astMethods) {
+                return this._astMethods;
             }
             return [];
         },
         set: function (astMethods) {
-            __classPrivateFieldSet(this, _astMethods, astMethods);
+            this._astMethods = astMethods;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "astNode", {
         get: function () {
-            return __classPrivateFieldGet(this, _astNode);
+            return this._astNode;
         },
         set: function (astNode) {
-            __classPrivateFieldSet(this, _astNode, astNode);
+            this._astNode = astNode;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "astNodes", {
         get: function () {
-            return __classPrivateFieldGet(this, _astNodes);
+            return this._astNodes;
         },
         set: function (astNodes) {
-            __classPrivateFieldSet(this, _astNodes, astNodes);
+            this._astNodes = astNodes;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "code", {
         get: function () {
-            return __classPrivateFieldGet(this, _code);
+            return this._code;
         },
         set: function (code) {
-            __classPrivateFieldSet(this, _code, code);
+            this._code = code;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "complexitiesByStatus", {
         get: function () {
-            return __classPrivateFieldGet(this, _complexitiesByStatus);
+            return this._complexitiesByStatus;
         },
         set: function (cpxByStatus) {
-            __classPrivateFieldSet(this, _complexitiesByStatus, cpxByStatus);
+            this._complexitiesByStatus = cpxByStatus;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "cpxFactors", {
         get: function () {
-            return __classPrivateFieldGet(this, _cpxFactors);
+            return this._cpxFactors;
         },
         set: function (cpxFactors) {
-            __classPrivateFieldSet(this, _cpxFactors, cpxFactors);
+            this._cpxFactors = cpxFactors;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "cyclomaticCpx", {
         get: function () {
-            return __classPrivateFieldGet(this, _cyclomaticCpx);
+            return this._cyclomaticCpx;
         },
         set: function (cyclomaticCpx) {
-            __classPrivateFieldSet(this, _cyclomaticCpx, cyclomaticCpx);
+            this._cyclomaticCpx = cyclomaticCpx;
         },
         enumerable: false,
         configurable: true
@@ -122,40 +111,40 @@ var AstFile = /** @class */ (function () {
     Object.defineProperty(AstFile.prototype, "end", {
         get: function () {
             var _a, _b;
-            return (_a = __classPrivateFieldGet(this, _end)) !== null && _a !== void 0 ? _a : (_b = __classPrivateFieldGet(this, _astNode)) === null || _b === void 0 ? void 0 : _b.end;
+            return (_a = this._end) !== null && _a !== void 0 ? _a : (_b = this._astNode) === null || _b === void 0 ? void 0 : _b.end;
         },
         set: function (end) {
-            __classPrivateFieldSet(this, _end, end);
+            this._end = end;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "name", {
         get: function () {
-            return __classPrivateFieldGet(this, _name);
+            return this._name;
         },
         set: function (name) {
-            __classPrivateFieldSet(this, _name, name);
+            this._name = name;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "stats", {
         get: function () {
-            if (!__classPrivateFieldGet(this, _stats)) {
-                __classPrivateFieldSet(this, _stats, new ast_file_service_1.AstFileService().getStats(this));
+            if (!this._stats) {
+                this._stats = new ast_file_service_1.AstFileService().getStats(this);
             }
-            return __classPrivateFieldGet(this, _stats);
+            return this._stats;
         },
         set: function (stats) {
-            __classPrivateFieldSet(this, _stats, stats);
+            this._stats = stats;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AstFile.prototype, "text", {
         get: function () {
-            return __classPrivateFieldGet(this, _code).text;
+            return this._code.text;
         },
         enumerable: false,
         configurable: true
@@ -179,6 +168,32 @@ var AstFile = /** @class */ (function () {
         }
     };
     /**
+     * Evaluates the complexities of the AstNodes of this AstFile
+     * But not based on methods
+     */
+    AstFile.prototype.evaluateStandalone = function () {
+        var _a, _b, _c, _d, _e;
+        this.astMethods = [];
+        this.cpxFactors = new cpx_factors_model_1.CpxFactors();
+        this.astNode.evaluate();
+        for (var _i = 0, _f = this.astNodes; _i < _f.length; _i++) {
+            var node = _f[_i];
+            node.cpxFactors.nesting = new nesting_cpx_model_1.NestingCpx();
+            node.cpxFactors.depth = new depth_cpx_model_1.DepthCpx();
+            for (var _g = 0, _h = node.children; _g < _h.length; _g++) {
+                var astNode = _h[_g];
+                if (astNode.intrinsicNestingCpx > 0) {
+                    node.cpxFactors.depth = tools_service_1.addObjects(this.cpxFactors.depth, (_a = astNode.cpxFactors) === null || _a === void 0 ? void 0 : _a.depth);
+                    node.cpxFactors.nesting = tools_service_1.addObjects(this.cpxFactors.nesting, (_c = (_b = astNode.parent) === null || _b === void 0 ? void 0 : _b.cpxFactors) === null || _c === void 0 ? void 0 : _c.nesting);
+                }
+                if (astNode.intrinsicDepthCpx > 0) {
+                    node.cpxFactors.depth = tools_service_1.addObjects(this.cpxFactors.depth, (_e = (_d = astNode.parent) === null || _d === void 0 ? void 0 : _d.cpxFactors) === null || _e === void 0 ? void 0 : _e.depth);
+                }
+            }
+            this.cpxFactors = this.cpxFactors.add(node.cpxFactors);
+        }
+    };
+    /**
      * Logs the main elements of an AstFile
      * @param message       // Optional message
      */
@@ -196,4 +211,3 @@ var AstFile = /** @class */ (function () {
     return AstFile;
 }());
 exports.AstFile = AstFile;
-_astFolder = new WeakMap(), _astMethods = new WeakMap(), _astNode = new WeakMap(), _astNodes = new WeakMap(), _code = new WeakMap(), _complexitiesByStatus = new WeakMap(), _cpxFactors = new WeakMap(), _cyclomaticCpx = new WeakMap(), _end = new WeakMap(), _name = new WeakMap(), _stats = new WeakMap();

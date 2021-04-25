@@ -1,6 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "jsx": "react",
         "module": "commonjs",
         "resolveJsonModule": true,
         "target": "es2018",

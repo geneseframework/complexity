@@ -20,7 +20,7 @@ var StatsService = /** @class */ (function () {
         else {
             this._stats = new stats_model_1.Stats();
             this.calculateStats(fileOrFolder);
-            this.setNameOrPath(fileOrFolder);
+            this.getNameOrPath(fileOrFolder);
             this._stats.setPercentages();
             this._stats.totalCognitiveComplexity = fileOrFolder.cpxFactors.total;
             this._stats.totalCyclomaticComplexity = fileOrFolder.cyclomaticCpx;
