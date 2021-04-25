@@ -1,5 +1,4 @@
 export enum Language {
-
     JAVA = 'java',
     PHP = 'php',
     TS = 'ts',
@@ -7,5 +6,4 @@ export enum Language {
     JS = 'js',
     TSX = 'tsx',
     JSX = 'jsx'
-
 }

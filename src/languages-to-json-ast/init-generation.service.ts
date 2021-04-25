@@ -1,12 +1,13 @@
 import * as fs from 'fs-extra';
 import { AstFileGenerationJavaService } from './java/services/ast-file-generation-java.service';
-import { getFileExtension, platformPath } from '../core/services/file.service';
+import { platformPath } from '../core/services/file.service';
 import { Options } from '../core/models/options.model';
 import { AstFolderInterface } from '../core/interfaces/ast/ast-folder.interface';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
 import { DEV_MOCK, LIMIT_GENERATIONS } from './globals.const';
 import { Language } from '../core/enum/language.enum';
 import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
+import * as chalk from 'chalk';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree (AST) of its files (including files in subfolders)
@@ -77,6 +78,7 @@ export class InitGenerationService {
                 initService = new AstFileGenerationService();
         }
         const filesOrDirs = fs.readdirSync(path);
+        console.log(chalk.magentaBright('FILORDIRRRRR'), filesOrDirs);
         let currentFile = undefined;
         try {
             filesOrDirs.forEach((elementName: string) => {
@@ -111,6 +113,6 @@ export class InitGenerationService {
      * @returns boolean
      */
     private isFileToGenerate(path: string, language: Language): boolean {
-        return (getFileExtension(path) === language && !LIMIT_GENERATIONS) || path === DEV_MOCK;
+        return (!LIMIT_GENERATIONS) || path === DEV_MOCK;
     }
 }
