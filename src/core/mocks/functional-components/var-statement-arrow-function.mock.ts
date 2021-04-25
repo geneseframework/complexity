@@ -9,3 +9,7 @@ const arrowFunctionWithIf = (a: number) => {
         a++;
     }
 }
+
+const Categories: React.FC = () => {
+    let a = 2;
+}

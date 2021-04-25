@@ -35,11 +35,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     private _kind?: SyntaxKind = undefined;                                             // The kind of the node ('MethodDeclaration, IfStatement, ...)
     private _lineEnd?: number = undefined;                                              // The issue of the line containing the character at the AstNode.end
     private _linePos?: number = undefined;                                              // The issue of the line containing the character at the AstNode.pos
-    private _lineStart?: number = undefined;                                            // The issue of the line containing the character at the AstNode.start
+    private _lineStart?: number = undefined;                                            // The issue of the line containing the character at the AstNode.extractHooksAndArrowFunctions
     private _name: string = undefined;                                                  // The name of the AstNode
     private _parent?: AstNode;                                                          // The ast of the parent of the current node
-    private _pos ?= 0;                                                                  // The pos of the beginning of the AST node, including spaces and comments before it. (start <= start)
-    private _start ?= 0;                                                                // The pos of the beginning of the AST node, without spaces and comments before it. (start >= start)
+    private _pos ?= 0;                                                                  // The pos of the beginning of the AST node, including spaces and comments before it. (extractHooksAndArrowFunctions <= extractHooksAndArrowFunctions)
+    private _start ?= 0;                                                                // The pos of the beginning of the AST node, without spaces and comments before it. (extractHooksAndArrowFunctions >= extractHooksAndArrowFunctions)
     private _text: string = undefined;                                                  // The code of the AstNode
     private _type: IdentifierType = undefined;                                          // The type of the AstNode (if given)
 

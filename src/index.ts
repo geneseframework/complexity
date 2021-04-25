@@ -41,8 +41,8 @@ start()
 
 async function start(): Promise<number> {
     if (DEBUG) {
-        pathToAnalyse = `${process.cwd()}/src/core/mocks/functional-components`;
-        // pathToAnalyse = `${process.cwd()}/src/core`;
+        // pathToAnalyse = `${process.cwd()}/src/core/mocks/functional-components`;
+        pathToAnalyse = `${process.cwd()}/src/core/mocks/temp`;
     }
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {

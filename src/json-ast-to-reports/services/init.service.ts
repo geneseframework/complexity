@@ -8,6 +8,9 @@ import { CodeService } from './code.service';
 import { AstNodeService } from './ast/ast-node.service';
 import { Ast } from './ast/ast.service';
 import * as chalk from 'chalk';
+import { Options } from '../../core/models/options.model';
+import { ReactService } from '../../languages-to-json-ast/ts/services/specific/react.service';
+import { ArrowFunctionsService } from './ast/arrow-functions.service';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree of a folder
@@ -92,29 +95,9 @@ export class InitService {
                 return Ast.isFunctionOrMethod(e)
             })
             .map(e => e.astMethod);
-        const arrowFunctions: AstMethod[] = this.addArrowFunctions(newAstFile);
+        const arrowFunctions: AstMethod[] = ArrowFunctionsService.getArrowFunctions(newAstFile.astNode);
         newAstFile.astMethods = newAstFile.astMethods.concat(arrowFunctions);
         return newAstFile;
-    }
-
-
-    private addArrowFunctions(astFile: AstFile): AstMethod[] {
-        const varStatements: AstNode[] = astFile.astNode?.children?.filter(n => n.kind === 'Keyword');
-        const arrowFunctions: AstMethod[] = [];
-        for (const astNode of varStatements) {
-            const variableDeclarationList = astNode.children?.[0];
-            const variableDeclaration = variableDeclarationList?.children?.[0];
-            if (variableDeclaration && variableDeclaration.children[1]?.kind === 'ArrowFunction') {
-                const arrowFunction = new AstMethod();
-                arrowFunction.name = variableDeclaration.children[0]?.name;
-                arrowFunction.astNode = variableDeclaration;
-                arrowFunction.astNode.text = this.astNodeService.getCode(variableDeclaration);
-                arrowFunction.isArrowFunction = true;
-                arrowFunction.codeLines = variableDeclaration.astFile?.code?.lines?.slice(variableDeclaration.linePos - 1, variableDeclaration.lineEnd);
-                arrowFunctions.push(arrowFunction);
-            }
-        }
-        return arrowFunctions;
     }
 
 
