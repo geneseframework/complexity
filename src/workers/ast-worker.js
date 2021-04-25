@@ -44,7 +44,7 @@ function run() {
         return __generator(this, function (_a) {
             options_model_1.Options.setOptions(workerData.pathCommand, workerData.modifiedPath, workerData.pathGeneseNodeJs);
             language_to_json_ast_1.LanguageToJsonAst.start(options_model_1.Options.pathFolderToAnalyze, workerData.language);
-            parentPort.postMessage('End of main process');
+            // parentPort.postMessage('End of main process');
             return [2 /*return*/];
         });
     });

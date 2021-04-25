@@ -195,14 +195,14 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get isVarArrowFunction(): boolean {
-        const ancestor: AstNode = this.parent?.parent?.parent;
-        return this.kind === 'ArrowFunction' && ancestor?.kind === 'VariableStatement' && ancestor.parent?.kind === 'SourceFile';
+    get isParam(): boolean {
+        return Ast.isParam(this);
     }
 
 
-    get isParam(): boolean {
-        return Ast.isParam(this);
+    get isVarArrowFunction(): boolean {
+        const ancestor: AstNode = this.parent?.parent?.parent;
+        return this.kind === 'ArrowFunction' && ancestor?.kind === 'VariableStatement' && ancestor.parent?.kind === 'SourceFile';
     }
 
 

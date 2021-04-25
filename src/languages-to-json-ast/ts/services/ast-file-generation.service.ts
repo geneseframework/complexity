@@ -55,7 +55,6 @@ export class AstFileGenerationService {
      * @param node      // The Node to analyze
      */
     private createAstNodeChildren(node: Node): AstNodeInterface {
-        // console.log(chalk.yellowBright('cCCCreateAstNodeChildren'), Ts.getName(node), Ts.getKindAlias(node));
         let astNode: AstNodeInterface = {
             end: node.getEnd(),
             kind: Ts.getKindAlias(node),
@@ -100,12 +99,17 @@ export class AstFileGenerationService {
      * @param node      // The Node to analyze
      */
     private getCpxFactors(node: Node): CpxFactorsInterface {
-        if (node.getKindName() !== SyntaxKind.Identifier) {
-            return undefined;
+        try {
+            if (node.getKindName() !== SyntaxKind.Identifier) {
+                return undefined;
+            }
+            const identifier = node as Identifier;
+            const definition = identifier.getDefinitions()?.[0];
+            return this.useWeight(definition, Ts.getName(node));
+        } catch (err) {
+            return undefined;  // Impossible to find sourceFile
+
         }
-        const identifier = node as Identifier;
-        const definition = identifier.getDefinitions()?.[0];
-        return this.useWeight(definition, Ts.getName(node));
     }
 
 

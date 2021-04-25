@@ -26,6 +26,9 @@ export class LanguageToJsonAst {
         switch (language) {
             case Language.TS:
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.ts`);
+                project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.tsx`);
+                project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.js`);
+                project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.jsx`);
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break
             case Language.JAVA:
