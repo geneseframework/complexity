@@ -1,5 +1,6 @@
 import { AstNodeInterface } from '../interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../enum/syntax-kind.enum';
+import { Ast } from '../../json-ast-to-reports/services/ast/ast.service';
 
 
 export function firstSon(astNodeInterface: AstNodeInterface): AstNodeInterface {
@@ -13,4 +14,14 @@ export function firstSonOfKind(astNodeInterface: AstNodeInterface, kind: SyntaxK
 
 export function secondSon(astNodeInterface: AstNodeInterface): AstNodeInterface {
     return astNodeInterface?.children?.[1];
+}
+
+
+export function arrowFunctionBlock(arrowFunctionNodeInterface: AstNodeInterface): AstNodeInterface {
+    return firstSonOfKind(arrowFunctionOfVarStatement(arrowFunctionNodeInterface), SyntaxKind.Block);
+}
+
+
+export function arrowFunctionOfVarStatement(varStatement: AstNodeInterface): AstNodeInterface {
+    return firstSonOfKind(firstSon(firstSon(varStatement)), SyntaxKind.ArrowFunction);
 }
