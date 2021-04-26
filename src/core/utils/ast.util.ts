@@ -1,6 +1,6 @@
 import { AstNodeInterface } from '../interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../enum/syntax-kind.enum';
-import { Ast } from '../../json-ast-to-reports/services/ast/ast.service';
+import { Node } from 'ts-morph';
 
 
 export function firstSon(astNodeInterface: AstNodeInterface): AstNodeInterface {
@@ -24,4 +24,9 @@ export function arrowFunctionBlock(arrowFunctionNodeInterface: AstNodeInterface)
 
 export function arrowFunctionOfVarStatement(varStatement: AstNodeInterface): AstNodeInterface {
     return firstSonOfKind(firstSon(firstSon(varStatement)), SyntaxKind.ArrowFunction);
+}
+
+
+export function isJsx(node: Node): boolean {
+    return node?.getKindName()?.slice(0, 3) === 'Jsx';
 }
