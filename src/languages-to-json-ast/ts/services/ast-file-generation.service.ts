@@ -9,7 +9,7 @@ import { project, WEIGHTED_METHODS, WEIGHTS } from '../../globals.const';
 import { Ts } from './ts.service';
 import { randomString } from '../../../core/services/tools.service';
 import { Options } from '../../../core/models/options.model';
-import { ReactService } from './specific/react.service';
+import { ReactService } from '../specific/react/react.service';
 
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)

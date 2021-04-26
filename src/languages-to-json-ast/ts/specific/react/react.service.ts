@@ -1,9 +1,7 @@
-import { AstMethod } from '../../../../json-ast-to-reports/models/ast/ast-method.model';
 import * as chalk from 'chalk';
-import { AstNode } from '../../../../json-ast-to-reports/models/ast/ast-node.model';
-import { CodeLine } from '../../../../json-ast-to-reports/models/code/code-line.model';
 import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../../../../core/enum/syntax-kind.enum';
+import { firstSon, secondSon } from '../../../../core/utils/ast.util';
 
 export class ReactService {
 
@@ -19,9 +17,9 @@ export class ReactService {
         const arrowFunctions: AstNodeInterface[] = [];
         const keyWords: AstNodeInterface[] = astNodeInterface.children.filter(c => c.kind === 'Keyword');
         for (const keyWord of keyWords) {
-            const firstSon: AstNodeInterface = this.firstSon(keyWord);
-            const grandSon: AstNodeInterface = this.firstSon(firstSon);
-            if (firstSon.kind === 'VariableDeclarationList'
+            const son: AstNodeInterface = firstSon(keyWord);
+            const grandSon: AstNodeInterface = firstSon(son);
+            if (son.kind === 'VariableDeclarationList'
                 && grandSon.kind === 'VariableDeclaration'
                 && this.hasArrowFunctionChild(grandSon)
             ) {
@@ -29,16 +27,6 @@ export class ReactService {
             }
         }
         return arrowFunctions;
-    }
-
-
-    private static firstSon(astNodeInterface: AstNodeInterface): AstNodeInterface {
-        return astNodeInterface?.children?.[0];
-    }
-
-
-    private static secondSon(astNodeInterface: AstNodeInterface): AstNodeInterface {
-        return astNodeInterface?.children?.[1];
     }
 
 
@@ -55,8 +43,7 @@ export class ReactService {
 
 
     private static extractArrowFunctionsFromReactComponent(fileAstNode: AstNodeInterface, reactComponent: AstNodeInterface): void {
-        // console.log(chalk.blueBright('REACT CPTTTTT'), reactComponent);
-        const block: AstNodeInterface = this.secondSon(this.secondSon(this.firstSon(this.firstSon(reactComponent))));
+        const block: AstNodeInterface = secondSon(secondSon(firstSon(firstSon(reactComponent))));
         const nestedArrowFunctions: AstNodeInterface[] = this.getArrowFunctions(block);
         console.log(chalk.greenBright('ARROWWWWS'), nestedArrowFunctions);
         for (const arrowFunction of nestedArrowFunctions) {
