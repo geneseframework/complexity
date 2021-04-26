@@ -55,11 +55,15 @@ export class ReactService {
 
 
     private static extractArrowFunctionsFromReactComponent(fileAstNode: AstNodeInterface, reactComponent: AstNodeInterface): void {
-        console.log(chalk.blueBright('REACT CPTTTTT'), reactComponent);
+        // console.log(chalk.blueBright('REACT CPTTTTT'), reactComponent);
         const block: AstNodeInterface = this.secondSon(this.secondSon(this.firstSon(this.firstSon(reactComponent))));
+        const nestedArrowFunctions: AstNodeInterface[] = this.getArrowFunctions(block);
+        console.log(chalk.greenBright('ARROWWWWS'), nestedArrowFunctions);
+        for (const arrowFunction of nestedArrowFunctions) {
+            let blockChildIndex: number = block.children.findIndex(a => a === arrowFunction);
+            fileAstNode.children.push(block.children[blockChildIndex]);
+            block.children.splice(blockChildIndex, 1);
+        }
         console.log(chalk.cyanBright('BLOCKKKKK'), block);
-        const arrowFunctions: AstNodeInterface[] = this.getArrowFunctions(block);
-        console.log(chalk.greenBright('ARROWWWWS'), arrowFunctions);
-
     }
 }

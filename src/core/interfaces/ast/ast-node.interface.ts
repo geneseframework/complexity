@@ -8,6 +8,7 @@ export interface AstNodeInterface {
     end: number;
     kind: string;
     name?: string;
+    parent?: AstNodeInterface;
     pos: number;
     start?: number;
     type?: IdentifierType;
