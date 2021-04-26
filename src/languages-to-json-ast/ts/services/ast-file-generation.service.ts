@@ -70,7 +70,6 @@ export class AstFileGenerationService {
         };
         astNode = this.addTypeAndCpxFactors(node, astNode);
         if (!isJsx(node)) {
-        // if (node.getKindName() !== SyntaxKind.JsxElement) {
             node.forEachChild((childNode: Node) => {
                 if (!astNode.children) {
                     astNode.children = [];
