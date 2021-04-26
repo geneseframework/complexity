@@ -7,9 +7,6 @@ import { AstMethod } from '../models/ast/ast-method.model';
 import { CodeService } from './code.service';
 import { AstNodeService } from './ast/ast-node.service';
 import { Ast } from './ast/ast.service';
-import * as chalk from 'chalk';
-import { Options } from '../../core/models/options.model';
-import { ReactService } from '../../languages-to-json-ast/ts/services/specific/react.service';
 import { ArrowFunctionsService } from './ast/arrow-functions.service';
 
 /**

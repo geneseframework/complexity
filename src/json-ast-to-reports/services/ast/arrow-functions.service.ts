@@ -1,7 +1,7 @@
 import { AstMethod } from '../../models/ast/ast-method.model';
 import { AstNode } from '../../models/ast/ast-node.model';
 import { Options } from '../../../core/models/options.model';
-import { ReactService } from '../../../languages-to-json-ast/ts/services/specific/react.service';
+import { ReactService } from '../../../languages-to-json-ast/ts/specific/react/react.service';
 import { SyntaxKind } from '../../../core/enum/syntax-kind.enum';
 import { AstNodeService } from './ast-node.service';
 
