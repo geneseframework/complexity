@@ -15,11 +15,9 @@ export class ReactService {
 
     static extractHooksAndArrowFunctions(fileAstNode: AstNodeInterface): void {
         try {
-            // console.log(chalk.magentaBright('FILE AST NODEEEEEE'), fileAstNode);
             const reactComponents: ReactComponent[] = this.getReactComponents(fileAstNode);
-            console.log(chalk.magentaBright('GET ARRR FN'), reactComponents);
             const extractedArrowFunctions: ReactComponent[] = this.extractArrowFunctionsFromReactComponents(reactComponents);
-            console.log(chalk.magentaBright('EXTRRRRRR'), extractedArrowFunctions);
+            // console.log(chalk.magentaBright('EXTRRRRRRACTED'), extractedArrowFunctions);
             this.insertExtractsIntoFileAstNode(fileAstNode, extractedArrowFunctions);
         } catch (err) {
             console.log(chalk.redBright(`Error extracting arrow functions from react components from ${fileAstNode?.name}`));
@@ -56,7 +54,6 @@ export class ReactService {
     private static extractArrowFunctionsFromReactComponents(reactComponents: ReactComponent[]): ReactComponent[] {
         const newFileAstNodeChildren: ReactComponent[] = [];
         for (const reactComponent of reactComponents) {
-            console.log(chalk.greenBright('EXTRACT REACT CPTTTTT'), reactComponent.arrowFunction);
             newFileAstNodeChildren.push(...this.extractArrowFunctionsFromReactComponent(reactComponent));
         }
         return newFileAstNodeChildren;
@@ -65,17 +62,16 @@ export class ReactService {
 
     private static extractArrowFunctionsFromReactComponent(reactComponent: ReactComponent): ReactComponent[] {
         const newFileAstNodeChildren: ReactComponent[] = [];
-        console.log(chalk.green('CPTTTTTTTTTT'), arrowFunctionBlock(reactComponent.arrowFunction));
+        // console.log(chalk.green('CPTTTTTTTTTT'), arrowFunctionBlock(reactComponent.arrowFunction));
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
         const reactComponents: ReactComponent[] = this.getReactComponents(block);
-        console.log(chalk.greenBright('ARROWWWWS'), reactComponents);
+        // console.log(chalk.greenBright('ARROWWWWS'), reactComponents);
         for (const reactCpt of reactComponents) {
             let blockChildIndex: number = block.children.findIndex(a => a === reactCpt.arrowFunction);
             const extract = new ReactComponent(block.children[blockChildIndex], reactComponent.index);
             newFileAstNodeChildren.push(extract);
             block.children.splice(blockChildIndex, 1);
         }
-        console.log(chalk.cyanBright('BLOCKKKKK'), block);
         return newFileAstNodeChildren;
     }
 
