@@ -1,9 +1,9 @@
 
-const Categories = () => {
-    const arrow = () => {
-        let b = 3;
-    }
-}
+// const Categories = () => {
+//     const arrow = () => {
+//         let b = 3;
+//     }
+// }
 
 // const Categories: React.FC = () => {
 //     let a = 2;
