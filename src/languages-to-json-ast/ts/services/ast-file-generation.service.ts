@@ -50,7 +50,6 @@ export class AstFileGenerationService {
             astNode: this.createAstNodeChildren(sourceFile)
         };
         if (Options.react) {
-            console.log(chalk.blueBright('GENERATE AST FILEEEE'), astFileInterface?.name);
             ReactService.extractHooksAndArrowFunctions(astFileInterface.astNode);
         }
         return astFileInterface;

@@ -78,7 +78,6 @@ export class InitGenerationService {
                 initService = new AstFileGenerationService();
         }
         const filesOrDirs = fs.readdirSync(path);
-        console.log(chalk.magentaBright('FILORDIRRRRR'), filesOrDirs);
         let currentFile = undefined;
         try {
             filesOrDirs.forEach((elementName: string) => {
