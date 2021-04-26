@@ -15,6 +15,7 @@ export class ReactService {
 
     static extractHooksAndArrowFunctions(fileAstNode: AstNodeInterface): void {
         try {
+            // console.log(chalk.magentaBright('EXTRRRRRRACT fileAstNode'), fileAstNode);
             const reactComponents: ReactComponent[] = this.getReactComponents(fileAstNode);
             const extractedArrowFunctions: ReactComponent[] = this.extractArrowFunctionsFromReactComponents(reactComponents);
             // console.log(chalk.magentaBright('EXTRRRRRRACTED'), extractedArrowFunctions);
@@ -28,16 +29,19 @@ export class ReactService {
     private static getReactComponents(astNodeInterface: AstNodeInterface): ReactComponent[] {
         try {
             const reactComponents: ReactComponent[] = [];
-            const keyWords: AstNodeInterface[] = astNodeInterface.children.filter(c => c.kind === 'Keyword');
-            for (let i = 0; i < keyWords.length; i++) {
-                const son: AstNodeInterface = firstSon(keyWords[i]);
-                const grandSon: AstNodeInterface = firstSon(son);
-                if (son.kind === 'VariableDeclarationList'
-                    && grandSon.kind === 'VariableDeclaration'
-                    && this.hasArrowFunctionChild(grandSon)
-                ) {
-                    reactComponents.push(new ReactComponent(keyWords[i], i));
+            let i = 0;
+            for (const child of astNodeInterface.children) {
+                if (child.kind === SyntaxKind.Keyword) {
+                    const son: AstNodeInterface = firstSon(child);
+                    const grandSon: AstNodeInterface = firstSon(son);
+                    if (son.kind === 'VariableDeclarationList'
+                        && grandSon.kind === 'VariableDeclaration'
+                        && this.hasArrowFunctionChild(grandSon)
+                    ) {
+                        reactComponents.push(new ReactComponent(child, i));
+                    }
                 }
+                i++;
             }
             return reactComponents;
         } catch (err) {
@@ -54,6 +58,7 @@ export class ReactService {
     private static extractArrowFunctionsFromReactComponents(reactComponents: ReactComponent[]): ReactComponent[] {
         const newFileAstNodeChildren: ReactComponent[] = [];
         for (const reactComponent of reactComponents) {
+            // console.log(chalk.greenBright('CPTTTTTTTTTT'), reactComponent);
             newFileAstNodeChildren.push(...this.extractArrowFunctionsFromReactComponent(reactComponent));
         }
         return newFileAstNodeChildren;
@@ -62,7 +67,7 @@ export class ReactService {
 
     private static extractArrowFunctionsFromReactComponent(reactComponent: ReactComponent): ReactComponent[] {
         const newFileAstNodeChildren: ReactComponent[] = [];
-        // console.log(chalk.green('CPTTTTTTTTTT'), arrowFunctionBlock(reactComponent.arrowFunction));
+        // console.log(chalk.green('ARROW BLOCK CPTTTTTTTTTT'), arrowFunctionBlock(reactComponent.arrowFunction));
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
         const reactComponents: ReactComponent[] = this.getReactComponents(block);
         // console.log(chalk.greenBright('ARROWWWWS'), reactComponents);

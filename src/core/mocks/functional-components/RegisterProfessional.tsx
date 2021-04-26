@@ -33,8 +33,7 @@ const COUNTRIES = [
 
 const displayedInformations = ['name', 'street', 'siren', 'siret', 'activity'];
 
-function RegisterProfessional() {
-// const RegisterProfessional: React.FC = () => {
+const RegisterProfessional: React.FC = () => {
     useHeader(
         HeaderType.REGISTER,
         i18n.t('RegisterProfessional.titleSecondStep'),
