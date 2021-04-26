@@ -14,7 +14,7 @@ export class ReactService {
 
 
     private static getReactComponents(astNodeInterface: AstNodeInterface): ReactComponent[] {
-        const arrowFunctions: [arrowFunction: AstNodeInterface, index: number][] = [];
+        const reactComponents: ReactComponent[] = [];
         const keyWords: AstNodeInterface[] = astNodeInterface.children.filter(c => c.kind === 'Keyword');
         for (let i = 0; i < keyWords.length; i++) {
             const son: AstNodeInterface = firstSon(keyWords[i]);
@@ -23,10 +23,10 @@ export class ReactService {
                 && grandSon.kind === 'VariableDeclaration'
                 && this.hasArrowFunctionChild(grandSon)
             ) {
-                arrowFunctions.push([keyWords[i], i]);
+                reactComponents.push([keyWords[i], i]);
             }
         }
-        return arrowFunctions;
+        return reactComponents;
     }
 
 
@@ -48,7 +48,7 @@ export class ReactService {
         console.log(chalk.greenBright('ARROWWWWS'), reactComponents);
         for (const reactCpt of reactComponents) {
             let blockChildIndex: number = block.children.findIndex(a => a === reactCpt[0]);
-            fileAstNode.children.push(block.children[blockChildIndex]);
+            fileAstNode.children.splice(reactComponent[1], 0, block.children[blockChildIndex]);
             block.children.splice(blockChildIndex, 1);
         }
         console.log(chalk.cyanBright('BLOCKKKKK'), block);
