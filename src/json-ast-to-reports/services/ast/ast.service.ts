@@ -58,7 +58,7 @@ export class Ast {
     static isBlock(astNode: AstNode): boolean {
         return (astNode?.kind === SyntaxKind.Block);
     }
-er
+    er
 
     /**
      * Checks if an AST node is a Parameter
@@ -187,34 +187,31 @@ er
     }
 
 
-    static hasArrowFunctionChild(astNode: AstNode): boolean {
-        return !!astNode.children.find(c => c.kind === SyntaxKind.ArrowFunction);
+    static getChildOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
+        return astNode.children.find(c => c.kind === kind);
     }
 
 
-    static hasArrowFunctionDescendant(astNode: AstNode): boolean {
+    static getDescendantOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
         if (!astNode.children) {
-            return false;
+            return undefined;
         }
-        if (this.hasArrowFunctionChild(astNode)) {
-            return true;
-        } else {
-            return this.haveArrowFunctionDescendant(astNode.children);
-        }
+        const child: AstNode = this.getChildOfKind(astNode, kind);
+        return child ?? this.getDescendantOfAstNodeArrayOfKind(astNode.children, kind);
 
     }
 
 
-    private static haveArrowFunctionDescendant(astNodes: AstNode[]): boolean {
+    private static getDescendantOfAstNodeArrayOfKind(astNodes: AstNode[], kind: SyntaxKind): AstNode {
         if (!astNodes || astNodes.length === 0) {
-            return false;
+            return undefined;
         }
         for (const astNode of astNodes) {
-            if (astNode.kind === SyntaxKind.ArrowFunction) {
-                return true;
+            if (astNode.kind === kind) {
+                return astNode;
             }
         }
-        return this.haveArrowFunctionDescendant(flat(astNodes.map(a => a.children)));
+        return this.getDescendantOfAstNodeArrayOfKind(flat(astNodes.map(a => a.children)), kind);
     }
 
 }
