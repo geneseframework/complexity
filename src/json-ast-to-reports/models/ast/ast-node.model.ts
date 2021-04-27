@@ -156,6 +156,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get hasArrowFunctionChild(): boolean {
+        return Ast.hasArrowFunctionChild(this);
+    }
+
+
     get hasArrowFunctionDescendant(): boolean {
         return Ast.hasArrowFunctionDescendant(this);
     }
@@ -202,6 +207,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     get isFunctionOrMethodDeclaration(): boolean {
         return this.factorCategory === NodeFeature.DECLARATION;
+    }
+
+
+    get isIdentifier(): boolean {
+        return Ast.isIdentifier(this);
     }
 
 
