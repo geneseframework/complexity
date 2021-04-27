@@ -1,5 +1,5 @@
 import { KindAliases } from '../../globals.const';
-import { Node, SyntaxKind } from 'ts-morph';
+import { Node, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
 
 /**
  * Service for operations on Node elements (ts-morph nodes)
@@ -63,5 +63,19 @@ export class Ts {
         const parentCall = parent.getKind() === SyntaxKind.CallExpression && parent.compilerNode['expression'].end === node.getEnd();
 
         return parentCall || grandParentCall;
+    }
+
+
+    static isVarStatement(node: Node): node is VariableStatement {
+        return node.getKind() === SyntaxKind.VariableStatement;
+    }
+
+
+    static getType(varStatement: VariableStatement): string {
+        if (!varStatement) {
+            return undefined;
+        }
+        const varDeclaration: VariableDeclaration  = varStatement?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration);
+        return varDeclaration.getStructure().type as string;
     }
 }

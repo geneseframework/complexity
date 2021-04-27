@@ -1,4 +1,3 @@
-import { IdentifierType } from '../identifier-type.type';
 import { CpxFactorsInterface } from '../cpx-factors.interface';
 
 export interface AstNodeInterface {
@@ -10,6 +9,6 @@ export interface AstNodeInterface {
     name?: string;
     pos: number;
     start?: number;
-    type?: IdentifierType;
+    type?: string;
 
 }
