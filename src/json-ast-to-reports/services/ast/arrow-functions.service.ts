@@ -1,26 +1,15 @@
 import { AstMethod } from '../../models/ast/ast-method.model';
 import { AstNode } from '../../models/ast/ast-node.model';
-import { Options } from '../../../core/models/options.model';
-import { ReactService } from '../../../languages-to-json-ast/ts/specific/react/react.service';
-import { SyntaxKind } from '../../../core/enum/syntax-kind.enum';
 import { AstNodeService } from './ast-node.service';
 
 export class ArrowFunctionsService {
 
-    static getArrowFunctions(node: AstNode): AstMethod[] {
-        const varStatements: AstNode[] = node.children?.filter(n => n.kind === 'Keyword');
+    static getArrowFunctions(astNode: AstNode): AstMethod[] {
+        const statements: AstNode[] = this.getStatementsDeclaringOrAssigningArrowFunctions(astNode);
         const arrowFunctions: AstMethod[] = [];
-        for (const astNode of varStatements) {
-            const variableDeclarationList = astNode.children?.[0];
-            const variableDeclaration = variableDeclarationList?.children?.[0];
-            if (variableDeclaration && this.hasArrowFunctionChild(variableDeclaration)) {
-                const arrowFunction = new AstMethod();
-                arrowFunction.name = variableDeclaration.children[0]?.name;
-                arrowFunction.astNode = variableDeclaration;
-                const astNodeService = new AstNodeService();      // The service managing AstNodes
-                arrowFunction.astNode.text = astNodeService.getCode(variableDeclaration);
-                arrowFunction.isArrowFunction = true;
-                arrowFunction.codeLines = variableDeclaration.astFile?.code?.lines?.slice(variableDeclaration.linePos - 1, variableDeclaration.lineEnd);
+        for (const statement of statements) {
+            const arrowFunction: AstMethod = statement.isExpressionStatement ? this.getExprStatementArrowFunction(statement) :  this.getVarStatementArrowFunction(statement);
+            if (arrowFunction) {
                 arrowFunctions.push(arrowFunction);
             }
         }
@@ -28,8 +17,37 @@ export class ArrowFunctionsService {
     }
 
 
-    private static hasArrowFunctionChild(astNode: AstNode): boolean {
-        return astNode.children.map(c => c.kind).includes(SyntaxKind.ArrowFunction);
+    private static getStatementsDeclaringOrAssigningArrowFunctions(astNode: AstNode): AstNode[] {
+        const varStatements: AstNode[] = astNode.children?.filter(n => n.isKeyword && n.hasArrowFunctionDescendant);
+        const exprStatements: AstNode[] = astNode.children?.filter(n => n.isExpressionStatement && n.hasArrowFunctionDescendant);
+        return varStatements.concat(exprStatements);
+    }
+
+
+    private static getVarStatementArrowFunction(statement: AstNode): AstMethod {
+        const variableDeclarationList: AstNode = statement.children?.[0];
+        const variableDeclaration: AstNode = variableDeclarationList?.children?.[0];
+        return variableDeclaration ? this.createArrowFunction(variableDeclaration, statement.children[0]?.name) : undefined;
+    }
+
+
+    private static getExprStatementArrowFunction(statement: AstNode): AstMethod {
+        const expression: AstNode = statement.children[0];
+        const identifiers: AstNode[] = expression.children[0]?.children?.filter(c => c.isIdentifier);
+        const name: string = identifiers.map(i => i.name).join('.');
+        return this.createArrowFunction(expression, name);
+    }
+
+
+    private static createArrowFunction(astNode: AstNode, name: string): AstMethod {
+        const arrowFunction = new AstMethod();
+        arrowFunction.name = name;
+        arrowFunction.astNode = astNode;
+        const astNodeService = new AstNodeService();
+        arrowFunction.astNode.text = astNodeService.getCode(astNode);
+        arrowFunction.isArrowFunction = true;
+        arrowFunction.codeLines = astNode.astFile?.code?.lines?.slice(astNode.linePos - 1, astNode.lineEnd);
+        return arrowFunction;
     }
 
 }

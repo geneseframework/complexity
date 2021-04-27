@@ -1,6 +1,7 @@
 import { AstNode } from '../../models/ast/ast-node.model';
 import { AstMayDefineContext } from '../../enums/ast-may-define-context.enum';
 import { SyntaxKind } from '../../../core/enum/syntax-kind.enum';
+import { flat } from '../../../core/utils/arrays.util';
 
 /**
  * Service for operations on TreeNode elements relative to a given node in Abstract Syntax TreeNode (AST)
@@ -57,7 +58,7 @@ export class Ast {
     static isBlock(astNode: AstNode): boolean {
         return (astNode?.kind === SyntaxKind.Block);
     }
-er
+    er
 
     /**
      * Checks if an AST node is a Parameter
@@ -65,6 +66,16 @@ er
      */
     static isCallExpression(astNode: AstNode): boolean {
         return astNode?.kind === SyntaxKind.CallExpression ?? false;
+    }
+
+
+    static isExpressionStatement(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.ExpressionStatement ?? false;
+    }
+
+
+    static isKeyword(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.Keyword ?? false;
     }
 
 
@@ -173,6 +184,34 @@ er
      */
     static isSameOperatorToken(firstNode: AstNode, secondNode: AstNode): boolean {
         return firstNode?.secondSon?.kind === secondNode?.secondSon?.kind ?? false;
+    }
+
+
+    static getChildOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
+        return astNode.children.find(c => c.kind === kind);
+    }
+
+
+    static getDescendantOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
+        if (!astNode.children) {
+            return undefined;
+        }
+        const child: AstNode = this.getChildOfKind(astNode, kind);
+        return child ?? this.getDescendantOfAstNodeArrayOfKind(astNode.children, kind);
+
+    }
+
+
+    private static getDescendantOfAstNodeArrayOfKind(astNodes: AstNode[], kind: SyntaxKind): AstNode {
+        if (!astNodes || astNodes.length === 0) {
+            return undefined;
+        }
+        for (const astNode of astNodes) {
+            if (astNode.kind === kind) {
+                return astNode;
+            }
+        }
+        return this.getDescendantOfAstNodeArrayOfKind(flat(astNodes.map(a => a.children)), kind);
     }
 
 }

@@ -156,6 +156,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get hasArrowFunctionDescendant(): boolean {
+        return !!Ast.getDescendantOfKind(this, SyntaxKind.ArrowFunction);
+    }
+
+
     get intrinsicDepthCpx(): number {
         return this._intrinsicDepthCpx;
     }
@@ -190,8 +195,23 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get isExpressionStatement(): boolean {
+        return Ast.isExpressionStatement(this);
+    }
+
+
     get isFunctionOrMethodDeclaration(): boolean {
         return this.factorCategory === NodeFeature.DECLARATION;
+    }
+
+
+    get isIdentifier(): boolean {
+        return Ast.isIdentifier(this);
+    }
+
+
+    get isKeyword(): boolean {
+        return Ast.isKeyword(this);
     }
 
 
