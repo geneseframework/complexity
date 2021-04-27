@@ -12,11 +12,6 @@ export function firstChildOfKind(astNodeInterface: AstNodeInterface, kind: Synta
 }
 
 
-export function secondSon(astNodeInterface: AstNodeInterface): AstNodeInterface {
-    return astNodeInterface?.children?.[1];
-}
-
-
 export function arrowFunctionBlock(arrowFunctionNodeInterface: AstNodeInterface): AstNodeInterface {
     return firstChildOfKind(arrowFunctionOfVarStatement(arrowFunctionNodeInterface), SyntaxKind.Block);
 }

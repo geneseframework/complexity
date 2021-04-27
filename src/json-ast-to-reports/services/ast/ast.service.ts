@@ -69,6 +69,16 @@ er
     }
 
 
+    static isExpressionStatement(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.ExpressionStatement ?? false;
+    }
+
+
+    static isKeyword(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.Keyword ?? false;
+    }
+
+
     /**
      * Returns true when the AST node is a logic door succeeding to a different logic door
      * a && b && c => returns false

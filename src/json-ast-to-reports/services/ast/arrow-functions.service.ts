@@ -19,8 +19,8 @@ export class ArrowFunctionsService {
 
     private static getStatementsDeclaringOrAssigningArrowFunctions(astNode: AstNode): AstNode[] {
         console.log(chalk.yellowBright('GET STTTTTT'), astNode.kind);
-        const varStatements: AstNode[] = astNode.children?.filter(n => n.kind === SyntaxKind.Keyword);
-        const exprStatements: AstNode[] = astNode.children?.filter(n => n.kind === SyntaxKind.ExpressionStatement && Ast.hasArrowFunctionDescendant(n));
+        const varStatements: AstNode[] = astNode.children?.filter(n => n.isKeyword);
+        const exprStatements: AstNode[] = astNode.children?.filter(n => n.isExpressionStatement && n.hasArrowFunctionDescendant);
         console.log(chalk.magentaBright('VAR STTTTTT'), varStatements);
         console.log(chalk.magentaBright('EXPR STTTTTT'), exprStatements);
         return varStatements.concat(exprStatements);
