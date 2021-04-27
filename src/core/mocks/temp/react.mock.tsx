@@ -36,3 +36,10 @@
 //         setMenuItems(Object.values(data));
 //     });
 // }
+//
+// const useCallbackHook = () => {
+//     const resent = useCallback(async () => {
+//         let a;
+//     }, [emailModal]);
+//
+// }
