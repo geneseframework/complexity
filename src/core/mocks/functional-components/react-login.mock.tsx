@@ -46,8 +46,8 @@ function getErrorType(response) {
     return errors.find((error) => error.status === response?.data?.code)?.type;
 };
 
-function Login({ t, loginAction, signupToken, redirect, queryParams: { isFreeTrial } = {} }) {
-    // const validateAccountCallback = useCallback(() => signupToken && validateAccount(signupToken), [signupToken]);
+const Login = ({ t, loginAction, signupToken, redirect, queryParams: { isFreeTrial } = {} }) => {
+    const validateAccountCallback = useCallback(() => signupToken && validateAccount(signupToken), [signupToken]);
     const { openModal } = useModal();
     const [messageError, setMessageError] = useState(null);
     const [emailModal, setEmailModal] = useState(undefined);
