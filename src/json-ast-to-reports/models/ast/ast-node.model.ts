@@ -388,6 +388,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     calculateAndSetCpxFactors(): CpxFactors {
         this.cpxFactors = new CpxFactors();
         this.setGeneralCaseCpxFactors();
+        this.setVarStatementCpxFactors();
         this.setFunctionStructuralCpx();
         this.setArrowFunctionStructuralCpx();
         this.setRecursionOrCallbackCpxFactors();
@@ -405,10 +406,20 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     /**
      * Sets the nesting and structural complexities for "usual" cases
      */
-    private setGeneralCaseCpxFactors(): void{
+    private setGeneralCaseCpxFactors(): void {
         this.cpxFactors.nesting[this.factorCategory] = cpxFactors.nesting[this.factorCategory];
         this.cpxFactors.structural[this.factorCategory] = cpxFactors.structural[this.factorCategory];
         this.cpxFactors.atomic.node = cpxFactors.atomic[this.factorCategory] ?? cpxFactors.atomic.node;
+    }
+
+
+    private setVarStatementCpxFactors(): void {
+        if (this.kind === SyntaxKind.VariableStatement) {
+            console.log(chalk.blueBright('KINDDDD AST NODDDD'), this.kind);
+            console.log(chalk.cyanBright('KINDDDD AST NODDDD children'), this.children.map(c => c.kind));
+            const varDeclaration: AstNode = Ast.getFirstDescendantOfKind(this, SyntaxKind.VariableDeclaration);
+            console.log(chalk.magentaBright('KINDDDD AST varDeclaration'), varDeclaration);
+        }
     }
 
 z

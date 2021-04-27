@@ -29,6 +29,10 @@ complexityFactors.nesting = {
     ternary: 2                          // Ternaries inside other ternaries
 };
 
+complexityFactors.readability = {
+    typing: 1                           // Lack of typing
+}
+
 complexityFactors.recursion = {
     callback: 2,                        // Callback (call to a parameter of the parentFunction (ie method) of the node)
     recursivity: 2                      // Recursive method (call to the node's method)
