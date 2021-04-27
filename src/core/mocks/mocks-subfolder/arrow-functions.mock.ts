@@ -5,6 +5,7 @@ const simpleReactComponent = () => {
     }
 }
 
+let Loginnn;
 Loginnn.getInitialProps = async (ctx) => {
     const arrow = () => {
         let b = 3;

@@ -157,7 +157,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
 
     get hasArrowFunctionDescendant(): boolean {
-        return !!Ast.getDescendantOfKind(this, SyntaxKind.ArrowFunction);
+        return !!Ast.getFirstDescendantOfKind(this, SyntaxKind.ArrowFunction);
     }
 
 

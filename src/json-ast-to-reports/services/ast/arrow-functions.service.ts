@@ -27,7 +27,7 @@ export class ArrowFunctionsService {
     private static getVarStatementArrowFunction(statement: AstNode): AstMethod {
         const variableDeclarationList: AstNode = statement.children?.[0];
         const variableDeclaration: AstNode = variableDeclarationList?.children?.[0];
-        return variableDeclaration ? this.createArrowFunction(variableDeclaration, statement.children[0]?.name) : undefined;
+        return variableDeclaration ? this.createArrowFunction(statement, variableDeclaration.children[0]?.name) : undefined;
     }
 
 
