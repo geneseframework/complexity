@@ -1,9 +1,15 @@
 import * as chalk from 'chalk';
 import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../../../../core/enum/syntax-kind.enum';
-import { arrowFunctionBlock, getFirstChild } from '../../../../core/utils/ast.util';
+import {
+    arrowFunctionBlock,
+    getFirstChild,
+    getFirstChildOfKind,
+    getFirstDescendantOfKind
+} from '../../../../core/utils/ast.util';
 import { ArrowFunctionWithIndex } from './react-component.type';
 import { GroupedExtracts } from './grouped-extracts.type';
+import { isReactHook } from './hooks.enum';
 
 export class ReactService {
 
@@ -54,12 +60,7 @@ export class ReactService {
 
 
     private static hasArrowFunctionChild(astNodeInterface: AstNodeInterface): boolean {
-        return !!this.getFirstArrowFunctionChild(astNodeInterface);
-    }
-
-
-    private static getFirstArrowFunctionChild(astNodeInterface: AstNodeInterface): AstNodeInterface {
-        return astNodeInterface.children?.find(c => c.kind === SyntaxKind.ArrowFunction);
+        return !!getFirstChildOfKind(astNodeInterface, SyntaxKind.ArrowFunction);
     }
 
 
@@ -109,6 +110,7 @@ export class ReactService {
         const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
         const hooksWithCallbacks: AstNodeInterface[] = this.getHooksWithCallbacks(block);
+        console.log(chalk.greenBright('HOOOOOKS'), hooksWithCallbacks);
         // const arrowFunctionsWithIndexes: ArrowFunctionWithIndex[] = this.getArrowFunctionsWithIndexes(block);
         for (const reactCpt of hooksWithCallbacks) {
         //     let blockChildIndex: number = block.children.findIndex(a => a === reactCpt.arrowFunction);
@@ -122,9 +124,20 @@ export class ReactService {
 
     private static getHooksWithCallbacks(block: AstNodeInterface): AstNodeInterface[] {
         const hooksWithCallBacks: AstNodeInterface[] = [];
+        console.log(chalk.yellowBright('HOOOOOKS block'), block);
         const statements: AstNodeInterface[] = block?.children?.filter(c => c.kind.includes('Statement')) ?? [];
+        console.log(chalk.cyanBright('HOOOOOKS statements'), statements);
         for (const statement of statements) {
-            const arrowFunction: AstNodeInterface = this.getFirstArrowFunctionChild(statement);
+            // const arrowFunction: AstNodeInterface = getFirstDescendantOfKind(statement, SyntaxKind.ArrowFunction);
+            // console.log(chalk.magentaBright('HOOOOOKS arrowFunction'), arrowFunction);
+            const callExpression: AstNodeInterface = getFirstDescendantOfKind(statement, SyntaxKind.CallExpression);
+            console.log(chalk.yellowBright('HOOOOOKS callExpression'), callExpression);
+            const identifier: AstNodeInterface = getFirstChildOfKind(callExpression, SyntaxKind.Identifier);
+            console.log(chalk.magentaBright('HOOOOOKS identifier'), identifier, isReactHook(identifier?.name), identifier?.type === 'function');
+            if (identifier?.type === 'function' && isReactHook(identifier?.name)) {
+                console.log(chalk.magentaBright('HOOOOOKS identifier'), identifier?.name);
+                hooksWithCallBacks.push(statement);
+            }
         }
         return hooksWithCallBacks;
     }

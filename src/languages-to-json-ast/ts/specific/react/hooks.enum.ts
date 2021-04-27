@@ -1,4 +1,4 @@
-export enum ReactHooks {
+export enum ReactHook {
     USE_ACTIONS = 'useActions',
     USE_CALLBACK = 'useCallBack',
     USE_CONTEXT = 'useContext',
@@ -19,3 +19,6 @@ export enum ReactHooks {
     USE_STORE = 'useStore'
 }
 
+export function isReactHook(name: string): name is ReactHook {
+    return Object.values(ReactHook).includes(name as ReactHook);
+}

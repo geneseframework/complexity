@@ -1,6 +1,7 @@
 import { AstNodeInterface } from '../interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../enum/syntax-kind.enum';
 import { flat } from './arrays.util';
+import * as chalk from 'chalk';
 
 
 export function getFirstChild(astNodeInterface: AstNodeInterface): AstNodeInterface {
@@ -8,30 +9,35 @@ export function getFirstChild(astNodeInterface: AstNodeInterface): AstNodeInterf
 }
 
 
-export function getFirstChildOfKind(astNode: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
-    return astNode?.children?.find(c => c.kind === kind);
+export function getFirstChildOfKind(astNodeInterface: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
+    return astNodeInterface?.children?.find(c => c.kind === kind);
 }
 
 
-export function getFirstDescendantOfKind(astNode: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
-    if (!astNode?.children) {
+export function getFirstDescendantOfKind(astNodeInterface: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
+    if (!astNodeInterface?.children) {
         return undefined;
     }
-    const child: AstNodeInterface = this.getFirstChildOfKind(astNode, kind);
-    return child ?? this.getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNode.children, kind);
+    const child: AstNodeInterface = getFirstChildOfKind(astNodeInterface, kind);
+    const zzz = child ?? getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterface.children, kind);
+    console.log(chalk.greenBright('RETURN FIRS TDESCCCC'), zzz);
+    return zzz;
 }
 
 
-function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodes: AstNodeInterface[], kind: SyntaxKind): AstNodeInterface {
-    if (!astNodes || astNodes.length === 0) {
+function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterfaces: AstNodeInterface[], kind: SyntaxKind): AstNodeInterface {
+    console.log(chalk.blueBright('GET ARRRR'), astNodeInterfaces, kind);
+    if (!astNodeInterfaces || astNodeInterfaces.length === 0) {
         return undefined;
     }
-    for (const astNode of astNodes) {
+    const definedAstNodeInterfaces: AstNodeInterface[] = astNodeInterfaces.filter(a => !!a);
+    for (const astNode of definedAstNodeInterfaces) {
         if (astNode.kind === kind) {
             return astNode;
         }
     }
-    return this.getFirstDescendantOfAstNodeInterfaceArrayOfKind(flat(astNodes.map(a => a.children)), kind);
+    console.log(chalk.redBright('NOT FOUNDDDD'));
+    return getFirstDescendantOfAstNodeInterfaceArrayOfKind(flat(definedAstNodeInterfaces.map(a => a.children)), kind);
 }
 
 
