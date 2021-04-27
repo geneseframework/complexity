@@ -1,7 +1,6 @@
 import { AstNodeInterface } from '../interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../enum/syntax-kind.enum';
 import { flat } from './arrays.util';
-import * as chalk from 'chalk';
 
 
 export function getFirstChild(astNodeInterface: AstNodeInterface): AstNodeInterface {
@@ -19,14 +18,11 @@ export function getFirstDescendantOfKind(astNodeInterface: AstNodeInterface, kin
         return undefined;
     }
     const child: AstNodeInterface = getFirstChildOfKind(astNodeInterface, kind);
-    const zzz = child ?? getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterface.children, kind);
-    console.log(chalk.greenBright('RETURN FIRS TDESCCCC'), zzz);
-    return zzz;
+    return child ?? getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterface.children, kind);
 }
 
 
 function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterfaces: AstNodeInterface[], kind: SyntaxKind): AstNodeInterface {
-    console.log(chalk.blueBright('GET ARRRR'), astNodeInterfaces, kind);
     if (!astNodeInterfaces || astNodeInterfaces.length === 0) {
         return undefined;
     }
@@ -36,7 +32,6 @@ function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterfaces: AstN
             return astNode;
         }
     }
-    console.log(chalk.redBright('NOT FOUNDDDD'));
     return getFirstDescendantOfAstNodeInterfaceArrayOfKind(flat(definedAstNodeInterfaces.map(a => a.children)), kind);
 }
 

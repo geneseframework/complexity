@@ -110,13 +110,12 @@ export class ReactService {
         const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
         const hooksWithCallbacks: AstNodeInterface[] = this.getHooksWithCallbacks(block);
-        console.log(chalk.greenBright('HOOOOOKS'), hooksWithCallbacks);
-        // const arrowFunctionsWithIndexes: ArrowFunctionWithIndex[] = this.getArrowFunctionsWithIndexes(block);
+        // console.log(chalk.greenBright('HOOOOOKS'), hooksWithCallbacks);
         for (const reactCpt of hooksWithCallbacks) {
-        //     let blockChildIndex: number = block.children.findIndex(a => a === reactCpt.arrowFunction);
-        //     const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
-        //     newFileAstNodeChildren.push(extract);
-        //     block.children.splice(blockChildIndex, 1);
+            let blockChildIndex: number = block.children.findIndex(a => a === reactCpt);
+            const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
+            newFileAstNodeChildren.push(extract);
+            block.children.splice(blockChildIndex, 1);
         }
         return newFileAstNodeChildren;
     }
@@ -124,18 +123,11 @@ export class ReactService {
 
     private static getHooksWithCallbacks(block: AstNodeInterface): AstNodeInterface[] {
         const hooksWithCallBacks: AstNodeInterface[] = [];
-        console.log(chalk.yellowBright('HOOOOOKS block'), block);
         const statements: AstNodeInterface[] = block?.children?.filter(c => c.kind.includes('Statement')) ?? [];
-        console.log(chalk.cyanBright('HOOOOOKS statements'), statements);
         for (const statement of statements) {
-            // const arrowFunction: AstNodeInterface = getFirstDescendantOfKind(statement, SyntaxKind.ArrowFunction);
-            // console.log(chalk.magentaBright('HOOOOOKS arrowFunction'), arrowFunction);
             const callExpression: AstNodeInterface = getFirstDescendantOfKind(statement, SyntaxKind.CallExpression);
-            console.log(chalk.yellowBright('HOOOOOKS callExpression'), callExpression);
             const identifier: AstNodeInterface = getFirstChildOfKind(callExpression, SyntaxKind.Identifier);
-            console.log(chalk.magentaBright('HOOOOOKS identifier'), identifier, isReactHook(identifier?.name), identifier?.type === 'function');
             if (identifier?.type === 'function' && isReactHook(identifier?.name)) {
-                console.log(chalk.magentaBright('HOOOOOKS identifier'), identifier?.name);
                 hooksWithCallBacks.push(statement);
             }
         }
