@@ -1,27 +1,45 @@
 import { AstNodeInterface } from '../interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../enum/syntax-kind.enum';
-import { Node } from 'ts-morph';
+import { flat } from './arrays.util';
 
 
-export function firstChild(astNodeInterface: AstNodeInterface): AstNodeInterface {
+export function getFirstChild(astNodeInterface: AstNodeInterface): AstNodeInterface {
     return astNodeInterface?.children?.[0];
 }
 
-export function firstChildOfKind(astNodeInterface: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
-    return astNodeInterface?.children?.find(c => c.kind === kind);
+
+export function getFirstChildOfKind(astNode: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
+    return astNode?.children?.find(c => c.kind === kind);
+}
+
+
+export function getFirstDescendantOfKind(astNode: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
+    if (!astNode?.children) {
+        return undefined;
+    }
+    const child: AstNodeInterface = this.getFirstChildOfKind(astNode, kind);
+    return child ?? this.getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNode.children, kind);
+}
+
+
+function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodes: AstNodeInterface[], kind: SyntaxKind): AstNodeInterface {
+    if (!astNodes || astNodes.length === 0) {
+        return undefined;
+    }
+    for (const astNode of astNodes) {
+        if (astNode.kind === kind) {
+            return astNode;
+        }
+    }
+    return this.getFirstDescendantOfAstNodeInterfaceArrayOfKind(flat(astNodes.map(a => a.children)), kind);
 }
 
 
 export function arrowFunctionBlock(arrowFunctionNodeInterface: AstNodeInterface): AstNodeInterface {
-    return firstChildOfKind(arrowFunctionOfVarStatement(arrowFunctionNodeInterface), SyntaxKind.Block);
+    return getFirstChildOfKind(arrowFunctionOfVarStatement(arrowFunctionNodeInterface), SyntaxKind.Block);
 }
 
 
 export function arrowFunctionOfVarStatement(varStatement: AstNodeInterface): AstNodeInterface {
-    return firstChildOfKind(firstChild(firstChild(varStatement)), SyntaxKind.ArrowFunction);
-}
-
-
-export function isJsx(node: Node): boolean {
-    return node?.getKindName()?.slice(0, 3) === 'Jsx';
+    return getFirstChildOfKind(getFirstChild(getFirstChild(varStatement)), SyntaxKind.ArrowFunction);
 }

@@ -186,23 +186,23 @@ export class Ast {
         return firstNode?.secondSon?.kind === secondNode?.secondSon?.kind ?? false;
     }
 
-
-    static getChildOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
+    // TODO: Remove duplicated code with ast.util.ts
+    static getFirstChildOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
         return astNode.children.find(c => c.kind === kind);
     }
 
-
-    static getDescendantOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
+    // TODO: Remove duplicated code with ast.util.ts
+    static getFirstDescendantOfKind(astNode: AstNode, kind: SyntaxKind): AstNode {
         if (!astNode.children) {
             return undefined;
         }
-        const child: AstNode = this.getChildOfKind(astNode, kind);
-        return child ?? this.getDescendantOfAstNodeArrayOfKind(astNode.children, kind);
+        const child: AstNode = this.getFirstChildOfKind(astNode, kind);
+        return child ?? this.getFirstDescendantOfAstNodeArrayOfKind(astNode.children, kind);
 
     }
 
-
-    private static getDescendantOfAstNodeArrayOfKind(astNodes: AstNode[], kind: SyntaxKind): AstNode {
+    // TODO: Remove duplicated code with ast.util.ts
+    private static getFirstDescendantOfAstNodeArrayOfKind(astNodes: AstNode[], kind: SyntaxKind): AstNode {
         if (!astNodes || astNodes.length === 0) {
             return undefined;
         }
@@ -211,7 +211,7 @@ export class Ast {
                 return astNode;
             }
         }
-        return this.getDescendantOfAstNodeArrayOfKind(flat(astNodes.map(a => a.children)), kind);
+        return this.getFirstDescendantOfAstNodeArrayOfKind(flat(astNodes.map(a => a.children)), kind);
     }
 
 }

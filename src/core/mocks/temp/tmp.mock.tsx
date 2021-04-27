@@ -1,8 +1,8 @@
 
 const useRequestHook = () => {
-    // useRequest(getMenuItems, (data) => {
-    //     setMenuItems(Object.values(data));
-    // });
+    useRequest(getMenuItems, (data) => {
+        setMenuItems(Object.values(data));
+    });
 }
 // const simpleReactComponent = () => {
 //     const arrow = () => {
