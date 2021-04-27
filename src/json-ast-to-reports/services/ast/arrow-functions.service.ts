@@ -41,8 +41,8 @@ export class ArrowFunctionsService {
         const identifiers: AstNode[] = expression.children[0]?.children?.filter(c => c.isIdentifier);
         const name: string = identifiers.map(i => i.name).join('.');
         // const variableDeclaration = variableDeclarationList?.children?.[0];
-        // return variableDeclaration && Ast.hasArrowFunctionChild(variableDeclaration) ? this.createArrowFunction(variableDeclaration) : undefined;
-        return undefined;
+        return this.createArrowFunction(expression, name);
+        // return undefined;
     }
 
 
