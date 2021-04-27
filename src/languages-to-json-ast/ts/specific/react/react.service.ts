@@ -67,6 +67,9 @@ export class ReactService {
     private static extractArrowFunctionsFromReactComponent(reactComponent: ArrowFunctionWithIndex): ArrowFunctionWithIndex[] {
         const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
+        if (!block) {
+            return [];
+        }
         const arrowFunctionsWithIndexes: ArrowFunctionWithIndex[] = this.getArrowFunctionsWithIndexes(block);
         for (const arrowFunctionsWithIndex of arrowFunctionsWithIndexes) {
             let blockChildIndex: number = block.children.findIndex(a => a === arrowFunctionsWithIndex.arrowFunction);
@@ -110,10 +113,12 @@ export class ReactService {
         const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
         const hooksWithCallbacks: AstNodeInterface[] = this.getHooksWithCallbacks(block);
-        // console.log(chalk.greenBright('HOOOOOKS'), hooksWithCallbacks);
-        for (const reactCpt of hooksWithCallbacks) {
-            let blockChildIndex: number = block.children.findIndex(a => a === reactCpt);
+        console.log(chalk.greenBright('HOOOOOKS'), hooksWithCallbacks.map(h => h.children));
+        for (const hookWithCallback of hooksWithCallbacks) {
+            let blockChildIndex: number = block.children.findIndex(a => a === hookWithCallback);
             const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
+            // console.log(chalk.greenBright('HOOOOOK NMMMM'), hookWithCallback.name);
+            // extract.arrowFunction.name = hookWithCallback.name;
             newFileAstNodeChildren.push(extract);
             block.children.splice(blockChildIndex, 1);
         }
@@ -128,6 +133,7 @@ export class ReactService {
             const callExpression: AstNodeInterface = getFirstDescendantOfKind(statement, SyntaxKind.CallExpression);
             const identifier: AstNodeInterface = getFirstChildOfKind(callExpression, SyntaxKind.Identifier);
             if (identifier?.type === 'function' && isReactHook(identifier?.name)) {
+                // statement.name = identifier.name;
                 hooksWithCallBacks.push(statement);
             }
         }
