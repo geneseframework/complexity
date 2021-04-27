@@ -1,6 +1,6 @@
 import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
 
-export class ReactComponent {
+export class ArrowFunctionWithIndex {
 
     arrowFunction: AstNodeInterface;
     index: number;

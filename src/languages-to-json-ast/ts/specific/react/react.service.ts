@@ -2,15 +2,16 @@ import * as chalk from 'chalk';
 import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../../../../core/enum/syntax-kind.enum';
 import { arrowFunctionBlock, firstChild } from '../../../../core/utils/ast.util';
-import { ReactComponent } from './react-component.type';
+import { ArrowFunctionWithIndex } from './react-component.type';
 import { GroupedExtracts } from './grouped-extracts.type';
 
 export class ReactService {
 
     static extractHooksAndArrowFunctions(fileAstNode: AstNodeInterface): void {
         try {
-            const reactComponents: ReactComponent[] = this.getReactComponents(fileAstNode);
-            const extractedArrowFunctions: ReactComponent[] = this.extractArrowFunctionsFromReactComponents(reactComponents);
+            const reactComponents: ArrowFunctionWithIndex[] = this.getReactComponents(fileAstNode);
+            const extractedArrowFunctions: ArrowFunctionWithIndex[] = this.extractArrowFunctionsFromReactComponents(reactComponents);
+            extractedArrowFunctions.push(...this.extractHooksFromReactComponents(reactComponents));
             this.insertExtractsIntoFileAstNode(fileAstNode, extractedArrowFunctions);
         } catch (err) {
             console.log(chalk.redBright(`Error extracting arrow functions from react components from ${fileAstNode?.name}`));
@@ -18,11 +19,12 @@ export class ReactService {
     }
 
 
-    private static getReactComponents(astNodeInterface: AstNodeInterface): ReactComponent[] {
+    private static getReactComponents(astNodeInterface: AstNodeInterface): ArrowFunctionWithIndex[] {
         try {
-            const reactComponents: ReactComponent[] = [];
+            const reactComponents: ArrowFunctionWithIndex[] = [];
             let i = 0;
-            for (const child of astNodeInterface.children) {
+            const children: AstNodeInterface[] = astNodeInterface.children ?? [];
+            for (const child of children) {
                 if (child.kind === SyntaxKind.Keyword) {
                     const son: AstNodeInterface = firstChild(child);
                     const grandSon: AstNodeInterface = firstChild(son);
@@ -30,7 +32,7 @@ export class ReactService {
                         && grandSon.kind === 'VariableDeclaration'
                         && this.hasArrowFunctionChild(grandSon)
                     ) {
-                        reactComponents.push(new ReactComponent(child, i));
+                        reactComponents.push(new ArrowFunctionWithIndex(child, i));
                     }
                 }
                 i++;
@@ -47,8 +49,8 @@ export class ReactService {
     }
 
 
-    private static extractArrowFunctionsFromReactComponents(reactComponents: ReactComponent[]): ReactComponent[] {
-        const newFileAstNodeChildren: ReactComponent[] = [];
+    private static extractArrowFunctionsFromReactComponents(reactComponents: ArrowFunctionWithIndex[]): ArrowFunctionWithIndex[] {
+        const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
         for (const reactComponent of reactComponents) {
             newFileAstNodeChildren.push(...this.extractArrowFunctionsFromReactComponent(reactComponent));
         }
@@ -56,13 +58,13 @@ export class ReactService {
     }
 
 
-    private static extractArrowFunctionsFromReactComponent(reactComponent: ReactComponent): ReactComponent[] {
-        const newFileAstNodeChildren: ReactComponent[] = [];
+    private static extractArrowFunctionsFromReactComponent(reactComponent: ArrowFunctionWithIndex): ArrowFunctionWithIndex[] {
+        const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
-        const reactComponents: ReactComponent[] = this.getReactComponents(block);
+        const reactComponents: ArrowFunctionWithIndex[] = this.getReactComponents(block);
         for (const reactCpt of reactComponents) {
             let blockChildIndex: number = block.children.findIndex(a => a === reactCpt.arrowFunction);
-            const extract = new ReactComponent(block.children[blockChildIndex], reactComponent.index);
+            const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
             newFileAstNodeChildren.push(extract);
             block.children.splice(blockChildIndex, 1);
         }
@@ -70,7 +72,7 @@ export class ReactService {
     }
 
 
-    private static insertExtractsIntoFileAstNode(fileAstNode: AstNodeInterface, extracts: ReactComponent[]): void {
+    private static insertExtractsIntoFileAstNode(fileAstNode: AstNodeInterface, extracts: ArrowFunctionWithIndex[]): void {
         const extractsGroupedByReactComponent: GroupedExtracts[] = this.getExtractsGroupedByReactComponent(extracts);
         const groupsInReverseOrder: GroupedExtracts[] = [...extractsGroupedByReactComponent].reverse();
         for (const group of groupsInReverseOrder) {
@@ -79,7 +81,7 @@ export class ReactService {
     }
 
 
-    private static getExtractsGroupedByReactComponent(extracts: ReactComponent[]): GroupedExtracts[] {
+    private static getExtractsGroupedByReactComponent(extracts: ArrowFunctionWithIndex[]): GroupedExtracts[] {
         const groups: GroupedExtracts[] = [];
         for (const extract of extracts) {
             const existingGroup: GroupedExtracts = groups.find(g => g.reactComponentIndex === extract.index);
@@ -95,5 +97,15 @@ export class ReactService {
 
     private static insertGroupedExtractsIntoFileAstNode(fileAstNode: AstNodeInterface, group: GroupedExtracts): void {
         fileAstNode.children.splice(group.reactComponentIndex + 1, 0, ...group.extracts.map(e => e.arrowFunction));
+    }
+
+
+    private static extractHooksFromReactComponents(reactComponents: ArrowFunctionWithIndex[]): ArrowFunctionWithIndex[] {
+        // const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
+        // for (const reactComponent of reactComponents) {
+        //     newFileAstNodeChildren.push(...this.extractArrowFunctionsFromReactComponent(reactComponent));
+        // }
+        // return newFileAstNodeChildren;
+        return [];
     }
 }

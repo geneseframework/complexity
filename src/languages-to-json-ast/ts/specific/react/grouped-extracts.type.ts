@@ -1,6 +1,6 @@
-import { ReactComponent } from './react-component.type';
+import { ArrowFunctionWithIndex } from './react-component.type';
 
 export type GroupedExtracts = {
     reactComponentIndex: number,
-    extracts: ReactComponent[]
+    extracts: ArrowFunctionWithIndex[]
 }
