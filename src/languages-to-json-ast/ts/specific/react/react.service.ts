@@ -110,16 +110,12 @@ export class ReactService {
 
 
     private static extractHooksFromReactComponent(reactComponent: ArrowFunctionWithIndex): ArrowFunctionWithIndex[] {
-        console.log(chalk.greenBright('HOOOOOK reactComponent'), reactComponent);
         const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
         const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
-        console.log(chalk.greenBright('HOOOOOK block'), block.children);
         const hooksWithCallbacks: AstNodeInterface[] = this.getHooksWithCallbacks(block);
-        console.log(chalk.greenBright('HOOOOOKS'), hooksWithCallbacks.map(h => h.children));
         for (const hookWithCallback of hooksWithCallbacks) {
             let blockChildIndex: number = block.children.findIndex(a => a === hookWithCallback);
             const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
-            // extract.arrowFunction.name = hookWithCallback.name;
             newFileAstNodeChildren.push(extract);
             block.children.splice(blockChildIndex, 1);
         }
@@ -130,15 +126,10 @@ export class ReactService {
     private static getHooksWithCallbacks(block: AstNodeInterface): AstNodeInterface[] {
         const hooksWithCallBacks: AstNodeInterface[] = [];
         const statements: AstNodeInterface[] = block?.children?.filter(c => c.kind.includes('Statement') || c.kind === SyntaxKind.Keyword) ?? [];
-        console.log(chalk.magentaBright('HOOOOOK statttssssss'), statements);
         for (const statement of statements) {
             const callExpression: AstNodeInterface = getFirstDescendantOfKind(statement, SyntaxKind.CallExpression);
-            console.log(chalk.cyanBright('HOOOOOK callExpression'), callExpression);
             const identifier: AstNodeInterface = getFirstChildOfKind(callExpression, SyntaxKind.Identifier);
-            console.log(chalk.magentaBright('HOOOOOK identifier'), identifier);
             if (identifier?.type === 'function' && isReactHook(identifier?.name)) {
-                console.log(chalk.yellowBright('HOOOOOK statttssssss'));
-// statement.name = identifier.name;
                 hooksWithCallBacks.push(statement);
             }
         }
