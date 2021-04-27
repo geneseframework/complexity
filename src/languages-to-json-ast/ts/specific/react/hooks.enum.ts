@@ -1,6 +1,6 @@
 export enum ReactHook {
     USE_ACTIONS = 'useActions',
-    USE_CALLBACK = 'useCallBack',
+    USE_CALLBACK = 'useCallback',
     USE_CONTEXT = 'useContext',
     USE_DEBUG_VALUE = 'useDebugValue',
     USE_DISPATCH = 'useDispatch',
