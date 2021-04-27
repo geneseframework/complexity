@@ -1,13 +1,7 @@
 import * as chalk from 'chalk';
 import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
 import { SyntaxKind } from '../../../../core/enum/syntax-kind.enum';
-import {
-    arrowFunctionBlock,
-    arrowFunctionOfVarStatement,
-    firstSon,
-    firstSonOfKind,
-    secondSon
-} from '../../../../core/utils/ast.util';
+import { arrowFunctionBlock, firstChild } from '../../../../core/utils/ast.util';
 import { ReactComponent } from './react-component.type';
 import { GroupedExtracts } from './grouped-extracts.type';
 
@@ -32,8 +26,8 @@ export class ReactService {
             let i = 0;
             for (const child of astNodeInterface.children) {
                 if (child.kind === SyntaxKind.Keyword) {
-                    const son: AstNodeInterface = firstSon(child);
-                    const grandSon: AstNodeInterface = firstSon(son);
+                    const son: AstNodeInterface = firstChild(child);
+                    const grandSon: AstNodeInterface = firstChild(son);
                     if (son.kind === 'VariableDeclarationList'
                         && grandSon.kind === 'VariableDeclaration'
                         && this.hasArrowFunctionChild(grandSon)

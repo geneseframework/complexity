@@ -1,6 +1,7 @@
 import { AstNode } from '../../models/ast/ast-node.model';
 import { AstMayDefineContext } from '../../enums/ast-may-define-context.enum';
 import { SyntaxKind } from '../../../core/enum/syntax-kind.enum';
+import { flat } from '../../../core/utils/arrays.util';
 
 /**
  * Service for operations on TreeNode elements relative to a given node in Abstract Syntax TreeNode (AST)
@@ -173,6 +174,37 @@ er
      */
     static isSameOperatorToken(firstNode: AstNode, secondNode: AstNode): boolean {
         return firstNode?.secondSon?.kind === secondNode?.secondSon?.kind ?? false;
+    }
+
+
+    static hasArrowFunctionChild(astNode: AstNode): boolean {
+        return !!astNode.children.find(c => c.kind === SyntaxKind.ArrowFunction);
+    }
+
+
+    static hasArrowFunctionDescendant(astNode: AstNode): boolean {
+        if (!astNode.children) {
+            return false;
+        }
+        if (this.hasArrowFunctionChild(astNode)) {
+            return true;
+        } else {
+            return this.haveArrowFunctionDescendant(astNode.children);
+        }
+
+    }
+
+
+    private static haveArrowFunctionDescendant(astNodes: AstNode[]): boolean {
+        if (!astNodes || astNodes.length === 0) {
+            return false;
+        }
+        for (const astNode of astNodes) {
+            if (astNode.kind === SyntaxKind.ArrowFunction) {
+                return true;
+            }
+        }
+        return this.haveArrowFunctionDescendant(flat(astNodes.map(a => a.children)));
     }
 
 }

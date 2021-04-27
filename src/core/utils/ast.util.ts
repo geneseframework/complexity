@@ -3,11 +3,11 @@ import { SyntaxKind } from '../enum/syntax-kind.enum';
 import { Node } from 'ts-morph';
 
 
-export function firstSon(astNodeInterface: AstNodeInterface): AstNodeInterface {
+export function firstChild(astNodeInterface: AstNodeInterface): AstNodeInterface {
     return astNodeInterface?.children?.[0];
 }
 
-export function firstSonOfKind(astNodeInterface: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
+export function firstChildOfKind(astNodeInterface: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
     return astNodeInterface?.children?.find(c => c.kind === kind);
 }
 
@@ -18,12 +18,12 @@ export function secondSon(astNodeInterface: AstNodeInterface): AstNodeInterface 
 
 
 export function arrowFunctionBlock(arrowFunctionNodeInterface: AstNodeInterface): AstNodeInterface {
-    return firstSonOfKind(arrowFunctionOfVarStatement(arrowFunctionNodeInterface), SyntaxKind.Block);
+    return firstChildOfKind(arrowFunctionOfVarStatement(arrowFunctionNodeInterface), SyntaxKind.Block);
 }
 
 
 export function arrowFunctionOfVarStatement(varStatement: AstNodeInterface): AstNodeInterface {
-    return firstSonOfKind(firstSon(firstSon(varStatement)), SyntaxKind.ArrowFunction);
+    return firstChildOfKind(firstChild(firstChild(varStatement)), SyntaxKind.ArrowFunction);
 }
 
 
