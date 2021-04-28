@@ -217,19 +217,8 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get isKeyword(): boolean {
-        return Ast.isKeyword(this);
-    }
-
-
     get isParam(): boolean {
         return Ast.isParam(this);
-    }
-
-
-    get isVarArrowFunction(): boolean {
-        const ancestor: AstNode = this.parent?.parent?.parent;
-        return this.kind === 'ArrowFunction' && ancestor?.kind === 'VariableStatement' && ancestor.parent?.kind === 'SourceFile';
     }
 
 
@@ -239,6 +228,17 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
         }
         this._isRecursiveMethod = this._astNodeService.isRecursiveMethod(this);
         return this._isRecursiveMethod;
+    }
+
+
+    get isVarArrowFunction(): boolean {
+        const ancestor: AstNode = this.parent?.parent?.parent;
+        return this.kind === 'ArrowFunction' && ancestor?.kind === 'VariableStatement' && ancestor.parent?.kind === 'SourceFile';
+    }
+
+
+    get isVarStatement(): boolean {
+        return Ast.isVarStatement(this);
     }
 
 

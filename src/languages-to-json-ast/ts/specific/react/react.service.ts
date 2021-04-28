@@ -36,23 +36,25 @@ export class ReactService {
 
     private static getArrowFunctionsWithIndexes(astNodeInterface: AstNodeInterface): ArrowFunctionWithIndex[] {
         try {
-            const reactComponents: ArrowFunctionWithIndex[] = [];
+            const arrowFunctionWithIndexes: ArrowFunctionWithIndex[] = [];
             let i = 0;
             const children: AstNodeInterface[] = astNodeInterface.children ?? [];
             for (const child of children) {
-                if (child.kind === SyntaxKind.Keyword) {
+                // console.log(chalk.blueBright('CHLDDDDD'), child.kind);
+                if (child.kind === SyntaxKind.VariableStatement) {
                     const son: AstNodeInterface = getFirstChild(child);
                     const grandSon: AstNodeInterface = getFirstChild(son);
                     if (son.kind === 'VariableDeclarationList'
                         && grandSon.kind === 'VariableDeclaration'
                         && this.hasArrowFunctionChild(grandSon)
                     ) {
-                        reactComponents.push(new ArrowFunctionWithIndex(child, i));
+                        // console.log(chalk.cyanBright('HAS RCT CPTSSS'));
+                        arrowFunctionWithIndexes.push(new ArrowFunctionWithIndex(child, i));
                     }
                 }
                 i++;
             }
-            return reactComponents;
+            return arrowFunctionWithIndexes;
         } catch (err) {
             console.log(chalk.redBright(`Error getting react components from ${astNodeInterface?.name}`));
         }
@@ -70,13 +72,16 @@ export class ReactService {
         if (!block) {
             return [];
         }
+        // console.log(chalk.blueBright('BLOCKKKK'), block);
         const arrowFunctionsWithIndexes: ArrowFunctionWithIndex[] = this.getArrowFunctionsWithIndexes(block);
+        // console.log(chalk.greenBright('BLOCKKKK'), arrowFunctionsWithIndexes);
         for (const arrowFunctionsWithIndex of arrowFunctionsWithIndexes) {
             let blockChildIndex: number = block.children.findIndex(a => a === arrowFunctionsWithIndex.arrowFunction);
             const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
             newFileAstNodeChildren.push(extract);
             block.children.splice(blockChildIndex, 1);
         }
+        // console.log(chalk.greenBright('EXTRZCT ARRRRR'), newFileAstNodeChildren);
         return newFileAstNodeChildren;
     }
 

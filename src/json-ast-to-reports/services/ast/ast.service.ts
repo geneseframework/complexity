@@ -74,8 +74,8 @@ export class Ast {
     }
 
 
-    static isKeyword(astNode: AstNode): boolean {
-        return astNode?.kind === SyntaxKind.Keyword ?? false;
+    static isVarStatement(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.VariableStatement ?? false;
     }
 
 
