@@ -92,15 +92,18 @@ export class AstFileGenerationService {
         if (Ts.isFunctionCall(node)) {
             astNode.type = 'function';
             if (WEIGHTED_METHODS.includes(astNode.name)) {
-                const cpxFactors: CpxFactorsInterface = this.getCpxFactors(node);
+                const cpxFactors: CpxFactorsInterface = this.getUsageCpxFactors(node);
                 if (cpxFactors) {
                     astNode.cpxFactors = cpxFactors;
                 }
             }
         }
+        if (Ts.isFunc(node)) {
+            astNode.type = 'functionDeclaration';
+            // console.log(chalk.magentaBright('AST NODDDD'), astNode);
+        }
         if (Ts.isVarStatement(node)) {
             astNode.type = Ts.getType(node);
-            // console.log(chalk.magentaBright('AST NODDDD'), astNode);
         }
         return astNode;
     }
@@ -110,7 +113,7 @@ export class AstFileGenerationService {
      * Returns the CpxFactors of a given Node (Identifier)
      * @param node      // The Node to analyze
      */
-    private getCpxFactors(node: Node): CpxFactorsInterface {
+    private getUsageCpxFactors(node: Node): CpxFactorsInterface {
         try {
             if (node.getKindName() !== SyntaxKind.Identifier) {
                 return undefined;

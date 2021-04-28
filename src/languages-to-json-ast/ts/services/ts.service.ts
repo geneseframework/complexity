@@ -71,6 +71,11 @@ export class Ts {
     }
 
 
+    static isFunc(node: Node): boolean {
+        return [SyntaxKind.FunctionDeclaration, SyntaxKind.ArrowFunction, SyntaxKind.MethodDeclaration, SyntaxKind.FunctionExpression].includes(node.getKind());
+    }
+
+
     static getType(varStatement: VariableStatement): string {
         if (!varStatement) {
             return undefined;
