@@ -1,9 +1,7 @@
 import { KindAliases } from '../../globals.const';
 import { Expression, Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
 import { isFunctionKind } from '../types/function-kind.type';
-import * as chalk from 'chalk';
 import { FunctionNode } from '../types/function-node.type';
-import { VariableInitializer } from '../../java/models/variable-initializer.model';
 
 /**
  * Service for operations on Node elements (ts-morph nodes)
@@ -96,19 +94,17 @@ export class Ts {
 
 
     static getParameterType(parameterNode: ParameterDeclaration): string {
-        const apparentType: string = parameterNode?.getType()?.getApparentType().getText();
-        if (!this.hasCompilerNodeType(parameterNode) && !apparentType) {
+        const trivialInitializer: string = this.getTrivialInitializer(parameterNode);
+        if (!this.hasCompilerNodeType(parameterNode) && !trivialInitializer) {
             return undefined;
         } else {
-            return apparentType ?? parameterNode.getType().getText();
+            return trivialInitializer ?? parameterNode.getType().getText();
         }
     }
 
 
     static getVarStatementType(varStatement: VariableStatement): string {
-        let apparentType: string = varStatement?.getFirstDescendantByKind(SyntaxKind.Identifier)?.getType()?.getApparentType()?.getText();
         const trivialInitializer: string = this.getTrivialInitializer(varStatement);
-        console.log(chalk.magentaBright('IDENTTTT TYPEDDDDD'), varStatement.getText(), trivialInitializer);
         if (!varStatement && !trivialInitializer) {
             return undefined;
         }
@@ -118,18 +114,19 @@ export class Ts {
 
 
     private static hasCompilerNodeType(node: FunctionNode | ParameterDeclaration): boolean {
-        return !node || !node.compilerNode.type;
+        return !!node?.compilerNode?.type;
     }
 
 
-    private static getTrivialInitializer(varStatement: VariableStatement): string {
-        const initializer: Expression = varStatement?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration).getInitializer();
-        console.log(chalk.yellowBright('IDENTTTT TYPEDDDDD'), varStatement.getText());
+    private static getTrivialInitializer(node: VariableStatement | ParameterDeclaration): string {
+        let initializer: Expression = this.isVarStatement(node) ? node?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration).getInitializer() : node.getInitializer();
         return this.isLiteralOrNewExpression(initializer) ? initializer.getKindName() : undefined;
     }
 
 
     private static isLiteralOrNewExpression(expression: Expression): boolean {
-        return [SyntaxKind.NumericLiteral, SyntaxKind.StringLiteral, SyntaxKind.BooleanKeyword, SyntaxKind.NewExpression].includes(expression?.getKind());
+        return [SyntaxKind.NumericLiteral, SyntaxKind.StringLiteral, SyntaxKind.TrueKeyword, SyntaxKind.FalseKeyword, SyntaxKind.NewExpression].includes(expression?.getKind());
     }
+
+
 }

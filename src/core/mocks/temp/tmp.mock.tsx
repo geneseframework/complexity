@@ -1,9 +1,10 @@
-function methodWithoutTyping(z) {
+function methodWithoutTyping(z = 3) {
     let a;
     let b: number;
     let c = 3;
     let d = new Zzz();
     let e = Zzz.fct();
+    let f = {a: 1}
 }
 
 class Zzz {
@@ -13,6 +14,3 @@ class Zzz {
         return 'd'
     }
 }
-// const simpleReactComponent = () => {
-//     let b = 3;
-// }
