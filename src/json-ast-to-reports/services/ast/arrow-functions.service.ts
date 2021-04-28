@@ -1,10 +1,16 @@
 import { AstMethod } from '../../models/ast/ast-method.model';
 import { AstNode } from '../../models/ast/ast-node.model';
 import { AstNodeService } from './ast-node.service';
-import * as chalk from 'chalk';
 
+/**
+ * Service specific to ArrowFunctions AstNodes
+ */
 export class ArrowFunctionsService {
 
+    /**
+     * Returns the ArrowFunctions which are children of a given AstNode
+     * @param astNode       // The astNode to check
+     */
     static getArrowFunctions(astNode: AstNode): AstMethod[] {
         const statements: AstNode[] = this.getStatementsDeclaringOrAssigningArrowFunctions(astNode);
         const arrowFunctions: AstMethod[] = [];
@@ -17,21 +23,36 @@ export class ArrowFunctionsService {
         return arrowFunctions;
     }
 
-
+    /**
+     * Returns the children of a given AstNode which are statements which are arrow function declarations or function assignments
+     * Examples :
+     *   -> const someFunction = () => {}
+     *   -> someVar.func = () => {}
+     * @param astNode       // The astNode to check
+     * @private
+     */
     private static getStatementsDeclaringOrAssigningArrowFunctions(astNode: AstNode): AstNode[] {
         const varStatements: AstNode[] = astNode.children?.filter(n => n.isVarStatement && n.hasArrowFunctionDescendant);
         const exprStatements: AstNode[] = astNode.children?.filter(n => n.isExpressionStatement && n.hasArrowFunctionDescendant);
         return varStatements.concat(exprStatements);
     }
 
-
+    /**
+     * Creates and returns a new AstMethod corresponding to the arrow function in some given VarStatement
+     * @param statement     // The VarStatement containing the arrow function
+     * @private
+     */
     private static getVarStatementArrowFunction(statement: AstNode): AstMethod {
         const variableDeclarationList: AstNode = statement.children?.[0];
         const variableDeclaration: AstNode = variableDeclarationList?.children?.[0];
         return variableDeclaration ? this.createArrowFunction(statement, variableDeclaration.children[0]?.name) : undefined;
     }
 
-
+    /**
+     * Creates and returns a new AstMethod corresponding to the arrow function in some given ExpressionStatement
+     * @param statement     // The ExpressionStatement containing the arrow function
+     * @private
+     */
     private static getExprStatementArrowFunction(statement: AstNode): AstMethod {
         const expression: AstNode = statement.children[0];
         const identifiers: AstNode[] = expression.children[0]?.children?.filter(c => c.isIdentifier);
@@ -39,7 +60,12 @@ export class ArrowFunctionsService {
         return this.createArrowFunction(expression, name);
     }
 
-
+    /**
+     * Creates and returns a new AstMethod corresponding to a VarStatement or ExpressionStatement containing some arrow function
+     * @param astNode       // The VarStatement or ExpressionStatement
+     * @param name          // The name to give to the AstMethod
+     * @private
+     */
     private static createArrowFunction(astNode: AstNode, name: string): AstMethod {
         const arrowFunction = new AstMethod();
         arrowFunction.name = name;
