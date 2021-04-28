@@ -54,7 +54,6 @@ export class Options {
         if (isFramework(framework)) {
             this.framework = framework;
         }
-        console.log(chalk.magentaBright('FRAMEWORKKKKK'), framework, this.framework);
         WINDOWS = process.platform === 'win32';
         const geneseConfigPath = `${pathCommand}/geneseconfig.json`;
         if (fs.existsSync(geneseConfigPath)) {
