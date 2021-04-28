@@ -1,7 +1,7 @@
-function zzz(z) {
+function zzz(z: string) {
     let a;
     let b: number;
-    return a;
+    return b;
 }
 
 // const simpleReactComponent = () => {

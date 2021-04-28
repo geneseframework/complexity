@@ -85,11 +85,20 @@ export class Ts {
 
 
     static getFunctionType(functionNode: FunctionNode): string {
-        console.log(chalk.magentaBright('COMP TYPEEEEE'), !!functionNode.compilerNode.type);
         if (!functionNode || !functionNode.compilerNode.type) {
             return undefined;
         } else {
             return functionNode?.getReturnType()?.getText();
+        }
+    }
+
+
+    static getParameterType(parameterNode: ParameterDeclaration): string {
+        console.log(chalk.magentaBright('PARAM TYPEEEEE'), !!parameterNode.compilerNode.type);
+        if (!parameterNode || !parameterNode.compilerNode.type) {
+            return undefined;
+        } else {
+            return parameterNode.getType().getText();
         }
     }
 
