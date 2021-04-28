@@ -10,8 +10,7 @@ import { ContextCpx } from './context-cpx.model';
 import { RecursionCpx } from './recursion-cpx.model';
 import { UseCpx } from './use-cpx.model';
 import { CpxFactorsInterface } from '../../interfaces/cpx-factors.interface';
-import { TypingCpx } from './readability-cpx.model';
-import * as chalk from 'chalk';
+import { TypingCpx } from './typing-cpx.model';
 
 /**
  * The Complexity Factors

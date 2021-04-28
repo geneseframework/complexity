@@ -16,7 +16,7 @@ import { AstNodeInterface } from '../../../core/interfaces/ast/ast-node.interfac
 import { IdentifierType } from '../../../core/interfaces/identifier-type.type';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
 import { FactorCategory } from '../../enums/factor-category.enum';
-import { TypingCpx } from '../../../core/models/cpx-factor/readability-cpx.model';
+import { TypingCpx } from '../../../core/models/cpx-factor/typing-cpx.model';
 
 export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
