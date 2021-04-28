@@ -50,34 +50,37 @@ export class Ast {
         return astNode?.kind === SyntaxKind.BinaryExpression ?? false;
     }
 
-
     /**
      * Checks if an AST node is a Block which is a "else"
-     * @param astNode      // The node to analyse
+     * @param astNode   // The node to check
      */
     static isBlock(astNode: AstNode): boolean {
         return (astNode?.kind === SyntaxKind.Block);
     }
-    er
 
     /**
-     * Checks if an AST node is a Parameter
-     * @param astNode // The AST node
+     * Checks if an AST node is a CallExpression
+     * @param astNode   // The AST node to check
      */
     static isCallExpression(astNode: AstNode): boolean {
         return astNode?.kind === SyntaxKind.CallExpression ?? false;
     }
 
-
+    /**
+     * Checks if an AST node is an ExpressionStatement
+     * @param astNode   // The AST node to check
+     */
     static isExpressionStatement(astNode: AstNode): boolean {
         return astNode?.kind === SyntaxKind.ExpressionStatement ?? false;
     }
 
-
+    /**
+     * Checks if an AST node is a VariableStatement
+     * @param astNode   // The AST node to check
+     */
     static isVarStatement(astNode: AstNode): boolean {
         return astNode?.kind === SyntaxKind.VariableStatement ?? false;
     }
-
 
     /**
      * Returns true when the AST node is a logic door succeeding to a different logic door
@@ -97,7 +100,6 @@ export class Ast {
         return false;
     }
 
-
     /**
      * Checks if an AST node is a IfStatement which is an "else if"
      * @param astNode      // The node to analyse
@@ -105,7 +107,6 @@ export class Ast {
     static isElseIfStatement(astNode: AstNode): boolean {
         return (astNode?.kind === SyntaxKind.IfStatement && astNode?.parent?.kind === SyntaxKind.IfStatement);
     }
-
 
     /**
      * Checks if an AST node is a Block which is a "else"
@@ -116,7 +117,6 @@ export class Ast {
             && astNode?.parent?.kind === SyntaxKind.IfStatement
             && astNode?.parent.getSon(2) === astNode)
     }
-
 
     /**
      * Checks if an AST node is a function or a method
@@ -129,7 +129,6 @@ export class Ast {
             false;
     }
 
-
     /**
      * Checks if an AST node is a function or a method
      * @param astNode
@@ -137,7 +136,6 @@ export class Ast {
     static isIdentifier(astNode: AstNode): boolean {
         return astNode?.kind === SyntaxKind.Identifier;
     }
-
 
     /**
      * Checks if an AST node is a logic door (ie : || or &&)
@@ -149,7 +147,6 @@ export class Ast {
             ?? false;
     }
 
-
     /**
      * Checks if an AST node is an index of an array, ie if it's a Node which is the second son of an ELEMENT_ACCESS_EXPRESSION
      * @param astNode      // The node to analyse
@@ -157,7 +154,6 @@ export class Ast {
     static isCallIdentifier(astNode: AstNode): boolean {
         return(Ast.isCallExpression(astNode.parent) && Ast.isIdentifier(astNode));
     }
-
 
     /**
      * Checks if an AST node is a Parameter
@@ -167,7 +163,6 @@ export class Ast {
         return astNode?.kind === SyntaxKind.Parameter ?? false;
     }
 
-
     /**
      * Checks if an AST node is a PropertyAccessExpression
      * @param astNode // The AST node
@@ -175,7 +170,6 @@ export class Ast {
     static isPropertyAccessExpression(astNode: AstNode): boolean {
         return astNode?.kind === SyntaxKind.PropertyAccessExpression ?? false;
     }
-
 
     /**
      * Checks if two AST nodes have the same type

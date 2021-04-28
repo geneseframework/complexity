@@ -52,7 +52,7 @@ export class Options {
         framework?: Framework
     ): void {
         if (isFramework(framework)) {
-            this.framework = framework;
+            Options.framework = framework;
         }
         WINDOWS = process.platform === 'win32';
         const geneseConfigPath = `${pathCommand}/geneseconfig.json`;
@@ -98,8 +98,6 @@ export class Options {
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
-        // TODO : use geneseconfig
-        Options.framework = 'react';
     }
 
 

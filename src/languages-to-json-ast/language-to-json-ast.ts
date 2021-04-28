@@ -1,14 +1,9 @@
 import { InitGenerationService } from './init-generation.service';
 import { Language } from '../core/enum/language.enum';
-import * as chalk from 'chalk';
 import { JsonService } from './json.service';
 import { createFile } from '../core/services/file.service';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
 import { project } from './globals.const';
-import { Project } from 'ts-morph';
-import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
-import { AstNodeInterface } from '../core/interfaces/ast/ast-node.interface';
-import { Ts } from './ts/services/ts.service';
 
 /**
  * Main process of the parsing to JsonAst format
@@ -17,8 +12,8 @@ export class LanguageToJsonAst {
 
     /**
      * Starts the parsing to Json Ast format
-     * @param  {string} pathToAnalyze          // The path of the folder to analyse
-     * @param  {Language} language?         // The language to parse and convert into JsonAst
+     * @param  {string} pathToAnalyze           // The path of the folder to analyse
+     * @param  {Language} language              // The language to parse and convert into JsonAst
      * @returns void
      */
     static start(pathToAnalyze: string, language?: Language): void {

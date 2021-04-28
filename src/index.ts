@@ -1,13 +1,10 @@
 #!/usr/bin/env node
 
-import {Worker} from 'worker_threads';
+import { Worker } from 'worker_threads';
 import { Options } from './core/models/options.model';
-import { createOutDir, deleteFile } from './core/services/file.service';
+import { createOutDir } from './core/services/file.service';
 import { AstFolder } from './json-ast-to-reports/models/ast/ast-folder.model';
-import { Language } from './core/enum/language.enum';
 import * as chalk from 'chalk';
-import { LanguageToJsonAst } from './languages-to-json-ast/language-to-json-ast';
-import { JsonAstToReports } from './json-ast-to-reports/json-ast-to-reports';
 
 const ora = require('ora');
 const path = require('path');

@@ -15,10 +15,10 @@ export class JsonAstToReports {
 
     /**
      * Starts the analysis
-     * @param pathCommand
-     * @param jsonAstPath
-     * @param markdown
-     * @param consoleMode
+     * @param pathCommand       // The path of the directory where is typed the command-line
+     * @param jsonAstPath       // The path to the file ast.json
+     * @param markdown          // True if the user wants to get a report on markdown format
+     * @param consoleMode       // True if the user wants to get a report on the console
      */
     static start(pathCommand: string, jsonAstPath = '/ast.json', markdown: boolean, consoleMode: boolean): any {
         let result = undefined;

@@ -4,8 +4,8 @@ import { SyntaxKind } from '../../../../core/enum/syntax-kind.enum';
 import {
     arrowFunctionBlock,
     getFirstChild,
-    getFirstChildOfKind,
-    getFirstDescendantOfKind
+    getFirstChildByKind,
+    getFirstDescendantByKind
 } from '../../../../core/utils/ast.util';
 import { ArrowFunctionWithIndex } from './react-component.type';
 import { GroupedExtracts } from './grouped-extracts.type';
@@ -60,7 +60,7 @@ export class ReactService {
 
 
     private static hasArrowFunctionChild(astNodeInterface: AstNodeInterface): boolean {
-        return !!getFirstChildOfKind(astNodeInterface, SyntaxKind.ArrowFunction);
+        return !!getFirstChildByKind(astNodeInterface, SyntaxKind.ArrowFunction);
     }
 
 
@@ -127,8 +127,8 @@ export class ReactService {
         const hooksWithCallBacks: AstNodeInterface[] = [];
         const statements: AstNodeInterface[] = block?.children?.filter(c => c.kind.includes('Statement') || c.kind === SyntaxKind.Keyword) ?? [];
         for (const statement of statements) {
-            const callExpression: AstNodeInterface = getFirstDescendantOfKind(statement, SyntaxKind.CallExpression);
-            const identifier: AstNodeInterface = getFirstChildOfKind(callExpression, SyntaxKind.Identifier);
+            const callExpression: AstNodeInterface = getFirstDescendantByKind(statement, SyntaxKind.CallExpression);
+            const identifier: AstNodeInterface = getFirstChildByKind(callExpression, SyntaxKind.Identifier);
             if (identifier?.type === 'function' && isReactHook(identifier?.name)) {
                 hooksWithCallBacks.push(statement);
             }
