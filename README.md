@@ -20,6 +20,7 @@ This module is a part of the [@genese]('https://github.com/geneseframework/genes
     * [Folders to ignore](#52-folders-to-ignore)
     * [Path of folder to analyze](#53-path-of-folder-to-analyse)
     * [Reports path](#54-reports-path)
+    * [Frameworks](#55-frameworks)
 * [Cyclomatic complexity](#6-cyclomatic-complexity)
     * [Definition](#61-definition)
 * [Cognitive complexity](#7-cognitive-complexity)
@@ -198,6 +199,22 @@ By default, the genese complexity report will be located here : `current_folder/
         "pathReports": "./my-report-folder"
     }
 }
+```
+
+### 5.5 Frameworks
+
+Some frameworks may need specific calculations to be able to display a report relevant with their specificities.
+
+* **React**
+
+The React functional components are huge arrow functions containing some logic and Jsx code. Without specific configuration, @genese/complexity would only display the complexity index of this huge arrow function, which is not very relevant: a component may be huge without any bad coding practice.
+
+The option in command-line `-f react` activates the analysis specific to React. With this option, the React hooks and the arrow functions nested in the ReactComponent are extracted and analyzed separately.
+
+**Example**
+
+```
+genese cpx ./src -f react
 ```
 
 [Top](#table-of-contents)
