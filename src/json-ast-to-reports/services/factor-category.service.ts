@@ -12,13 +12,20 @@ export class FactorCategoryService {
                 return NodeFeature.ATOMIC;
             case SyntaxKind.BinaryExpression:
                 return NodeFeature.BINARY;
+            case SyntaxKind.BarToken:
+            case SyntaxKind.AmpersandToken:
+            case SyntaxKind.LessThanLessThanToken:
+            case SyntaxKind.GreaterThanGreaterThanToken:
+            case SyntaxKind.GreaterThanGreaterThanGreaterThanToken:
+            case SyntaxKind.CaretToken:
+                return NodeFeature.BIT_DOOR;
+            case SyntaxKind.FunctionDeclaration:
+            case SyntaxKind.MethodDeclaration:
+                return NodeFeature.CALL_DECLARATION;
             case SyntaxKind.CatchClause:
             case SyntaxKind.IfStatement:
             case SyntaxKind.SwitchStatement:
                 return NodeFeature.CONDITIONAL;
-            case SyntaxKind.FunctionDeclaration:
-            case SyntaxKind.MethodDeclaration:
-                return NodeFeature.DECLARATION;
             case SyntaxKind.ArrowFunction:
             case SyntaxKind.FunctionExpression:
                 return NodeFeature.FUNC;
@@ -29,13 +36,6 @@ export class FactorCategoryService {
             case SyntaxKind.AmpersandAmpersandToken:
             case SyntaxKind.BarBarToken:
                 return NodeFeature.LOGIC_DOOR;
-            case SyntaxKind.BarToken:
-            case SyntaxKind.AmpersandToken:
-            case SyntaxKind.LessThanLessThanToken:
-            case SyntaxKind.GreaterThanGreaterThanToken:
-            case SyntaxKind.GreaterThanGreaterThanGreaterThanToken:
-            case SyntaxKind.CaretToken:
-                return NodeFeature.BIT_DOOR
             case SyntaxKind.DoStatement:
             case SyntaxKind.ForStatement:
             case SyntaxKind.ForInStatement:
@@ -46,6 +46,8 @@ export class FactorCategoryService {
                 return NodeFeature.REGEX;
             case SyntaxKind.ConditionalExpression:
                 return NodeFeature.TERNARY;
+            case SyntaxKind.VariableStatement:
+                return NodeFeature.VARIABLE;
             default:
                 return NodeFeature.EMPTY;
         }

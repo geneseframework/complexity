@@ -41,7 +41,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     private _pos ?= 0;                                                                  // The pos of the beginning of the AST node, including spaces and comments before it. (extractHooksAndArrowFunctions <= extractHooksAndArrowFunctions)
     private _start ?= 0;                                                                // The pos of the beginning of the AST node, without spaces and comments before it. (extractHooksAndArrowFunctions >= extractHooksAndArrowFunctions)
     private _text: string = undefined;                                                  // The code of the AstNode
-    private _type: IdentifierType = undefined;                                          // The type of the AstNode (if given)
+    private _type: string = undefined;                                          // The type of the AstNode (if given)
 
 
 
@@ -181,6 +181,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get isAssignment(): boolean {
+        return [NodeFeature.VARIABLE, NodeFeature.PARAMETER].includes(this.factorCategory);
+    }
+
+
     get isCallback(): boolean {
         if (this._isCallback) {
             return this._isCallback;
@@ -201,7 +206,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
 
     get isFunctionOrMethodDeclaration(): boolean {
-        return this.factorCategory === NodeFeature.DECLARATION;
+        return this.factorCategory === NodeFeature.CALL_DECLARATION;
     }
 
 
@@ -347,12 +352,12 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get type(): IdentifierType {
+    get type(): string {
         return this._type;
     }
 
 
-    set type(type: IdentifierType) {
+    set type(type: string) {
         this._type = type;
     }
 
@@ -388,7 +393,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     calculateAndSetCpxFactors(): CpxFactors {
         this.cpxFactors = new CpxFactors();
         this.setGeneralCaseCpxFactors();
-        this.setVarStatementCpxFactors();
+        this.setAssignmentCpxFactors();
         this.setFunctionStructuralCpx();
         this.setArrowFunctionStructuralCpx();
         this.setRecursionOrCallbackCpxFactors();
@@ -413,12 +418,13 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    private setVarStatementCpxFactors(): void {
-        if (this.kind === SyntaxKind.VariableStatement) {
-            console.log(chalk.blueBright('KINDDDD AST NODDDD'), this.kind);
-            console.log(chalk.cyanBright('KINDDDD AST NODDDD children'), this.children.map(c => c.kind));
+    private setAssignmentCpxFactors(): void {
+        if (this.isAssignment) {
+            console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
+            this.cpxFactors.typing['variable'] = cpxFactors.typing[this.factorCategory];
+            console.log(chalk.cyanBright('SET VARRRRR CPX factors'), this.cpxFactors);
             const varDeclaration: AstNode = Ast.getFirstDescendantOfKind(this, SyntaxKind.VariableDeclaration);
-            console.log(chalk.magentaBright('KINDDDD AST varDeclaration'), varDeclaration);
+            // console.log(chalk.magentaBright('KINDDDD AST varDeclaration'), varDeclaration);
         }
     }
 

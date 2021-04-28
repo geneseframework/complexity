@@ -1,7 +1,10 @@
 /**
- * The Complexity Category "ReadabilityCpx*/
-export class ReadabilityCpx {
+ * The Complexity Category "TypingCpx"
+ * */
+export class TypingCpx {
 
-    typing ?= 0;                            // Lack of typing
+    func: 1;                            // Untyped function or method
+    parameter: 1;                       // Untyped parameter declaration
+    variable: 1;                        // Untyped variable assignment
 
 }

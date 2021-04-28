@@ -89,6 +89,7 @@ export class InitGenerationService {
                         astFolder.children.push(this.generateAstFolder(`${pathElement}/`, language));
                     } else if (this.isFileToGenerate(pathElement, language)) {
                         astFolder.astFiles.push(initService.generate(pathElement, astFolder));
+                        console.log(chalk.red('ASTFFFFFF'), astFolder.astFiles);
                     }
                 }
             });

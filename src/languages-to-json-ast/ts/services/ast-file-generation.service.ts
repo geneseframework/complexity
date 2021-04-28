@@ -78,6 +78,7 @@ export class AstFileGenerationService {
                 astNode.children.push(this.createAstNodeChildren(childNode));
             });
         }
+        // console.log(chalk.greenBright('ASTNODE RETRRRRRRN'), astNode);
         return astNode;
     }
 
@@ -99,7 +100,7 @@ export class AstFileGenerationService {
         }
         if (Ts.isVarStatement(node)) {
             astNode.type = Ts.getType(node);
-            console.log(chalk.magentaBright('AST NODDDD'), astNode);
+            // console.log(chalk.magentaBright('AST NODDDD'), astNode);
         }
         return astNode;
     }
