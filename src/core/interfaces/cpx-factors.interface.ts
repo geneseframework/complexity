@@ -6,6 +6,7 @@ import { NestingCpx } from '../models/cpx-factor/nesting-cpx.model';
 import { RecursionCpx } from '../models/cpx-factor/recursion-cpx.model';
 import { StructuralCpx } from '../models/cpx-factor/structural-cpx.model';
 import { UseCpx } from '../models/cpx-factor/use-cpx.model';
+import { TypingCpx } from '../models/cpx-factor/readability-cpx.model';
 
 export interface CpxFactorsInterface {
 
@@ -16,6 +17,7 @@ export interface CpxFactorsInterface {
     nesting?: NestingCpx;                    // Nesting Complexity
     recursion?: RecursionCpx;              // Recursion Complexity
     structural?: StructuralCpx;           // Structural Complexity
+    typing?: TypingCpx;                       // Typing Complexity
     use?: UseCpx;                                // Use Complexity
 
 }

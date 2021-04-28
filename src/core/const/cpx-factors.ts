@@ -29,6 +29,12 @@ complexityFactors.nesting = {
     ternary: 2                          // Ternaries inside other ternaries
 };
 
+complexityFactors.typing = {
+    func: 1,                            // Untyped function or method
+    parameter: 1,                       // Untyped parameter callDeclaration
+    variable: 1                         // Untyped variable assignment
+}
+
 complexityFactors.recursion = {
     callback: 2,                        // Callback (call to a parameter of the parentFunction (ie method) of the node)
     recursivity: 2                      // Recursive method (call to the node's method)
@@ -37,12 +43,12 @@ complexityFactors.recursion = {
 complexityFactors.structural = {
     arr: 0.1,                           // "Array", "Set"
     asynchronicity: 1,                  // "Promise", "Observable"
+    bitDoor: 2,                         // ">>", ">>", ">>>", "&", "|", "^"
     conditional: 1,                     // "if", "else", "else if", "switch", "catch", nullish coalescing
     externalBinding: 3,                 // A "this" inside a method which not refers to the method parentFunction (its class)
     func: 1,                            // Usage of a function or method inside a block of code
     jump: 1,                            // "break", "continue"
     logicDoor: 1,                       // "and", "or", "not"
-    bitDoor: 2,                         // ">>", ">>", ">>>", "&", "|", "^"
     loop: 1,                            // "for", "foreach", "while"
     method: 1,                          // Usage of a method (located in the project or elsewhere)
     regex: 1,                           // Regular expression

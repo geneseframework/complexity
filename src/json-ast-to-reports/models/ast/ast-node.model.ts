@@ -15,6 +15,8 @@ import { CodeService } from '../../services/code.service';
 import { AstNodeInterface } from '../../../core/interfaces/ast/ast-node.interface';
 import { IdentifierType } from '../../../core/interfaces/identifier-type.type';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
+import { FactorCategory } from '../../enums/factor-category.enum';
+import { TypingCpx } from '../../../core/models/cpx-factor/readability-cpx.model';
 
 export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
@@ -41,7 +43,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     private _pos ?= 0;                                                                  // The pos of the beginning of the AST node, including spaces and comments before it. (extractHooksAndArrowFunctions <= extractHooksAndArrowFunctions)
     private _start ?= 0;                                                                // The pos of the beginning of the AST node, without spaces and comments before it. (extractHooksAndArrowFunctions >= extractHooksAndArrowFunctions)
     private _text: string = undefined;                                                  // The code of the AstNode
-    private _type: IdentifierType = undefined;                                          // The type of the AstNode (if given)
+    private _type: string = undefined;                                          // The type of the AstNode (if given)
 
 
 
@@ -181,6 +183,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get isAssignment(): boolean {
+        return [NodeFeature.VARIABLE, NodeFeature.PARAMETER].includes(this.factorCategory);
+    }
+
+
     get isCallback(): boolean {
         if (this._isCallback) {
             return this._isCallback;
@@ -200,8 +207,13 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get isFunctionOrMethodDeclaration(): boolean {
-        return this.factorCategory === NodeFeature.DECLARATION;
+    get isCallDeclaration(): boolean {
+        return this.factorCategory === NodeFeature.CALL_DECLARATION;
+    }
+
+
+    get isFunc(): boolean {
+        return this.factorCategory === NodeFeature.FUNC;
     }
 
 
@@ -312,6 +324,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get shouldBeTyped(): boolean {
+        return this.isAssignment || this.isCallDeclaration || this.isFunc;
+    }
+
+
     get start(): number {
         return this._start;
     }
@@ -347,12 +364,12 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get type(): IdentifierType {
+    get type(): string {
         return this._type;
     }
 
 
-    set type(type: IdentifierType) {
+    set type(type: string) {
         this._type = type;
     }
 
@@ -388,6 +405,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     calculateAndSetCpxFactors(): CpxFactors {
         this.cpxFactors = new CpxFactors();
         this.setGeneralCaseCpxFactors();
+        this.setAssignmentCpxFactors();
         this.setFunctionStructuralCpx();
         this.setArrowFunctionStructuralCpx();
         this.setRecursionOrCallbackCpxFactors();
@@ -405,10 +423,20 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     /**
      * Sets the nesting and structural complexities for "usual" cases
      */
-    private setGeneralCaseCpxFactors(): void{
+    private setGeneralCaseCpxFactors(): void {
         this.cpxFactors.nesting[this.factorCategory] = cpxFactors.nesting[this.factorCategory];
         this.cpxFactors.structural[this.factorCategory] = cpxFactors.structural[this.factorCategory];
         this.cpxFactors.atomic.node = cpxFactors.atomic[this.factorCategory] ?? cpxFactors.atomic.node;
+    }
+
+
+    private setAssignmentCpxFactors(): void {
+        // console.log(chalk.redBright('ASSIGNNNN CPX factors'), this.kind, this.type, this.factorCategory);
+        if (this.shouldBeTyped && !this.type) {
+            const category: string = this.isCallDeclaration ? 'func' : this.factorCategory;
+            // console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
+            this.cpxFactors.typing[category] = cpxFactors.typing[category];
+        }
     }
 
 z

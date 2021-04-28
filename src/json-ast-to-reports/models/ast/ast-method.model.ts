@@ -165,7 +165,7 @@ export class AstMethod implements Evaluate {
      * Creates the displayed code of this AstMethod and evaluates its complexity
      */
     evaluate(): void {
-        this.createDisplayedCode();
+        this.createDisplayedCodeAndCalculateCpxFactors();
         // LogService.logMethod(this);
         this.cognitiveStatus = this.getComplexityStatus(ComplexityType.COGNITIVE);
         this.cyclomaticCpx = CS.calculateCyclomaticCpx(this.astNode);
@@ -198,7 +198,7 @@ export class AstMethod implements Evaluate {
      * Creates the method's code to display, with comments
      * @param astNode  // The AstNode to analyse (by default: the AstNode associated to this AstMethod)
      */
-    createDisplayedCode(astNode: AstNode = this.astNode): void {
+    createDisplayedCodeAndCalculateCpxFactors(astNode: AstNode = this.astNode): void {
         this.setDisplayedCodeLines();
         this.setDeclarationCpxFactors();
         this.setCpxFactorsToDisplayedCode(astNode, false);
@@ -291,11 +291,12 @@ export class AstMethod implements Evaluate {
             .filter(line => line.cpxFactors.total > 0)
             .forEach(line => {
                 let comment = `+${line.cpxFactors.total.toFixed(1)} Complexity index (+${line.cpxFactors.totalAtomic.toFixed(1)} ${FactorCategory.ATOMIC}`;
-                comment = line.cpxFactors.totalAggregation > 0 ? `${comment}, +${line.cpxFactors.totalAggregation} ${FactorCategory.AGGREGATION}` : comment;
+                comment = line.cpxFactors.totalStructural > 0 ? `${comment}, +${line.cpxFactors.totalStructural} ${FactorCategory.STRUCTURAL}` : comment;
                 comment = line.cpxFactors.totalNesting > 0 ? `${comment}, +${line.cpxFactors.totalNesting} nesting` : comment;
+                comment = line.cpxFactors.totalTyping > 0 ? `${comment}, +${line.cpxFactors.totalTyping} typing` : comment;
+                comment = line.cpxFactors.totalAggregation > 0 ? `${comment}, +${line.cpxFactors.totalAggregation} ${FactorCategory.AGGREGATION}` : comment;
                 comment = line.cpxFactors.totalDepth > 0 ? `${comment}, +${line.cpxFactors.totalDepth} depth` : comment;
                 comment = line.cpxFactors.totalRecursion > 0 ? `${comment}, +${line.cpxFactors.totalRecursion} recursivity` : comment;
-                comment = line.cpxFactors.totalStructural > 0 ? `${comment}, +${line.cpxFactors.totalStructural} ${FactorCategory.STRUCTURAL}` : comment;
                 comment = line.cpxFactors.totalUse > 0 ? `${comment}, +${line.cpxFactors.totalUse} ${FactorCategory.USE}` : comment;
                 comment = `${comment})`;
                 this._displayedCode.getLine(line.issue).addComment(comment, this.maxLineLength);
@@ -309,7 +310,7 @@ export class AstMethod implements Evaluate {
     private calculateCpxFactors(): void {
         const lines: CodeLine[] = this._displayedCode?.lines;
         if (lines.length === 0) {
-            this.createDisplayedCode();
+            this.createDisplayedCodeAndCalculateCpxFactors();
         }
         this.cpxFactors = new CpxFactors();
         for (const line of this._displayedCode?.lines) {

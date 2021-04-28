@@ -10,6 +10,8 @@ import { ContextCpx } from './context-cpx.model';
 import { RecursionCpx } from './recursion-cpx.model';
 import { UseCpx } from './use-cpx.model';
 import { CpxFactorsInterface } from '../../interfaces/cpx-factors.interface';
+import { TypingCpx } from './readability-cpx.model';
+import * as chalk from 'chalk';
 
 /**
  * The Complexity Factors
@@ -23,6 +25,7 @@ export class CpxFactors implements CpxFactorsInterface, Addition<CpxFactors>{
     nesting?: NestingCpx = new NestingCpx();                    // Nesting Complexity
     recursion?: RecursionCpx = new RecursionCpx();              // Recursion Complexity
     structural?: StructuralCpx = new StructuralCpx();           // Structural Complexity
+    typing?: TypingCpx = new TypingCpx();                       // Typing Complexity
     use?: UseCpx = new UseCpx();                                // Use Complexity
 
 
@@ -61,6 +64,11 @@ export class CpxFactors implements CpxFactorsInterface, Addition<CpxFactors>{
 
     get totalNesting(): number {
         return this.totalByFactorCategory(FactorCategory.NESTING)
+    }
+
+
+    get totalTyping(): number {
+        return this.totalByFactorCategory(FactorCategory.TYPING)
     }
 
 

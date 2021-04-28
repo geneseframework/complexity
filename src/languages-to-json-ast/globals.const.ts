@@ -1,6 +1,6 @@
-import { KindAlias } from './ts/models/kind-alias';
 import { WeightsService } from './ts/libraries-weights/weights.service';
 import { Project } from 'ts-morph';
+import { KindAlias } from './ts/models/kind-alias.model';
 
 /**
  * Merge different node's kind names in a more generic one. It simplifies the JsonAst format
@@ -8,7 +8,8 @@ import { Project } from 'ts-morph';
 export const KindAliases: KindAlias[] = [
     {
         name: 'Keyword',
-        aliases: ['AnyKeyword', 'CaseClause', 'DefaultClause', 'FalseKeyword', 'NewExpression', 'ReturnStatement', 'StringKeyword', 'TrueKeyword', 'VariableStatement', 'VoidKeyword']
+        aliases: ['AnyKeyword', 'CaseClause', 'DefaultClause', 'FalseKeyword', 'NewExpression', 'ReturnStatement', 'StringKeyword', 'TrueKeyword', 'VoidKeyword']
+        // aliases: ['AnyKeyword', 'CaseClause', 'DefaultClause', 'FalseKeyword', 'NewExpression', 'ReturnStatement', 'StringKeyword', 'TrueKeyword', 'VariableStatement', 'VoidKeyword']
     },
     {
         name: 'Literal',

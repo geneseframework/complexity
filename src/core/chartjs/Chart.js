@@ -11695,7 +11695,7 @@ var Scale = core_element.extend({
 		maxWidth = Math.min(me.maxWidth, me.chart.width - maxLabelWidth);
 		tickWidth = options.offset ? me.maxWidth / numTicks : maxWidth / (numTicks - 1);
 
-		// Allow 3 pixels x2 padding either side for label readability
+		// Allow 3 pixels x2 padding either side for label assignment
 		if (maxLabelWidth + 6 > tickWidth) {
 			tickWidth = maxWidth / (numTicks - (options.offset ? 0.5 : 1));
 			maxHeight = me.maxHeight - getTickMarkLength(options.gridLines)

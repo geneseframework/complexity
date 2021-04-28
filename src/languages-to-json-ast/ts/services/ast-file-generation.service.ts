@@ -11,6 +11,7 @@ import { randomString } from '../../../core/services/tools.service';
 import { Options } from '../../../core/models/options.model';
 import { ReactService } from '../specific/react/react.service';
 import { isJsx } from '../utils/ast.util';
+import * as chalk from 'chalk';
 
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)
@@ -77,6 +78,7 @@ export class AstFileGenerationService {
                 astNode.children.push(this.createAstNodeChildren(childNode));
             });
         }
+        // console.log(chalk.greenBright('ASTNODE RETRRRRRRN'), astNode);
         return astNode;
     }
 
@@ -90,11 +92,20 @@ export class AstFileGenerationService {
         if (Ts.isFunctionCall(node)) {
             astNode.type = 'function';
             if (WEIGHTED_METHODS.includes(astNode.name)) {
-                const cpxFactors: CpxFactorsInterface = this.getCpxFactors(node);
+                const cpxFactors: CpxFactorsInterface = this.getUsageCpxFactors(node);
                 if (cpxFactors) {
                     astNode.cpxFactors = cpxFactors;
                 }
             }
+        }
+        if (Ts.isFunctionNode(node)) {
+            astNode.type = Ts.getFunctionType(node);
+        }
+        if (Ts.isParameter(node)) {
+            astNode.type = Ts.getParameterType(node);
+        }
+        if (Ts.isVarStatement(node)) {
+            astNode.type = Ts.getVarStatementType(node);
         }
         return astNode;
     }
@@ -104,7 +115,7 @@ export class AstFileGenerationService {
      * Returns the CpxFactors of a given Node (Identifier)
      * @param node      // The Node to analyze
      */
-    private getCpxFactors(node: Node): CpxFactorsInterface {
+    private getUsageCpxFactors(node: Node): CpxFactorsInterface {
         try {
             if (node.getKindName() !== SyntaxKind.Identifier) {
                 return undefined;

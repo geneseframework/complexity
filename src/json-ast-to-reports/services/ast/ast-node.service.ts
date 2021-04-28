@@ -105,7 +105,7 @@ export class AstNodeService {
      * @param astNode      // The AstNode to check
      */
     isRecursiveMethod(astNode: AstNode): boolean {
-        if (!astNode.isFunctionOrMethodDeclaration) {
+        if (!astNode.isCallDeclaration) {
             return false;
         }
         return this.hasRecursiveNode(astNode.astMethod, astNode);
@@ -119,7 +119,7 @@ export class AstNodeService {
      */
     private hasRecursiveNode(astNodeMethod: AstMethod, astNode?: AstNode): boolean {
         for (const childAstNode of astNode?.children) {
-            if (childAstNode.name === astNodeMethod.name && childAstNode.context === astNodeMethod.astNode.context && !astNode.isFunctionOrMethodDeclaration) {
+            if (childAstNode.name === astNodeMethod.name && childAstNode.context === astNodeMethod.astNode.context && !astNode.isCallDeclaration) {
                 return true;
             }
             if (this.hasRecursiveNode(astNodeMethod, childAstNode)) {

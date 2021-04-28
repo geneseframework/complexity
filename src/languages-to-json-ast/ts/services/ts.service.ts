@@ -1,5 +1,8 @@
 import { KindAliases } from '../../globals.const';
-import { Node, SyntaxKind } from 'ts-morph';
+import { Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
+import { isFunctionKind } from '../types/function-kind.type';
+import { FunctionNode } from '../types/function-node.type';
+import * as chalk from 'chalk';
 
 /**
  * Service for operations on Node elements (ts-morph nodes)
@@ -63,5 +66,48 @@ export class Ts {
         const parentCall = parent.getKind() === SyntaxKind.CallExpression && parent.compilerNode['expression'].end === node.getEnd();
 
         return parentCall || grandParentCall;
+    }
+
+
+    static isParameter(node: Node): node is ParameterDeclaration {
+        return node.getKind() === SyntaxKind.Parameter;
+    }
+
+
+    static isVarStatement(node: Node): node is VariableStatement {
+        return node.getKind() === SyntaxKind.VariableStatement;
+    }
+
+
+    static isFunctionNode(node: Node): node is FunctionNode {
+        return isFunctionKind(node.getKind());
+    }
+
+
+    static getFunctionType(functionNode: FunctionNode): string {
+        if (!functionNode || !functionNode.compilerNode.type) {
+            return undefined;
+        } else {
+            return functionNode?.getReturnType()?.getText();
+        }
+    }
+
+
+    static getParameterType(parameterNode: ParameterDeclaration): string {
+        // console.log(chalk.magentaBright('PARAM TYPEEEEE'), !!parameterNode.compilerNode.type);
+        if (!parameterNode || !parameterNode.compilerNode.type) {
+            return undefined;
+        } else {
+            return parameterNode.getType().getText();
+        }
+    }
+
+
+    static getVarStatementType(varStatement: VariableStatement): string {
+        if (!varStatement) {
+            return undefined;
+        }
+        const varDeclaration: VariableDeclaration  = varStatement?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration);
+        return varDeclaration.getStructure().type as string;
     }
 }
