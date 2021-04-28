@@ -1,8 +1,9 @@
 import { KindAliases } from '../../globals.const';
-import { Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
+import { Expression, Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
 import { isFunctionKind } from '../types/function-kind.type';
-import { FunctionNode } from '../types/function-node.type';
 import * as chalk from 'chalk';
+import { FunctionNode } from '../types/function-node.type';
+import { VariableInitializer } from '../../java/models/variable-initializer.model';
 
 /**
  * Service for operations on Node elements (ts-morph nodes)
@@ -85,7 +86,7 @@ export class Ts {
 
 
     static getFunctionType(functionNode: FunctionNode): string {
-        if (!functionNode || !functionNode.compilerNode.type) {
+        if (!this.hasCompilerNodeType(functionNode)) {
             return undefined;
         } else {
             const type: string = functionNode?.getReturnType()?.getText();
@@ -95,20 +96,40 @@ export class Ts {
 
 
     static getParameterType(parameterNode: ParameterDeclaration): string {
-        // console.log(chalk.magentaBright('PARAM TYPEEEEE'), !!parameterNode.compilerNode.type);
-        if (!parameterNode || !parameterNode.compilerNode.type) {
+        const apparentType: string = parameterNode?.getType()?.getApparentType().getText();
+        if (!this.hasCompilerNodeType(parameterNode) && !apparentType) {
             return undefined;
         } else {
-            return parameterNode.getType().getText();
+            return apparentType ?? parameterNode.getType().getText();
         }
     }
 
 
     static getVarStatementType(varStatement: VariableStatement): string {
-        if (!varStatement) {
+        let apparentType: string = varStatement?.getFirstDescendantByKind(SyntaxKind.Identifier)?.getType()?.getApparentType()?.getText();
+        const trivialInitializer: string = this.getTrivialInitializer(varStatement);
+        console.log(chalk.magentaBright('IDENTTTT TYPEDDDDD'), varStatement.getText(), trivialInitializer);
+        if (!varStatement && !trivialInitializer) {
             return undefined;
         }
         const varDeclaration: VariableDeclaration  = varStatement?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration);
-        return varDeclaration.getStructure().type as string;
+        return trivialInitializer ?? varDeclaration.getStructure().type as string;
+    }
+
+
+    private static hasCompilerNodeType(node: FunctionNode | ParameterDeclaration): boolean {
+        return !node || !node.compilerNode.type;
+    }
+
+
+    private static getTrivialInitializer(varStatement: VariableStatement): string {
+        const initializer: Expression = varStatement?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration).getInitializer();
+        console.log(chalk.yellowBright('IDENTTTT TYPEDDDDD'), varStatement.getText());
+        return this.isLiteralOrNewExpression(initializer) ? initializer.getKindName() : undefined;
+    }
+
+
+    private static isLiteralOrNewExpression(expression: Expression): boolean {
+        return [SyntaxKind.NumericLiteral, SyntaxKind.StringLiteral, SyntaxKind.BooleanKeyword, SyntaxKind.NewExpression].includes(expression?.getKind());
     }
 }

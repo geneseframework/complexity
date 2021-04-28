@@ -212,11 +212,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get isFunc(): boolean {
-        return this.factorCategory === NodeFeature.FUNC;
-    }
-
-
     get isIdentifier(): boolean {
         return Ast.isIdentifier(this);
     }
