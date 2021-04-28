@@ -278,13 +278,13 @@ export class AstMethod implements Evaluate {
      */
     private increaseLineCpxFactors(astNode: AstNode, codeLine: CodeLine): void {
         if (!codeLine.isCommented) {
-            if (astNode.isAssignment) {
-                console.log(chalk.yellowBright('codeLine.cpxFactorsSSSSS'), astNode?.cpxFactors);
-                console.log(chalk.blueBright('codeLine.cpxFactorsSSSSS'), codeLine.cpxFactors);
+            if (astNode.shouldBeTyped) {
+                console.log(chalk.yellowBright('codeLine.cpxFactorsSSSSS'), astNode?.cpxFactors.typing);
+                console.log(chalk.blueBright('codeLine.cpxFactorsSSSSS'), codeLine.cpxFactors.typing);
             }
             codeLine.cpxFactors = codeLine.cpxFactors.add(astNode?.cpxFactors);
-            if (astNode.isAssignment) {
-                console.log(chalk.greenBright('codeLine.cpxFactorsSSSSS'), codeLine.cpxFactors);
+            if (astNode.shouldBeTyped) {
+                console.log(chalk.greenBright('codeLine.cpxFactorsSSSSS'), codeLine.cpxFactors.typing);
             }
         }
     }

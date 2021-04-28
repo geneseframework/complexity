@@ -1,4 +1,4 @@
-function zzz() {
+function zzz(z): void {
     let a;
     let b: number;
 }

@@ -4,7 +4,7 @@ export enum NodeFeature {
     ATOMIC = 'atomic',
     BINARY = 'binary',
     BIT_DOOR = 'bitDoor',
-    CALL_DECLARATION = 'declaration',
+    CALL_DECLARATION = 'callDeclaration',
     CONDITIONAL = 'conditional',
     EMPTY = 'empty',
     FUNC = 'func',

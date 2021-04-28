@@ -15,6 +15,8 @@ import { CodeService } from '../../services/code.service';
 import { AstNodeInterface } from '../../../core/interfaces/ast/ast-node.interface';
 import { IdentifierType } from '../../../core/interfaces/identifier-type.type';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
+import { FactorCategory } from '../../enums/factor-category.enum';
+import { TypingCpx } from '../../../core/models/cpx-factor/readability-cpx.model';
 
 export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
@@ -205,8 +207,13 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get isFunctionOrMethodDeclaration(): boolean {
+    get isCallDeclaration(): boolean {
         return this.factorCategory === NodeFeature.CALL_DECLARATION;
+    }
+
+
+    get isFunc(): boolean {
+        return this.factorCategory === NodeFeature.FUNC;
     }
 
 
@@ -317,6 +324,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get shouldBeTyped(): boolean {
+        return this.isAssignment || this.isCallDeclaration || this.isFunc;
+    }
+
+
     get start(): number {
         return this._start;
     }
@@ -405,7 +417,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
         this.intrinsicDepthCpx = this.cpxFactors.totalDepth;
         this.forceCpxFactors();
         if (this.isAssignment) {
-            console.log(chalk.greenBright('CPX FACOTRRRRRS'), this._cpxFactors);
+            console.log(chalk.greenBright('CPX FACOTRRRRRS'), this.factorCategory, this._cpxFactors.typing);
         }
         return this._cpxFactors;
     }
@@ -422,9 +434,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
 
     private setAssignmentCpxFactors(): void {
-        if (this.isAssignment && !this.type) {
-            // console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
-            this.cpxFactors.typing[this.factorCategory] = cpxFactors.typing[this.factorCategory];
+        console.log(chalk.redBright('ASSIGNNNN CPX factors'), this.kind, this.type, this.factorCategory);
+        if (this.shouldBeTyped && !this.type) {
+            const category: string = this.isCallDeclaration ? 'func' : this.factorCategory;
+            console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
+            this.cpxFactors.typing[category] = cpxFactors.typing[category];
             // console.log(chalk.cyanBright('SET VARRRRR CPX factors'), this.cpxFactors);
         }
     }

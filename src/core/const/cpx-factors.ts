@@ -31,7 +31,7 @@ complexityFactors.nesting = {
 
 complexityFactors.typing = {
     func: 1,                            // Untyped function or method
-    parameter: 1,                       // Untyped parameter declaration
+    parameter: 1,                       // Untyped parameter callDeclaration
     variable: 1                         // Untyped variable assignment
 }
 
