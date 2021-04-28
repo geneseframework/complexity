@@ -1,5 +1,5 @@
 function zzz() {
-    // let a;
+    let a;
     let b: number;
 }
 

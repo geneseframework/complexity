@@ -422,7 +422,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
 
     private setAssignmentCpxFactors(): void {
-        if (this.isAssignment) {
+        if (this.isAssignment && !this.type) {
             // console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
             this.cpxFactors.typing[this.factorCategory] = cpxFactors.typing[this.factorCategory];
             // console.log(chalk.cyanBright('SET VARRRRR CPX factors'), this.cpxFactors);

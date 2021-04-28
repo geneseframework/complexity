@@ -298,11 +298,12 @@ export class AstMethod implements Evaluate {
             .filter(line => line.cpxFactors.total > 0)
             .forEach(line => {
                 let comment = `+${line.cpxFactors.total.toFixed(1)} Complexity index (+${line.cpxFactors.totalAtomic.toFixed(1)} ${FactorCategory.ATOMIC}`;
-                comment = line.cpxFactors.totalAggregation > 0 ? `${comment}, +${line.cpxFactors.totalAggregation} ${FactorCategory.AGGREGATION}` : comment;
+                comment = line.cpxFactors.totalStructural > 0 ? `${comment}, +${line.cpxFactors.totalStructural} ${FactorCategory.STRUCTURAL}` : comment;
                 comment = line.cpxFactors.totalNesting > 0 ? `${comment}, +${line.cpxFactors.totalNesting} nesting` : comment;
+                comment = line.cpxFactors.totalTyping > 0 ? `${comment}, +${line.cpxFactors.totalTyping} typing` : comment;
+                comment = line.cpxFactors.totalAggregation > 0 ? `${comment}, +${line.cpxFactors.totalAggregation} ${FactorCategory.AGGREGATION}` : comment;
                 comment = line.cpxFactors.totalDepth > 0 ? `${comment}, +${line.cpxFactors.totalDepth} depth` : comment;
                 comment = line.cpxFactors.totalRecursion > 0 ? `${comment}, +${line.cpxFactors.totalRecursion} recursivity` : comment;
-                comment = line.cpxFactors.totalStructural > 0 ? `${comment}, +${line.cpxFactors.totalStructural} ${FactorCategory.STRUCTURAL}` : comment;
                 comment = line.cpxFactors.totalUse > 0 ? `${comment}, +${line.cpxFactors.totalUse} ${FactorCategory.USE}` : comment;
                 comment = `${comment})`;
                 this._displayedCode.getLine(line.issue).addComment(comment, this.maxLineLength);
