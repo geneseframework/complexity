@@ -416,9 +416,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
         this.intrinsicNestingCpx = this.cpxFactors.totalNesting;
         this.intrinsicDepthCpx = this.cpxFactors.totalDepth;
         this.forceCpxFactors();
-        if (this.isAssignment) {
-            console.log(chalk.greenBright('CPX FACOTRRRRRS'), this.factorCategory, this._cpxFactors.typing);
-        }
         return this._cpxFactors;
     }
 
@@ -434,12 +431,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
 
     private setAssignmentCpxFactors(): void {
-        console.log(chalk.redBright('ASSIGNNNN CPX factors'), this.kind, this.type, this.factorCategory);
+        // console.log(chalk.redBright('ASSIGNNNN CPX factors'), this.kind, this.type, this.factorCategory);
         if (this.shouldBeTyped && !this.type) {
             const category: string = this.isCallDeclaration ? 'func' : this.factorCategory;
-            console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
+            // console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
             this.cpxFactors.typing[category] = cpxFactors.typing[category];
-            // console.log(chalk.cyanBright('SET VARRRRR CPX factors'), this.cpxFactors);
         }
     }
 

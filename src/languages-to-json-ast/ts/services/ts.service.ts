@@ -94,7 +94,7 @@ export class Ts {
 
 
     static getParameterType(parameterNode: ParameterDeclaration): string {
-        console.log(chalk.magentaBright('PARAM TYPEEEEE'), !!parameterNode.compilerNode.type);
+        // console.log(chalk.magentaBright('PARAM TYPEEEEE'), !!parameterNode.compilerNode.type);
         if (!parameterNode || !parameterNode.compilerNode.type) {
             return undefined;
         } else {

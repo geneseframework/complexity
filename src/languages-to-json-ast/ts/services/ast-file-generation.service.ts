@@ -103,7 +103,6 @@ export class AstFileGenerationService {
         }
         if (Ts.isParameter(node)) {
             astNode.type = Ts.getParameterType(node);
-            // console.log(chalk.magentaBright('AST NODDDD'), astNode);
         }
         if (Ts.isVarStatement(node)) {
             astNode.type = Ts.getVarStatementType(node);
