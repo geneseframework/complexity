@@ -21,7 +21,7 @@ const ENABLE_MARKDOWN_REPORT = ARGS[2] === 'true';
 const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 const ENABLE_REFACTORING = ARGS[4] === 'true';
 let FRAMEWORK = ARGS[5] ?? undefined;
-const DEBUG = true;
+const DEBUG = false;
 
 let pathToAnalyse: string;
 if (path.isAbsolute(PATH_TO_ANALYSE)) {

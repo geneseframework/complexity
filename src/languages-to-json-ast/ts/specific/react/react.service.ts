@@ -40,7 +40,6 @@ export class ReactService {
             let i = 0;
             const children: AstNodeInterface[] = astNodeInterface.children ?? [];
             for (const child of children) {
-                // console.log(chalk.blueBright('CHLDDDDD'), child.kind);
                 if (child.kind === SyntaxKind.VariableStatement) {
                     const son: AstNodeInterface = getFirstChild(child);
                     const grandSon: AstNodeInterface = getFirstChild(son);
@@ -48,7 +47,6 @@ export class ReactService {
                         && grandSon.kind === 'VariableDeclaration'
                         && this.hasArrowFunctionChild(grandSon)
                     ) {
-                        // console.log(chalk.cyanBright('HAS RCT CPTSSS'));
                         arrowFunctionWithIndexes.push(new ArrowFunctionWithIndex(child, i));
                     }
                 }
@@ -72,16 +70,13 @@ export class ReactService {
         if (!block) {
             return [];
         }
-        // console.log(chalk.blueBright('BLOCKKKK'), block);
         const arrowFunctionsWithIndexes: ArrowFunctionWithIndex[] = this.getArrowFunctionsWithIndexes(block);
-        // console.log(chalk.greenBright('BLOCKKKK'), arrowFunctionsWithIndexes);
         for (const arrowFunctionsWithIndex of arrowFunctionsWithIndexes) {
             let blockChildIndex: number = block.children.findIndex(a => a === arrowFunctionsWithIndex.arrowFunction);
             const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
             newFileAstNodeChildren.push(extract);
             block.children.splice(blockChildIndex, 1);
         }
-        // console.log(chalk.greenBright('EXTRZCT ARRRRR'), newFileAstNodeChildren);
         return newFileAstNodeChildren;
     }
 
