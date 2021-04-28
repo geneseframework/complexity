@@ -98,12 +98,15 @@ export class AstFileGenerationService {
                 }
             }
         }
-        if (Ts.isFunc(node)) {
-            astNode.type = 'functionDeclaration';
+        if (Ts.isFunctionNode(node)) {
+            astNode.type = Ts.getFunctionType(node);
+        }
+        if (Ts.isParameter(node)) {
+            astNode.type = 'parameter';
             // console.log(chalk.magentaBright('AST NODDDD'), astNode);
         }
         if (Ts.isVarStatement(node)) {
-            astNode.type = Ts.getType(node);
+            astNode.type = Ts.getVarStatementType(node);
         }
         return astNode;
     }

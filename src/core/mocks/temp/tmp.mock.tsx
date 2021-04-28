@@ -1,6 +1,7 @@
-function zzz(z): void {
+function zzz(z) {
     let a;
     let b: number;
+    return a;
 }
 
 // const simpleReactComponent = () => {

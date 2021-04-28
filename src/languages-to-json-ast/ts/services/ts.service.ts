@@ -1,5 +1,8 @@
 import { KindAliases } from '../../globals.const';
-import { Node, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
+import { Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
+import { isFunctionKind } from '../types/function-kind.type';
+import { FunctionNode } from '../types/function-node.type';
+import * as chalk from 'chalk';
 
 /**
  * Service for operations on Node elements (ts-morph nodes)
@@ -66,17 +69,32 @@ export class Ts {
     }
 
 
+    static isParameter(node: Node): node is ParameterDeclaration {
+        return node.getKind() === SyntaxKind.Parameter;
+    }
+
+
     static isVarStatement(node: Node): node is VariableStatement {
         return node.getKind() === SyntaxKind.VariableStatement;
     }
 
 
-    static isFunc(node: Node): boolean {
-        return [SyntaxKind.FunctionDeclaration, SyntaxKind.ArrowFunction, SyntaxKind.MethodDeclaration, SyntaxKind.FunctionExpression].includes(node.getKind());
+    static isFunctionNode(node: Node): node is FunctionNode {
+        return isFunctionKind(node.getKind());
     }
 
 
-    static getType(varStatement: VariableStatement): string {
+    static getFunctionType(functionNode: FunctionNode): string {
+        console.log(chalk.magentaBright('COMP TYPEEEEE'), !!functionNode.compilerNode.type);
+        if (!functionNode || !functionNode.compilerNode.type) {
+            return undefined;
+        } else {
+            return functionNode?.getReturnType()?.getText();
+        }
+    }
+
+
+    static getVarStatementType(varStatement: VariableStatement): string {
         if (!varStatement) {
             return undefined;
         }
