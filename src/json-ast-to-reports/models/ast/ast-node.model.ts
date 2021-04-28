@@ -212,11 +212,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get isFunc(): boolean {
-        return this.factorCategory === NodeFeature.FUNC;
-    }
-
-
     get isIdentifier(): boolean {
         return Ast.isIdentifier(this);
     }
@@ -324,8 +319,18 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get recursionCpx(): number {
+        return this.cpxFactors?.totalRecursion;
+    }
+
+
+    get secondSon(): AstNode {
+        return this.getSon(1);
+    }
+
+
     get shouldBeTyped(): boolean {
-        return this.isAssignment || this.isCallDeclaration || this.isFunc;
+        return this.isAssignment || this.isCallDeclaration;
     }
 
 
@@ -336,16 +341,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     set start(start: number) {
         this._start = start;
-    }
-
-
-    get recursionCpx(): number {
-        return this.cpxFactors?.totalRecursion;
-    }
-
-
-    get secondSon(): AstNode {
-        return this.getSon(1);
     }
 
 
@@ -431,10 +426,8 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
 
     private setAssignmentCpxFactors(): void {
-        // console.log(chalk.redBright('ASSIGNNNN CPX factors'), this.kind, this.type, this.factorCategory);
         if (this.shouldBeTyped && !this.type) {
             const category: string = this.isCallDeclaration ? 'func' : this.factorCategory;
-            // console.log(chalk.blueBright('SET VARRRRR CPX'), this.kind, this.type, this.factorCategory);
             this.cpxFactors.typing[category] = cpxFactors.typing[category];
         }
     }

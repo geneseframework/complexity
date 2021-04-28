@@ -1,9 +1,16 @@
-function zzz(z: string) {
+function methodWithoutTyping(z = 3) {
     let a;
     let b: number;
-    return b;
+    let c = 3;
+    let d = new Zzz();
+    let e = Zzz.fct();
+    let f = {a: 1}
 }
 
-// const simpleReactComponent = () => {
-//     let b = 3;
-// }
+class Zzz {
+    a: string;
+
+    static fct(): string {
+        return 'd'
+    }
+}

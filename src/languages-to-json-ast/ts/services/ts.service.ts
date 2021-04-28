@@ -1,8 +1,7 @@
 import { KindAliases } from '../../globals.const';
-import { Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
+import { Expression, Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
 import { isFunctionKind } from '../types/function-kind.type';
 import { FunctionNode } from '../types/function-node.type';
-import * as chalk from 'chalk';
 
 /**
  * Service for operations on Node elements (ts-morph nodes)
@@ -85,29 +84,49 @@ export class Ts {
 
 
     static getFunctionType(functionNode: FunctionNode): string {
-        if (!functionNode || !functionNode.compilerNode.type) {
+        if (!this.hasCompilerNodeType(functionNode)) {
             return undefined;
         } else {
-            return functionNode?.getReturnType()?.getText();
+            const type: string = functionNode?.getReturnType()?.getText();
+            return type.includes('import') ? 'import' : type;
         }
     }
 
 
     static getParameterType(parameterNode: ParameterDeclaration): string {
-        // console.log(chalk.magentaBright('PARAM TYPEEEEE'), !!parameterNode.compilerNode.type);
-        if (!parameterNode || !parameterNode.compilerNode.type) {
+        const trivialInitializer: string = this.getTrivialInitializer(parameterNode);
+        if (!this.hasCompilerNodeType(parameterNode) && !trivialInitializer) {
             return undefined;
         } else {
-            return parameterNode.getType().getText();
+            return trivialInitializer ?? parameterNode.getType().getText();
         }
     }
 
 
     static getVarStatementType(varStatement: VariableStatement): string {
-        if (!varStatement) {
+        const trivialInitializer: string = this.getTrivialInitializer(varStatement);
+        if (!varStatement && !trivialInitializer) {
             return undefined;
         }
         const varDeclaration: VariableDeclaration  = varStatement?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration);
-        return varDeclaration.getStructure().type as string;
+        return trivialInitializer ?? varDeclaration.getStructure().type as string;
     }
+
+
+    private static hasCompilerNodeType(node: FunctionNode | ParameterDeclaration): boolean {
+        return !!node?.compilerNode?.type;
+    }
+
+
+    private static getTrivialInitializer(node: VariableStatement | ParameterDeclaration): string {
+        let initializer: Expression = this.isVarStatement(node) ? node?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration).getInitializer() : node.getInitializer();
+        return this.isLiteralOrNewExpression(initializer) ? initializer.getKindName() : undefined;
+    }
+
+
+    private static isLiteralOrNewExpression(expression: Expression): boolean {
+        return [SyntaxKind.NumericLiteral, SyntaxKind.StringLiteral, SyntaxKind.TrueKeyword, SyntaxKind.FalseKeyword, SyntaxKind.NewExpression].includes(expression?.getKind());
+    }
+
+
 }
