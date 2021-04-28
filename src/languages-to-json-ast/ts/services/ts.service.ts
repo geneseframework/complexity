@@ -87,8 +87,7 @@ export class Ts {
         if (!this.hasCompilerNodeType(functionNode)) {
             return undefined;
         } else {
-            const type: string = functionNode?.getReturnType()?.getText();
-            return type.includes('import') ? 'import' : type;
+            return this.sanitizeType(functionNode?.getReturnType()?.getText());
         }
     }
 
@@ -98,7 +97,7 @@ export class Ts {
         if (!this.hasCompilerNodeType(parameterNode) && !trivialInitializer) {
             return undefined;
         } else {
-            return trivialInitializer ?? parameterNode.getType().getText();
+            return this.sanitizeType(parameterNode.getType().getText());
         }
     }
 
@@ -109,7 +108,8 @@ export class Ts {
             return undefined;
         }
         const varDeclaration: VariableDeclaration  = varStatement?.getFirstDescendantByKind(SyntaxKind.VariableDeclaration);
-        return trivialInitializer ?? varDeclaration.getStructure().type as string;
+        const type: string = this.sanitizeType(varDeclaration.getStructure().type as string);
+        return trivialInitializer ?? type;
     }
 
 
@@ -126,6 +126,11 @@ export class Ts {
 
     private static isLiteralOrNewExpression(expression: Expression): boolean {
         return [SyntaxKind.NumericLiteral, SyntaxKind.StringLiteral, SyntaxKind.TrueKeyword, SyntaxKind.FalseKeyword, SyntaxKind.NewExpression].includes(expression?.getKind());
+    }
+
+
+    private static sanitizeType(type: string): string {
+        return type?.includes('import') ? 'import' : type;
     }
 
 

@@ -77,7 +77,7 @@ async function start(): Promise<number> {
         spinner.succeed();
     }
 
-    deleteFile('./json-ast.json');
+    deleteFile('./ast.json');
 
     if (reportResult.message && reportResult.message.length > 0) {
         console.log();
