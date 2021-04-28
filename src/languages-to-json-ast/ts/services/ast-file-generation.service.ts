@@ -49,7 +49,7 @@ export class AstFileGenerationService {
             text: sourceFile.getFullText(),
             astNode: this.createAstNodeChildren(sourceFile)
         };
-        if (Options.react) {
+        if (Options.framework === 'react') {
             ReactService.extractHooksAndArrowFunctions(astFileInterface.astNode);
         }
         return astFileInterface;

@@ -4,6 +4,8 @@ import { Complexity } from '../../json-ast-to-reports/interfaces/complexity.inte
 import { ComplexityType } from '../../json-ast-to-reports/enums/complexity-type.enum';
 import { ChartColor } from '../../json-ast-to-reports/enums/chart-color.enum';
 import { ComplexitiesByStatus } from '../../json-ast-to-reports/interfaces/complexities-by-status.interface';
+import { Framework, isFramework } from '../types/framework.type';
+import * as chalk from 'chalk';
 
 export var WINDOWS = false;
 
@@ -34,19 +36,25 @@ export class Options {
     static pathFolderToAnalyze = './';      // The path of the folder to analyse (can be overridden)
     static pathGeneseNodeJs = '';           // The path of the node_module Genese in the nodejs user environment (can't be overridden)
     static pathOutDir = '';                 // The path where the reports are created (can be overridden)
-    static react = true;                   // Checks if it's a React application
+    static framework: Framework = undefined;// The framework eventually specified
 
     /**
      * Sets the options of genese-complexity module
      * @param pathCommand               // The path of the folder where the command-line was entered (can't be overridden)
      * @param pathFolderToAnalyze       // The path of the folder to analyse (can be overridden)
      * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overridden)
+     * @param framework                 // The framework eventually specified
      */
     static setOptions(
         pathCommand: string,
         pathFolderToAnalyze: string,
-        pathGeneseNodeJs: string
+        pathGeneseNodeJs: string,
+        framework?: Framework
     ): void {
+        if (isFramework(framework)) {
+            this.framework = framework;
+        }
+        console.log(chalk.magentaBright('FRAMEWORKKKKK'), framework, this.framework);
         WINDOWS = process.platform === 'win32';
         const geneseConfigPath = `${pathCommand}/geneseconfig.json`;
         if (fs.existsSync(geneseConfigPath)) {
@@ -92,7 +100,7 @@ export class Options {
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
         // TODO : use geneseconfig
-        Options.react = true;
+        Options.framework = 'react';
     }
 
 

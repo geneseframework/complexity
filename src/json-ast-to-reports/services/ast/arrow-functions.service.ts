@@ -14,7 +14,6 @@ export class ArrowFunctionsService {
                 arrowFunctions.push(arrowFunction);
             }
         }
-        console.log(chalk.greenBright('ARRROWS'), arrowFunctions);
         return arrowFunctions;
     }
 

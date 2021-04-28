@@ -36,7 +36,7 @@ start()
     })
 
 async function start(): Promise<number> {
-    Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
+    // Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {
         createOutDir();
     }

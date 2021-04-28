@@ -1,6 +1,6 @@
-import DFUI from '@altran-df-mtp/react-native-df-ui-kit';
-import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import DFUI from '@altran-df-mtp/framework-native-df-ui-kit';
+import React, { useState } from 'framework';
+import { SafeAreaView, ScrollView, View } from 'framework-native';
 import { getMenuItems } from '../../api/requests/menu-items';
 import CategoryItem from '../../components/CategoryItem/CategoryItem';
 import { HeaderType } from '../../constants/enums/headerType.enum';
