@@ -324,8 +324,18 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get recursionCpx(): number {
+        return this.cpxFactors?.totalRecursion;
+    }
+
+
+    get secondSon(): AstNode {
+        return this.getSon(1);
+    }
+
+
     get shouldBeTyped(): boolean {
-        return this.isAssignment || this.isCallDeclaration || this.isFunc;
+        return this.isAssignment || this.isCallDeclaration;
     }
 
 
@@ -336,16 +346,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     set start(start: number) {
         this._start = start;
-    }
-
-
-    get recursionCpx(): number {
-        return this.cpxFactors?.totalRecursion;
-    }
-
-
-    get secondSon(): AstNode {
-        return this.getSon(1);
     }
 
 

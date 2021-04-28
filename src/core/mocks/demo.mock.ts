@@ -60,6 +60,12 @@ export class DebugMock {
         }
     }
 
+    methodWithoutTyping(z) {
+        let a;
+        let b: number;
+        return b;
+    }
+
     recursion(a) {
         this.recursion(a);
     }

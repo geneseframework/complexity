@@ -88,7 +88,8 @@ export class Ts {
         if (!functionNode || !functionNode.compilerNode.type) {
             return undefined;
         } else {
-            return functionNode?.getReturnType()?.getText();
+            const type: string = functionNode?.getReturnType()?.getText();
+            return type.includes('import') ? 'import' : type;
         }
     }
 

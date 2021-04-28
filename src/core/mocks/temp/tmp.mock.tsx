@@ -1,4 +1,4 @@
-function zzz(z: string) {
+function methodWithoutTyping(z) {
     let a;
     let b: number;
     return b;
