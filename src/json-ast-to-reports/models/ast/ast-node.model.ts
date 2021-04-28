@@ -400,7 +400,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     calculateAndSetCpxFactors(): CpxFactors {
         this.cpxFactors = new CpxFactors();
         this.setGeneralCaseCpxFactors();
-        this.setAssignmentCpxFactors();
+        this.setTypingCpxFactors();
         this.setFunctionStructuralCpx();
         this.setArrowFunctionStructuralCpx();
         this.setRecursionOrCallbackCpxFactors();
@@ -424,22 +424,32 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
         this.cpxFactors.atomic.node = cpxFactors.atomic[this.factorCategory] ?? cpxFactors.atomic.node;
     }
 
-
-    private setAssignmentCpxFactors(): void {
+    /**
+     * Sets complexity for lack of typing for var declarations, parameters, functions and methods
+     * @private
+     */
+    private setTypingCpxFactors(): void {
         if (this.shouldBeTyped && !this.type) {
             const category: string = this.isCallDeclaration ? 'func' : this.factorCategory;
             this.cpxFactors.typing[category] = cpxFactors.typing[category];
         }
     }
 
-z
+
+    /**
+     * Sets structural complexity for functions
+     * @private
+     */
     private setFunctionStructuralCpx(): void {
         if (this.type === 'function' && this.parent?.kind !== SyntaxKind.MethodDeclaration) {
             this.cpxFactors.structural.method = cpxFactors.structural.method;
         }
     }
 
-
+    /**
+     * Sets complexity for arrow functions
+     * @private
+     */
     private setArrowFunctionStructuralCpx(): void {
         if (this.isVarArrowFunction) {
             this.cpxFactors.nesting.func = 0;
@@ -448,7 +458,10 @@ z
         }
     }
 
-
+    /**
+     * A complexity may be "forced" by adding it directly in the ast.json file during the json creation process
+     * @private
+     */
     private forceCpxFactors(): void {
         if (this.cpxFactorsFromJsonAST) {
             for (const category of Object.keys(this.cpxFactorsFromJsonAST)) {
