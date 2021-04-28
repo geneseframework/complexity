@@ -112,8 +112,6 @@ export class InitGenerationService {
      * @returns boolean
      */
     private isFileToGenerate(path: string, language: Language): boolean {
-        // console.log(chalk.greenBright('LANGGGGGGG'), getFileExtension(path), isLanguage(getFileExtension(path)));
         return (isLanguage(getFileExtension(path)) && !LIMIT_GENERATIONS) || path === DEV_MOCK;
-        // return (getFileExtension(path) === language && !LIMIT_GENERATIONS) || path === DEV_MOCK;
     }
 }

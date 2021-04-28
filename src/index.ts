@@ -20,7 +20,8 @@ const LANGUAGE = ARGS[1] ?? 'ts';
 const ENABLE_MARKDOWN_REPORT = ARGS[2] === 'true';
 const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 const ENABLE_REFACTORING = ARGS[4] === 'true';
-const DEBUG = true;
+let FRAMEWORK = ARGS[5] ?? undefined;
+const DEBUG = false;
 
 let pathToAnalyse: string;
 if (path.isAbsolute(PATH_TO_ANALYSE)) {
@@ -41,15 +42,13 @@ start()
 
 async function start(): Promise<number> {
     if (DEBUG) {
-        // pathToAnalyse = `${process.cwd()}/src/core/mocks/react`;
-        // pathToAnalyse = `${process.cwd()}/src/core/mocks/temp`;
         pathToAnalyse = `${process.cwd()}/src/core/mocks`;
+        FRAMEWORK = 'react';
     }
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {
         createOutDir();
     }
-
     spinner.start('AST generation');
     await useWorker(
         `${__dirname}/workers/ast-worker.js`,
@@ -57,7 +56,8 @@ async function start(): Promise<number> {
             pathCommand: process.cwd(),
             modifiedPath: pathToAnalyse,
             pathGeneseNodeJs: __dirname,
-            language: LANGUAGE
+            language: LANGUAGE,
+            framework: FRAMEWORK
         });
     spinner.succeed();
     spinner.start('Report generation');
@@ -69,6 +69,7 @@ async function start(): Promise<number> {
             pathGeneseNodeJs: __dirname,
             markdown: ENABLE_MARKDOWN_REPORT,
             consoleMode: ENABLE_CONSOLE_REPORT,
+            framework: FRAMEWORK
         });
     spinner.succeed();
 

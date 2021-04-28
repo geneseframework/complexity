@@ -11,7 +11,6 @@ import { randomString } from '../../../core/services/tools.service';
 import { Options } from '../../../core/models/options.model';
 import { ReactService } from '../specific/react/react.service';
 import { isJsx } from '../utils/ast.util';
-import * as chalk from 'chalk';
 
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)
@@ -50,7 +49,7 @@ export class AstFileGenerationService {
             text: sourceFile.getFullText(),
             astNode: this.createAstNodeChildren(sourceFile)
         };
-        if (Options.react) {
+        if (Options.framework === 'react') {
             ReactService.extractHooksAndArrowFunctions(astFileInterface.astNode);
         }
         return astFileInterface;
@@ -78,7 +77,6 @@ export class AstFileGenerationService {
                 astNode.children.push(this.createAstNodeChildren(childNode));
             });
         }
-        // console.log(chalk.greenBright('ASTNODE RETRRRRRRN'), astNode);
         return astNode;
     }
 

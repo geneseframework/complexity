@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'framework';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { connect } from 'framework-redux';
 import { Link, Router, withTranslation } from '#i18n';
 import url from '#config/url';
 import LoginForm from '#components/pages/user/login/LoginForm';

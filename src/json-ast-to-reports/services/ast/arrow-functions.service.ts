@@ -1,6 +1,7 @@
 import { AstMethod } from '../../models/ast/ast-method.model';
 import { AstNode } from '../../models/ast/ast-node.model';
 import { AstNodeService } from './ast-node.service';
+import * as chalk from 'chalk';
 
 export class ArrowFunctionsService {
 
@@ -18,7 +19,7 @@ export class ArrowFunctionsService {
 
 
     private static getStatementsDeclaringOrAssigningArrowFunctions(astNode: AstNode): AstNode[] {
-        const varStatements: AstNode[] = astNode.children?.filter(n => n.isKeyword && n.hasArrowFunctionDescendant);
+        const varStatements: AstNode[] = astNode.children?.filter(n => n.isVarStatement && n.hasArrowFunctionDescendant);
         const exprStatements: AstNode[] = astNode.children?.filter(n => n.isExpressionStatement && n.hasArrowFunctionDescendant);
         return varStatements.concat(exprStatements);
     }

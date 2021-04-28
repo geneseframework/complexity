@@ -1,16 +1,15 @@
-function methodWithoutTyping(z = 3) {
-    let a;
-    let b: number;
-    let c = 3;
-    let d = new Zzz();
-    let e = Zzz.fct();
-    let f = {a: 1}
+
+const Login = ({ t, loginAction, signupToken, redirect, queryParams: { isFreeTrial } = {} }) => {
+    const validateAccountCallback = useCallback(() => signupToken && validateAccount(signupToken), [signupToken]);
+    const {openModal} = useModal();
+    const [messageError, setMessageError] = useSssstate(null);
+    const [emailModal, setEmailModal] = useState(undefined);
+    const [adminList, setAdminList] = useState([]);
+    const [fetchData, , error] = useFetch(validateAccountCallback);
 }
 
-class Zzz {
-    a: string;
-
-    static fct(): string {
-        return 'd'
-    }
-}
+// function zzz() {
+//     const a = 2;
+//     const [b, c] = [2, 3];
+//     const [messageError, setMessageError] = useState(null);
+// }

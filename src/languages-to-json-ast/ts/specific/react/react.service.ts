@@ -36,23 +36,23 @@ export class ReactService {
 
     private static getArrowFunctionsWithIndexes(astNodeInterface: AstNodeInterface): ArrowFunctionWithIndex[] {
         try {
-            const reactComponents: ArrowFunctionWithIndex[] = [];
+            const arrowFunctionWithIndexes: ArrowFunctionWithIndex[] = [];
             let i = 0;
             const children: AstNodeInterface[] = astNodeInterface.children ?? [];
             for (const child of children) {
-                if (child.kind === SyntaxKind.Keyword) {
+                if (child.kind === SyntaxKind.VariableStatement) {
                     const son: AstNodeInterface = getFirstChild(child);
                     const grandSon: AstNodeInterface = getFirstChild(son);
                     if (son.kind === 'VariableDeclarationList'
                         && grandSon.kind === 'VariableDeclaration'
                         && this.hasArrowFunctionChild(grandSon)
                     ) {
-                        reactComponents.push(new ArrowFunctionWithIndex(child, i));
+                        arrowFunctionWithIndexes.push(new ArrowFunctionWithIndex(child, i));
                     }
                 }
                 i++;
             }
-            return reactComponents;
+            return arrowFunctionWithIndexes;
         } catch (err) {
             console.log(chalk.redBright(`Error getting react components from ${astNodeInterface?.name}`));
         }

@@ -1,9 +1,9 @@
-import DFUI from '@altran-df-mtp/react-native-df-ui-kit';
+import DFUI from '@altran-df-mtp/framework-native-df-ui-kit';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useRef, useState, useEffect } from 'react';
-import { ActivityIndicator as Loader, ImageBackground, Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import RNPickerSelect from 'react-native-picker-select';
+import React, { useRef, useState, useEffect } from 'framework';
+import { ActivityIndicator as Loader, ImageBackground, Text, View } from 'framework-native';
+import { ScrollView } from 'framework-native-gesture-handler';
+import RNPickerSelect from 'framework-native-picker-select';
 import Society from '../../assets/icons/society.svg';
 import Pen from '../../assets/icons/pen.svg';
 import CompanyModal from '../../components/CompanyModal/CompanyModal';
