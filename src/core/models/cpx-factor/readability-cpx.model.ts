@@ -3,8 +3,8 @@
  * */
 export class TypingCpx {
 
-    func: 1;                            // Untyped function or method
-    parameter: 1;                       // Untyped parameter declaration
-    variable: 1;                        // Untyped variable assignment
+    func ?= 0;                            // Untyped function or method
+    parameter ?= 0;                       // Untyped parameter declaration
+    variable ?= 0;                        // Untyped variable assignment
 
 }

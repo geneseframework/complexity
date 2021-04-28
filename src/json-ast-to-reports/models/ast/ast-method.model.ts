@@ -165,7 +165,7 @@ export class AstMethod implements Evaluate {
      * Creates the displayed code of this AstMethod and evaluates its complexity
      */
     evaluate(): void {
-        this.createDisplayedCode();
+        this.createDisplayedCodeAndCalculateCpxFactors();
         // LogService.logMethod(this);
         this.cognitiveStatus = this.getComplexityStatus(ComplexityType.COGNITIVE);
         this.cyclomaticCpx = CS.calculateCyclomaticCpx(this.astNode);
@@ -198,7 +198,7 @@ export class AstMethod implements Evaluate {
      * Creates the method's code to display, with comments
      * @param astNode  // The AstNode to analyse (by default: the AstNode associated to this AstMethod)
      */
-    createDisplayedCode(astNode: AstNode = this.astNode): void {
+    createDisplayedCodeAndCalculateCpxFactors(astNode: AstNode = this.astNode): void {
         this.setDisplayedCodeLines();
         this.setDeclarationCpxFactors();
         this.setCpxFactorsToDisplayedCode(astNode, false);
@@ -278,7 +278,14 @@ export class AstMethod implements Evaluate {
      */
     private increaseLineCpxFactors(astNode: AstNode, codeLine: CodeLine): void {
         if (!codeLine.isCommented) {
+            if (astNode.isAssignment) {
+                console.log(chalk.yellowBright('codeLine.cpxFactorsSSSSS'), astNode?.cpxFactors);
+                console.log(chalk.blueBright('codeLine.cpxFactorsSSSSS'), codeLine.cpxFactors);
+            }
             codeLine.cpxFactors = codeLine.cpxFactors.add(astNode?.cpxFactors);
+            if (astNode.isAssignment) {
+                console.log(chalk.greenBright('codeLine.cpxFactorsSSSSS'), codeLine.cpxFactors);
+            }
         }
     }
 
@@ -309,7 +316,7 @@ export class AstMethod implements Evaluate {
     private calculateCpxFactors(): void {
         const lines: CodeLine[] = this._displayedCode?.lines;
         if (lines.length === 0) {
-            this.createDisplayedCode();
+            this.createDisplayedCodeAndCalculateCpxFactors();
         }
         this.cpxFactors = new CpxFactors();
         for (const line of this._displayedCode?.lines) {
