@@ -42,6 +42,8 @@ export class FactorCategoryService {
             case SyntaxKind.ForOfStatement:
             case SyntaxKind.WhileStatement:
                 return NodeFeature.LOOP;
+            case SyntaxKind.Parameter:
+                return NodeFeature.PARAMETER;
             case SyntaxKind.RegularExpressionLiteral:
                 return NodeFeature.REGEX;
             case SyntaxKind.ConditionalExpression:
