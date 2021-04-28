@@ -50,7 +50,7 @@ export class LanguageToJsonAst {
                 jsonAst = LanguageToJsonAst.generateFromAllFiles(pathToAnalyze);
                 break;
         }
-        createFile(`./json-ast.json`, JsonService.prettifyJson(jsonAst));
+        createFile(`./ast.json`, JsonService.prettifyJson(jsonAst));
     }
 
 

@@ -20,7 +20,7 @@ export class JsonAstToReports {
      * @param markdown
      * @param consoleMode
      */
-    static start(pathCommand: string, jsonAstPath = '/json-ast.json', markdown: boolean, consoleMode: boolean): any {
+    static start(pathCommand: string, jsonAstPath = '/ast.json', markdown: boolean, consoleMode: boolean): any {
         let result = undefined;
         const jsonAst = new InitService().generateAllFromJsonAst(JsonAstToReports.getJsonAst(pathCommand + jsonAstPath));
         jsonAst.astFolder.evaluate();
