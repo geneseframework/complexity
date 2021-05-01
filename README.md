@@ -1,6 +1,6 @@
 # @genese/complexity [![npm version](https://badge.fury.io/js/%40genese%2Fcomplexity.svg)](https://badge.fury.io/js/%40genese%2Fcomplexity)
 
-@genese/complexity analyzes the source code of your project and "measure" the cognitive complexity of each code snippet. It creates an HTML report displaying an overview of the complexities index for each folder, file or method of your project. Moreover, you will find for each method the elements increasing the cognitive complexity, which will help you to refactor your code.
+@genese/complexity analyzes the source code of your project and "measures" the cognitive complexity of each code snippet. It creates an HTML report displaying an overview of the complexities index for each folder, file or method of your project. Moreover, you will find for each method the elements increasing the cognitive complexity, which will help you to refactor your code.
 
 This module is a part of the [@genese]('https://github.com/geneseframework/genese') tool suite which is an opensource project whose aim is to provide tools helping developers to code faster and with a better code quality.
 
@@ -233,6 +233,7 @@ The force of the cyclomatic complexity is its simplicity: approximately, all bre
 
 If you are a developer, you will read your code differently than a machine would do it. So if you want to know if your code is really maintainable, you must look at its cognitive complexity.
 
+[Top](#table-of-contents)
 ## 7. Cognitive complexity
 
 A project is maintainable if each method of each file is easy to understand. That is the goal of the cognitive complexity, which should probably be seen as the most important indicator of the code maintainability.
@@ -242,7 +243,7 @@ A project is maintainable if each method of each file is easy to understand. Tha
 The cognitive complexity could be defined as below :
 
 >#### Cognitive Complexity
-> The Cognitive Complexity is the time required by a human being to understand some code snippet.
+> The Cognitive Complexity of a code snippet is the time required by a human being to understand it.
 
 The definition above needs to be clarified: who is this human being ? What means exactly "understand" ? And how could we measure this time in the real world ? All of these questions are important, and will be detailed in a future article.
 
