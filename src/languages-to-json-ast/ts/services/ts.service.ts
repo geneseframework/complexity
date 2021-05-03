@@ -130,7 +130,12 @@ export class Ts {
 
 
     private static sanitizeType(type: string): string {
-        return type?.includes('import') ? 'import' : type;
+        if (!type) {
+            return '';
+        }
+        let sanitizedType: string = type.replace(/"/g, `'`)
+            .replace(/\n/g,' ');
+        return sanitizedType?.includes('import') ? 'import' : sanitizedType;
     }
 
 
