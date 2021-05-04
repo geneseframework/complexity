@@ -7,6 +7,7 @@ This module is a part of the [@genese]('https://github.com/geneseframework/genes
 @genese/complexity is also a part of the [*@TheComplexityProject*](#8-thecomplexityproject).
 
 ![Dashboard @genese/complexity](./readme-dashboard.png?raw=true "Dashboard")
+![Methods analysis @genese/complexity](./readme-loc.png?raw=true "Methods analysis")
 
 ## Table of Contents
 * [Why use @genese/complexity ?](#1-why-use-genesecomplexity-)
