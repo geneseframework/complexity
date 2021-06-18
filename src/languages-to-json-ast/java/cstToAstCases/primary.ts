@@ -1,7 +1,7 @@
 import { cstToAst } from '../cst-to-ast';
 import { Primary } from '../models/primary.model';
 import { PrimaryChildren } from '../models/primary-children.model';
-import { clone } from 'genese-mapper';
+import { clone } from '@genese/core';
 
 
 export function run(cstNode: Primary, children: PrimaryChildren): any {
