@@ -1,5 +1,6 @@
 # @genese/complexity [![npm version](https://badge.fury.io/js/%40genese%2Fcomplexity.svg)](https://badge.fury.io/js/%40genese%2Fcomplexity)
 
+
 @genese/complexity analyzes the source code of your project and "measures" the cognitive complexity of each code snippet. It creates an HTML report displaying an overview of the complexities index for each folder, file or method of your project. Moreover, you will find for each method the elements increasing the cognitive complexity, which will help you to refactor your code.
 
 This module is a part of the [@genese]('https://github.com/geneseframework/genese') tool suite which is an opensource project whose aim is to provide tools helping developers to code faster and with a better code quality.
