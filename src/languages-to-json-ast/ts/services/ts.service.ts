@@ -93,11 +93,15 @@ export class Ts {
 
 
     static getParameterType(parameterNode: ParameterDeclaration): string {
-        const trivialInitializer: string = this.getTrivialInitializer(parameterNode);
-        if (!this.hasCompilerNodeType(parameterNode) && !trivialInitializer) {
-            return undefined;
-        } else {
-            return this.sanitizeType(parameterNode.getType().getText());
+        try {
+            const trivialInitializer: string = this.getTrivialInitializer(parameterNode);
+            if (!this.hasCompilerNodeType(parameterNode) && !trivialInitializer) {
+                return undefined;
+            } else {
+                return this.sanitizeType(parameterNode.getType().getText());
+            }
+        } catch (err) {
+            return 'any';
         }
     }
 
