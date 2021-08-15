@@ -7,7 +7,6 @@ import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
 import { DEV_MOCK, LIMIT_GENERATIONS } from './globals.const';
 import { isLanguage, Language } from '../core/enum/language.enum';
 import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
-import * as chalk from 'chalk';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree (AST) of its files (including files in subfolders)
@@ -28,10 +27,10 @@ export class InitGenerationService {
             return undefined;
         }
         return {
-            astFolder: this.generateAstFolder(path, language)
+            metrics: Options.metrics,
+            astFolder: this.generateAstFolder(path, language),
         };
     }
-
 
     /**
      * Generates the AstFolder for the given source code
@@ -42,15 +41,15 @@ export class InitGenerationService {
         sourceCode = `${sourceCode}\n`
         const astFileGenerationService = new AstFileGenerationService();
         return {
+            metrics: Options.metrics,
             astFolder: {
                 path: '',
                 astFiles: [
                     astFileGenerationService.generateFromString(sourceCode)
                 ]
-            }
+            },
         }
     }
-
 
     /**
      * Generates the AstFolder corresponding to a given path and to its potential AstFolder parent
@@ -103,7 +102,6 @@ export class InitGenerationService {
         }
         return astFolder;
     }
-
 
     /**
      * Returns true if a path corresponds to a file to generate in JsonAst

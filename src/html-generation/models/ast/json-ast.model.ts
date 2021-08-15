@@ -3,10 +3,12 @@ import { Logg } from '../../../core/interfaces/logg.interface';
 import * as chalk from 'chalk';
 import { AstNode } from './ast-node.model';
 import { JsonAstInterface } from '../../../core/interfaces/ast/json-ast.interface';
+import { MetricInterface } from '../../../core/interfaces/metric.interface';
 
 export class JsonAst implements JsonAstInterface, Logg {
 
     astFolder: AstFolder = undefined;              // The root of the JsonAST : the first AstFolder at the root of the folders to analyse
+    metrics: MetricInterface[] = [];
 
 
 

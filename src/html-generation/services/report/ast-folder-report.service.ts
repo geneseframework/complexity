@@ -37,7 +37,6 @@ export class AstFolderReportService {
         this.astFolderService.astFolder = this.astFolder;
     }
 
-
     /**
      * Returns the array of subfolders with their analysis
      * @param astFolder    // The AstFolder to analyse
@@ -49,7 +48,6 @@ export class AstFolderReportService {
         }
         return report.concat(this.getSubfoldersArray(astFolder));
     }
-
 
     /**
      * Recursion returning the array of subfolders reports
@@ -83,7 +81,6 @@ export class AstFolderReportService {
         return report;
     }
 
-
     /**
      * Adds a backLink to the parent folder
      */
@@ -97,7 +94,6 @@ export class AstFolderReportService {
 
         };
     }
-
 
     /**
      * Returns the array of files with their analysis
@@ -118,7 +114,6 @@ export class AstFolderReportService {
         return report.sort((a, b) => b.cpxIndex - a.cpxIndex);
     }
 
-
     /**
      * Returns the array of methods sorted by decreasing cognitive complexity
      * @param astFolder    // The AstFolder to analyse
@@ -127,7 +122,6 @@ export class AstFolderReportService {
         const report = this.getMethodsArray(astFolder);
         return this.sortByDecreasingCognitiveCpx(report);
     }
-
 
     /**
      * Recursion returning the array of methods reports of each subfolder
@@ -154,7 +148,6 @@ export class AstFolderReportService {
         return report;
     }
 
-
     /**
      * The method sorting the rows of the methods report by decreasing cognitive complexity
      * @param methodsReport     // The array to sort
@@ -162,7 +155,6 @@ export class AstFolderReportService {
     sortByDecreasingCognitiveCpx(methodsReport: MethodReport[]): MethodReport[] {
         return methodsReport.sort((a, b) => b.cpxIndex - a.cpxIndex);
     }
-
 
     /**
      * Returns the path to the report's page of a given AstFile
@@ -180,7 +172,6 @@ export class AstFolderReportService {
             astFile.name
         )}.html`;
     }
-
 
     /**
      * Generates the folder's report
@@ -203,7 +194,6 @@ export class AstFolderReportService {
         this.template = Handlebars.compile(reportTemplate);
         this.writeReport();
     }
-
 
     /**
      * Fills the HandleBar's template
@@ -233,7 +223,6 @@ export class AstFolderReportService {
             console.log(err);
         }
     }
-
 
     /**
      * Registers a HandleBar's partial

@@ -27,7 +27,7 @@ export async function startDebug(): Promise<number> {
     console.log(chalk.yellowBright('Json AST generation...'));
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname, FRAMEWORK as Framework);
     const jsonAst: JsonAstInterface = Options.generateJsonAst ? JsonAstCreationService.start(Options.pathFolderToAnalyze, LANGUAGE as Language) : require(Options.jsonAstPath);
-    console.log(chalk.magentaBright('JSON ASTTTT'), jsonAst);
+    // console.log(chalk.magentaBright('JSON ASTTTT'), jsonAst);
     console.log(chalk.yellowBright('Json Report generation...'), Options.generateJsonReport);
     const jsonReport: JsonReportInterface = Options.generateJsonReport ? await JsonReportCreationService.start(jsonAst) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('HTML report generation...'));

@@ -6,7 +6,7 @@ import { FactorCategoryService } from '../../services/factor-category.service';
 import { Evaluate } from '../../interfaces/evaluate.interface';
 import { CpxFactors } from '../../../core/models/cpx-factor/cpx-factors.model';
 import { NodeFeature } from '../../enums/node-feature.enum';
-import { cpxFactors } from '../../../core/const/cpx-factors';
+import { cpxFactors } from '../../../core/const/cpx-factors.const';
 import { addObjects } from '../../../core/utils/other-tools.util';
 import { AstNodeService } from '../../services/ast/ast-node.service';
 import * as chalk from 'chalk';
