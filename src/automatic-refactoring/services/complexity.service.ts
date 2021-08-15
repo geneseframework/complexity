@@ -1,8 +1,8 @@
-import { InitGenerationService } from '../../languages-to-json-ast/init-generation.service';
+import { InitGenerationService } from '../../json-ast-creation/init-generation.service';
 import { JsonAstInterface } from '../../core/interfaces/ast/json-ast.interface';
-import { JsonService } from '../../languages-to-json-ast/json.service';
-import { JsonAstToReports } from '../../json-ast-to-reports/json-ast-to-reports';
-import { JsonAst } from '../../json-ast-to-reports/models/ast/json-ast.model';
+import { JsonService } from '../../json-ast-creation/json.service';
+import { StartHtmlGenerationService } from '../../html-generation/start-html-generation.service';
+import { JsonAst } from '../../html-generation/models/ast/json-ast.model';
 
 export class ComplexityService {
     /**
@@ -19,6 +19,6 @@ export class ComplexityService {
         astFolder = JsonService.astPropertyNames(astFolder);
         jsonAst.astFolder = astFolder;
 
-        return JsonAstToReports.getTotalCpx(jsonAst as JsonAst);
+        return StartHtmlGenerationService.getTotalCpx(jsonAst as JsonAst);
     }
 }

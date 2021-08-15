@@ -3,7 +3,7 @@
 import {Worker} from 'worker_threads';
 import { Options } from '../core/models/options.model';
 import { createOutDir, deleteFile } from '../core/services/file.service';
-import { AstFolder } from '../json-ast-to-reports/models/ast/ast-folder.model';
+import { AstFolder } from '../html-generation/models/ast/ast-folder.model';
 import { Language } from '../core/enum/language.enum';
 
 const ora = require('ora');

@@ -1,6 +1,6 @@
-import { FactorCategory } from '../../../json-ast-to-reports/enums/factor-category.enum';
+import { FactorCategory } from '../../../html-generation/enums/factor-category.enum';
 import { addObjects, capitalize } from '../../services/tools.service';
-import { Addition } from '../../../json-ast-to-reports/interfaces/addition.interface';
+import { Addition } from '../../../html-generation/interfaces/addition.interface';
 import { AggregationCpx } from './aggregation-cpx.model';
 import { NestingCpx } from './nesting-cpx.model';
 import { AtomicCpx } from './atomic-cpx.model';

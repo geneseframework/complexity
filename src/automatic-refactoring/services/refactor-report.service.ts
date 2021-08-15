@@ -4,7 +4,7 @@ import * as Handlebars from 'handlebars';
 
 import { Options } from '../../core/models/options.model';
 import { constructLink, deleteLastSlash, getRouteToRoot } from '../../core/services/file.service';
-import { AstFolder } from '../../json-ast-to-reports/models/ast/ast-folder.model';
+import { AstFolder } from '../../html-generation/models/ast/ast-folder.model';
 import { RefactorProposal } from '../models/refactor-proposal.model';
 
 /**

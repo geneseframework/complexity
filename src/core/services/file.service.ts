@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import { OS } from '../../json-ast-to-reports/enums/os.enum';
+import { OS } from '../../html-generation/enums/os.enum';
 import { Options, WINDOWS } from '../models/options.model';
 import { lastElement } from '../utils/arrays.util';
 
