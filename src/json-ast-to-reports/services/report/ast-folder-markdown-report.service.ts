@@ -77,9 +77,9 @@ export class AstFolderMarkdownReportService {
     private setAstMethodReport(astFile: AstFile): void{
         for (const astMethod of astFile.astMethods) {
             this.methodsArrayReport.push({
-                cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
+                cognitiveColor: astMethod.cognitiveLevel.toLowerCase(),
                 cpxIndex: astMethod.cpxIndex,
-                cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
+                cyclomaticColor: astMethod.cyclomaticLevel.toLowerCase(),
                 cyclomaticValue: astMethod.cyclomaticCpx,
                 filename: astFile.name,
                 linkFile: undefined,

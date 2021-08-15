@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
+
 <body>
 <div class="header">
     <div class="header-left">
@@ -18,8 +19,8 @@
             <h1>Genese complexity report</h1>
         </div>
         <div class="pad1y">
-                <span class="backLink" onclick="history.back()"><-</span>
-                    {{stats.subject}}
+            <span class="backLink" onclick="history.back()"><-</span>
+            {{stats.subject}}
         </div>
         <div class="clearfix">
             <div class='fl pad1y space-right2'>
@@ -31,7 +32,7 @@
     <div class="header-right">
         <div class="clearfix padly">
             <div class='fl pad1y space-right2'>
-                <span>Complexity index : </span>
+                <span>Comprehension complexity : </span>
                 <span class="strong">{{stats.totalCognitiveComplexity}}</span>
             </div>
         </div>
@@ -62,13 +63,13 @@
                 <div class="stats">
                     <div class="clearfix">
                         <div class='fl pad1y space-right2'>
-                            <span class="strong">Cognitive complexity</span>
+                            <span class="strong">Comprehension complexity</span>
                         </div>
                     </div>
                     <div class="clearfix">
                         <div class='fl pad1y space-right2'>
                             <span class="strong">{{stats.percentsByStatus.cognitive.correct}} %</span>
-                            <span class="quiet"> Correct</span>
+                            <span class="quiet"> Low</span>
                             <span
                                     class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.correct}}/{{stats.numberOfMethods}}</span>
                         </div>
@@ -76,7 +77,7 @@
                     <div class="clearfix">
                         <div class='fl pad1y space-right2'>
                             <span class="strong">{{stats.percentsByStatus.cognitive.warning}} %</span>
-                            <span class="quiet"> Warning</span>
+                            <span class="quiet"> Medium</span>
                             <span
                                     class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.warning}}/{{stats.numberOfMethods}}</span>
                             <span class="quiet">(threshold : {{thresholds.cognitive.warning}})</span>
@@ -85,7 +86,7 @@
                     <div class="clearfix">
                         <div class='fl pad1y space-right2'>
                             <span class="strong">{{stats.percentsByStatus.cognitive.error}} %</span>
-                            <span class="quiet"> Error</span>
+                            <span class="quiet"> High</span>
                             <span
                                     class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.error}}/{{stats.numberOfMethods}}</span>
                             <span class="quiet">(threshold : {{thresholds.cognitive.error}})</span>
@@ -115,7 +116,7 @@
                     <div class="clearfix">
                         <div class='fl pad1y space-right2'>
                             <span class="strong">{{stats.percentsByStatus.cyclomatic.correct}} %</span>
-                            <span class="quiet"> Correct</span>
+                            <span class="quiet"> Low</span>
                             <span
                                     class='fraction'>{{stats.numberOfMethodsByStatus.cyclomatic.correct}}/{{stats.numberOfMethods}}</span>
                         </div>
@@ -123,7 +124,7 @@
                     <div class="clearfix">
                         <div class='fl pad1y space-right2'>
                             <span class="strong">{{stats.percentsByStatus.cyclomatic.warning}} %</span>
-                            <span class="quiet"> Warning</span>
+                            <span class="quiet"> Medium</span>
                             <span
                                     class='fraction'>{{stats.numberOfMethodsByStatus.cyclomatic.warning}}/{{stats.numberOfMethods}}</span>
                             <span class="quiet">(threshold : {{thresholds.cyclomatic.warning}})</span>
@@ -132,7 +133,7 @@
                     <div class="clearfix">
                         <div class='fl pad1y space-right2'>
                             <span class="strong">{{stats.percentsByStatus.cyclomatic.error}} %</span>
-                            <span class="quiet"> Error</span>
+                            <span class="quiet"> High</span>
                             <span
                                     class='fraction'>{{stats.numberOfMethodsByStatus.cyclomatic.error}}/{{stats.numberOfMethods}}</span>
                             <span class="quiet">(threshold : {{thresholds.cyclomatic.error}})</span>
@@ -150,20 +151,22 @@
 
 
     <!--        -------------------------------------------------------------------------------------->
-    <!--        -----------------------------------   Methods arrays   ------------------------------->
+    <!--        -----------------------------------   Code of methods   ------------------------------>
     <!--        -------------------------------------------------------------------------------------->
 
 
     <div idclass="subfolders">
         <div class="clearfix file-methods-subtitle">
             <div class='fl pad1y space-right2'>
-                <span class="strong">Methods of <span class="italic">{{stats.subject}}</span></span>
+                <span id="spanDisplayMethodsArray" class="strong">Methods of <span class="italic">{{stats.subject}}</span></span>
             </div>
         </div>
 
-        {{#each methods}}
-            {{>method method=.}}
-        {{/each}}
+        <div id="methodsArray">
+            {{#each methods}}
+                {{>divCode divCode=.}}
+            {{/each}}
+        </div>
     </div>
 
 </div>

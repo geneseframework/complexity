@@ -51,14 +51,14 @@
 
 .stats {
     padding-top: 50px;
-    width: 310px;
+    width: 330px;
     padding-left: 50px;
 
 }
 
 .stats-cy {
     padding-top: 20px;
-    width: 250px;
+    width: 270px;
     margin: auto;
 }
 
@@ -110,15 +110,15 @@
     height: 100% !important;
 }
 
-.correct {
+.lowLvl {
     color: #99ccff;
 }
 
-.warning {
+.mediumLvl {
     color: #ffa31a;
 }
 
-.error {
+.highLvl {
     color: #ff3300;
 }
 
@@ -126,7 +126,6 @@
 
 .subfolders {
     background-color: #fff;
-    /* background-color: #A3CB38; */
     border-radius: 5px;
     padding: 1em;
     margin-top: 1em;
@@ -164,15 +163,15 @@ th {
     background-color: white;
 }
 
-.array-report .bgcorrect {
+.array-report .bglowLvl {
     background-color: #99ccff;
 }
 
-.array-report .bgwarning {
+.array-report .bgmediumLvl {
     background-color: #ffa31a;
 }
 
-.array-report .bgerror {
+.array-report .bghighLvl {
     background-color: #ff3300;
 }
 
@@ -207,16 +206,11 @@ th {
     width: 100%;
 }
 
-/* .method-table {
-    display: grid;
-    width: 1150px;
-    margin: auto;
+.spanToggleVisibility {
+    font-weight: bold;
 }
 
-.method-thead {
-    display: table;
+.spanToggleVisibility:hover {
+    cursor: pointer;
 }
 
-.method-body {
-    overflow-x: auto;
-} */

@@ -7,13 +7,13 @@
                 {{path}}
             {{/if}}
         </td>
-        <td class="center">{{numberOfFiles}}</td>
+        <td class="center"><a href="{{linkFilesOfSubfolder}}">{{numberOfFiles}}</a></td>
         <td class="center">{{numberOfMethods}}</td>
-        <td class="center correct">{{complexitiesByStatus.cognitive.correct}}</td>
-        <td class="center warning">{{complexitiesByStatus.cognitive.warning}}</td>
-        <td class="center error">{{complexitiesByStatus.cognitive.error}}</td>
-        <td class="center correct">{{complexitiesByStatus.cyclomatic.correct}}</td>
-        <td class="center warning">{{complexitiesByStatus.cyclomatic.warning}}</td>
-        <td class="center error">{{complexitiesByStatus.cyclomatic.error}}</td>
+        <td class="center lowLvl">{{complexitiesByStatus.cognitive.correct}}</td>
+        <td class="center mediumLvl">{{complexitiesByStatus.cognitive.warning}}</td>
+        <td class="center highLvl">{{complexitiesByStatus.cognitive.error}}</td>
+        <td class="center lowLvl">{{complexitiesByStatus.cyclomatic.correct}}</td>
+        <td class="center mediumLvl">{{complexitiesByStatus.cyclomatic.warning}}</td>
+        <td class="center highLvl">{{complexitiesByStatus.cyclomatic.error}}</td>
     </tr>
 {{/with}}

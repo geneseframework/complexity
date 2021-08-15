@@ -1,8 +1,8 @@
 import { AstMethod } from '../../models/ast/ast-method.model';
 import { ComplexitiesByStatus } from '../../interfaces/complexities-by-status.interface';
 import { ComplexityType } from '../../enums/complexity-type.enum';
-import { MethodStatus } from '../../enums/evaluation-status.enum';
 import { MethodReport } from '../../models/report/method-report.model';
+import { CpxLevel } from '../../enums/cpx-level.enum';
 
 export class AstMethodService {
 
@@ -21,28 +21,28 @@ export class AstMethodService {
      */
     addMethodCpxByStatus(cpxByStatus: ComplexitiesByStatus, astMethod: AstMethod): ComplexitiesByStatus {
         let cpx: ComplexitiesByStatus = cpxByStatus ?? new ComplexitiesByStatus();
-        cpx = this.incrementMethodByCpxType(cpx, ComplexityType.COGNITIVE, astMethod.cognitiveStatus);
-        cpx = this.incrementMethodByCpxType(cpx, ComplexityType.CYCLOMATIC, astMethod.cyclomaticStatus);
+        cpx = this.incrementMethodByCpxType(cpx, ComplexityType.COGNITIVE, astMethod.cognitiveLevel);
+        cpx = this.incrementMethodByCpxType(cpx, ComplexityType.CYCLOMATIC, astMethod.cyclomaticLevel);
         return cpx;
     }
 
 
     /**
-     * For a given complexity type, returns the value of a ComplexitiesByStatus object incremented of one for a given MethodStatus
+     * For a given complexity type, returns the value of a ComplexitiesByStatus object incremented of one for a given CpxLevel
      * @param cpxByStatus       // The ComplexitiesByStatus object
      * @param complexityType    // The type of complexity to increment
-     * @param methodStatus      // The complexity status
+     * @param cpxLevel      // The complexity status
      */
-    private incrementMethodByCpxType(cpxByStatus: ComplexitiesByStatus, complexityType: ComplexityType, methodStatus: MethodStatus): ComplexitiesByStatus {
+    private incrementMethodByCpxType(cpxByStatus: ComplexitiesByStatus, complexityType: ComplexityType, cpxLevel: CpxLevel): ComplexitiesByStatus {
         const status: ComplexitiesByStatus = cpxByStatus;
-        switch (methodStatus) {
-            case MethodStatus.CORRECT:
+        switch (cpxLevel) {
+            case CpxLevel.LOW:
                 status[complexityType].correct = status[complexityType].correct + 1;
                 break;
-            case MethodStatus.WARNING:
+            case CpxLevel.MEDIUM:
                 status[complexityType].warning++;
                 break;
-            case MethodStatus.ERROR:
+            case CpxLevel.HIGH:
                 status[complexityType].error++;
                 break;
             default:

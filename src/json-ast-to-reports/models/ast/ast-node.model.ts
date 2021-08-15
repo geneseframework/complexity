@@ -17,6 +17,7 @@ import { IdentifierType } from '../../../core/interfaces/identifier-type.type';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
 import { FactorCategory } from '../../enums/factor-category.enum';
 import { TypingCpx } from '../../../core/models/cpx-factor/typing-cpx.model';
+import { Options } from '../../../core/models/options.model';
 
 export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
@@ -158,8 +159,15 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
-    get hasArrowFunctionDescendant(): boolean {
-        return !!Ast.getFirstDescendantOfKind(this, SyntaxKind.ArrowFunction);
+    get greatGrandParent(): AstNode {
+        return this.parent?.parent?.parent;
+    }
+
+
+    get isFunctionAssignation(): boolean {
+        const firstDescendantOfKindArrowFunction: AstNode = Ast.getFirstDescendantOfKind(this, SyntaxKind.ArrowFunction);
+        const firstDescendantOfKindFunction: AstNode = Ast.getFirstDescendantOfKind(this, SyntaxKind.FunctionExpression);
+        return firstDescendantOfKindArrowFunction?.greatGrandParent === this || firstDescendantOfKindFunction?.greatGrandParent === this;
     }
 
 
@@ -214,6 +222,15 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     get isIdentifier(): boolean {
         return Ast.isIdentifier(this);
+    }
+
+
+    get isCodeOutsideClassesAndFunctions(): boolean {
+        return Ast.isSourceFile(this.parent)
+            && !this.isVarArrowFunction
+            && !Ast.isClassDeclaration(this)
+            && !Ast.isFunctionDeclaration(this)
+            && !Ast.isEndOfFileToken(this);
     }
 
 
@@ -429,7 +446,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
      * @private
      */
     private setTypingCpxFactors(): void {
-        if (this.shouldBeTyped && !this.type) {
+        if (this.shouldBeTyped && !this.type && Options.typing) {
             const category: string = this.isCallDeclaration ? 'func' : this.factorCategory;
             this.cpxFactors.typing[category] = cpxFactors.typing[category];
         }
@@ -441,7 +458,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
      * @private
      */
     private setFunctionStructuralCpx(): void {
-        if (this.type === 'function' && this.parent?.kind !== SyntaxKind.MethodDeclaration) {
+        if (this.type === 'function' || this.kind === 'ArrowFunction' || this.kind === 'FunctionDeclaration') {
             this.cpxFactors.structural.method = cpxFactors.structural.method;
         }
     }

@@ -1,9 +1,9 @@
 import { AstFile } from '../../models/ast/ast-file.model';
 import { AstMethod } from '../../models/ast/ast-method.model';
-import { MethodStatus } from '../../enums/evaluation-status.enum';
 import { StatsService } from '../report/stats.service';
 import { Stats } from '../../models/stats.model';
 import { ComplexityType } from '../../enums/complexity-type.enum';
+import { CpxLevel } from '../../enums/cpx-level.enum';
 
 /**
  * - AstFiles generation from Abstract Syntax AstNode of a file
@@ -50,15 +50,15 @@ export class AstFileService extends StatsService {
      * @param type              // The complexity type
      */
     incrementStatsMethodsByStatus(astMethod: AstMethod, type: ComplexityType): void {
-        const status = (type === ComplexityType.COGNITIVE) ? astMethod.cognitiveStatus : astMethod.cyclomaticStatus;
-        switch (status) {
-            case MethodStatus.CORRECT:
+        const cpxLevel = (type === ComplexityType.COGNITIVE) ? astMethod.cognitiveLevel : astMethod.cyclomaticLevel;
+        switch (cpxLevel) {
+            case CpxLevel.LOW:
                 this._stats.numberOfMethodsByStatus[type].correct ++;
                 break;
-            case MethodStatus.ERROR:
+            case CpxLevel.HIGH:
                 this._stats.numberOfMethodsByStatus[type].error ++;
                 break;
-            case MethodStatus.WARNING:
+            case CpxLevel.MEDIUM:
                 this._stats.numberOfMethodsByStatus[type].warning ++;
                 break;
             default:

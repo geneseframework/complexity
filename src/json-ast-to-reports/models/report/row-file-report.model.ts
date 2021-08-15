@@ -8,7 +8,8 @@ export class RowFileReport {
     cyclomaticColor ?= 'correct';   // The color associated to the cyclomatic complexity score of the method analysed in the row
     cyclomaticValue ?= 0;           // The cyclomatic complexity score of the method analysed in the row
     filename ?= '';                 // The name of the file
-    linkFile ?= '';                 // The relative link to the file report
+    linkFileGlobal ?= '';           // The relative link to the report of a whole file
+    linkFile ?= '';      // The relative link to the report of a file with detailed methods
     methodName ?= '';               // The name of the method analysed in the row
 
 }

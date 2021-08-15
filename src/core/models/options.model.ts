@@ -5,7 +5,6 @@ import { ComplexityType } from '../../json-ast-to-reports/enums/complexity-type.
 import { ChartColor } from '../../json-ast-to-reports/enums/chart-color.enum';
 import { ComplexitiesByStatus } from '../../json-ast-to-reports/interfaces/complexities-by-status.interface';
 import { Framework, isFramework } from '../types/framework.type';
-import * as chalk from 'chalk';
 
 export var WINDOWS = false;
 
@@ -30,13 +29,14 @@ export class Options {
         type: ComplexityType.CYCLOMATIC,    // Sets the complexity type for this option (can't be overridden)
         warningThreshold: 5,                // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
     };
+    static framework: Framework = undefined;// The framework eventually specified
     static ignore: string[] = [];           // The paths of the files or folders to ignore
     static ignoreRegex: string = '';
     static pathCommand = '';                // The path of the folder where the command-line was entered (can't be overridden)
     static pathFolderToAnalyze = './';      // The path of the folder to analyse (can be overridden)
     static pathGeneseNodeJs = '';           // The path of the node_module Genese in the nodejs user environment (can't be overridden)
     static pathOutDir = '';                 // The path where the reports are created (can be overridden)
-    static framework: Framework = undefined;// The framework eventually specified
+    static typing = true;                   // True if we want to add a complexity weight for lacks of typing
 
     /**
      * Sets the options of genese-complexity module
@@ -98,6 +98,7 @@ export class Options {
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
+        Options.typing = !!config.complexity.typing;
     }
 
 
@@ -107,6 +108,9 @@ export class Options {
      * @returns {String[]}
      */
     static filterIgnorePathsForDotSlash(ignorePaths: string[]): string[] {
+        if (!ignorePaths) {
+            return [];
+        }
         const ignorePathsToFormat = ignorePaths.filter(
             (x) => !x.startsWith('*.')
         );

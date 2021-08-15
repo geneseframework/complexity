@@ -4,60 +4,57 @@ import * as Handlebars from 'handlebars';
 import {
     constructLink,
     deleteLastSlash,
-    getFilenameWithoutExtension,
     getPathWithDotSlash,
     getRouteToRoot,
 } from '../../../core/services/file.service';
-import { MethodReport } from '../../models/report/method-report.model';
-import { AstFile } from '../../models/ast/ast-file.model';
 import { Options } from '../../../core/models/options.model';
+import { FileReport } from '../../models/report/file-report.model';
+import { AstFolder } from '../../models/ast/ast-folder.model';
 
 /**
  * Service generating files reports
  */
-export class AstFileReportService {
-    private methodReports: MethodReport[] = [];     // The array of method reports
+export class AstFilesReportService {
+    private fileReports: FileReport[] = [];     // The array of method reports
     private relativeRootReports = '';               // The route between the pos of the current TsFile and the root of the analysis
     template: HandlebarsTemplateDelegate;           // The HandleBar template used to generate the report
-    astFile: AstFile = undefined;                   // The AstFile relative to this service
+    astFolder: AstFolder = undefined;                   // The AstFile relative to this service
 
-    constructor(astFile: AstFile) {
-        this.astFile = astFile;
+    constructor(astFolder: AstFolder) {
+        this.astFolder = astFolder;
     }
 
     /**
-     * Returns the array of methods with their analysis
+     * Returns the array of files with their analysis
      */
-    getMethodsArray(): MethodReport[] {
-        let report: MethodReport[] = [];
-        for (const method of this.astFile.astMethods) {
-            const methodReport: MethodReport = {
-                code: method.displayedCode?.text,
-                cognitiveColor: method.cognitiveLevel,
-                cpxIndex: method.cpxIndex,
-                cyclomaticColor: method.cyclomaticLevel,
-                cyclomaticValue: method.cyclomaticCpx,
-                name: method.name,
+    getFilesArray(): FileReport[] {
+        let report: FileReport[] = [];
+        for (const astFile of this.astFolder.astFiles) {
+            const astFileReport: FileReport = {
+                code: astFile.displayedCode?.text,
+                cognitiveColor: astFile.cognitiveLevel,
+                cpxIndex: astFile.cpxIndex,
+                cyclomaticColor: astFile.cyclomaticLevel,
+                cyclomaticValue: astFile.cyclomaticCpx,
+                name: astFile.name,
             };
-            report.push(methodReport);
+            report.push(astFileReport);
         }
         return report;
     }
 
     /**
-     * Generates the file's report
+     * Generates the files report
      */
     generateReport(): void {
-        this.methodReports = this.getMethodsArray();
-        // TODO: Adapt the code of ExportService to this project
-        // ExportService.addRows(this.methodReports, this.astFile);
-        this.relativeRootReports = getRouteToRoot(this.astFile.astFolder?.relativePath);
+        this.fileReports = this.getFilesArray();
+        this.relativeRootReports = getRouteToRoot(this.astFolder?.relativePath);
         this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
         this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');
         this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');
         this.registerPartial("cyclomaticDoughnutScript", 'cyclomatic-doughnut');
         this.registerPartial("divCode", 'div-code');
-        const reportTemplate = eol.auto(fs.readFileSync(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/handlebars/file-report.handlebars`, 'utf-8'));
+        const reportTemplate = eol.auto(fs.readFileSync(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/handlebars/files-report.handlebars`, 'utf-8'));
         this.template = Handlebars.compile(reportTemplate);
         this.writeReport();
     }
@@ -68,23 +65,14 @@ export class AstFileReportService {
     private writeReport() {
         const template = this.template({
             colors: Options.colors,
-            methods: this.methodReports,
+            files: this.fileReports,
             relativeRootReports: getPathWithDotSlash(this.relativeRootReports),
-            stats: this.astFile.stats,
+            stats: this.astFolder.stats,
             thresholds: Options.getThresholds()
         });
-        const filenameWithoutExtension = getFilenameWithoutExtension(
-            this.astFile.name
-        );
-        const RELATIVE_PATH = constructLink(
-            this.astFile.astFolder?.relativePath
-        );
+        const RELATIVE_PATH = this.astFolder?.relativePath ? `${deleteLastSlash(constructLink(this.astFolder?.relativePath))}/` : '';
         const OUT_DIR = constructLink(Options.pathOutDir);
-        let pathReport = `${deleteLastSlash(OUT_DIR)}/${deleteLastSlash(
-            RELATIVE_PATH
-        )}/${filenameWithoutExtension}.html`;
-
-
+        let pathReport = `${deleteLastSlash(OUT_DIR)}/${RELATIVE_PATH}files-report.html`;
         fs.writeFileSync(pathReport, template, { encoding: 'utf-8' });
     }
 

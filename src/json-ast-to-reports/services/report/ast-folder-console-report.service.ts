@@ -79,9 +79,9 @@ export class AstFolderConsoleReportService {
     private setAstMethodReport(astFile: AstFile): void{
         for (const astMethod of astFile.astMethods) {
             this.methodsArrayReport.push({
-                cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
+                cognitiveColor: astMethod.cognitiveLevel.toLowerCase(),
                 cpxIndex: astMethod.cpxIndex,
-                cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
+                cyclomaticColor: astMethod.cyclomaticLevel.toLowerCase(),
                 cyclomaticValue: astMethod.cyclomaticCpx,
                 filename: `file://${astFile.astFolder.path}/${astFile.name}`,
                 linkFile: `${astFile.astFolder.path}/${astFile.name}`,
