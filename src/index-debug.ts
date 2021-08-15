@@ -31,22 +31,26 @@ export async function startDebug(): Promise<number> {
     console.log(chalk.yellowBright('Json Report generation...'), Options.generateJsonReport);
     const jsonReport: JsonReportInterface = Options.generateJsonReport ? await JsonReportCreationService.start(jsonAst) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('HTML report generation...'));
-    // const reportResult = StartHtmlGenerationService.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
-    // if (reportResult?.length > 0) {
-    //     console.log();
-    //     if (typeof reportResult === 'object') {
-    //         console.table(reportResult, ['filename', 'methodName', 'cpxIndex']);
-    //     } else {
-    //         const stats: any = StartHtmlGenerationService.astFolder['_stats'];
-    //         console.log(chalk.blueBright('Files : '), stats.numberOfFiles);
-    //         console.log(chalk.blueBright('Methods : '), stats.numberOfMethods);
-    //         console.log(chalk.blueBright('Comprehension Complexity : '), stats.totalCognitiveComplexity);
-    //         console.log(chalk.blueBright('Cyclomatic Complexity : '), stats.totalCyclomaticComplexity);
-    //         console.log(reportResult);
-    //     }
-    //     if (ENABLE_CONSOLE_REPORT) {
-    //         return 1;
-    //     }
-    // }
+    const reportResult = HtmlGenerationService.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
+    return logResults(reportResult);
+}
+
+function logResults(reportResult: any[]): number {
+    if (reportResult?.length > 0) {
+        console.log();
+        if (typeof reportResult === 'object') {
+            console.table(reportResult, ['filename', 'methodName', 'cpxIndex']);
+        } else {
+            const stats: any = HtmlGenerationService.astFolder['_stats'];
+            console.log(chalk.blueBright('Files : '), stats.numberOfFiles);
+            console.log(chalk.blueBright('Methods : '), stats.numberOfMethods);
+            console.log(chalk.blueBright('Comprehension Complexity : '), stats.totalCognitiveComplexity);
+            console.log(chalk.blueBright('Cyclomatic Complexity : '), stats.totalCyclomaticComplexity);
+            console.log(reportResult);
+        }
+        if (ENABLE_CONSOLE_REPORT) {
+            return 1;
+        }
+    }
     return 0;
 }
