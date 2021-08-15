@@ -30,7 +30,7 @@ export class JsonAstToReports {
             result = ReportsService.generateConsoleReports(jsonAst)
         } else {
             ReportsService.generateAllReports(jsonAst)
-            const link = terminalLink('folder-report.html', `file://${pathCommand}/genese/complexity/reports/folder-report.html`);
+            const link = terminalLink('folderPath-report.html', `file://${pathCommand}/genese/complexity/reports/folder-report.html`);
             result = `Please open in your browser the file ${link} located in your genese reports folder.`
         }
         this.astFolder = jsonAst.astFolder;

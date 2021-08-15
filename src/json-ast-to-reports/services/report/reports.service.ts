@@ -8,6 +8,7 @@ import { Options } from '../../../core/models/options.model';
 import { AstFolderMarkdownReportService } from './ast-folder-markdown-report.service';
 import { AstFolderConsoleReportService } from './ast-folder-console-report.service';
 import { RowFileReport } from '../../models/report/row-file-report.model';
+import { AstFilesReportService } from './ast-files-report.service';
 
 
 /**
@@ -50,7 +51,7 @@ export class ReportsService {
      * Generates reports of children recursively
      * @param astFolder        // The AstFolder to analyse
      */
-    private static generateSubfoldersReports(astFolder: AstFolder): void{
+    private static generateSubfoldersReports(astFolder: AstFolder): void {
         ReportsService.generateFolderReport(astFolder);
         for (const subFolder of astFolder.children) {
             ReportsService.generateSubfoldersReports(subFolder);
@@ -65,9 +66,19 @@ export class ReportsService {
     private static generateFolderReport(astFolder: AstFolder): void {
         const folderReportService = new AstFolderReportService(astFolder);
         folderReportService.generateReport();
+        this.generateFilesOfFolderReport(astFolder);
         for (const file of astFolder.astFiles) {
-            ReportsService.generateFileReport(file);
+            this.generateFileReport(file);
         }
+    }
+
+
+    /**
+     * Generates a report for a given file
+     * @param astFolder
+     */
+    private static generateFilesOfFolderReport(astFolder: AstFolder): void {
+        new AstFilesReportService(astFolder).generateReport();
     }
 
 
@@ -76,8 +87,7 @@ export class ReportsService {
      * @param astFile        // The AstFile to analyse
      */
     private static generateFileReport(astFile: AstFile): void {
-        const fileReportService = new AstFileReportService(astFile);
-        fileReportService.generateReport();
+        new AstFileReportService(astFile).generateReport();
     }
 
 

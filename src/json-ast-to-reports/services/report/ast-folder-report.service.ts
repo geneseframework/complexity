@@ -7,7 +7,7 @@ import {
     constructLink,
     createRelativeDir,
     deleteLastSlash,
-    getFilenameWithoutExtension,
+    getFilenameWithoutExtension, getFolderName,
     getPathWithSlash,
     getRouteToRoot,
 } from '../../../core/services/file.service';
@@ -66,6 +66,7 @@ export class AstFolderReportService {
                 );
                 const subfolderReport: RowFolderReport = {
                     complexitiesByStatus: subfolder.stats?.numberOfMethodsByStatus,
+                    linkFilesOfSubfolder: `./${getFolderName(subfolder.path)}/files-report.html`,
                     numberOfFiles: subfolder.stats?.numberOfFiles,
                     numberOfMethods: subfolder.stats?.numberOfMethods,
                     path: subfolder.relativePath,
@@ -104,18 +105,15 @@ export class AstFolderReportService {
      */
     getFilesArray(astFolder: AstFolder): RowFileReport[] {
         let report: RowFileReport[] = [];
-        for (const tsFile of astFolder.astFiles) {
-            for (const astMethod of tsFile.astMethods) {
-                report.push({
-                    cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
-                    cpxIndex: astMethod.cpxIndex,
-                    cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
-                    cyclomaticValue: astMethod.cyclomaticCpx,
-                    filename: tsFile.name,
-                    linkFile: this.getFileLink(tsFile),
-                    methodName: astMethod.name
-                });
-            }
+        for (const astFile of astFolder.astFiles) {
+            report.push({
+                cognitiveColor: astFile.cognitiveLevel,
+                cpxIndex: astFile.cpxIndex,
+                cyclomaticColor: astFile.cyclomaticLevel,
+                cyclomaticValue: astFile.cyclomaticCpx,
+                filename: astFile.name,
+                linkFile: this.getFileLink(astFile),
+            });
         }
         return report.sort((a, b) => b.cpxIndex - a.cpxIndex);
     }
@@ -141,9 +139,9 @@ export class AstFolderReportService {
             for (const tsFile of subfolder.astFiles) {
                 for (const astMethod of tsFile.astMethods) {
                     report.push({
-                        cognitiveColor: astMethod.cognitiveStatus.toLowerCase(),
+                        cognitiveColor: astMethod.cognitiveLevel,
                         cpxIndex: astMethod.cpxIndex,
-                        cyclomaticColor: astMethod.cyclomaticStatus.toLowerCase(),
+                        cyclomaticColor: astMethod.cyclomaticLevel,
                         cyclomaticValue: astMethod.cyclomaticCpx,
                         filename: tsFile.name,
                         linkFile: this.getFileLink(tsFile),
@@ -170,7 +168,7 @@ export class AstFolderReportService {
      * Returns the path to the report's page of a given AstFile
      * @param astFile
      */
-    getFileLink(astFile: AstFile): string {
+    private getFileLink(astFile: AstFile): string {
         if (this.astFolder.relativePath === astFile.astFolder?.relativePath) {
             return `./${getFilenameWithoutExtension(astFile.name)}.html`;
         }
@@ -200,6 +198,7 @@ export class AstFolderReportService {
         this.registerPartial("cyclomaticDoughnutScript", 'cyclomatic-doughnut');
         this.registerPartial("rowFolder", 'row-folders');
         this.registerPartial("rowFile", 'row-files');
+        this.registerPartial("rowMethod", 'row-methods');
         const reportTemplate = eol.auto(fs.readFileSync(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/handlebars/folder-report.handlebars`, 'utf-8'));
         this.template = Handlebars.compile(reportTemplate);
         this.writeReport();

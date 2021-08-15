@@ -2,37 +2,26 @@
 <html lang="en">
 
 <head>
-    <title>Genese complexity report for all files</title>
+    <title>Genese complexity report</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="./{{relativeRootReports}}/reports-styles/prettify.css" />
-    <link rel="stylesheet" href="./{{relativeRootReports}}/reports-styles/report.css" />
-    <link rel="stylesheet" href="./{{relativeRootReports}}/reports-styles/styles.css" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/prism.css" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/prettify.css" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/report.css" />
+    <link rel="stylesheet" href="{{relativeRootReports}}/reports-styles/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-
-<!--        -------------------------------------------------------------------------------------->
-<!--        ---------------------------------------   Header   ----------------------------------->
-<!--        -------------------------------------------------------------------------------------->
-
-
 <div class="header">
     <div class="header-left">
         <div>
             <h1>Genese complexity report</h1>
         </div>
         <div class="pad1y">
-            {{#if relativeRootReports}}
-            <a class="backLink" href="../folder-report.html"> <- </a>
-            {{/if}}
+            <span class="backLink" onclick="history.back()"><-</span>
             {{stats.subject}}
         </div>
         <div class="clearfix">
-            <div class='fl pad1y space-right2'>
-                <span>Files : </span>
-                <span class="strong">{{stats.numberOfFiles}}</span>
-            </div>
             <div class='fl pad1y space-right2'>
                 <span>Methods : </span>
                 <span class="strong">{{stats.numberOfMethods}}</span>
@@ -59,6 +48,7 @@
 <!--        -----------------------------------   Stats and charts   ----------------------------->
 <!--        -------------------------------------------------------------------------------------->
 
+
 <div class="mainContainer">
     <div class="stats-and-charts">
 
@@ -79,7 +69,8 @@
                         <div class='fl pad1y space-right2'>
                             <span class="strong">{{stats.percentsByStatus.cognitive.correct}} %</span>
                             <span class="quiet"> Low</span>
-                            <span class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.correct}}/{{stats.numberOfMethods}}</span>
+                            <span
+                                    class='fraction'>{{stats.numberOfMethodsByStatus.cognitive.correct}}/{{stats.numberOfMethods}}</span>
                         </div>
                     </div>
                     <div class="clearfix">
@@ -152,111 +143,48 @@
             <div class="bar bar-cyclomatic">
                 <canvas id="bar-cyclomatic-cpx" class="cyclomatic-charts"></canvas>
             </div>
+
         </div>
     </div>
+
+
 
     <!--        -------------------------------------------------------------------------------------->
-    <!--        -----------------------------------   Report arrays   -------------------------------->
+    <!--        ------------------------------------   Code of files   ------------------------------->
     <!--        -------------------------------------------------------------------------------------->
 
 
-    <!--        ----------------------------------   Folders array   --------------------------------->
-
-    <div class="subfolders">
-        <div class="clearfix cognitive-subtitle">
+    <div idclass="subfolders">
+        <div class="clearfix file-methods-subtitle">
             <div class='fl pad1y space-right2'>
-                <span class="strong">Subfolders of <span class="italic">{{stats.subject}}</span></span>
+                <span id="spanDisplayFilesArray" class="strong">Display files of <span class="italic">{{stats.subject}}</span></span>
             </div>
         </div>
-        <table class="array-report">
-            <thead>
-            <tr>
-                <th rowspan="2">Folders</th>
-                <th rowspan="2">Number of files</th>
-                <th rowspan="2">Number of methods</th>
-                <th colspan="3">Comprehension complexity of methods</th>
-                <th colspan="3">Cyclomatic complexity of methods</th>
-            </tr>
-            <tr>
-                <th>Low</th>
-                <th>Medium</th>
-                <th>High</th>
-                <th>Low</th>
-                <th>Medium</th>
-                <th>High</th>
-            </tr>
-            </thead>
-            {{#each foldersArray}}
-                {{>rowFolder rowFolder=.}}
-            {{/each}}
-        </table>
-    </div>
 
-    <!--        ----------------------------------   Files array   --------------------------------->
-
-    <div class="subfolders">
-        <div class="clearfix cognitive-subtitle">
-            <div class='fl pad1y space-right2'>
-                <span class="strong">Files of <span class="italic">{{stats.subject}}</span></span>
-            </div>
-        </div>
-        <table class="array-report short-table">
-            <thead>
-            <tr>
-                <th style="width: 80%;">File</th>
-                <th style="width: 10%;">Comprehension complexity</th>
-                <th style="width: 10%;">Cyclomatic complexity</th>
-            </tr>
-            </thead>
-            {{#each filesArray}}
-                {{>rowFile rowFile=.}}
+        <div id="filesArray">
+            {{#each files}}
+                {{>divCode divCode=.}}
             {{/each}}
-        </table>
-        <div class="clearfix cognitive-subtitle">
-            <div class='fl pad1y space-right2'>
-                <span><a href="./files-report.html">Details by file</a></span>
-            </div>
         </div>
     </div>
 
-    <!--        ----------------------------------   Methods array   --------------------------------->
-
-    <div class="subfolders">
-        <div class="clearfix cognitive-subtitle">
-            <div class='fl pad1y space-right2'>
-                <span class="strong">Methods of <span class="italic">{{stats.subject}}</span> folder and its subfolders</span>
-                <span class="quiet">(ordered by decreasing cognitive complexity)</span>
-            </div>
-        </div>
-        <table class="array-report short-table">
-            <thead>
-            <tr>
-                <th style="width: 40%;">File</th>
-                <th style="width: 40%;">Method</th>
-                <th style="width: 10%;">Comprehension complexity</th>
-                <th style="width: 10%;">Cyclomatic complexity</th>
-            </tr>
-            </thead>
-            {{#each methodsArray}}
-                {{>rowMethod rowMethod=.}}
-            {{/each}}
-        </table>
-    </div>
 </div>
 
 
 <!--        -------------------------------------------------------------------------------------->
-<!--        -----------------------------------   Scripts-----   --------------------------------->
+<!--        -----------------------------------   Scripts   -------------------------------------->
 <!--        -------------------------------------------------------------------------------------->
 
 
 
 <script src="./{{relativeRootReports}}/reports-styles/Chart.js"></script>
+<script src="{{relativeRootReports}}/reports-styles/prism.js"></script>
 
 {{>cognitiveDoughnutScript}}
 {{>cognitiveBarchartScript}}
 {{>cyclomaticDoughnutScript}}
 {{>cyclomaticBarchartScript}}
+
 </body>
 
 </html>

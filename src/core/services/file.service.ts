@@ -1,6 +1,7 @@
 import * as fs from 'fs-extra';
 import { OS } from '../../json-ast-to-reports/enums/os.enum';
 import { Options, WINDOWS } from '../models/options.model';
+import { lastElement } from '../utils/arrays.util';
 
 /**
  * Tools about files or folders
@@ -14,6 +15,11 @@ import { Options, WINDOWS } from '../models/options.model';
 export function getFilename(pathFile = ''): string {
     const splittedPath = pathFile.split('/');
     return splittedPath[splittedPath.length - 1];
+}
+
+
+export function getFolderName(folderPath: string): string {
+    return lastElement(folderPath?.split('/')) ?? undefined;
 }
 
 

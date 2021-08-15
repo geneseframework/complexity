@@ -67,6 +67,14 @@ export class Ast {
     }
 
     /**
+     * Checks if an AST node is a CallExpression
+     * @param astNode   // The AST node to check
+     */
+    static isClassDeclaration(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.ClassDeclaration ?? false;
+    }
+
+    /**
      * Checks if an AST node is an ExpressionStatement
      * @param astNode   // The AST node to check
      */
@@ -119,6 +127,14 @@ export class Ast {
     }
 
     /**
+     * Checks if an AST node is a function
+     * @param astNode
+     */
+    static isFunctionDeclaration(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.FunctionDeclaration;
+    }
+
+    /**
      * Checks if an AST node is a function or a method
      * @param astNode
      */
@@ -156,6 +172,14 @@ export class Ast {
     }
 
     /**
+     * Checks if an AST node is an index of an array, ie if it's a Node which is the second son of an ELEMENT_ACCESS_EXPRESSION
+     * @param astNode      // The node to analyse
+     */
+    static isEndOfFileToken(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.EndOfFileToken ?? false;
+    }
+
+    /**
      * Checks if an AST node is a Parameter
      * @param astNode // The AST node
      */
@@ -178,6 +202,14 @@ export class Ast {
      */
     static isSameOperatorToken(firstNode: AstNode, secondNode: AstNode): boolean {
         return firstNode?.secondSon?.kind === secondNode?.secondSon?.kind ?? false;
+    }
+
+    /**
+     * Checks if an AST node is a PropertyAccessExpression
+     * @param astNode // The AST node
+     */
+    static isSourceFile(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.SourceFile ?? false;
     }
 
     // TODO: Remove duplicated code with ast.util.ts

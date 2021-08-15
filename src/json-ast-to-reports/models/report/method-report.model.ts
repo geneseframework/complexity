@@ -8,6 +8,6 @@ export class MethodReport {
     cpxIndex ?= 0;                                      // The cognitive complexity score
     cyclomaticColor ?= 'correct';                       // The color of the method for cyclomatic complexity score
     cyclomaticValue ?= 0;                               // The cyclomatic complexity score
-    methodName ?= '';                                   // The name of the method
+    name ?= '';                                   // The name of the method
 
 }

@@ -13,3 +13,9 @@ export function flat(array) {
         return [array[0]].concat(flat(array.slice(1)));
     }
 }
+
+
+
+export function lastElement<T>(array: T[]): T {
+    return Array.isArray(array) && array.length > 0 ? array[array.length - 1] : undefined;
+}
