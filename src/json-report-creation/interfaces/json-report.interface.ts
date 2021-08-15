@@ -3,5 +3,5 @@ import { MetricInterface } from '../../core/interfaces/metric.interface';
 
 export interface JsonReportInterface {
     folder: ReportFolderInterface;
-    metrics: MetricInterface[];
+    metrics?: MetricInterface[];
 }

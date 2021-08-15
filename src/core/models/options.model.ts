@@ -86,6 +86,7 @@ export class Options {
      * Sets the options of genese-complexity module with geneseconfig.json options (higher priority than geneseconfig.json options)
      * @param geneseConfigPath  // The path of the geneseconfig.json file
      */
+    // TODO : add metrics option
     static setOptionsFromConfig(geneseConfigPath: string): void {
         const config = require(geneseConfigPath);
         Options.ignore = this.filterIgnorePathsForDotSlash(config.complexity.ignore) ?? Options.ignore;
