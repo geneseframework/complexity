@@ -5,6 +5,7 @@ import { Options } from './core/models/options.model';
 import { createOutDir } from './core/services/file.service';
 import { AstFolder } from './json-ast-to-reports/models/ast/ast-folder.model';
 import * as chalk from 'chalk';
+import { startDebug } from './index-debug';
 
 const ora = require('ora');
 const path = require('path');
@@ -18,7 +19,7 @@ const ENABLE_MARKDOWN_REPORT = ARGS[2] === 'true';
 const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 const ENABLE_REFACTORING = ARGS[4] === 'true';
 let FRAMEWORK = ARGS[5] ?? undefined;
-const DEBUG = false;
+const DEBUG = true;
 
 let pathToAnalyse: string;
 if (path.isAbsolute(PATH_TO_ANALYSE)) {
@@ -39,8 +40,8 @@ start()
 
 async function start(): Promise<number> {
     if (DEBUG) {
-        pathToAnalyse = `${process.cwd()}/src/core/mocks`;
-        FRAMEWORK = 'react';
+        await startDebug();
+        return;
     }
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {
