@@ -1,6 +1,6 @@
 export interface MetricInterface {
     highThreshold: number;
-    id: string;
+    // id: string;
     mediumThreshold: number;
     name: string;
 }

@@ -6,6 +6,8 @@ import { ChartColor } from '../../html-generation/enums/chart-color.enum';
 import { ComplexitiesByStatus } from '../../html-generation/interfaces/complexities-by-status.interface';
 import { Framework, isFramework } from '../types/framework.type';
 import * as chalk from 'chalk';
+import { MetricInterface } from '../interfaces/metric.interface';
+import { COMPREHENSION_CPX, CYCLOMATIC_CPX } from '../const/metrics.const';
 
 export var WINDOWS = false;
 
@@ -37,6 +39,7 @@ export class Options {
     static ignoreRegex: string = '';
     static jsonAstPath = './ast.json';
     static jsonReportPath = './report.json';
+    static metrics: MetricInterface[] = [COMPREHENSION_CPX, CYCLOMATIC_CPX];
     static pathCommand = '';                    // The path of the folder where the command-line was entered (can't be overridden)
     static pathFolderToAnalyze = './';          // The path of the folder to analyse (can be overridden)
     static pathGeneseNodeJs = '';               // The path of the node_module Genese in the nodejs user environment (can't be overridden)

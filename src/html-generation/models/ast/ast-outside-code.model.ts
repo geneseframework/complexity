@@ -4,7 +4,7 @@ import { Ast } from '../../services/ast/ast.service';
 import { Evaluate } from '../../interfaces/evaluate.interface';
 import { CpxFactors } from '../../../core/models/cpx-factor/cpx-factors.model';
 import { CodeLine } from '../code/code-line.model';
-import { cpxFactors } from '../../../core/const/cpx-factors';
+import { cpxFactors } from '../../../core/const/cpx-factors.const';
 import { FactorCategory } from '../../enums/factor-category.enum';
 import { CpxLevel } from '../../enums/cpx-level.enum';
 

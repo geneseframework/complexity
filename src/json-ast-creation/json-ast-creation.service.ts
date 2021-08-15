@@ -60,11 +60,10 @@ export class JsonAstCreationService {
      * @param  {Language} language
      * @returns JsonAstInterface
      */
-    // TODO: implement metrics choice
     private static generateFromFiles(pathToAnalyze: string, language: Language): JsonAstInterface {
         const jsonAst: JsonAstInterface = {
             astFolder: undefined,
-            metrics: []
+            metrics: Options.metrics
         };
         let astFolder = new InitGenerationService().generateAll(pathToAnalyze, language).astFolder as any;
         astFolder = JsonService.astPropertyNames(astFolder);

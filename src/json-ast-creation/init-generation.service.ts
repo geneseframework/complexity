@@ -27,8 +27,8 @@ export class InitGenerationService {
             return undefined;
         }
         return {
+            metrics: Options.metrics,
             astFolder: this.generateAstFolder(path, language),
-            metrics: []
         };
     }
 
@@ -41,13 +41,13 @@ export class InitGenerationService {
         sourceCode = `${sourceCode}\n`
         const astFileGenerationService = new AstFileGenerationService();
         return {
+            metrics: Options.metrics,
             astFolder: {
                 path: '',
                 astFiles: [
                     astFileGenerationService.generateFromString(sourceCode)
                 ]
             },
-            metrics: []
         }
     }
 
