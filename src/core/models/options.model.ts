@@ -32,10 +32,11 @@ export class Options {
     };
     static framework: Framework = undefined;    // The framework eventually specified
     static generateJsonAst = true;
+    static generateJsonReport = true;
     static ignore: string[] = [];               // The paths of the files or folders to ignore
     static ignoreRegex: string = '';
-    static jsonAstPath = `./ast.json`;
-    static jsonReportPath: string = '';
+    static jsonAstPath = './ast.json';
+    static jsonReportPath = './report.json';
     static pathCommand = '';                    // The path of the folder where the command-line was entered (can't be overridden)
     static pathFolderToAnalyze = './';          // The path of the folder to analyse (can be overridden)
     static pathGeneseNodeJs = '';               // The path of the node_module Genese in the nodejs user environment (can't be overridden)
@@ -49,12 +50,7 @@ export class Options {
      * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overridden)
      * @param framework                 // The framework eventually specified
      */
-    static setOptions(
-        pathCommand: string,
-        pathFolderToAnalyze: string,
-        pathGeneseNodeJs: string,
-        framework?: Framework
-    ): void {
+    static setOptions(pathCommand: string, pathFolderToAnalyze: string, pathGeneseNodeJs: string, framework?: Framework): void {
         if (isFramework(framework)) {
             Options.framework = framework;
         }
@@ -70,7 +66,6 @@ export class Options {
         );
     }
 
-
     /**
      * Sets the options of genese-complexity module with command-line options (lower priority than geneseconfig.json options)
      * @param pathCommand               // The path of the folder where the command-line was entered (can't be overridden)
@@ -84,30 +79,27 @@ export class Options {
         Options.pathOutDir = `${pathCommand}/genese/complexity/reports`;
     }
 
-
     /**
      * Sets the options of genese-complexity module with geneseconfig.json options (higher priority than geneseconfig.json options)
      * @param geneseConfigPath  // The path of the geneseconfig.json file
      */
     static setOptionsFromConfig(geneseConfigPath: string): void {
         const config = require(geneseConfigPath);
-        console.log(chalk.blueBright('GN CONFIGGGG'), geneseConfigPath);
-
         Options.ignore = this.filterIgnorePathsForDotSlash(config.complexity.ignore) ?? Options.ignore;
         Options.ignore.forEach((path, i) => {
             Options.ignoreRegex += i !== Options.ignore.length - 1 ? `${this.pathTransformator(path)}|` : `${this.pathTransformator(path)}`;
         });
-
         Options.pathFolderToAnalyze = config.complexity?.pathFolderToAnalyze ?? Options.pathFolderToAnalyze;
         Options.pathOutDir = config.complexity?.pathReports ?? Options.pathOutDir;
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
-        Options.generateJsonAst = !!config.complexity.generateJsonAst;
+        Options.generateJsonAst = config.complexity.generateJsonAst === true || Options.generateJsonAst;
+        Options.generateJsonReport = config.complexity.generateJsonReport === true || Options.generateJsonReport;
         Options.jsonAstPath = config.complexity.jsonAstPath ?? Options.jsonAstPath;
-        Options.typing = !!config.complexity.typing;
+        Options.jsonReportPath = config.complexity.jsonReportPath ?? Options.jsonReportPath;
+        Options.typing = config.complexity.typing === true || Options.typing;
     }
-
 
     /**
      * Separate paths which needs to extractHooksAndArrowFunctions by "./" and others
@@ -126,7 +118,6 @@ export class Options {
             ignorePathsToKeep
         );
     }
-
 
     /**
      * Checks if a file or a folder is ignored in geneseconfig.json
@@ -169,15 +160,6 @@ export class Options {
         });
         return pathTester;
     }
-
-
-    static handleStarPath(ignorePath: string, path: string) {
-        if (ignorePath.startsWith('*.')) {
-            return path.includes(ignorePath.slice(1));
-        }
-        return false;
-    }
-
 
     /**
      * Gets the different thresholds defined in Options class
