@@ -18,6 +18,10 @@ export function getFilename(pathFile = ''): string {
 }
 
 
+/**
+ * Returns the name of a folder with a given path
+ * @param folderPath
+ */
 export function getFolderName(folderPath: string): string {
     return lastElement(folderPath?.split('/')) ?? undefined;
 }
