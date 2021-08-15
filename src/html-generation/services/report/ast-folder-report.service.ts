@@ -10,7 +10,7 @@ import {
     getFilenameWithoutExtension, getFolderName,
     getPathWithSlash,
     getRouteToRoot,
-} from '../../../core/services/file.service';
+} from '../../../core/utils/file-system.util';
 import { MethodReport } from '../../models/report/method-report.model';
 import { AstFile } from '../../models/ast/ast-file.model';
 import { AstFolder } from '../../models/ast/ast-folder.model';

@@ -1,10 +1,11 @@
 import * as fs from 'fs-extra';
-import { getArrayOfPathsWithDotSlash, getPathWithSlash, } from '../services/file.service';
+import { getArrayOfPathsWithDotSlash, getPathWithSlash, } from '../utils/file-system.util';
 import { Complexity } from '../../html-generation/interfaces/complexity.interface';
 import { ComplexityType } from '../../html-generation/enums/complexity-type.enum';
 import { ChartColor } from '../../html-generation/enums/chart-color.enum';
 import { ComplexitiesByStatus } from '../../html-generation/interfaces/complexities-by-status.interface';
 import { Framework, isFramework } from '../types/framework.type';
+import * as chalk from 'chalk';
 
 export var WINDOWS = false;
 
@@ -14,29 +15,32 @@ export var WINDOWS = false;
  */
 export class Options {
 
-    static cognitiveCpx: Complexity = {     // Options concerning the cognitive complexity
-        errorThreshold: 20,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
-        type: ComplexityType.COGNITIVE,     // Sets the complexity type for this option (can't be overridden)
-        warningThreshold: 10,               // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
+    static cognitiveCpx: Complexity = {         // Options concerning the cognitive complexity
+        errorThreshold: 20,                     // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
+        type: ComplexityType.COGNITIVE,         // Sets the complexity type for this option (can't be overridden)
+        warningThreshold: 10,                   // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
     };
-    static colors: ChartColor[] = [         // The colors of the charts
+    static colors: ChartColor[] = [             // The colors of the charts
         ChartColor.CORRECT,
         ChartColor.WARNING,
         ChartColor.ERROR,
     ];
-    static cyclomaticCpx: Complexity = {    // Options concerning the cognitive complexity
-        errorThreshold: 10,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
-        type: ComplexityType.CYCLOMATIC,    // Sets the complexity type for this option (can't be overridden)
-        warningThreshold: 5,                // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
+    static cyclomaticCpx: Complexity = {        // Options concerning the cognitive complexity
+        errorThreshold: 10,                     // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
+        type: ComplexityType.CYCLOMATIC,        // Sets the complexity type for this option (can't be overridden)
+        warningThreshold: 5,                    // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
     };
-    static framework: Framework = undefined;// The framework eventually specified
-    static ignore: string[] = [];           // The paths of the files or folders to ignore
+    static framework: Framework = undefined;    // The framework eventually specified
+    static generateJsonAst = true;
+    static ignore: string[] = [];               // The paths of the files or folders to ignore
     static ignoreRegex: string = '';
-    static pathCommand = '';                // The path of the folder where the command-line was entered (can't be overridden)
-    static pathFolderToAnalyze = './';      // The path of the folder to analyse (can be overridden)
-    static pathGeneseNodeJs = '';           // The path of the node_module Genese in the nodejs user environment (can't be overridden)
-    static pathOutDir = '';                 // The path where the reports are created (can be overridden)
-    static typing = true;                   // True if we want to add a complexity weight for lacks of typing
+    static jsonAstPath = `./ast.json`;
+    static jsonReportPath: string = '';
+    static pathCommand = '';                    // The path of the folder where the command-line was entered (can't be overridden)
+    static pathFolderToAnalyze = './';          // The path of the folder to analyse (can be overridden)
+    static pathGeneseNodeJs = '';               // The path of the node_module Genese in the nodejs user environment (can't be overridden)
+    static pathOutDir = '';                     // The path where the reports are created (can be overridden)
+    static typing = true;                       // True if we want to add a complexity weight for lacks of typing
 
     /**
      * Sets the options of genese-complexity module
@@ -87,6 +91,7 @@ export class Options {
      */
     static setOptionsFromConfig(geneseConfigPath: string): void {
         const config = require(geneseConfigPath);
+        console.log(chalk.blueBright('GN CONFIGGGG'), geneseConfigPath);
 
         Options.ignore = this.filterIgnorePathsForDotSlash(config.complexity.ignore) ?? Options.ignore;
         Options.ignore.forEach((path, i) => {
@@ -98,6 +103,8 @@ export class Options {
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
+        Options.generateJsonAst = !!config.complexity.generateJsonAst;
+        Options.jsonAstPath = config.complexity.jsonAstPath ?? Options.jsonAstPath;
         Options.typing = !!config.complexity.typing;
     }
 

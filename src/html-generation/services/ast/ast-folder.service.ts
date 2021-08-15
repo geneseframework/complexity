@@ -4,7 +4,7 @@ import { AstFolder } from '../../models/ast/ast-folder.model';
 import { AstFile } from '../../models/ast/ast-file.model';
 import { ComplexityType } from '../../enums/complexity-type.enum';
 import { BarchartService } from '../report/barchart.service';
-import { constructLink, getOS } from '../../../core/services/file.service';
+import { constructLink, getOS } from '../../../core/utils/file-system.util';
 import { OS } from '../../enums/os.enum';
 
 /**

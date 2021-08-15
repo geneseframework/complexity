@@ -1,4 +1,4 @@
-import { getFilename } from '../../../core/services/file.service';
+import { getFilename } from '../../../core/utils/file-system.util';
 import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
 import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
 import { parse } from 'java-parser';

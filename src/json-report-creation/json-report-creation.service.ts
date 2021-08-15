@@ -1,4 +1,4 @@
-export class StartJsonReportCreationService {
+export class JsonReportCreationService {
 
     static async start(): Promise<void> {
 

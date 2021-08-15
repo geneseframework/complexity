@@ -6,7 +6,7 @@ import {
     deleteLastSlash,
     getPathWithDotSlash,
     getRouteToRoot,
-} from '../../../core/services/file.service';
+} from '../../../core/utils/file-system.util';
 import { Options } from '../../../core/models/options.model';
 import { FileReport } from '../../models/report/file-report.model';
 import { AstFolder } from '../../models/ast/ast-folder.model';

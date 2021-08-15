@@ -1,5 +1,5 @@
 import { FactorCategory } from '../../../html-generation/enums/factor-category.enum';
-import { addObjects, capitalize } from '../../services/tools.service';
+import { addObjects, capitalize } from '../../utils/other-tools.util';
 import { Addition } from '../../../html-generation/interfaces/addition.interface';
 import { AggregationCpx } from './aggregation-cpx.model';
 import { NestingCpx } from './nesting-cpx.model';

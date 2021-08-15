@@ -1,7 +1,7 @@
 import { Barchart } from './barchart.model';
 import { ComplexitiesByStatus } from '../interfaces/complexities-by-status.interface';
 import { ComplexityType } from '../enums/complexity-type.enum';
-import { percent } from '../../core/services/tools.service';
+import { percent } from '../../core/utils/other-tools.util';
 
 /**
  * The different statistics sent to handlebars templates of file reports and folder reports
