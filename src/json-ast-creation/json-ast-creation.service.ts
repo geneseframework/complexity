@@ -4,7 +4,6 @@ import { JsonService } from './json.service';
 import { createFile } from '../core/utils/file-system.util';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
 import { project } from './globals.const';
-import * as chalk from 'chalk';
 import { Options } from '../core/models/options.model';
 
 /**
@@ -51,8 +50,6 @@ export class JsonAstCreationService {
         return jsonAst;
     }
 
-
-    // TODO: implement for all languages
     private static generateFromAllFiles(pathToAnalyze: string): JsonAstInterface {
         return JsonAstCreationService.generateFromFiles(pathToAnalyze, Language.TS);
     }
@@ -63,20 +60,16 @@ export class JsonAstCreationService {
      * @param  {Language} language
      * @returns JsonAstInterface
      */
+    // TODO: implement metrics choice
     private static generateFromFiles(pathToAnalyze: string, language: Language): JsonAstInterface {
         const jsonAst: JsonAstInterface = {
-            astFolder: undefined
+            astFolder: undefined,
+            metrics: []
         };
         let astFolder = new InitGenerationService().generateAll(pathToAnalyze, language).astFolder as any;
         astFolder = JsonService.astPropertyNames(astFolder);
         jsonAst.astFolder = astFolder;
         return jsonAst;
     }
-
-
-    static async readJsonAstFile(): Promise<JsonAstInterface> {
-        return undefined;
-    }
-
 
 }

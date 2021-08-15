@@ -13,7 +13,8 @@ export class ComplexityService {
     static getCpxFromSourceCode(sourceCode: string): number {
         const initGenerationService = new InitGenerationService();
         const jsonAst: JsonAstInterface = {
-            astFolder: undefined
+            astFolder: undefined,
+            metrics: []
         };
         let astFolder = initGenerationService.generateAstFolderFromString(sourceCode).astFolder as any
         astFolder = JsonService.astPropertyNames(astFolder);
