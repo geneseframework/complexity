@@ -2,7 +2,7 @@
 
 import { Worker } from 'worker_threads';
 import { Options } from './core/models/options.model';
-import { createOutDir } from './core/services/file.service';
+import { createOutDir } from './core/utils/file-system.util';
 import { AstFolder } from './html-generation/models/ast/ast-folder.model';
 import * as chalk from 'chalk';
 import { startDebug } from './index-debug';

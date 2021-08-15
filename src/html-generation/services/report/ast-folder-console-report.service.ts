@@ -6,7 +6,7 @@ import {
     constructLink,
     createRelativeDir,
     deleteLastSlash
-} from '../../../core/services/file.service';
+} from '../../../core/utils/file-system.util';
 import { AstFile } from '../../models/ast/ast-file.model';
 import { AstFolder } from '../../models/ast/ast-folder.model';
 import { AstFolderService } from '../ast/ast-folder.service';

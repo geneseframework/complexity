@@ -5,7 +5,7 @@ import { AstNode } from '../ast/ast-node.model';
 import { CpxFactors } from '../../../core/models/cpx-factor/cpx-factors.model';
 import { NestingCpx } from '../../../core/models/cpx-factor/nesting-cpx.model';
 import { DepthCpx } from '../../../core/models/cpx-factor/depth-cpx.model';
-import { addObjects } from '../../../core/services/tools.service';
+import { addObjects } from '../../../core/utils/other-tools.util';
 import { Code } from './code.model';
 import { CodeService } from '../../services/code.service';
 

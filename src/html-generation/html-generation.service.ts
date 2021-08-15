@@ -8,7 +8,7 @@ import * as terminalLink from 'terminal-link';
 /**
  * Main process jsonAst analysis and reports
  */
-export class StartHtmlGenerationService {
+export class HtmlGenerationService {
 
     static astFolder: AstFolder;
 
@@ -39,7 +39,7 @@ export class StartHtmlGenerationService {
 
     static start(pathCommand: string, markdown: boolean, consoleMode: boolean, jsonAstPath = '/ast.json'): any {
         let result = undefined;
-        const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(StartHtmlGenerationService.getJsonAst(pathCommand + jsonAstPath));
+        const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(HtmlGenerationService.getJsonAst(pathCommand + jsonAstPath));
         jsonAst.astFolder.evaluate();
         // const jsonReport: JsonReport = EvaluationService.createJsonReport();
         if(markdown){

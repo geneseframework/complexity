@@ -1,22 +1,24 @@
 import { InitGenerationService } from './init-generation.service';
 import { Language } from '../core/enum/language.enum';
 import { JsonService } from './json.service';
-import { createFile } from '../core/services/file.service';
+import { createFile } from '../core/utils/file-system.util';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
 import { project } from './globals.const';
+import * as chalk from 'chalk';
+import { Options } from '../core/models/options.model';
 
 /**
  * Main process of the parsing to JsonAst format
  */
-export class StartJsonAstCreationService {
+export class JsonAstCreationService {
 
     /**
-     * Starts the parsing to Json Ast format
+     * Starts the parsing to Json Ast format and returns JsonAst object
      * @param  {string} pathToAnalyze           // The path of the folder to analyse
      * @param  {Language} language              // The language to parse and convert into JsonAst
      * @returns void
      */
-    static start(pathToAnalyze: string, language?: Language): void {
+    static start(pathToAnalyze: string, language?: Language): JsonAstInterface {
         let jsonAst: JsonAstInterface;
         switch (language) {
             case Language.TS:
@@ -24,34 +26,35 @@ export class StartJsonAstCreationService {
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.tsx`);
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.js`);
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.jsx`);
-                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
+                jsonAst = JsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break
             case Language.JAVA:
-                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
+                jsonAst = JsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.JS:
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.js`);
-                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
+                jsonAst = JsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.TSX:
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.tsx`);
-                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
+                jsonAst = JsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.JSX:
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.jsx`);
-                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
+                jsonAst = JsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             default:
-                jsonAst = StartJsonAstCreationService.generateFromAllFiles(pathToAnalyze);
+                jsonAst = JsonAstCreationService.generateFromAllFiles(pathToAnalyze);
                 break;
         }
-        createFile(`./ast.json`, JsonService.prettifyJson(jsonAst));
+        createFile(Options.jsonAstPath, JsonService.prettifyJson(jsonAst));
+        return jsonAst;
     }
 
 
     // TODO: implement for all languages
     private static generateFromAllFiles(pathToAnalyze: string): JsonAstInterface {
-        return StartJsonAstCreationService.generateFromFiles(pathToAnalyze, Language.TS);
+        return JsonAstCreationService.generateFromFiles(pathToAnalyze, Language.TS);
     }
 
     /**
@@ -71,13 +74,8 @@ export class StartJsonAstCreationService {
     }
 
 
-    private static findInObject(o, f) {
-        return Object.keys(o).some(function (a) {
-            if (Array.isArray(o[a]) || typeof o[a] === 'object' && o[a] !== null) {
-                return StartJsonAstCreationService.findInObject(o[a], f);
-            }
-            return o[a] === f;
-        });
+    static async readJsonAstFile(): Promise<JsonAstInterface> {
+        return undefined;
     }
 
 

@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import * as Handlebars from 'handlebars';
 
 import { Options } from '../../core/models/options.model';
-import { constructLink, deleteLastSlash, getRouteToRoot } from '../../core/services/file.service';
+import { constructLink, deleteLastSlash, getRouteToRoot } from '../../core/utils/file-system.util';
 import { AstFolder } from '../../html-generation/models/ast/ast-folder.model';
 import { RefactorProposal } from '../models/refactor-proposal.model';
 

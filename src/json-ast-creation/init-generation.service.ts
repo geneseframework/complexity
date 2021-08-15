@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
 import { AstFileGenerationJavaService } from './java/services/ast-file-generation-java.service';
-import { getFileExtension, platformPath } from '../core/services/file.service';
+import { getFileExtension, platformPath } from '../core/utils/file-system.util';
 import { Options } from '../core/models/options.model';
 import { AstFolderInterface } from '../core/interfaces/ast/ast-folder.interface';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';

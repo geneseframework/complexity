@@ -1,4 +1,4 @@
-import { copyFile, createRelativeDir } from '../../../core/services/file.service';
+import { copyFile, createRelativeDir } from '../../../core/utils/file-system.util';
 import { AstFolder } from '../../models/ast/ast-folder.model';
 import { AstFolderReportService } from './ast-folder-report.service';
 import { AstFileReportService } from './ast-file-report.service';

@@ -2,7 +2,7 @@
 
 import {Worker} from 'worker_threads';
 import { Options } from '../core/models/options.model';
-import { createOutDir, deleteFile } from '../core/services/file.service';
+import { createOutDir, deleteFile } from '../core/utils/file-system.util';
 import { AstFolder } from '../html-generation/models/ast/ast-folder.model';
 import { Language } from '../core/enum/language.enum';
 

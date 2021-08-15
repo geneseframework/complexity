@@ -1,7 +1,7 @@
 import { InitGenerationService } from '../../json-ast-creation/init-generation.service';
 import { JsonAstInterface } from '../../core/interfaces/ast/json-ast.interface';
 import { JsonService } from '../../json-ast-creation/json.service';
-import { StartHtmlGenerationService } from '../../html-generation/start-html-generation.service';
+import { HtmlGenerationService } from '../../html-generation/html-generation.service';
 import { JsonAst } from '../../html-generation/models/ast/json-ast.model';
 
 export class ComplexityService {
@@ -19,6 +19,6 @@ export class ComplexityService {
         astFolder = JsonService.astPropertyNames(astFolder);
         jsonAst.astFolder = astFolder;
 
-        return StartHtmlGenerationService.getTotalCpx(jsonAst as JsonAst);
+        return HtmlGenerationService.getTotalCpx(jsonAst as JsonAst);
     }
 }

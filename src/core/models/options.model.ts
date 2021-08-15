@@ -1,10 +1,11 @@
 import * as fs from 'fs-extra';
-import { getArrayOfPathsWithDotSlash, getPathWithSlash, } from '../services/file.service';
+import { getArrayOfPathsWithDotSlash, getPathWithSlash, } from '../utils/file-system.util';
 import { Complexity } from '../../html-generation/interfaces/complexity.interface';
 import { ComplexityType } from '../../html-generation/enums/complexity-type.enum';
 import { ChartColor } from '../../html-generation/enums/chart-color.enum';
 import { ComplexitiesByStatus } from '../../html-generation/interfaces/complexities-by-status.interface';
 import { Framework, isFramework } from '../types/framework.type';
+import * as chalk from 'chalk';
 
 export var WINDOWS = false;
 
@@ -14,29 +15,33 @@ export var WINDOWS = false;
  */
 export class Options {
 
-    static cognitiveCpx: Complexity = {     // Options concerning the cognitive complexity
-        errorThreshold: 20,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
-        type: ComplexityType.COGNITIVE,     // Sets the complexity type for this option (can't be overridden)
-        warningThreshold: 10,               // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
+    static cognitiveCpx: Complexity = {         // Options concerning the cognitive complexity
+        errorThreshold: 20,                     // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
+        type: ComplexityType.COGNITIVE,         // Sets the complexity type for this option (can't be overridden)
+        warningThreshold: 10,                   // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
     };
-    static colors: ChartColor[] = [         // The colors of the charts
+    static colors: ChartColor[] = [             // The colors of the charts
         ChartColor.CORRECT,
         ChartColor.WARNING,
         ChartColor.ERROR,
     ];
-    static cyclomaticCpx: Complexity = {    // Options concerning the cognitive complexity
-        errorThreshold: 10,                 // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
-        type: ComplexityType.CYCLOMATIC,    // Sets the complexity type for this option (can't be overridden)
-        warningThreshold: 5,                // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
+    static cyclomaticCpx: Complexity = {        // Options concerning the cognitive complexity
+        errorThreshold: 10,                     // A complexity strictly greater than errorThreshold will be seen as error (can be overridden)
+        type: ComplexityType.CYCLOMATIC,        // Sets the complexity type for this option (can't be overridden)
+        warningThreshold: 5,                    // A complexity strictly greater than warning threshold and lower or equal than errorThreshold will be seen as warning (can be overridden)
     };
-    static framework: Framework = undefined;// The framework eventually specified
-    static ignore: string[] = [];           // The paths of the files or folders to ignore
+    static framework: Framework = undefined;    // The framework eventually specified
+    static generateJsonAst = true;
+    static generateJsonReport = true;
+    static ignore: string[] = [];               // The paths of the files or folders to ignore
     static ignoreRegex: string = '';
-    static pathCommand = '';                // The path of the folder where the command-line was entered (can't be overridden)
-    static pathFolderToAnalyze = './';      // The path of the folder to analyse (can be overridden)
-    static pathGeneseNodeJs = '';           // The path of the node_module Genese in the nodejs user environment (can't be overridden)
-    static pathOutDir = '';                 // The path where the reports are created (can be overridden)
-    static typing = true;                   // True if we want to add a complexity weight for lacks of typing
+    static jsonAstPath = './ast.json';
+    static jsonReportPath = './report.json';
+    static pathCommand = '';                    // The path of the folder where the command-line was entered (can't be overridden)
+    static pathFolderToAnalyze = './';          // The path of the folder to analyse (can be overridden)
+    static pathGeneseNodeJs = '';               // The path of the node_module Genese in the nodejs user environment (can't be overridden)
+    static pathOutDir = '';                     // The path where the reports are created (can be overridden)
+    static typing = true;                       // True if we want to add a complexity weight for lacks of typing
 
     /**
      * Sets the options of genese-complexity module
@@ -45,12 +50,7 @@ export class Options {
      * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overridden)
      * @param framework                 // The framework eventually specified
      */
-    static setOptions(
-        pathCommand: string,
-        pathFolderToAnalyze: string,
-        pathGeneseNodeJs: string,
-        framework?: Framework
-    ): void {
+    static setOptions(pathCommand: string, pathFolderToAnalyze: string, pathGeneseNodeJs: string, framework?: Framework): void {
         if (isFramework(framework)) {
             Options.framework = framework;
         }
@@ -66,7 +66,6 @@ export class Options {
         );
     }
 
-
     /**
      * Sets the options of genese-complexity module with command-line options (lower priority than geneseconfig.json options)
      * @param pathCommand               // The path of the folder where the command-line was entered (can't be overridden)
@@ -80,27 +79,27 @@ export class Options {
         Options.pathOutDir = `${pathCommand}/genese/complexity/reports`;
     }
 
-
     /**
      * Sets the options of genese-complexity module with geneseconfig.json options (higher priority than geneseconfig.json options)
      * @param geneseConfigPath  // The path of the geneseconfig.json file
      */
     static setOptionsFromConfig(geneseConfigPath: string): void {
         const config = require(geneseConfigPath);
-
         Options.ignore = this.filterIgnorePathsForDotSlash(config.complexity.ignore) ?? Options.ignore;
         Options.ignore.forEach((path, i) => {
             Options.ignoreRegex += i !== Options.ignore.length - 1 ? `${this.pathTransformator(path)}|` : `${this.pathTransformator(path)}`;
         });
-
         Options.pathFolderToAnalyze = config.complexity?.pathFolderToAnalyze ?? Options.pathFolderToAnalyze;
         Options.pathOutDir = config.complexity?.pathReports ?? Options.pathOutDir;
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
-        Options.typing = !!config.complexity.typing;
+        Options.generateJsonAst = config.complexity.generateJsonAst === true || Options.generateJsonAst;
+        Options.generateJsonReport = config.complexity.generateJsonReport === true || Options.generateJsonReport;
+        Options.jsonAstPath = config.complexity.jsonAstPath ?? Options.jsonAstPath;
+        Options.jsonReportPath = config.complexity.jsonReportPath ?? Options.jsonReportPath;
+        Options.typing = config.complexity.typing === true || Options.typing;
     }
-
 
     /**
      * Separate paths which needs to extractHooksAndArrowFunctions by "./" and others
@@ -119,7 +118,6 @@ export class Options {
             ignorePathsToKeep
         );
     }
-
 
     /**
      * Checks if a file or a folder is ignored in geneseconfig.json
@@ -162,15 +160,6 @@ export class Options {
         });
         return pathTester;
     }
-
-
-    static handleStarPath(ignorePath: string, path: string) {
-        if (ignorePath.startsWith('*.')) {
-            return path.includes(ignorePath.slice(1));
-        }
-        return false;
-    }
-
 
     /**
      * Gets the different thresholds defined in Options class

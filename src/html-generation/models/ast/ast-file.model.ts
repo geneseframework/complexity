@@ -13,7 +13,7 @@ import { Code } from '../code/code.model';
 import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
 import { NestingCpx } from '../../../core/models/cpx-factor/nesting-cpx.model';
 import { DepthCpx } from '../../../core/models/cpx-factor/depth-cpx.model';
-import { addObjects } from '../../../core/services/tools.service';
+import { addObjects } from '../../../core/utils/other-tools.util';
 import { AstMethodOrOutsideNode, isAstMethod } from '../../types/ast-method-or-outside-node.type';
 import { CpxLevel } from '../../enums/cpx-level.enum';
 

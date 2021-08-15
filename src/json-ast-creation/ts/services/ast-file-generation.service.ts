@@ -1,4 +1,4 @@
-import { getFilename } from '../../../core/services/file.service';
+import { getFilename } from '../../../core/utils/file-system.util';
 import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
 import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
 import { AstNodeInterface } from '../../../core/interfaces/ast/ast-node.interface';
@@ -7,7 +7,7 @@ import { SyntaxKind } from '../../../core/enum/syntax-kind.enum';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
 import { project, WEIGHTED_METHODS, WEIGHTS } from '../../globals.const';
 import { Ts } from './ts.service';
-import { randomString } from '../../../core/services/tools.service';
+import { randomString } from '../../../core/utils/other-tools.util';
 import { Options } from '../../../core/models/options.model';
 import { ReactService } from '../specific/react/react.service';
 import { isJsx } from '../utils/ast.util';
