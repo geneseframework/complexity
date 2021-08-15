@@ -41,12 +41,14 @@ export class CodeService {
      * Returns the number of the CodeLine at a given pos in the code
      * @param code      // The Code where to search
      * @param position  // The pos where we search the number of its line
+     * TODO : fix the case line = undefined
      */
     static getLineIssue(code: Code, position: number): number {
         if (position < 0 || position > code?.end) {
             return 0;
         }
-        return  code.lines.filter(l => l.start <= position && l.end > position)?.[0].issue;
+        const line: CodeLine = code.lines.filter(l => l.start <= position && l.end > position)?.[0];
+        return line ? line.issue : 0;
     }
 
 
