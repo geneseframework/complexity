@@ -1,6 +1,6 @@
 import { SyntaxKind } from 'ts-morph';
 
-import { AstFolder } from '../json-ast-to-reports/models/ast/ast-folder.model';
+import { AstFolder } from '../html-generation/models/ast/ast-folder.model';
 import { RefactorProposal } from './models/refactor-proposal.model';
 import { Refactorer } from './models/refactorer.model';
 // import { BigIfElseRefactorer } from './refactorers/bigIfElse.refactorer';

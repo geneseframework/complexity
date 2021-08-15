@@ -1,7 +1,6 @@
 import { InitService } from './services/init.service';
 import { JsonAst } from './models/ast/json-ast.model';
 import { ReportsService } from './services/report/reports.service';
-import * as chalk from 'chalk';
 import { AstFolder } from './models/ast/ast-folder.model';
 import * as terminalLink from 'terminal-link';
 
@@ -9,7 +8,7 @@ import * as terminalLink from 'terminal-link';
 /**
  * Main process jsonAst analysis and reports
  */
-export class JsonAstToReports {
+export class StartHtmlGenerationService {
 
     static astFolder: AstFolder;
 
@@ -20,10 +19,29 @@ export class JsonAstToReports {
      * @param markdown          // True if the user wants to get a report on markdown format
      * @param consoleMode       // True if the user wants to get a report on the console
      */
-    static start(pathCommand: string, jsonAstPath = '/ast.json', markdown: boolean, consoleMode: boolean): any {
+    // static start(pathCommand: string, markdown: boolean, consoleMode: boolean, jsonAstPath = '/ast.json'): any {
+    //     let result = undefined;
+    //     const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(StartHtmlGenerationService.getJsonAst(pathCommand + jsonAstPath));
+    //     // jsonAst.astFolder.evaluate();
+    //     // const jsonReport: JsonReport = EvaluationService.createJsonReport();
+    //     if(markdown){
+    //         ReportsService.generateMarkdownReports(jsonReport)
+    //     } else if (consoleMode) {
+    //         result = ReportsService.generateConsoleReports(jsonReport)
+    //     } else {
+    //         ReportsService.generateAllReports(jsonReport)
+    //         const link = terminalLink('folderPath-report.html', `file://${pathCommand}/genese/complexity/reports/folder-report.html`);
+    //         result = `Please open in your browser the file ${link} located in your genese reports folder.`
+    //     }
+    //     this.astFolder = jsonAst.astFolder;
+    //     return result;
+    // }
+
+    static start(pathCommand: string, markdown: boolean, consoleMode: boolean, jsonAstPath = '/ast.json'): any {
         let result = undefined;
-        const jsonAst = new InitService().generateAllFromJsonAst(JsonAstToReports.getJsonAst(pathCommand + jsonAstPath));
+        const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(StartHtmlGenerationService.getJsonAst(pathCommand + jsonAstPath));
         jsonAst.astFolder.evaluate();
+        // const jsonReport: JsonReport = EvaluationService.createJsonReport();
         if(markdown){
             ReportsService.generateMarkdownReports(jsonAst)
         } else if (consoleMode) {
@@ -36,7 +54,6 @@ export class JsonAstToReports {
         this.astFolder = jsonAst.astFolder;
         return result;
     }
-
 
     /**
      * Get the complexity value of the given JsonAst

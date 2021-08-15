@@ -32,8 +32,8 @@ export class ReportsService {
      */
     static generateMarkdownReports(jsonAst: JsonAst): void {
         const parentFolder: AstFolder = jsonAst.astFolder;
-        const folderMakdownReport = new AstFolderMarkdownReportService(parentFolder)
-        folderMakdownReport.generateReport();
+        const folderMarkdownReportService = new AstFolderMarkdownReportService(parentFolder);
+        folderMarkdownReportService.generateReport();
     }
 
     /**
@@ -46,7 +46,6 @@ export class ReportsService {
         return folderConsoleReport.generateReport();
     }
 
-
     /**
      * Generates reports of children recursively
      * @param astFolder        // The AstFolder to analyse
@@ -57,7 +56,6 @@ export class ReportsService {
             ReportsService.generateSubfoldersReports(subFolder);
         }
     }
-
 
     /**
      * Generates a report for a given folder
@@ -72,7 +70,6 @@ export class ReportsService {
         }
     }
 
-
     /**
      * Generates a report for a given file
      * @param astFolder
@@ -81,7 +78,6 @@ export class ReportsService {
         new AstFilesReportService(astFolder).generateReport();
     }
 
-
     /**
      * Generates a report for a given file
      * @param astFile        // The AstFile to analyse
@@ -89,7 +85,6 @@ export class ReportsService {
     private static generateFileReport(astFile: AstFile): void {
         new AstFileReportService(astFile).generateReport();
     }
-
 
     /**
      * Copy the css files, prism.js and chart.js to a subfolder of the outDir

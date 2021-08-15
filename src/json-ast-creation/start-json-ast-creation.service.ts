@@ -8,7 +8,7 @@ import { project } from './globals.const';
 /**
  * Main process of the parsing to JsonAst format
  */
-export class LanguageToJsonAst {
+export class StartJsonAstCreationService {
 
     /**
      * Starts the parsing to Json Ast format
@@ -24,25 +24,25 @@ export class LanguageToJsonAst {
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.tsx`);
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.js`);
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.jsx`);
-                jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
+                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break
             case Language.JAVA:
-                jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
+                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.JS:
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.js`);
-                jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
+                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.TSX:
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.tsx`);
-                jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
+                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.JSX:
                 project.addSourceFilesAtPaths(`${pathToAnalyze}**/*.jsx`);
-                jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
+                jsonAst = StartJsonAstCreationService.generateFromFiles(pathToAnalyze, language);
                 break;
             default:
-                jsonAst = LanguageToJsonAst.generateFromAllFiles(pathToAnalyze);
+                jsonAst = StartJsonAstCreationService.generateFromAllFiles(pathToAnalyze);
                 break;
         }
         createFile(`./ast.json`, JsonService.prettifyJson(jsonAst));
@@ -51,7 +51,7 @@ export class LanguageToJsonAst {
 
     // TODO: implement for all languages
     private static generateFromAllFiles(pathToAnalyze: string): JsonAstInterface {
-        return LanguageToJsonAst.generateFromFiles(pathToAnalyze, Language.TS);
+        return StartJsonAstCreationService.generateFromFiles(pathToAnalyze, Language.TS);
     }
 
     /**
@@ -74,7 +74,7 @@ export class LanguageToJsonAst {
     private static findInObject(o, f) {
         return Object.keys(o).some(function (a) {
             if (Array.isArray(o[a]) || typeof o[a] === 'object' && o[a] !== null) {
-                return LanguageToJsonAst.findInObject(o[a], f);
+                return StartJsonAstCreationService.findInObject(o[a], f);
             }
             return o[a] === f;
         });
