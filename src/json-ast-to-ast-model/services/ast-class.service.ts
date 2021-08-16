@@ -6,7 +6,7 @@ import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-no
 export class AstClassService {
 
     static generate(astFile: AstFile): AstClass[] {
-        const jsonAstClasses: JsonAstNodeInterface[] = astFile.jsonAstNode.astNode.children.filter(c => c.kind === SyntaxKind.ClassDeclaration);
+        const jsonAstClasses: JsonAstNodeInterface[] = astFile.jsonAstNode.children.filter(c => c.kind === SyntaxKind.ClassDeclaration);
         const astClasses: AstClass[] = [];
         for (const jsonAstClass of jsonAstClasses) {
             astClasses.push(this.generateAstClass(jsonAstClass));

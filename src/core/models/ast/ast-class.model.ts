@@ -1,12 +1,12 @@
 import { AstNode } from './ast-node.model';
 import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
+import { AstAbstract } from './ast-abstract.model';
 
-export class AstClass {
+export class AstClass extends AstAbstract {
 
-    astNode: AstNode = undefined;
 
     constructor(jsonAstClass: JsonAstNodeInterface) {
-        this.astNode = new AstNode(jsonAstClass);
+        super(jsonAstClass);
     }
 
 }

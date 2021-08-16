@@ -1,20 +1,19 @@
-import { JsonAstFileInterface } from '../../interfaces/json-ast/json-ast-file.interface';
 import { AstNode } from './ast-node.model';
 import { AstNodeService } from '../../../json-ast-to-ast-model/services/ast-node.service';
+import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
 
 export abstract class AstAbstract {
 
     astNode: AstNode = undefined;
-    jsonAstNode: JsonAstFileInterface = undefined;
+    jsonAstNode: JsonAstNodeInterface = undefined;
 
-    constructor(jsonAstNode: JsonAstFileInterface) {
+    protected constructor(jsonAstNode: JsonAstNodeInterface) {
         this.jsonAstNode = jsonAstNode;
         this.setAstNode();
     }
 
-
     get code(): string {
-        return this.jsonAstNode.text;
+        return this.astNode.code;
     }
 
     get name(): string {
@@ -22,6 +21,6 @@ export abstract class AstAbstract {
     }
 
     private setAstNode(): void {
-        this.astNode = AstNodeService.generate(this.jsonAstNode.astNode);
+        this.astNode = AstNodeService.generate(this.jsonAstNode);
     }
 }
