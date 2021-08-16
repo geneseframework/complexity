@@ -10,7 +10,7 @@ export class AstFolderService {
         const astFolder = new AstFolder(jsonAstFolder);
         this.generateAstFiles(astFolder, jsonAstFolder.astFiles);
         this.generateChildren(astFolder, jsonAstFolder);
-        console.log(chalk.cyanBright('AST FOLDERRRR = '), astFolder);
+        // console.log(chalk.cyanBright('AST FOLDERRRR = '), astFolder);
         return astFolder;
     }
 

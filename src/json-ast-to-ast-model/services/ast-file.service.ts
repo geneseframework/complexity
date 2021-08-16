@@ -6,7 +6,7 @@ export class AstFileService {
 
     static generate(jsonAstFile: JsonAstFileInterface): AstFile {
         const astFile = new AstFile(jsonAstFile);
-        // console.log(chalk.magentaBright('AST FILEEEE = '), astFile);
+        console.log(chalk.magentaBright('AST FILEEEE = '), astFile);
         return astFile;
     }
 }
