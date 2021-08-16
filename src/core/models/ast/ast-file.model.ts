@@ -10,4 +10,8 @@ export class AstFile {
     jsonAstFile: JsonAstFileInterface = undefined;
     name: string = undefined;
 
+    constructor(jsonAstFile: JsonAstFileInterface) {
+        this.jsonAstFile = jsonAstFile;
+    }
+
 }
