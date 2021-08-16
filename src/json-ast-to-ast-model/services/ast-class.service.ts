@@ -3,6 +3,8 @@ import { AstClass } from '../../core/models/ast/ast-class.model';
 import { SyntaxKind } from '../../core/enum/syntax-kind.enum';
 import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
 import * as chalk from 'chalk';
+import { AstFunctionService } from './ast-function.service';
+import { AstArrowFunctionService } from './ast-arrow-function.service';
 
 export class AstClassService {
 
@@ -17,6 +19,8 @@ export class AstClassService {
 
     private static generateAstClass(jsonAstClass: JsonAstNodeInterface): AstClass {
         const astClass = new AstClass(jsonAstClass);
+        astClass.astFunctions = AstFunctionService.generate(astClass);
+        // astClass.astArrowFunctions = AstArrowFunctionService.generate(astClass);
         console.log(chalk.cyanBright('AST CLASSSS = '), astClass);
         return astClass;
     }
