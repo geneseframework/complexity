@@ -1,5 +1,6 @@
 import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
 import { AstNodeService } from '../../../json-ast-to-ast-model/services/ast-node.service';
+import { Interval } from '../../../json-ast-to-ast-model/types/interval.type';
 
 export class AstNode {
 
@@ -22,6 +23,10 @@ export class AstNode {
 
     get end(): number {
         return this.jsonAstNode.end;
+    }
+
+    get interval(): Interval {
+        return [this.jsonAstNode.pos, this.jsonAstNode.end];
     }
 
     get kind(): string {

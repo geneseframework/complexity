@@ -1,6 +1,9 @@
 function func(): number {
     return 3;
 }
+
+const MOCK = 3;
+
 //
 // const arrowFunc = a => {
 //     return a + 1;
