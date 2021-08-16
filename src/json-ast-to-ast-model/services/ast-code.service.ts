@@ -3,15 +3,15 @@
  */
 import { AstFile } from '../../core/models/ast/ast-file.model';
 import { AstCode } from '../../core/models/ast/ast-code.model';
-import { AstLine } from '../../core/models/ast/ast-line.model';
 import { Interval, isInInterval } from '../types/interval.type';
 import { AstAbstract } from '../../core/models/ast/ast-abstract.model';
 import * as chalk from 'chalk';
-import { firstElement, lastElement } from '../../core/utils/arrays.util';
+import { firstElement } from '../../core/utils/arrays.util';
 
 export class AstCodeService {
 
     static generate(astFile: AstFile): AstCode {
+        // TODO : create type AstAbstractInterval
         const classesAndFunctionsIntervals: Interval[] = this.getIntervals(astFile.astClasses)
             .concat(this.getIntervals(astFile.astFunctions))
             .concat(this.getIntervals(astFile.astArrowFunctions));
