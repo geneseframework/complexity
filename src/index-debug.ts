@@ -11,7 +11,7 @@ import { ReportModelCreationService } from './json-report-to-report-model/report
 import { JsonAstInterface } from './core/interfaces/json-ast/json-ast.interface';
 import { JsonReportInterface } from './core/interfaces/json-report/json-report.interface';
 import { AstModel } from './core/models/ast/ast.model';
-import { AstModelCreationService } from './json-ast-to-ast-model/ast-model-creation.service';
+import { AstModelService } from './json-ast-to-ast-model/services/ast-model.service';
 import { EvaluationService } from './evaluation/evaluation.service';
 import { ReportModel } from './core/models/report/report.model';
 
@@ -33,7 +33,7 @@ export async function startDebug(): Promise<number> {
     const jsonAst: JsonAstInterface = Options.generateJsonAst ? JsonAstCreationService.start(Options.pathFolderToAnalyze, LANGUAGE as Language) : require(Options.jsonAstPath);
     // console.log(chalk.magentaBright('JSON ASTTTT'), jsonAst);
     console.log(chalk.yellowBright('Ast model generation...'), Options.generateJsonReport);
-    const astModel: AstModel = AstModelCreationService.generate(jsonAst);
+    const astModel: AstModel = AstModelService.generate(jsonAst);
     console.log(chalk.yellowBright('Evaluation for each metric...'), Options.generateJsonReport);
     const jsonReport: JsonReportInterface = Options.generateJsonReport ? EvaluationService.evaluate(astModel) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('Json Report generation...'), Options.generateJsonReport);
