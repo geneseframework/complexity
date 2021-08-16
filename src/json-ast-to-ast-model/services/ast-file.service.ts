@@ -12,7 +12,7 @@ export class AstFileService {
         astFile.astClasses = AstClassService.generate(astFile);
         astFile.astFunctions = AstFunctionService.generate(astFile);
         astFile.astArrowFunctions = AstArrowFunctionService.generate(astFile);
-        console.log(chalk.magentaBright('AST FILEEEE = '), astFile);
+        // console.log(chalk.magentaBright('AST FILEEEE = '), astFile);
         return astFile;
     }
 }

@@ -1,3 +1,11 @@
+function func(): void {
+
+}
+
+const arrowFunc = a => {
+    return a + 1;
+}
+
 export class SubSubfolderMock {
 
 

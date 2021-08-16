@@ -2,6 +2,7 @@ import { AstFile } from '../../core/models/ast/ast-file.model';
 import { AstClass } from '../../core/models/ast/ast-class.model';
 import { SyntaxKind } from '../../core/enum/syntax-kind.enum';
 import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
+import * as chalk from 'chalk';
 
 export class AstClassService {
 
@@ -16,6 +17,7 @@ export class AstClassService {
 
     private static generateAstClass(jsonAstClass: JsonAstNodeInterface): AstClass {
         const astClass = new AstClass(jsonAstClass);
+        console.log(chalk.cyanBright('AST CLASSSS = '), astClass);
         return astClass;
     }
 
