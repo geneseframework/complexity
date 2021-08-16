@@ -2,6 +2,7 @@ import { AstNode } from './ast-node.model';
 import { AstNodeService } from '../../../json-ast-to-ast-model/services/ast-node.service';
 import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
 import { AstCode } from './ast-code.model';
+import { Interval } from '../../../json-ast-to-ast-model/types/interval.type';
 
 export abstract class AstAbstract {
 
@@ -12,6 +13,10 @@ export abstract class AstAbstract {
     protected constructor(jsonAstNode: JsonAstNodeInterface) {
         this.jsonAstNode = jsonAstNode;
         this.setAstNode();
+    }
+
+    get interval(): Interval {
+        return this.astNode.interval;
     }
 
     get name(): string {

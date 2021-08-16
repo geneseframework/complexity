@@ -2,7 +2,7 @@
  * Returns a flatten array from a given array
  * @param array     // The array to flat
  */
-export function flat(array) {
+export function flat(array: any[]): any[] {
     if (!array || array.length === 0) {
         return [];
     }
@@ -14,6 +14,14 @@ export function flat(array) {
     }
 }
 
+
+/**
+ * Returns the last element of an array of numbers
+ * @param array     The array to check
+ */
+export function firstElement<T>(array: T[]): T {
+    return Array.isArray(array) && array.length > 0 ? array[0] : undefined;
+}
 
 /**
  * Returns the last element of an array of numbers
