@@ -12,7 +12,7 @@ import { AstNodeService } from '../../services/ast/ast-node.service';
 import * as chalk from 'chalk';
 import { Logg } from '../../../core/interfaces/logg.interface';
 import { CodeService } from '../../services/code.service';
-import { AstNodeInterface } from '../../../core/interfaces/ast/ast-node.interface';
+import { AstNodeInterface } from '../../../core/interfaces/json-ast/ast-node.interface';
 import { IdentifierType } from '../../../core/interfaces/identifier-type.type';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
 import { FactorCategory } from '../../enums/factor-category.enum';

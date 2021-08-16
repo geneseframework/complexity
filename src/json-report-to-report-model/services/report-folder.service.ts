@@ -1,8 +1,8 @@
-import { AstFolderInterface } from '../../core/interfaces/ast/ast-folder.interface';
-import { ReportFolder } from '../models/report-folder.model';
+import { AstFolderInterface } from '../../core/interfaces/json-ast/ast-folder.interface';
+import { ReportFolder } from '../../core/models/report/report-folder.model';
 import * as chalk from 'chalk';
-import { AstFileInterface } from '../../core/interfaces/ast/ast-file.interface';
-import { ReportFile } from '../models/report-file.model';
+import { AstFileInterface } from '../../core/interfaces/json-ast/ast-file.interface';
+import { ReportFile } from '../../core/models/report/report-file.model';
 import { EvaluationService } from './evaluation.service';
 
 export class ReportFolderService {

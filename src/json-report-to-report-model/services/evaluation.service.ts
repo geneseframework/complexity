@@ -1,6 +1,6 @@
-import { AstNodeInterface } from '../../core/interfaces/ast/ast-node.interface';
-import { ReportFile } from '../models/report-file.model';
+import { AstNodeInterface } from '../../core/interfaces/json-ast/ast-node.interface';
 import * as chalk from 'chalk';
+import { ReportFile } from '../../core/models/report/report-file.model';
 
 export class EvaluationService {
 

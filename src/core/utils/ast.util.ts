@@ -1,4 +1,4 @@
-import { AstNodeInterface } from '../interfaces/ast/ast-node.interface';
+import { AstNodeInterface } from '../interfaces/json-ast/ast-node.interface';
 import { SyntaxKind } from '../enum/syntax-kind.enum';
 import { flat } from './arrays.util';
 

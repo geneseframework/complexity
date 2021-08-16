@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
+import { AstNodeInterface } from '../../../../core/interfaces/json-ast/ast-node.interface';
 import { SyntaxKind } from '../../../../core/enum/syntax-kind.enum';
 import {
     arrowFunctionBlock,

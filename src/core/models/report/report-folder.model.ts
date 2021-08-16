@@ -1,4 +1,4 @@
-import { ReportFolderInterface } from '../interfaces/report-folder.interface';
+import { ReportFolderInterface } from '../../interfaces/json-report/report-folder.interface';
 import { ReportFile } from './report-file.model';
 
 export class ReportFolder implements ReportFolderInterface {

@@ -1,4 +1,4 @@
-import { ReportMethodInterface } from '../interfaces/report-method.interface';
+import { ReportMethodInterface } from '../../interfaces/json-report/report-method.interface';
 
 export class ReportMethod implements ReportMethodInterface {
 

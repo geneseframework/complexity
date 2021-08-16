@@ -1,9 +1,9 @@
-import { JsonReportInterface } from '../interfaces/json-report.interface';
-import { MetricInterface } from '../interfaces/metric.interface';
+import { JsonReportInterface } from '../../interfaces/json-report/json-report.interface';
+import { MetricInterface } from '../../interfaces/json-report/metric.interface';
 import { ReportFolder } from './report-folder.model';
 import { Metric } from './metric.model';
 
-export class JsonReport implements JsonReportInterface {
+export class ReportModel implements JsonReportInterface {
 
     folder: ReportFolder = undefined;
     metrics: Metric[] = [];

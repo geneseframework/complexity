@@ -6,7 +6,7 @@ import { ChartColor } from '../../html-generation/enums/chart-color.enum';
 import { ComplexitiesByStatus } from '../../html-generation/interfaces/complexities-by-status.interface';
 import { Framework, isFramework } from '../types/framework.type';
 import * as chalk from 'chalk';
-import { MetricInterface } from '../../json-report-creation/interfaces/metric.interface';
+import { MetricInterface } from '../interfaces/json-report/metric.interface';
 import { COMPREHENSION_CPX, CYCLOMATIC_CPX } from '../const/metrics.const';
 
 export var WINDOWS = false;

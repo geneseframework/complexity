@@ -1,6 +1,6 @@
 import { getFilename } from '../../../core/utils/file-system.util';
-import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
-import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
+import { AstFileInterface } from '../../../core/interfaces/json-ast/ast-file.interface';
+import { AstFolderInterface } from '../../../core/interfaces/json-ast/ast-folder.interface';
 import { parse } from 'java-parser';
 import * as fs from 'fs-extra';
 import { cstToAst } from '../cst-to-ast';

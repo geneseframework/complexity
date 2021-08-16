@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 
 import { Options } from './core/models/options.model';
-import { createOutDir, requireJson } from './core/utils/file-system.util';
+import { createOutDir } from './core/utils/file-system.util';
 import * as chalk from 'chalk';
 import { Language } from './core/enum/language.enum';
 import { JsonAstCreationService } from './json-ast-creation/json-ast-creation.service';
 import { Framework } from './core/types/framework.type';
 import { HtmlGenerationService } from './html-generation/html-generation.service';
-import { JsonReportCreationService } from './json-report-creation/json-report-creation.service';
-import { JsonAstInterface } from './core/interfaces/ast/json-ast.interface';
-import { JsonReportInterface } from './json-report-creation/interfaces/json-report.interface';
+import { ReportModelCreationService } from './json-report-to-report-model/report-model-creation.service';
+import { JsonAstInterface } from './core/interfaces/json-ast/json-ast.interface';
+import { JsonReportInterface } from './core/interfaces/json-report/json-report.interface';
+import { AstModel } from './core/models/ast/ast.model';
+import { AstModelCreationService } from './json-ast-to-ast-model/ast-model-creation.service';
+import { EvaluationService } from './evaluation/evaluation.service';
+import { ReportModel } from './core/models/report/report.model';
 
 const ARGS: string[] = process.argv.slice(2);
 const LANGUAGE = ARGS[1] ?? 'ts';
@@ -28,9 +32,14 @@ export async function startDebug(): Promise<number> {
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname, FRAMEWORK as Framework);
     const jsonAst: JsonAstInterface = Options.generateJsonAst ? JsonAstCreationService.start(Options.pathFolderToAnalyze, LANGUAGE as Language) : require(Options.jsonAstPath);
     // console.log(chalk.magentaBright('JSON ASTTTT'), jsonAst);
+    console.log(chalk.yellowBright('Ast model generation...'), Options.generateJsonReport);
+    const astModel: AstModel = AstModelCreationService.generate(jsonAst);
+    console.log(chalk.yellowBright('Evaluation for each metric...'), Options.generateJsonReport);
+    const jsonReport: JsonReportInterface = Options.generateJsonReport ? EvaluationService.evaluate(astModel) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('Json Report generation...'), Options.generateJsonReport);
-    const jsonReport: JsonReportInterface = Options.generateJsonReport ? await JsonReportCreationService.start(jsonAst) : require(Options.jsonReportPath);
+    const reportModel: ReportModel = Options.generateJsonReport ? await ReportModelCreationService.start(jsonReport) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('HTML report generation...'));
+    // const reportResult = HtmlGenerationService.start(reportModel, Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
     const reportResult = HtmlGenerationService.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
     return logResults(reportResult);
 }

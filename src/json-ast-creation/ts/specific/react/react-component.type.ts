@@ -1,4 +1,4 @@
-import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
+import { AstNodeInterface } from '../../../../core/interfaces/json-ast/ast-node.interface';
 
 export class ArrowFunctionWithIndex {
 

@@ -10,7 +10,7 @@ import { AstMethodService } from '../../services/ast/ast-method.service';
 import { Logg } from '../../../core/interfaces/logg.interface';
 import * as chalk from 'chalk';
 import { Code } from '../code/code.model';
-import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
+import { AstFileInterface } from '../../../core/interfaces/json-ast/ast-file.interface';
 import { NestingCpx } from '../../../core/models/cpx-factor/nesting-cpx.model';
 import { DepthCpx } from '../../../core/models/cpx-factor/depth-cpx.model';
 import { addObjects } from '../../../core/utils/other-tools.util';
