@@ -11,6 +11,11 @@ export class AstNode {
         this.setChildren();
     }
 
+    // TODO
+    get code(): string {
+        return '';
+    }
+
     // get cpxFactors(): CpxFactorsInterface {
     //
     // }

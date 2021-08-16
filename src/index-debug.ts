@@ -22,7 +22,7 @@ const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 let FRAMEWORK = ARGS[5] ?? undefined;
 
 export async function startDebug(): Promise<number> {
-    const pathToAnalyse = `${process.cwd()}/src/core/mocks`;
+    const pathToAnalyse = `${process.cwd()}/src/core/mocks/subfolder/sub-subfolder`;
     FRAMEWORK = 'react';
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {

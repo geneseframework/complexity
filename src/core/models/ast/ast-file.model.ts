@@ -1,20 +1,21 @@
-import { AstNode } from './ast-node.model';
-import { AstMethod } from './ast-method.model';
 import { JsonAstFileInterface } from '../../interfaces/json-ast/json-ast-file.interface';
-import { AstNodeService } from '../../../json-ast-to-ast-model/services/ast-node.service';
+import { AstFunction } from './ast-function.model';
+import { AstArrowFunction } from './ast-arrow-function.model';
+import { AstClass } from './ast-class.model';
+import { AstAbstract } from './ast-abstract.model';
 
-export class AstFile {
+export class AstFile extends AstAbstract {
 
-    astMethods: AstMethod[] = [];
-    astNode: AstNode = undefined;
+    astArrowFunctions: AstArrowFunction[] = [];
+    astClasses: AstClass[] = [];
+    astFunctions: AstFunction[] = [];
     jsonAstFile: JsonAstFileInterface = undefined;
 
-    // private _astNode: AstNode = undefined;
-
     constructor(jsonAstFile: JsonAstFileInterface) {
+        super(jsonAstFile.astNode);
         this.jsonAstFile = jsonAstFile;
-        this.setAstNode();
     }
+
 
     get code(): string {
         return this.jsonAstFile.text;
@@ -22,10 +23,6 @@ export class AstFile {
 
     get name(): string {
         return this.jsonAstFile.name;
-    }
-
-    private setAstNode(): void {
-        this.astNode = AstNodeService.generate(this.jsonAstFile.astNode);
     }
 
 }
