@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import { AstNodeInterface } from '../../../../core/interfaces/json-ast/ast-node.interface';
+import { JsonAstNodeInterface } from '../../../../core/interfaces/json-ast/json-ast-node.interface';
 import { SyntaxKind } from '../../../../core/enum/syntax-kind.enum';
 import {
     arrowFunctionBlock,
@@ -13,7 +13,7 @@ import { isReactHook } from './hooks.enum';
 
 export class ReactService {
 
-    static extractHooksAndArrowFunctions(fileAstNode: AstNodeInterface): void {
+    static extractHooksAndArrowFunctions(fileAstNode: JsonAstNodeInterface): void {
         try {
             const reactComponents: ArrowFunctionWithIndex[] = this.getArrowFunctionsWithIndexes(fileAstNode);
             const extractedArrowFunctions: ArrowFunctionWithIndex[] = this.extractHooksAndArrowFunctionsFromReactComponents(reactComponents);
@@ -34,15 +34,15 @@ export class ReactService {
     }
 
 
-    private static getArrowFunctionsWithIndexes(astNodeInterface: AstNodeInterface): ArrowFunctionWithIndex[] {
+    private static getArrowFunctionsWithIndexes(astNodeInterface: JsonAstNodeInterface): ArrowFunctionWithIndex[] {
         try {
             const arrowFunctionWithIndexes: ArrowFunctionWithIndex[] = [];
             let i = 0;
-            const children: AstNodeInterface[] = astNodeInterface.children ?? [];
+            const children: JsonAstNodeInterface[] = astNodeInterface.children ?? [];
             for (const child of children) {
                 if (child.kind === SyntaxKind.VariableStatement) {
-                    const son: AstNodeInterface = getFirstChild(child);
-                    const grandSon: AstNodeInterface = getFirstChild(son);
+                    const son: JsonAstNodeInterface = getFirstChild(child);
+                    const grandSon: JsonAstNodeInterface = getFirstChild(son);
                     if (son.kind === 'VariableDeclarationList'
                         && grandSon.kind === 'VariableDeclaration'
                         && this.hasArrowFunctionChild(grandSon)
@@ -59,14 +59,14 @@ export class ReactService {
     }
 
 
-    private static hasArrowFunctionChild(astNodeInterface: AstNodeInterface): boolean {
+    private static hasArrowFunctionChild(astNodeInterface: JsonAstNodeInterface): boolean {
         return !!getFirstChildByKind(astNodeInterface, SyntaxKind.ArrowFunction);
     }
 
 
     private static extractArrowFunctionsFromReactComponent(reactComponent: ArrowFunctionWithIndex): ArrowFunctionWithIndex[] {
         const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
-        const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
+        const block: JsonAstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
         if (!block) {
             return [];
         }
@@ -81,7 +81,7 @@ export class ReactService {
     }
 
 
-    private static insertExtractsIntoFileAstNode(fileAstNode: AstNodeInterface, extracts: ArrowFunctionWithIndex[]): void {
+    private static insertExtractsIntoFileAstNode(fileAstNode: JsonAstNodeInterface, extracts: ArrowFunctionWithIndex[]): void {
         const extractsGroupedByReactComponent: GroupedExtracts[] = this.getExtractsGroupedByReactComponent(extracts);
         const groupsInReverseOrder: GroupedExtracts[] = [...extractsGroupedByReactComponent].reverse();
         for (const group of groupsInReverseOrder) {
@@ -104,15 +104,15 @@ export class ReactService {
     }
 
 
-    private static insertGroupedExtractsIntoFileAstNode(fileAstNode: AstNodeInterface, group: GroupedExtracts): void {
+    private static insertGroupedExtractsIntoFileAstNode(fileAstNode: JsonAstNodeInterface, group: GroupedExtracts): void {
         fileAstNode.children.splice(group.reactComponentIndex + 1, 0, ...group.extracts.map(e => e.arrowFunction));
     }
 
 
     private static extractHooksFromReactComponent(reactComponent: ArrowFunctionWithIndex): ArrowFunctionWithIndex[] {
         const newFileAstNodeChildren: ArrowFunctionWithIndex[] = [];
-        const block: AstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
-        const hooksWithCallbacks: AstNodeInterface[] = this.getHooksWithCallbacks(block);
+        const block: JsonAstNodeInterface = arrowFunctionBlock(reactComponent.arrowFunction);
+        const hooksWithCallbacks: JsonAstNodeInterface[] = this.getHooksWithCallbacks(block);
         for (const hookWithCallback of hooksWithCallbacks) {
             let blockChildIndex: number = block.children.findIndex(a => a === hookWithCallback);
             const extract = new ArrowFunctionWithIndex(block.children[blockChildIndex], reactComponent.index);
@@ -123,12 +123,12 @@ export class ReactService {
     }
 
 
-    private static getHooksWithCallbacks(block: AstNodeInterface): AstNodeInterface[] {
-        const hooksWithCallBacks: AstNodeInterface[] = [];
-        const statements: AstNodeInterface[] = block?.children?.filter(c => c.kind.includes('Statement') || c.kind === SyntaxKind.Keyword) ?? [];
+    private static getHooksWithCallbacks(block: JsonAstNodeInterface): JsonAstNodeInterface[] {
+        const hooksWithCallBacks: JsonAstNodeInterface[] = [];
+        const statements: JsonAstNodeInterface[] = block?.children?.filter(c => c.kind.includes('Statement') || c.kind === SyntaxKind.Keyword) ?? [];
         for (const statement of statements) {
-            const callExpression: AstNodeInterface = getFirstDescendantByKind(statement, SyntaxKind.CallExpression);
-            const identifier: AstNodeInterface = getFirstChildByKind(callExpression, SyntaxKind.Identifier);
+            const callExpression: JsonAstNodeInterface = getFirstDescendantByKind(statement, SyntaxKind.CallExpression);
+            const identifier: JsonAstNodeInterface = getFirstChildByKind(callExpression, SyntaxKind.Identifier);
             if (identifier?.type === 'function' && isReactHook(identifier?.name)) {
                 hooksWithCallBacks.push(statement);
             }

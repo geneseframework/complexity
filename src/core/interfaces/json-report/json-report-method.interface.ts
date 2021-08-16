@@ -1,4 +1,4 @@
-export interface ReportMethodInterface {
+export interface JsonReportMethodInterface {
 
     code: string;
     methodName: string;

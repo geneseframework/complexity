@@ -1,7 +1,7 @@
-import { ReportFolderInterface } from './report-folder.interface';
+import { JsonReportFolderInterface } from './json-report-folder.interface';
 import { MetricInterface } from './metric.interface';
 
 export interface JsonReportInterface {
-    folder: ReportFolderInterface;
+    folder: JsonReportFolderInterface;
     metrics?: MetricInterface[];
 }

@@ -1,7 +1,7 @@
 import { getFilename } from '../../../core/utils/file-system.util';
-import { AstFileInterface } from '../../../core/interfaces/json-ast/ast-file.interface';
-import { AstFolderInterface } from '../../../core/interfaces/json-ast/ast-folder.interface';
-import { AstNodeInterface } from '../../../core/interfaces/json-ast/ast-node.interface';
+import { JsonAstFileInterface } from '../../../core/interfaces/json-ast/json-ast-file.interface';
+import { JsonAstFolderInterface } from '../../../core/interfaces/json-ast/json-ast-folder.interface';
+import { JsonAstNodeInterface } from '../../../core/interfaces/json-ast/json-ast-node.interface';
 import { DefinitionInfo, Identifier, Node, SourceFile } from 'ts-morph';
 import { SyntaxKind } from '../../../core/enum/syntax-kind.enum';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
@@ -20,9 +20,9 @@ export class AstFileGenerationService {
     /**
      * Generate the AstFile corresponding to a given source code
      * @param sourceCode
-     * @returns {{astNode: AstNodeInterface, name: string, text: string}}
+     * @returns {{astNode: JsonAstNodeInterface, name: string, text: string}}
      */
-    generateFromString(sourceCode: string): AstFileInterface {
+    generateFromString(sourceCode: string): JsonAstFileInterface {
         const randomName = randomString(10);
         const sourceFile = project.createSourceFile(`./${randomName}.ts`, sourceCode);
         return {
@@ -38,13 +38,13 @@ export class AstFileGenerationService {
      * @param path          // The path of the file
      * @param astFolder     // The AstFolder containing the AstFile
      */
-    generate(path: string, astFolder: AstFolderInterface): AstFileInterface {
+    generate(path: string, astFolder: JsonAstFolderInterface): JsonAstFileInterface {
         if (!path || !astFolder) {
             console.warn('No path or AstFolder : impossible to create AstFile');
             return undefined;
         }
         const sourceFile: SourceFile = project.getSourceFileOrThrow(path);
-        const astFileInterface: AstFileInterface = {
+        const astFileInterface: JsonAstFileInterface = {
             name: getFilename(path),
             text: sourceFile.getFullText(),
             astNode: this.createAstNodeChildren(sourceFile)
@@ -60,8 +60,8 @@ export class AstFileGenerationService {
      * Returns the Node children of a given Node
      * @param node      // The Node to analyze
      */
-    private createAstNodeChildren(node: Node): AstNodeInterface {
-        let astNode: AstNodeInterface = {
+    private createAstNodeChildren(node: Node): JsonAstNodeInterface {
+        let astNode: JsonAstNodeInterface = {
             end: node.getEnd(),
             kind: Ts.getKindAlias(node),
             name: Ts.getName(node),
@@ -86,7 +86,7 @@ export class AstFileGenerationService {
      * @param node          // The Node to analyze
      * @param astNode       // The AstNode which will be updated with its type and CpxFactors
      */
-    private addTypeAndCpxFactors(node: Node, astNode: AstNodeInterface): AstNodeInterface {
+    private addTypeAndCpxFactors(node: Node, astNode: JsonAstNodeInterface): JsonAstNodeInterface {
         if (Ts.isFunctionCall(node)) {
             astNode.type = 'function';
             if (WEIGHTED_METHODS.includes(astNode.name)) {

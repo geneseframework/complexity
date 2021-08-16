@@ -1,7 +1,9 @@
-import { AstFolderInterface } from './ast-folder.interface';
+import { JsonAstFolderInterface } from './json-ast-folder.interface';
 import { MetricInterface } from '../json-report/metric.interface';
 
 export interface JsonAstInterface {
-    astFolder: AstFolderInterface;
+
+    astFolder: JsonAstFolderInterface;
     metrics?: MetricInterface[];
+
 }
