@@ -10,14 +10,14 @@ import { AstMethodService } from '../../services/ast/ast-method.service';
 import { Logg } from '../../../core/interfaces/logg.interface';
 import * as chalk from 'chalk';
 import { Code } from '../code/code.model';
-import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
+import { JsonAstFileInterface } from '../../../core/interfaces/json-ast/json-ast-file.interface';
 import { NestingCpx } from '../../../core/models/cpx-factor/nesting-cpx.model';
 import { DepthCpx } from '../../../core/models/cpx-factor/depth-cpx.model';
 import { addObjects } from '../../../core/utils/other-tools.util';
 import { AstMethodOrOutsideNode, isAstMethod } from '../../types/ast-method-or-outside-node.type';
 import { CpxLevel } from '../../enums/cpx-level.enum';
 
-export class AstFile implements AstFileInterface, Evaluate, Logg {
+export class AstFile implements JsonAstFileInterface, Evaluate, Logg {
 
     private _astFolder?: AstFolder = undefined;                         // The AstFolder which includes this AstFile
     private _astMethods?: AstMethod[] = [];                             // The AstMethods included in this AstFile

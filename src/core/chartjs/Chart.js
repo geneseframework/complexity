@@ -12863,10 +12863,10 @@ var scale_linearbase = core_scale.extend({
 		if (tickOpts.reverse) {
 			ticks.reverse();
 
-			me.start = me.max;
+			me.generate = me.max;
 			me.end = me.min;
 		} else {
-			me.start = me.min;
+			me.generate = me.min;
 			me.end = me.max;
 		}
 	},
@@ -13280,10 +13280,10 @@ var scale_logarithmic = core_scale.extend({
 
 		if (tickOpts.reverse) {
 			reverse = !reverse;
-			me.start = me.max;
+			me.generate = me.max;
 			me.end = me.min;
 		} else {
-			me.start = me.min;
+			me.generate = me.min;
 			me.end = me.max;
 		}
 		if (reverse) {

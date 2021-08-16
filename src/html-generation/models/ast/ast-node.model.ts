@@ -12,14 +12,14 @@ import { AstNodeService } from '../../services/ast/ast-node.service';
 import * as chalk from 'chalk';
 import { Logg } from '../../../core/interfaces/logg.interface';
 import { CodeService } from '../../services/code.service';
-import { AstNodeInterface } from '../../../core/interfaces/ast/ast-node.interface';
+import { JsonAstNodeInterface } from '../../../core/interfaces/json-ast/json-ast-node.interface';
 import { IdentifierType } from '../../../core/interfaces/identifier-type.type';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
 import { FactorCategory } from '../../enums/factor-category.enum';
 import { TypingCpx } from '../../../core/models/cpx-factor/typing-cpx.model';
 import { Options } from '../../../core/models/options.model';
 
-export class AstNode implements AstNodeInterface, Evaluate, Logg {
+export class AstNode implements JsonAstNodeInterface, Evaluate, Logg {
 
     private _astFile?: AstFile = undefined;                                             // The AstFile containing the AST node of the AstNode
     private _astMethod?: AstMethod = undefined;                                         // The method at the root of the current ast (if this ast is inside a method)

@@ -1,4 +1,4 @@
-import { AstNodeInterface } from '../interfaces/ast/ast-node.interface';
+import { JsonAstNodeInterface } from '../interfaces/json-ast/json-ast-node.interface';
 import { SyntaxKind } from '../enum/syntax-kind.enum';
 import { flat } from './arrays.util';
 
@@ -6,7 +6,7 @@ import { flat } from './arrays.util';
  * Returns the first child of a given AstNodeInterface
  * @param astNodeInterface  // The AstNodeInterface to check
  */
-export function getFirstChild(astNodeInterface: AstNodeInterface): AstNodeInterface {
+export function getFirstChild(astNodeInterface: JsonAstNodeInterface): JsonAstNodeInterface {
     return astNodeInterface?.children?.[0];
 }
 
@@ -14,7 +14,7 @@ export function getFirstChild(astNodeInterface: AstNodeInterface): AstNodeInterf
  * Returns the first child by SyntaxKind of a given AstNodeInterface
  * @param astNodeInterface  // The AstNodeInterface to check
  */
-export function getFirstChildByKind(astNodeInterface: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
+export function getFirstChildByKind(astNodeInterface: JsonAstNodeInterface, kind: SyntaxKind): JsonAstNodeInterface {
     return astNodeInterface?.children?.find(c => c.kind === kind);
 }
 
@@ -23,11 +23,11 @@ export function getFirstChildByKind(astNodeInterface: AstNodeInterface, kind: Sy
  * Returns the first descendant by SyntaxKind of a given AstNodeInterface
  * @param astNodeInterface  // The AstNodeInterface to check
  */
-export function getFirstDescendantByKind(astNodeInterface: AstNodeInterface, kind: SyntaxKind): AstNodeInterface {
+export function getFirstDescendantByKind(astNodeInterface: JsonAstNodeInterface, kind: SyntaxKind): JsonAstNodeInterface {
     if (!astNodeInterface?.children) {
         return undefined;
     }
-    const child: AstNodeInterface = getFirstChildByKind(astNodeInterface, kind);
+    const child: JsonAstNodeInterface = getFirstChildByKind(astNodeInterface, kind);
     return child ?? getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterface.children, kind);
 }
 
@@ -36,11 +36,11 @@ export function getFirstDescendantByKind(astNodeInterface: AstNodeInterface, kin
  * @param astNodeInterfaces  // The AstNodeInterfaces to check
  * @param kind
  */
-function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterfaces: AstNodeInterface[], kind: SyntaxKind): AstNodeInterface {
+function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterfaces: JsonAstNodeInterface[], kind: SyntaxKind): JsonAstNodeInterface {
     if (!astNodeInterfaces || astNodeInterfaces.length === 0) {
         return undefined;
     }
-    const definedAstNodeInterfaces: AstNodeInterface[] = astNodeInterfaces.filter(a => !!a);
+    const definedAstNodeInterfaces: JsonAstNodeInterface[] = astNodeInterfaces.filter(a => !!a);
     for (const astNode of definedAstNodeInterfaces) {
         if (astNode.kind === kind) {
             return astNode;
@@ -53,7 +53,7 @@ function getFirstDescendantOfAstNodeInterfaceArrayOfKind(astNodeInterfaces: AstN
  * Returns the first Block AstNode which is a child of a given ArrowFunction AstNodeInterface
  * @param arrowFunctionNodeInterface  // The AstNodeInterface to check
  */
-export function arrowFunctionBlock(arrowFunctionNodeInterface: AstNodeInterface): AstNodeInterface {
+export function arrowFunctionBlock(arrowFunctionNodeInterface: JsonAstNodeInterface): JsonAstNodeInterface {
     return getFirstChildByKind(arrowFunctionOfVarStatement(arrowFunctionNodeInterface), SyntaxKind.Block);
 }
 
@@ -61,6 +61,6 @@ export function arrowFunctionBlock(arrowFunctionNodeInterface: AstNodeInterface)
  * Returns the first ArrowFunction AstNode of a given VarStatement AstNode
  * @param varStatement              // The astNode to check
  */
-export function arrowFunctionOfVarStatement(varStatement: AstNodeInterface): AstNodeInterface {
+export function arrowFunctionOfVarStatement(varStatement: JsonAstNodeInterface): JsonAstNodeInterface {
     return getFirstChildByKind(getFirstChild(getFirstChild(varStatement)), SyntaxKind.ArrowFunction);
 }

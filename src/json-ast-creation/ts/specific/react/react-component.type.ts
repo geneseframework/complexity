@@ -1,11 +1,11 @@
-import { AstNodeInterface } from '../../../../core/interfaces/ast/ast-node.interface';
+import { JsonAstNodeInterface } from '../../../../core/interfaces/json-ast/json-ast-node.interface';
 
 export class ArrowFunctionWithIndex {
 
-    arrowFunction: AstNodeInterface;
+    arrowFunction: JsonAstNodeInterface;
     index: number;
 
-    constructor(arrowFunction: AstNodeInterface, index: number) {
+    constructor(arrowFunction: JsonAstNodeInterface, index: number) {
         this.arrowFunction = arrowFunction;
         this.index = index;
     }

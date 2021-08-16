@@ -1,4 +1,4 @@
-import { MetricInterface } from '../interfaces/metric.interface';
+import { MetricInterface } from '../../interfaces/json-report/metric.interface';
 
 export class Metric implements MetricInterface {
 

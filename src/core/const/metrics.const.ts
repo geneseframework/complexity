@@ -1,4 +1,4 @@
-import { MetricInterface } from '../interfaces/metric.interface';
+import { MetricInterface } from '../interfaces/json-report/metric.interface';
 import { Metrics } from '../enum/metrics.enum';
 
 export const COMPREHENSION_CPX: MetricInterface = {

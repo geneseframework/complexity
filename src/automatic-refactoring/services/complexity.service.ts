@@ -1,5 +1,5 @@
 import { InitGenerationService } from '../../json-ast-creation/init-generation.service';
-import { JsonAstInterface } from '../../core/interfaces/ast/json-ast.interface';
+import { JsonAstInterface } from '../../core/interfaces/json-ast/json-ast.interface';
 import { JsonService } from '../../json-ast-creation/json.service';
 import { HtmlGenerationService } from '../../html-generation/html-generation.service';
 import { JsonAst } from '../../html-generation/models/ast/json-ast.model';

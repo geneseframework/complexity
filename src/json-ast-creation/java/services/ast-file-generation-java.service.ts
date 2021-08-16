@@ -1,6 +1,6 @@
 import { getFilename } from '../../../core/utils/file-system.util';
-import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
-import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
+import { JsonAstFileInterface } from '../../../core/interfaces/json-ast/json-ast-file.interface';
+import { JsonAstFolderInterface } from '../../../core/interfaces/json-ast/json-ast-folder.interface';
 import { parse } from 'java-parser';
 import * as fs from 'fs-extra';
 import { cstToAst } from '../cst-to-ast';
@@ -13,10 +13,10 @@ export class AstFileGenerationJavaService {
     /**
      * Generates the AstFile corresponding to a given path and a given AstFolder
      * @param  {string} path
-     * @param  {AstFolderInterface} astFolder
-     * @returns AstFileInterface
+     * @param  {JsonAstFolderInterface} astFolder
+     * @returns JsonAstFileInterface
      */
-    generate(path: string, astFolder: AstFolderInterface): AstFileInterface {
+    generate(path: string, astFolder: JsonAstFolderInterface): JsonAstFileInterface {
         if (!path || !astFolder) {
             console.warn('No path or AstFolder : impossible to create AstFile');
             return undefined;

@@ -1,8 +1,8 @@
 import { CpxFactorsInterface } from '../cpx-factors.interface';
 
-export interface AstNodeInterface {
+export interface JsonAstNodeInterface {
 
-    children?: AstNodeInterface[];
+    children?: JsonAstNodeInterface[];
     cpxFactors?: CpxFactorsInterface;
     end: number;
     kind: string;

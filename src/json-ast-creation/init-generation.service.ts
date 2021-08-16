@@ -2,8 +2,8 @@ import * as fs from 'fs-extra';
 import { AstFileGenerationJavaService } from './java/services/ast-file-generation-java.service';
 import { getFileExtension, platformPath } from '../core/utils/file-system.util';
 import { Options } from '../core/models/options.model';
-import { AstFolderInterface } from '../core/interfaces/ast/ast-folder.interface';
-import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
+import { JsonAstFolderInterface } from '../core/interfaces/json-ast/json-ast-folder.interface';
+import { JsonAstInterface } from '../core/interfaces/json-ast/json-ast.interface';
 import { DEV_MOCK, LIMIT_GENERATIONS } from './globals.const';
 import { isLanguage, Language } from '../core/enum/language.enum';
 import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
@@ -55,10 +55,10 @@ export class InitGenerationService {
      * Generates the AstFolder corresponding to a given path and to its potential AstFolder parent
      * @param  {string} path              // The path of the AstFolder
      * @param  {Language} language
-     * @returns AstFolderInterface
+     * @returns JsonAstFolderInterface
      */
-    private generateAstFolder(path: string, language: Language): AstFolderInterface {
-        let astFolder: AstFolderInterface = {
+    private generateAstFolder(path: string, language: Language): JsonAstFolderInterface {
+        let astFolder: JsonAstFolderInterface = {
             path: platformPath(path),
             astFiles: []
         };
