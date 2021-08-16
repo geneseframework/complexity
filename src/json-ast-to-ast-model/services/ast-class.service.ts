@@ -20,7 +20,7 @@ export class AstClassService {
     private static generateAstClass(jsonAstClass: JsonAstNodeInterface): AstClass {
         const astClass = new AstClass(jsonAstClass);
         astClass.astFunctions = AstFunctionService.generate(astClass);
-        // astClass.astArrowFunctions = AstArrowFunctionService.generate(astClass);
+        astClass.astArrowFunctions = AstArrowFunctionService.generate(astClass);
         console.log(chalk.cyanBright('AST CLASSSS = '), astClass);
         return astClass;
     }
