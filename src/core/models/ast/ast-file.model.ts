@@ -16,13 +16,12 @@ export class AstFile extends AstAbstract {
         this.jsonAstFile = jsonAstFile;
     }
 
-
-    get code(): string {
-        return this.jsonAstFile.text;
-    }
-
     get name(): string {
         return this.jsonAstFile.name;
+    }
+
+    get text(): string {
+        return this.jsonAstFile.text;
     }
 
 }
