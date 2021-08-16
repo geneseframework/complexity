@@ -1,7 +1,11 @@
 import { ReportMethodInterface } from './report-method.interface';
 
 export interface ReportFileInterface {
-    methods: ReportMethodInterface[];
-    name: string;
-    text: string;
+
+    code: string;
+    fileName: string;
+    metricName: string;
+    score: number;
+    reportMethods: ReportMethodInterface[];
+
 }

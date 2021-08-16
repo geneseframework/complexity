@@ -1,5 +1,8 @@
-import { ReportMethodMetricInterface } from './report-method-metric.interface';
-
 export interface ReportMethodInterface {
-    reportMethodMetrics: ReportMethodMetricInterface[];
+
+    code: string;
+    methodName: string;
+    metricName: string;
+    score: number;
+
 }

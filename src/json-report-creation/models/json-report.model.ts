@@ -1,7 +1,7 @@
 import { JsonReportInterface } from '../interfaces/json-report.interface';
-import { MetricInterface } from '../../core/interfaces/metric.interface';
+import { MetricInterface } from '../interfaces/metric.interface';
 import { ReportFolder } from './report-folder.model';
-import { Metric } from '../../core/models/metric.model';
+import { Metric } from './metric.model';
 
 export class JsonReport implements JsonReportInterface {
 

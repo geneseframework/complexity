@@ -1,6 +1,13 @@
 import { ReportMethodInterface } from '../interfaces/report-method.interface';
-import { ReportMethodMetric } from './report-method-metric.model';
 
 export class ReportMethod implements ReportMethodInterface {
-    reportMethodMetrics: ReportMethodMetric[] = [];
+
+    code: string = undefined;
+    methodName: string = undefined;
+    metricName: string = undefined;
+    score: number = undefined;
+
+    constructor(methodName: string, code: string) {
+    }
+
 }

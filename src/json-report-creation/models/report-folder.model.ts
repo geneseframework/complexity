@@ -3,8 +3,8 @@ import { ReportFile } from './report-file.model';
 
 export class ReportFolder implements ReportFolderInterface {
 
-    files: ReportFile[] = [];
     children?: ReportFolder[] = [];
+    files: ReportFile[] = [];
     path: string = undefined;
 
     constructor(path: string) {

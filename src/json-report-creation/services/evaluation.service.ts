@@ -5,6 +5,6 @@ import * as chalk from 'chalk';
 export class EvaluationService {
 
     static start(astFileNode: AstNodeInterface, reportFile: ReportFile): void{
-        console.log(chalk.magentaBright('EVALLLLL'), reportFile.name);
+        console.log(chalk.magentaBright('EVALLLLL'), reportFile.fileName);
     }
 }

@@ -3,7 +3,7 @@ import { Logg } from '../../../core/interfaces/logg.interface';
 import * as chalk from 'chalk';
 import { AstNode } from './ast-node.model';
 import { JsonAstInterface } from '../../../core/interfaces/ast/json-ast.interface';
-import { MetricInterface } from '../../../core/interfaces/metric.interface';
+import { MetricInterface } from '../../../json-report-creation/interfaces/metric.interface';
 
 export class JsonAst implements JsonAstInterface, Logg {
 

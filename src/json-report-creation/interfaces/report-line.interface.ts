@@ -1,3 +1,3 @@
-export interface ReportLineInterface {
-    code: string;
-}
+// export interface ReportLineInterface {
+//     code: string;
+// }

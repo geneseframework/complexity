@@ -3,12 +3,15 @@ import { ReportMethod } from './report-method.model';
 
 export class ReportFile implements ReportFileInterface {
 
-    methods: ReportMethod[] = [];
-    name: string = undefined;
-    text: string = undefined;
+    code: string = undefined;
+    fileName: string = undefined;
+    metricName: string = undefined;
+    reportMethods: ReportMethod[] = [];
+    score: number = undefined;
 
-    constructor(name: string, text: string) {
-        this.name = name;
-        this.text = text;
+    constructor(fileName: string, code: string) {
+        this.fileName = fileName;
+        this.code = code;
     }
+
 }
