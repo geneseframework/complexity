@@ -16,8 +16,8 @@ export class AstCodeService {
             .concat(this.getIntervals(astFile.astFunctions))
             .concat(this.getIntervals(astFile.astArrowFunctions));
         console.log(chalk.cyanBright('INTERVALLLSS CLASSES AND FCT'), classesAndFunctionsIntervals);
-        const intervalsOutsideclassesAndFunctions: Interval[] = this.getComplementaryIntervals(astFile.jsonAstNode.end, classesAndFunctionsIntervals);
-        console.log(chalk.blueBright('INTERVALLLSS FILE'), intervalsOutsideclassesAndFunctions);
+        const intervalsOutsideClassesAndFunctions: Interval[] = this.getComplementaryIntervals(astFile.jsonAstNode.end, classesAndFunctionsIntervals);
+        console.log(chalk.blueBright('INTERVALLLSS FILE'), intervalsOutsideClassesAndFunctions);
         return undefined;
     }
 
@@ -29,18 +29,18 @@ export class AstCodeService {
         if (nestedIntervals.length === 0) {
             return [[0, fileLength]];
         }
-        const sortedIntervals: Interval[] = nestedIntervals.sort((a, b) => a[0] - b[0]);
+        nestedIntervals.sort((a, b) => a[0] - b[0]);
         let position = 0;
         let intervals: Interval[] = [];
         while (position < fileLength) {
-            const firstInterval: Interval = firstElement(sortedIntervals);
+            const firstInterval: Interval = firstElement(nestedIntervals);
             if (isInInterval(position, firstInterval)) {
                 position = firstInterval[1] + 1;
-                sortedIntervals.shift();
-            } else if (sortedIntervals.length > 0) {
+                nestedIntervals.shift();
+            } else if (nestedIntervals.length > 0) {
                 intervals.push([position, firstInterval[0] - 1]);
                 position = firstInterval[1] + 1;
-                sortedIntervals.shift();
+                nestedIntervals.shift();
             } else {
                 intervals.push([position, fileLength]);
                 position = fileLength;
