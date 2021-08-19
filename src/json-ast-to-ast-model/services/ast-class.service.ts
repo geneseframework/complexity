@@ -11,6 +11,7 @@ export class AstClassService {
     static generate(astFile: AstFile): AstClass[] {
         const jsonAstClasses: JsonAstNodeInterface[] = astFile.jsonAstNode.children.filter(c => c.kind === SyntaxKind.ClassDeclaration);
         const astClasses: AstClass[] = [];
+        console.log(chalk.blueBright('jsonASTCLASSSSSSS'), jsonAstClasses);
         for (const jsonAstClass of jsonAstClasses) {
             astClasses.push(this.generateAstClass(jsonAstClass, astFile.text));
         }
@@ -19,10 +20,10 @@ export class AstClassService {
 
     private static generateAstClass(jsonAstClass: JsonAstNodeInterface, astFileText: string): AstClass {
         const astClass = new AstClass(jsonAstClass);
+        astClass.text = astFileText.slice(jsonAstClass.pos, jsonAstClass.end);
         astClass.astFunctions = AstFunctionService.generate(astClass);
         astClass.astArrowFunctions = AstArrowFunctionService.generate(astClass);
-        astClass.text = astFileText.slice(jsonAstClass.pos, jsonAstClass.end);
-        // console.log(chalk.cyanBright('AST FILE TXTTTTT = '), astFileText);
+        console.log(chalk.cyanBright('AST FILE TXTTTTT = '), astFileText.slice(0,50));
         // console.log(chalk.cyanBright('INTERVALLLL = '), jsonAstClass.pos, jsonAstClass.end);
         // console.log(chalk.cyanBright('AST CLASSSS = '), astClass.text);
         return astClass;

@@ -5,16 +5,18 @@ import { SyntaxKind } from '../../core/enum/syntax-kind.enum';
 import * as chalk from 'chalk';
 import { AstFileOrClass, isAstFile } from '../../core/types/ast/ast-file-or-class.type';
 import { AstClass } from '../../core/models/ast/ast-class.model';
+import { AstArrowFunctionService } from './ast-arrow-function.service';
 
 export class AstFunctionService {
 
     static generate(astFile: AstFile): AstFunction[]
     static generate(astClass: AstClass): AstFunction[]
     static generate(astFileOrClass: AstFileOrClass): AstFunction[] {
+        console.log(chalk.magentaBright('AST FUNCCCCC 1 = '), astFileOrClass);
         const jsonAstFunctions: JsonAstNodeInterface[] = this.getFunctionDeclarations(astFileOrClass);
         const astFunctions: AstFunction[] = [];
         for (const jsonAstFunction of jsonAstFunctions) {
-            astFunctions.push(this.generateAstFunctions(jsonAstFunction));
+            astFunctions.push(this.generateAstFunctions(jsonAstFunction, astFileOrClass.text, astFileOrClass.jsonAstNode.pos));
         }
         return astFunctions;
     }
@@ -27,9 +29,13 @@ export class AstFunctionService {
         }
     }
 
-    private static generateAstFunctions(jsonAstFunction: JsonAstNodeInterface): AstFunction {
+    private static generateAstFunctions(jsonAstFunction: JsonAstNodeInterface, astClassText: string, astClassPos: number): AstFunction {
+        console.log(chalk.cyanBright('AST FUNCSSSS 1 = '), astClassText, astClassPos);
         const astFunction = new AstFunction(jsonAstFunction);
-        // console.log(chalk.cyanBright('AST FUNCSSSS = '), astFunction);
+        astFunction.astFunctions = AstFunctionService.generate(astFunction);
+        astFunction.astArrowFunctions = AstArrowFunctionService.generate(astFunction);
+        astFunction.text = astClassText.slice(jsonAstFunction.pos - astClassPos, jsonAstFunction.end - astClassPos);
+        console.log(chalk.cyanBright('AST FUNCSSSS = '), astFunction);
         return astFunction;
     }
 }
