@@ -58,30 +58,6 @@ export class AstCodeService {
         }
     }
 
-    // private static getComplementaryIntervals(fileLength: number, nestedIntervals: Interval[]): Interval[] {
-    //     if (nestedIntervals.length === 0) {
-    //         return [[0, fileLength]];
-    //     }
-    //     nestedIntervals.sort((a, b) => a[0] - b[0]);
-    //     let position = 0;
-    //     let intervals: Interval[] = [];
-    //     while (position < fileLength) {
-    //         const firstInterval: Interval = firstElement(nestedIntervals);
-    //         if (isInInterval(position, firstInterval)) {
-    //             position = firstInterval[1] + 1;
-    //             nestedIntervals.shift();
-    //         } else if (nestedIntervals.length > 0) {
-    //             intervals.push([position, firstInterval[0] - 1]);
-    //             position = firstInterval[1] + 1;
-    //             nestedIntervals.shift();
-    //         } else {
-    //             intervals.push([position, fileLength]);
-    //             position = fileLength;
-    //         }
-    //     }
-    //     return intervals;
-    // }
-
     /**
      * Creates a Code object from the content of a given code (as string)
      * @param text      // The content of the code
