@@ -19,9 +19,13 @@ export class AstCode {
         this.textOutsideClassesAndFunctions = text;
     }
 
+    get astAbstract(): AstAbstract {
+        return this.#astAbstract;
+    }
+
     get astLines(): AstLine[] {
         return this.linesOutsideClassesAndFunctions.concat(flat(this.astClassOrFunctionCodes.map(a => a.astLines)))
-            .sort((a, b) => a.issue - b.issue);
+            .sort((a, b) => a.pos - b.pos);
     }
 
     get end(): number {
@@ -35,7 +39,11 @@ export class AstCode {
 
     logg(): void {
         console.log(chalk.cyanBright('AST CODE '), this.#astAbstract.jsonAstNode.kind, this.#astAbstract.name);
-        console.log(this.textOutsideClassesAndFunctions);
+        console.log(chalk.cyanBright('OUTSIDE CODE'), this.textOutsideClassesAndFunctions);
+        console.log(chalk.cyanBright('ALL LINES'));
+        for (const line of this.astLines) {
+            console.log(chalk.blueBright('-> '), line.text);
+        }
     }
 
 

@@ -12,15 +12,6 @@ export class AstNode {
         this.setChildren();
     }
 
-    // TODO
-    get code(): string {
-        return '';
-    }
-
-    // get cpxFactors(): CpxFactorsInterface {
-    //
-    // }
-
     get end(): number {
         return this.jsonAstNode.end;
     }
@@ -35,6 +26,16 @@ export class AstNode {
 
     get name(): string {
         return this.jsonAstNode.name;
+    }
+
+    get descendants(): AstNode[] {
+        const nodes: AstNode[] = [];
+        for (const child of this.children) {
+            nodes.push(child);
+            nodes.push(...child.descendants);
+
+        }
+        return nodes;
     }
 
     get pos(): number {

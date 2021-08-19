@@ -6,6 +6,7 @@ import { Interval } from '../../../json-ast-to-ast-model/types/interval.type';
 import { AstArrowFunction } from './ast-arrow-function.model';
 import { AstClass } from './ast-class.model';
 import { AstFunction } from './ast-function.model';
+import { AstLine } from './ast-line.model';
 
 export abstract class AstAbstract {
 
@@ -17,7 +18,6 @@ export abstract class AstAbstract {
     jsonAstNode: JsonAstNodeInterface = undefined;
     name = undefined;
     text = '';
-    textOutsideClassesAndFunctions = '';
 
     protected constructor(jsonAstNode: JsonAstNodeInterface) {
         this.jsonAstNode = jsonAstNode;
@@ -28,6 +28,10 @@ export abstract class AstAbstract {
         return this.astArrowFunctions.concat(this.astFunctions).concat(this.astClasses);
     }
 
+    get code(): string {
+        return this.lines.map(l => l.text).join('\n');
+    }
+
     get interval(): Interval {
         return this.astNode.interval;
     }
@@ -36,13 +40,10 @@ export abstract class AstAbstract {
         return this.jsonAstNode.end - this.jsonAstNode.pos ?? 0;
     }
 
-    // get name(): string {
-    //     return this.jsonAstNode.name;
-    // }
-
-    // get text(): string {
-    //     return this.astNode.code;
-    // }
+    get lines(): AstLine[] {
+        return this.astCode?.astLines ?? [];
+        // return this.astCode?.astLines.concat(...this.astCode.linesOutsideClassesAndFunctions) ?? [];
+    }
 
     private setAstNode(): void {
         this.astNode = AstNodeService.generate(this.jsonAstNode);
