@@ -2,9 +2,9 @@ import { AstFile } from '../../core/models/ast/ast-file.model';
 import { AstFunction } from '../../core/models/ast/ast-function.model';
 import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
 import { SyntaxKind } from '../../core/enum/syntax-kind.enum';
-import * as chalk from 'chalk';
 import { AstFileOrClass, isAstFile } from '../../core/types/ast/ast-file-or-class.type';
 import { AstClass } from '../../core/models/ast/ast-class.model';
+import { AstFuncOrArrowFuncService } from './ast-func-or-arrow-func.service';
 
 export class AstFunctionService {
 
@@ -14,7 +14,7 @@ export class AstFunctionService {
         const jsonAstFunctions: JsonAstNodeInterface[] = this.getFunctionDeclarations(astFileOrClass);
         const astFunctions: AstFunction[] = [];
         for (const jsonAstFunction of jsonAstFunctions) {
-            astFunctions.push(this.generateAstFunctions(jsonAstFunction));
+            astFunctions.push(AstFuncOrArrowFuncService.create(jsonAstFunction, astFileOrClass.text, astFileOrClass.jsonAstNode.pos));
         }
         return astFunctions;
     }
@@ -25,11 +25,5 @@ export class AstFunctionService {
         } else {
             return astFileOrClass.jsonAstNode.children.filter(c => c.kind === SyntaxKind.MethodDeclaration);
         }
-    }
-
-    private static generateAstFunctions(jsonAstFunction: JsonAstNodeInterface): AstFunction {
-        const astFunction = new AstFunction(jsonAstFunction);
-        console.log(chalk.cyanBright('AST FUNCSSSS = '), astFunction);
-        return astFunction;
     }
 }
