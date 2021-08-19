@@ -6,6 +6,7 @@ import { Interval, isInInterval } from '../types/interval.type';
 import { AstAbstract } from '../../core/models/ast/ast-abstract.model';
 import * as chalk from 'chalk';
 import { firstElement } from '../../core/utils/arrays.util';
+import { AstLineService } from './ast-line.service';
 
 export class AstCodeService {
 
@@ -14,7 +15,9 @@ export class AstCodeService {
         const text: string = this.getText(astAbstract, intervalsOutsideClassesAndFunctions);
         const astCode = new AstCode(astAbstract, text);
         this.generateAstClassOrFunctionCodes(astAbstract, astCode);
+        astCode.linesOutsideClassesAndFunctions = AstLineService.generate(astCode);
         astCode.logg();
+        // console.log(chalk.magentaBright('AST CODEEEEEEE'), astAbstract.astNode.kind, astCode.astLines);
         return astCode;
     }
 
@@ -57,35 +60,6 @@ export class AstCodeService {
             astCode.astClassOrFunctionCodes.push(this.generate(astAbs));
         }
     }
-
-    /**
-     * Creates a Code object from the content of a given code (as string)
-     * @param text      // The content of the code
-     * @param start
-     */
-    // static getCode(text: string, start = 0): AstCode {
-    //     if (!text) {
-    //         return undefined;
-    //     }
-    //     const code: AstCode = new AstCode();
-    //     code.start = start;
-    //     code.text = text;
-    //     const textLines: string[] = text.split('\n');
-    //     let issue = 1;
-    //     for (const textLine of textLines) {
-    //         const line = new AstLine();
-    //         line.code = code;
-    //         line.text = textLine;
-    //         line.issue = issue;
-    //         line.start = start;
-    //         line.end = start + textLine.length + 1;
-    //         code.linesOutsideClassesAndFunctions.push(line);
-    //         issue++;
-    //         start = line.end;
-    //     }
-    //     code.linesOutsideClassesAndFunctions[code.linesOutsideClassesAndFunctions.length - 1].end = text.length;
-    //     return code;
-    // }
 
 
     /**

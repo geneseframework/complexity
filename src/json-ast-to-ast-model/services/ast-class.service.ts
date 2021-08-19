@@ -4,6 +4,7 @@ import { SyntaxKind } from '../../core/enum/syntax-kind.enum';
 import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
 import { AstFunctionService } from './ast-function.service';
 import { AstArrowFunctionService } from './ast-arrow-function.service';
+import * as chalk from 'chalk';
 
 export class AstClassService {
 
@@ -22,6 +23,7 @@ export class AstClassService {
         astClass.text = astFileText.slice(jsonAstClass.pos, jsonAstClass.end);
         astClass.astFunctions = AstFunctionService.generate(astClass);
         astClass.astArrowFunctions = AstArrowFunctionService.generate(astClass);
+        // console.log(chalk.blueBright('AST CLAAAASSS'), astClass);
         return astClass;
     }
 

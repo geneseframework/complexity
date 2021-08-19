@@ -12,13 +12,14 @@ export class AstFileService {
         const astFile = new AstFile(jsonAstFile);
         astFile.text = jsonAstFile.text;
         astFile.name = jsonAstFile.name;
-        console.log(chalk.yellowBright('AST CREATE FILEEEEEE'), astFile.name);
         astFile.astClasses = AstClassService.generate(astFile);
         astFile.astFunctions = AstFunctionService.generate(astFile);
         astFile.astArrowFunctions = AstArrowFunctionService.generate(astFile);
         astFile.astCode = AstCodeService.generate(astFile);
+        // console.log(chalk.greenBright('AST CODEEEEEEE lines'), astFile.lines.map(l => l.text));
+        // console.log(chalk.magentaBright('AST CODEEEEEEE code'), astFile.code);
         astFile.astCode.logg();
-        // console.log(chalk.magentaBright('AST FILEEEE CODE = '), astFile.astCode.logg());
+        // console.log(chalk.magentaBright('AST FILEEEE CODE = '), astFile);
         return astFile;
     }
 }
