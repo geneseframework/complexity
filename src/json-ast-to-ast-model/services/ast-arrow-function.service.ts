@@ -5,8 +5,7 @@ import { SyntaxKind } from '../../core/enum/syntax-kind.enum';
 import { AstFunction } from '../../core/models/ast/ast-function.model';
 import { AstClass } from '../../core/models/ast/ast-class.model';
 import { AstFileOrClass, isAstFile } from '../../core/types/ast/ast-file-or-class.type';
-import { AstFunctionService } from './ast-function.service';
-import * as chalk from 'chalk';
+import { AstFuncOrArrowFuncService } from './ast-func-or-arrow-func.service';
 
 export class AstArrowFunctionService {
 
@@ -16,7 +15,7 @@ export class AstArrowFunctionService {
         const jsonArrowFunctionsVarDeclarations: JsonAstNodeInterface[] = this.getArrowFunctions(astFileOrClass);
         const astArrowFunction: AstArrowFunction[] = [];
         for (const jsonArrowFunctionsVarDeclaration of jsonArrowFunctionsVarDeclarations) {
-            astArrowFunction.push(this.generateAstArrowFunctions(jsonArrowFunctionsVarDeclaration, astFileOrClass.text, astFileOrClass.jsonAstNode.pos));
+            astArrowFunction.push(AstFuncOrArrowFuncService.create(jsonArrowFunctionsVarDeclaration, astFileOrClass.text, astFileOrClass.jsonAstNode.pos));
         }
         return astArrowFunction;
     }
@@ -37,29 +36,15 @@ export class AstArrowFunctionService {
                     && !!c.children?.find(a => a.kind === SyntaxKind.ArrowFunction))
                 ?? [];
             declarations = this.setNames(propertyDeclarations);
-            // declarations = propertyDeclarations.map(p => p.children.find(a => a.kind === SyntaxKind.ArrowFunction));
         }
-        console.log(chalk.greenBright('VARSSSSS = '), declarations);
         return declarations;
     }
 
     private static setNames(propertyDeclarations: JsonAstNodeInterface[]): JsonAstNodeInterface[] {
         for (const propertyDeclaration of propertyDeclarations) {
-            console.log(chalk.redBright('PROPPPPPP'), propertyDeclaration);
             propertyDeclaration.name = propertyDeclaration.children.find(c => c.kind === SyntaxKind.Identifier)?.name;
         }
         return propertyDeclarations;
-    }
-
-    private static generateAstArrowFunctions(jsonArrowFunctionsVarDeclaration: JsonAstNodeInterface, astClassText: string, astClassPos: number): AstFunction {
-        // console.log(chalk.cyanBright('AST FUNCSSSS 1 = '), astClassText, astClassPos);
-        const astArrowFunction = new AstArrowFunction(jsonArrowFunctionsVarDeclaration);
-        astArrowFunction.name = jsonArrowFunctionsVarDeclaration.name;
-        astArrowFunction.astFunctions = AstFunctionService.generate(astArrowFunction);
-        astArrowFunction.astArrowFunctions = AstArrowFunctionService.generate(astArrowFunction);
-        astArrowFunction.text = astClassText.slice(jsonArrowFunctionsVarDeclaration.pos - astClassPos, jsonArrowFunctionsVarDeclaration.end - astClassPos);
-        // console.log(chalk.cyanBright('AST FUNCSSSS = '), astArrowFunction);
-        return astArrowFunction;
     }
 
 }
