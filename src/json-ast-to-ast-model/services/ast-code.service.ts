@@ -1,7 +1,6 @@
 /**
  * Service managing Code objects
  */
-import { AstFile } from '../../core/models/ast/ast-file.model';
 import { AstCode } from '../../core/models/ast/ast-code.model';
 import { Interval, isInInterval } from '../types/interval.type';
 import { AstAbstract } from '../../core/models/ast/ast-abstract.model';
@@ -15,14 +14,12 @@ export class AstCodeService {
         const text: string = this.getText(astAbstract, intervalsOutsideClassesAndFunctions);
         const astCode = new AstCode(astAbstract, text);
         this.generateAstClassOrFunctionCodes(astAbstract, astCode);
-        console.log(chalk.yellowBright('AST CODEEEE'), astCode);
+        astCode.logg();
         return astCode;
     }
 
     private static getComplementaryIntervals(astAbstract: AstAbstract): Interval[] {
-        // console.log(chalk.greenBright('LGTHHHHH'), astAbstract.text, astAbstract.length);
         if (astAbstract.length === 0) {
-            // console.log(chalk.redBright('LGTHHHHH'), astAbstract.length);
             return [[0, astAbstract.length]];
         }
         const nestedIntervals = astAbstract.astAbstracts.map(a => a.interval).sort((a, b) => a[0] - b[0]);
@@ -47,7 +44,6 @@ export class AstCodeService {
 
     private static getText(astAbstract: AstAbstract, intervals: Interval[]): string {
         let txt = '';
-        // console.log(chalk.greenBright('ABSTR TXTTTT'), astAbstract.text);
         for (const interval of intervals) {
             const firstPos: number = interval[0] - astAbstract.jsonAstNode.pos;
             const lastPos: number = interval[1] - astAbstract.jsonAstNode.pos + 1;

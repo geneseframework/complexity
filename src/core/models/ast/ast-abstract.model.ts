@@ -15,6 +15,7 @@ export abstract class AstAbstract {
     astFunctions: AstFunction[] = [];
     astNode: AstNode = undefined;
     jsonAstNode: JsonAstNodeInterface = undefined;
+    name = undefined;
     text = '';
     textOutsideClassesAndFunctions = '';
 
@@ -35,9 +36,9 @@ export abstract class AstAbstract {
         return this.jsonAstNode.end - this.jsonAstNode.pos ?? 0;
     }
 
-    get name(): string {
-        return this.jsonAstNode.name;
-    }
+    // get name(): string {
+    //     return this.jsonAstNode.name;
+    // }
 
     // get text(): string {
     //     return this.astNode.code;

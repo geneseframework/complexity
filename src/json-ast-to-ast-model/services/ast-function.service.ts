@@ -12,7 +12,7 @@ export class AstFunctionService {
     static generate(astFile: AstFile): AstFunction[]
     static generate(astClass: AstClass): AstFunction[]
     static generate(astFileOrClass: AstFileOrClass): AstFunction[] {
-        console.log(chalk.magentaBright('AST FUNCCCCC 1 = '), astFileOrClass);
+        // console.log(chalk.magentaBright('AST FUNCCCCC 1 = '), astFileOrClass);
         const jsonAstFunctions: JsonAstNodeInterface[] = this.getFunctionDeclarations(astFileOrClass);
         const astFunctions: AstFunction[] = [];
         for (const jsonAstFunction of jsonAstFunctions) {
@@ -30,12 +30,13 @@ export class AstFunctionService {
     }
 
     private static generateAstFunctions(jsonAstFunction: JsonAstNodeInterface, astClassText: string, astClassPos: number): AstFunction {
-        console.log(chalk.cyanBright('AST FUNCSSSS 1 = '), astClassText, astClassPos);
+        // console.log(chalk.cyanBright('AST FUNCSSSS 1 = '), astClassText, astClassPos);
         const astFunction = new AstFunction(jsonAstFunction);
+        astFunction.name = jsonAstFunction.name;
         astFunction.astFunctions = AstFunctionService.generate(astFunction);
         astFunction.astArrowFunctions = AstArrowFunctionService.generate(astFunction);
         astFunction.text = astClassText.slice(jsonAstFunction.pos - astClassPos, jsonAstFunction.end - astClassPos);
-        console.log(chalk.cyanBright('AST FUNCSSSS = '), astFunction);
+        // console.log(chalk.cyanBright('AST FUNCSSSS = '), astFunction);
         return astFunction;
     }
 }

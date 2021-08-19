@@ -20,6 +20,7 @@ export class AstClassService {
 
     private static generateAstClass(jsonAstClass: JsonAstNodeInterface, astFileText: string): AstClass {
         const astClass = new AstClass(jsonAstClass);
+        astClass.name = jsonAstClass.name;
         astClass.text = astFileText.slice(jsonAstClass.pos, jsonAstClass.end);
         astClass.astFunctions = AstFunctionService.generate(astClass);
         astClass.astArrowFunctions = AstArrowFunctionService.generate(astClass);

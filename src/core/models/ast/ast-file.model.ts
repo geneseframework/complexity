@@ -10,9 +10,9 @@ export class AstFile extends AstAbstract {
         this.jsonAstFile = jsonAstFile;
     }
 
-    get name(): string {
-        return this.jsonAstFile.name;
-    }
+    // get name(): string {
+    //     return this.jsonAstFile.name;
+    // }
 
     // get text(): string {
     //     return this.jsonAstFile.text;
