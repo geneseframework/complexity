@@ -29,7 +29,7 @@ export class AstFunctionService {
 
     private static generateAstFunctions(jsonAstFunction: JsonAstNodeInterface): AstFunction {
         const astFunction = new AstFunction(jsonAstFunction);
-        console.log(chalk.cyanBright('AST FUNCSSSS = '), astFunction);
+        // console.log(chalk.cyanBright('AST FUNCSSSS = '), astFunction);
         return astFunction;
     }
 }

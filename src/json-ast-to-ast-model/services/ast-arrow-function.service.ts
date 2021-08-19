@@ -38,13 +38,13 @@ export class AstArrowFunctionService {
                 ?? [];
             varDeclarations = propertyDeclarations.map(p => p.children.find(a => a.kind === SyntaxKind.ArrowFunction));
         }
-        console.log(chalk.greenBright('VARSSSSS = '), varDeclarations);
+        // console.log(chalk.greenBright('VARSSSSS = '), varDeclarations);
         return varDeclarations;
     }
 
     private static generateAstArrowFunctions(jsonArrowFunctionsVarDeclaration: JsonAstNodeInterface): AstArrowFunction {
         const astArrowFunction = new AstArrowFunction(jsonArrowFunctionsVarDeclaration);
-        console.log(chalk.cyanBright('AST FUNCSSSS = '), astArrowFunction);
+        // console.log(chalk.cyanBright('AST FUNCSSSS = '), astArrowFunction);
         return astArrowFunction;
     }
 

@@ -9,6 +9,7 @@ export class AstFileService {
 
     static generate(jsonAstFile: JsonAstFileInterface): AstFile {
         const astFile = new AstFile(jsonAstFile);
+        astFile.text = jsonAstFile.text;
         astFile.astClasses = AstClassService.generate(astFile);
         astFile.astFunctions = AstFunctionService.generate(astFile);
         astFile.astArrowFunctions = AstArrowFunctionService.generate(astFile);

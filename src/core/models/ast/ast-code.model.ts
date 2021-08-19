@@ -1,19 +1,21 @@
 import { AstLine } from './ast-line.model';
-import { AstAbstract } from './ast-abstract.model';
 import { flat } from '../../utils/arrays.util';
+import { AstAbstract } from './ast-abstract.model';
 
 /**
     The code of a given element
  */
 export class AstCode {
 
+    astAbstract: AstAbstract = undefined;
     astClassOrFunctionCodes: AstCode[] = [];                // The lines of the code which are not in the context of the current element (the functions and the classes)
     linesOutsideClassesAndFunctions?: AstLine[] = [];       // The lines of the code which are in the context of the current element (not in classes or functions declared inside the code of the current element)
-    start ?= 0;                                             // The absolute pos of the code in the file
-    text ?= '';                                             // The code itself (as string)
+    start ?= 0;                                             // The absolute pos of the first element of the code in the SourceFile
+    textOutsideClassesAndFunctions ?= '';                                             // The code itself (as string)
 
-    constructor(text: string, astElement: AstAbstract) {
-        this.text = text;
+    constructor(astAbstract: AstAbstract, text: string) {
+        // this.astAbstract = astAbstract;
+        this.textOutsideClassesAndFunctions = text;
     }
 
     get astLines(): AstLine[] {
@@ -22,7 +24,7 @@ export class AstCode {
     }
 
     get end(): number {
-        return this.start + this.text?.length ?? 0;
+        return this.start + this.textOutsideClassesAndFunctions?.length ?? 0;
     }
 
 

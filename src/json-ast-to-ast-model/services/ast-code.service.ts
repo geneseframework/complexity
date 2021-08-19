@@ -10,29 +10,34 @@ import { firstElement } from '../../core/utils/arrays.util';
 
 export class AstCodeService {
 
-    static generate(astFile: AstFile): AstCode {
-        // TODO : create type AstAbstractInterval
-        const classesAndFunctionsIntervals: Interval[] = this.getIntervals(astFile.astClasses)
-            .concat(this.getIntervals(astFile.astFunctions))
-            .concat(this.getIntervals(astFile.astArrowFunctions));
-        console.log(chalk.cyanBright('INTERVALLLSS CLASSES AND FCT'), classesAndFunctionsIntervals);
-        const intervalsOutsideClassesAndFunctions: Interval[] = this.getComplementaryIntervals(astFile.jsonAstNode.end, classesAndFunctionsIntervals);
-        console.log(chalk.blueBright('INTERVALLLSS FILE'), intervalsOutsideClassesAndFunctions);
-        return undefined;
+    static generate(astAbstract: AstAbstract): AstCode {
+        const intervalsOutsideClassesAndFunctions: Interval[] = this.getComplementaryIntervals(astAbstract);
+        console.log(chalk.blueBright('AST ABSTRRRRRRR TXT'), intervalsOutsideClassesAndFunctions, astAbstract.jsonAstNode.pos, astAbstract.jsonAstNode.end, astAbstract.text);
+        const text: string = this.getText(astAbstract, intervalsOutsideClassesAndFunctions);
+        console.log(chalk.magentaBright('AST CODEEEE TXTTTT'), text);
+        const astCode = new AstCode(astAbstract, text);
+        this.generateAstClassOrFunctionCodes(astAbstract, astCode);
+        console.log(chalk.yellowBright('AST CODEEEE'), astCode);
+        return astCode;
+        // const classesAndFunctionsIntervals: Interval[] = this.getIntervals(astFile.astClasses)
+        //     .concat(this.getIntervals(astFile.astFunctions))
+        //     .concat(this.getIntervals(astFile.astArrowFunctions));
+        // console.log(chalk.cyanBright('INTERVALLLSS CLASSES AND FCT'), classesAndFunctionsIntervals);
+        // const intervalsOutsideClassesAndFunctions: Interval[] = this.getComplementaryIntervals(astFile.jsonAstNode.end, classesAndFunctionsIntervals);
+        // console.log(chalk.blueBright('INTERVALLLSS FILE'), intervalsOutsideClassesAndFunctions);
+        // return undefined;
     }
 
-    private static getIntervals(astAbstracts: AstAbstract[]): Interval[] {
-        return astAbstracts.map(a => a.interval);
-    }
-
-    private static getComplementaryIntervals(fileLength: number, nestedIntervals: Interval[]): Interval[] {
-        if (nestedIntervals.length === 0) {
-            return [[0, fileLength]];
+    private static getComplementaryIntervals(astAbstract: AstAbstract): Interval[] {
+        console.log(chalk.greenBright('LGTHHHHH'), astAbstract.text, astAbstract.length);
+        if (astAbstract.length === 0) {
+            console.log(chalk.redBright('LGTHHHHH'), astAbstract.length);
+            return [[0, astAbstract.length]];
         }
-        nestedIntervals.sort((a, b) => a[0] - b[0]);
-        let position = 0;
+        const nestedIntervals = astAbstract.astAbstracts.map(a => a.interval).sort((a, b) => a[0] - b[0]);
+        let position = astAbstract.jsonAstNode.pos;
         let intervals: Interval[] = [];
-        while (position < fileLength) {
+        while (position < astAbstract.jsonAstNode.end) {
             const firstInterval: Interval = firstElement(nestedIntervals);
             if (isInInterval(position, firstInterval)) {
                 position = firstInterval[1] + 1;
@@ -42,12 +47,53 @@ export class AstCodeService {
                 position = firstInterval[1] + 1;
                 nestedIntervals.shift();
             } else {
-                intervals.push([position, fileLength]);
-                position = fileLength;
+                intervals.push([position, astAbstract.jsonAstNode.end]);
+                position = astAbstract.jsonAstNode.end;
             }
         }
         return intervals;
     }
+
+    private static getText(astAbstract: AstAbstract, intervals: Interval[]): string {
+        let txt = '';
+        // console.log(chalk.greenBright('ABSTR TXTTTT'), astAbstract.text);
+        for (const interval of intervals) {
+            const firstPos: number = interval[0] - astAbstract.jsonAstNode.pos;
+            const lastPos: number = interval[1] - astAbstract.jsonAstNode.pos + 1;
+            txt = `${txt}${astAbstract.text.slice(firstPos, lastPos)}`;
+        }
+        return txt;
+    }
+
+    private static generateAstClassOrFunctionCodes(astAbstract: AstAbstract, astCode: AstCode): void {
+        for (const astAbs of astAbstract.astAbstracts) {
+            astCode.astClassOrFunctionCodes.push(this.generate(astAbs));
+        }
+    }
+
+    // private static getComplementaryIntervals(fileLength: number, nestedIntervals: Interval[]): Interval[] {
+    //     if (nestedIntervals.length === 0) {
+    //         return [[0, fileLength]];
+    //     }
+    //     nestedIntervals.sort((a, b) => a[0] - b[0]);
+    //     let position = 0;
+    //     let intervals: Interval[] = [];
+    //     while (position < fileLength) {
+    //         const firstInterval: Interval = firstElement(nestedIntervals);
+    //         if (isInInterval(position, firstInterval)) {
+    //             position = firstInterval[1] + 1;
+    //             nestedIntervals.shift();
+    //         } else if (nestedIntervals.length > 0) {
+    //             intervals.push([position, firstInterval[0] - 1]);
+    //             position = firstInterval[1] + 1;
+    //             nestedIntervals.shift();
+    //         } else {
+    //             intervals.push([position, fileLength]);
+    //             position = fileLength;
+    //         }
+    //     }
+    //     return intervals;
+    // }
 
     /**
      * Creates a Code object from the content of a given code (as string)

@@ -12,16 +12,19 @@ export class AstClassService {
         const jsonAstClasses: JsonAstNodeInterface[] = astFile.jsonAstNode.children.filter(c => c.kind === SyntaxKind.ClassDeclaration);
         const astClasses: AstClass[] = [];
         for (const jsonAstClass of jsonAstClasses) {
-            astClasses.push(this.generateAstClass(jsonAstClass));
+            astClasses.push(this.generateAstClass(jsonAstClass, astFile.text));
         }
         return astClasses;
     }
 
-    private static generateAstClass(jsonAstClass: JsonAstNodeInterface): AstClass {
+    private static generateAstClass(jsonAstClass: JsonAstNodeInterface, astFileText: string): AstClass {
         const astClass = new AstClass(jsonAstClass);
         astClass.astFunctions = AstFunctionService.generate(astClass);
         astClass.astArrowFunctions = AstArrowFunctionService.generate(astClass);
-        console.log(chalk.cyanBright('AST CLASSSS = '), astClass);
+        astClass.text = astFileText.slice(jsonAstClass.pos, jsonAstClass.end);
+        // console.log(chalk.cyanBright('AST FILE TXTTTTT = '), astFileText);
+        // console.log(chalk.cyanBright('INTERVALLLL = '), jsonAstClass.pos, jsonAstClass.end);
+        // console.log(chalk.cyanBright('AST CLASSSS = '), astClass.text);
         return astClass;
     }
 
