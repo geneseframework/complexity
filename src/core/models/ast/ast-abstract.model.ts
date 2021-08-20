@@ -50,7 +50,6 @@ export abstract class AstAbstract {
 
     get lines(): AstLine[] {
         return this.astCode?.astLines ?? [];
-        // return this.astCode?.astLines.concat(...this.astCode.linesOutsideClassesAndFunctions) ?? [];
     }
 
     positionInterval(position: number): Interval {

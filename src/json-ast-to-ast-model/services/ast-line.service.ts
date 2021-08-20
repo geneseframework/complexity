@@ -1,9 +1,8 @@
 import { AstCode } from '../../core/models/ast/ast-code.model';
 import { AstAbstract } from '../../core/models/ast/ast-abstract.model';
 import { AstLine } from '../../core/models/ast/ast-line.model';
-import * as chalk from 'chalk';
 import { AstNode } from '../../core/models/ast/ast-node.model';
-import { firstElement, lastElement } from '../../core/utils/arrays.util';
+import { firstElement } from '../../core/utils/arrays.util';
 import { Interval } from '../types/interval.type';
 
 export class AstLineService {
@@ -17,13 +16,11 @@ export class AstLineService {
         let issue = 1;
         const astLines: AstLine[] = [];
         let position: number = astCode.astAbstract.interval[0];
-        // console.log(chalk.yellowBright('NB LINESSSSSS'), textLines.length);
         for (const textLine of textLines) {
             const line = new AstLine();
             line.text = textLine;
             line.issue = issue;
             line.pos = this.getLinePos(position, astCode.astAbstract);
-            // line.pos = position; // TODO : fix for lines after intervals
             line.end = line.pos + textLine.length + 1;
             line.astNodes = this.getAstNodes(astCode.astAbstract, line.pos, line.end);
             issue++;
@@ -45,13 +42,8 @@ export class AstLineService {
 
     private static getLinePos(position: number, astAbstract: AstAbstract): number {
         const posInterval: Interval = astAbstract.positionInterval(position + 1);
-        console.log(chalk.greenBright('GET LINE POSSSS'), astAbstract.kind, astAbstract.name, astAbstract.classesAndFunctionsIntervals, position, posInterval);
-        if (posInterval) {
-            console.log(chalk.green('IS INSIDE INTTTTT !'), position);
-            return posInterval[1] + 1;
-        } else {
-            return position;
-        }
+        // console.log(chalk.greenBright('GET LINE POSSSS'), astAbstract.kind, astAbstract.name, astAbstract.classesAndFunctionsIntervals, position, posInterval);
+        return posInterval ? posInterval[1] + 1 : position;
     }
 
 }

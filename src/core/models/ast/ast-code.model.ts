@@ -32,11 +32,6 @@ export class AstCode {
         return this.start + this.textOutsideClassesAndFunctions?.length ?? 0;
     }
 
-
-    getLine(issue: number): AstLine {
-        return this.astLines.find(l => l.issue === issue);
-    }
-
     logg(): void {
         console.log(chalk.cyanBright('AST CODE '), this.#astAbstract.jsonAstNode.kind, this.#astAbstract.name);
         console.log(chalk.cyanBright('OUTSIDE CODE'), this.textOutsideClassesAndFunctions);

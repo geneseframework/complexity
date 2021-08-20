@@ -4,7 +4,6 @@
 import { AstCode } from '../../core/models/ast/ast-code.model';
 import { Interval, isInInterval } from '../types/interval.type';
 import { AstAbstract } from '../../core/models/ast/ast-abstract.model';
-import * as chalk from 'chalk';
 import { firstElement } from '../../core/utils/arrays.util';
 import { AstLineService } from './ast-line.service';
 
@@ -16,8 +15,6 @@ export class AstCodeService {
         const astCode = new AstCode(astAbstract, text);
         this.generateAstClassOrFunctionCodes(astAbstract, astCode);
         astCode.linesOutsideClassesAndFunctions = AstLineService.generate(astCode);
-        // astCode.logg();
-        // console.log(chalk.magentaBright('AST CODEEEEEEE'), astAbstract.astNode.kind, astCode.astLines);
         return astCode;
     }
 
