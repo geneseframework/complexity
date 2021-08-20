@@ -102,6 +102,7 @@ export class Options {
         Options.generateJsonReport = config.complexity.generateJsonReport === true || Options.generateJsonReport;
         Options.jsonAstPath = config.complexity.jsonAstPath ?? Options.jsonAstPath;
         Options.jsonReportPath = config.complexity.jsonReportPath ?? Options.jsonReportPath;
+        Options.metrics = config.complexity.metrics ?? Options.metrics;
         Options.typing = config.complexity.typing === true || Options.typing;
     }
 

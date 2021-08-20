@@ -1,6 +1,7 @@
 {
     "complexity": {
         "generateJsonAst": true,
-        "jsonAstPath": "/Users/utilisateur/Documents/projets/genese/complexity/ast.json"
+        "jsonAstPath": "/Users/utilisateur/Documents/projets/genese/complexity/ast.json",
+        "metrics": []
     }
 }
