@@ -42,7 +42,7 @@ export class AstCode {
         console.log(chalk.cyanBright('OUTSIDE CODE'), this.textOutsideClassesAndFunctions);
         console.log(chalk.cyanBright('ALL LINES'));
         for (const line of this.astLines) {
-            console.log(chalk.blueBright('-> '), line.text);
+            console.log(chalk.blueBright('-> '), line.text, ' / ', line.pos);
         }
     }
 

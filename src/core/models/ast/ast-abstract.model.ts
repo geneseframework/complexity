@@ -2,7 +2,7 @@ import { AstNode } from './ast-node.model';
 import { AstNodeService } from '../../../json-ast-to-ast-model/services/ast-node.service';
 import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
 import { AstCode } from './ast-code.model';
-import { Interval } from '../../../json-ast-to-ast-model/types/interval.type';
+import { Interval, isInInterval } from '../../../json-ast-to-ast-model/types/interval.type';
 import { AstArrowFunction } from './ast-arrow-function.model';
 import { AstClass } from './ast-class.model';
 import { AstFunction } from './ast-function.model';
@@ -36,6 +36,14 @@ export abstract class AstAbstract {
         return this.astNode.interval;
     }
 
+    get classesAndFunctionsIntervals(): Interval[] {
+        return this.astAbstracts.map(a => a.interval);
+    }
+
+    get kind(): string {
+        return this.astNode.kind;
+    }
+
     get length(): number {
         return this.jsonAstNode.end - this.jsonAstNode.pos ?? 0;
     }
@@ -43,6 +51,10 @@ export abstract class AstAbstract {
     get lines(): AstLine[] {
         return this.astCode?.astLines ?? [];
         // return this.astCode?.astLines.concat(...this.astCode.linesOutsideClassesAndFunctions) ?? [];
+    }
+
+    positionInterval(position: number): Interval {
+        return this.classesAndFunctionsIntervals.find(i => isInInterval(position, i));
     }
 
     private setAstNode(): void {

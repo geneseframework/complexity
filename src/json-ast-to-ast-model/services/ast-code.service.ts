@@ -16,7 +16,7 @@ export class AstCodeService {
         const astCode = new AstCode(astAbstract, text);
         this.generateAstClassOrFunctionCodes(astAbstract, astCode);
         astCode.linesOutsideClassesAndFunctions = AstLineService.generate(astCode);
-        astCode.logg();
+        // astCode.logg();
         // console.log(chalk.magentaBright('AST CODEEEEEEE'), astAbstract.astNode.kind, astCode.astLines);
         return astCode;
     }
