@@ -32,7 +32,7 @@ export class ReportFolderService {
     }
 
     private static addReportFile(astFile: JsonAstFileInterface, reportFolder: ReportFolder): void {
-        const reportFile = new ReportFile(astFile.name, astFile.text);
+        const reportFile = new ReportFile(astFile.name, astFile.text, astFile.text);
         EvaluationService.start(astFile.astNode, reportFile);
         reportFolder.files.push(reportFile);
     }

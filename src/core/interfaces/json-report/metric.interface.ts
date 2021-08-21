@@ -1,7 +1,9 @@
 export interface MetricInterface {
 
-    methodsHighThreshold: number;
-    methodsMediumThreshold: number;
+    folderPath?: string;
+    id: string;
+    methodsHighThreshold?: number;
+    methodsMediumThreshold?: number;
     name: string;
 
 }
