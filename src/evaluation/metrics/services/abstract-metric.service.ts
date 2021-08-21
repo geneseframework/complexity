@@ -1,9 +1,8 @@
-import { AstModel } from '../../../core/models/ast/ast.model';
-import { AstFolder } from '../../../core/models/ast/ast-folder.model';
-import { ReportModel } from '../../../core/models/report/report.model';
+import { AstFile } from '../../../core/models/ast/ast-file.model';
+import { ReportFile } from '../../../core/models/report/report-file.model';
 
 export abstract class AbstractMetricService {
 
-    abstract evaluate(astFolder: AstFolder, reportModel: ReportModel): void;
+    abstract evaluate(astFile: AstFile, reportFile: ReportFile): void;
 
 }
