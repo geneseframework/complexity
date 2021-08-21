@@ -4,6 +4,7 @@ import * as chalk from 'chalk';
 import { Metric } from '../core/models/report/metric.model';
 import { ReportModel } from '../core/models/report/report.model';
 import { METRIC_SERVICES } from './metrics/const/metrics-list.const';
+import { AstFolder } from '../core/models/ast/ast-folder.model';
 
 export class EvaluationService {
 
@@ -11,15 +12,15 @@ export class EvaluationService {
         // console.log(chalk.magentaBright('EVAL SERVICEEEEE'), astModel);
         const reportModel = new ReportModel(astModel.metrics);
         for (const metric of reportModel.metrics) {
-            this.evaluateForMetric(astModel, metric);
+            this.evaluateForMetric(astModel.astFolder, reportModel, metric);
         }
         return reportModel;
     }
 
-    private static evaluateForMetric(astModel: AstModel, metric: Metric): void {
+    private static evaluateForMetric(astFolder: AstFolder, reportModel: ReportModel, metric: Metric): void {
         try {
             console.log(chalk.cyanBright('EVAL METRICCCC'), metric);
-            METRIC_SERVICES[metric.id].evaluate(astModel);
+            METRIC_SERVICES[metric.id].evaluate(astFolder, reportModel);
         } catch (err) {
             console.log(chalk.redBright('METRIC NOT FOUND'), err);
         }
