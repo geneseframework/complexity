@@ -14,6 +14,6 @@ export class Metric implements MetricInterface {
         this.name = metricInterface.name;
         this.methodsHighThreshold = metricInterface.methodsHighThreshold ?? 0;
         this.methodsMediumThreshold = metricInterface.methodsMediumThreshold ?? 0;
-        this.folderPath = metricInterface.folderPath ?? `${Options.pathCommand}/evaluation/metrics/${metricInterface.id}`;
+        this.folderPath = metricInterface.folderPath ?? `${Options.pathCommand}/src/evaluation/metrics/${metricInterface.id}.metric.ts`;
     }
 }

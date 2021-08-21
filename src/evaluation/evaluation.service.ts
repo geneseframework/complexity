@@ -3,22 +3,25 @@ import { AstModel } from '../core/models/ast/ast.model';
 import * as chalk from 'chalk';
 import { Metric } from '../core/models/report/metric.model';
 import { ReportModel } from '../core/models/report/report.model';
+import { METRIC_SERVICES } from './metrics/const/metrics-list.const';
 
 export class EvaluationService {
 
     static evaluate(astModel: AstModel): JsonReportInterface {
-        console.log(chalk.magentaBright('EVAL SERVICEEEEE'), astModel);
+        // console.log(chalk.magentaBright('EVAL SERVICEEEEE'), astModel);
         const reportModel = new ReportModel(astModel.metrics);
         for (const metric of reportModel.metrics) {
-            this.evaluateForMetric(metric);
+            this.evaluateForMetric(astModel, metric);
         }
-        const jsonReport: JsonReportInterface = reportModel;
-        console.log(chalk.magentaBright('EVAL SERVICEEEEE JSONREPORTTTTT'), jsonReport);
-        return jsonReport;
+        return reportModel;
     }
 
-    private static evaluateForMetric(metric: Metric): void {
-        console.log(chalk.cyanBright('EVAL SERVICEEEEE'), metric);
-
+    private static evaluateForMetric(astModel: AstModel, metric: Metric): void {
+        try {
+            console.log(chalk.cyanBright('EVAL METRICCCC'), metric);
+            METRIC_SERVICES[metric.id].evaluate(astModel);
+        } catch (err) {
+            console.log(chalk.redBright('METRIC NOT FOUND'), err);
+        }
     }
 }

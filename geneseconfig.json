@@ -2,6 +2,9 @@
     "complexity": {
         "generateJsonAst": true,
         "jsonAstPath": "/Users/utilisateur/Documents/projets/genese/complexity/ast.json",
-        "metrics": []
+        "metrics": [{
+            "id": "loc",
+            "name": "LOC"
+        }]
     }
 }
