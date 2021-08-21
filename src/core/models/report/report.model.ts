@@ -14,7 +14,7 @@ export class ReportModel implements JsonReportInterface {
 
     private setMetrics(metrics: MetricInterface[]): void {
         for (const metric of metrics) {
-            this.metrics.push(new Metric(metric.methodsHighThreshold, metric.methodsMediumThreshold, metric.name));
+            this.metrics.push(new Metric(metric));
         }
     }
 }

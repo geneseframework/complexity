@@ -34,7 +34,7 @@ export async function startDebug(): Promise<number> {
     // console.log(chalk.magentaBright('JSON ASTTTT'), jsonAst);
     console.log(chalk.yellowBright('Ast model generation...'), Options.generateJsonReport);
     const astModel: AstModel = AstModelService.generate(jsonAst);
-    console.log(chalk.yellowBright('Evaluation for each metric...'), Options.generateJsonReport, astModel);
+    console.log(chalk.yellowBright('Evaluation for each metric...'), Options.generateJsonReport);
     const jsonReport: JsonReportInterface = Options.generateJsonReport ? EvaluationService.evaluate(astModel) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('Json Report generation...'), Options.generateJsonReport);
     const reportModel: ReportModel = Options.generateJsonReport ? await ReportModelCreationService.start(jsonReport) : require(Options.jsonReportPath);
