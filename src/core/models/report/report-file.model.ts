@@ -1,10 +1,14 @@
 import { JsonReportFileInterface } from '../../interfaces/json-report/json-report-file.interface';
 import { ReportMethod } from './report-method.model';
 import { AstNode } from '../../../html-generation/models/ast/ast-node.model';
+import { AstCode } from '../ast/ast-code.model';
+import { ReportLine } from './report-line.model';
 
 export class ReportFile implements JsonReportFileInterface {
 
+    // code: AstCode = undefined;
     fileName: string = undefined;
+    lines: ReportLine[] = [];
     metricName: string = undefined;
     node: AstNode = undefined;
     reportMethods: ReportMethod[] = [];
