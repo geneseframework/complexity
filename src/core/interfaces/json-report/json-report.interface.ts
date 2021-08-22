@@ -1,4 +1,4 @@
-import { ReportMetric } from '../../models/report/report-metric.model';
+import { ReportMetric } from '../../../report/models/report-metric.model';
 
 export interface JsonReportInterface {
 

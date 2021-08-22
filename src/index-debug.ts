@@ -13,7 +13,7 @@ import { JsonReportInterface } from './core/interfaces/json-report/json-report.i
 import { AstModel } from './json-ast-to-ast-model/models/ast.model';
 import { AstModelService } from './json-ast-to-ast-model/services/ast-model.service';
 import { EvaluationService } from './evaluation/evaluation.service';
-import { ReportModel } from './core/models/report/report.model';
+import { ReportModel } from './report/models/report.model';
 
 const ARGS: string[] = process.argv.slice(2);
 const LANGUAGE = ARGS[1] ?? 'ts';

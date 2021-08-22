@@ -1,8 +1,8 @@
 import { AbstractMetricService } from '../services/abstract-metric.service';
 import { AstFile } from '../../../json-ast-to-ast-model/models/ast-file.model';
 import { AstLine } from '../../../json-ast-to-ast-model/models/ast-line.model';
-import { ReportSnippet } from '../../../core/models/report/report-snippet.model';
-import { ReportLine } from '../../../core/models/report/report-line.model';
+import { ReportSnippet } from '../../../report/models/report-snippet.model';
+import { ReportLine } from '../../../report/models/report-line.model';
 import * as chalk from 'chalk';
 
 export class LocService extends AbstractMetricService {

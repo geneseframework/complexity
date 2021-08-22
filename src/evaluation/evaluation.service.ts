@@ -1,14 +1,13 @@
 import { JsonReportInterface } from '../core/interfaces/json-report/json-report.interface';
 import { AstModel } from '../json-ast-to-ast-model/models/ast.model';
 import * as chalk from 'chalk';
-import { Metric } from '../core/models/report/metric.model';
-import { ReportModel } from '../core/models/report/report.model';
+import { Metric } from '../core/models/metric.model';
+import { ReportModel } from '../report/models/report.model';
 import { METRIC_SERVICES } from './metrics/const/metrics-list.const';
-import { AstFolder } from '../json-ast-to-ast-model/models/ast-folder.model';
 import { AstFile } from '../json-ast-to-ast-model/models/ast-file.model';
-import { ReportSnippet } from '../core/models/report/report-snippet.model';
+import { ReportSnippet } from '../report/models/report-snippet.model';
 import { AstMetric } from '../json-ast-to-ast-model/models/ast-metric.model';
-import { ReportMetric } from '../core/models/report/report-metric.model';
+import { ReportMetric } from '../report/models/report-metric.model';
 
 export class EvaluationService {
 

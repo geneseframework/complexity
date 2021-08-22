@@ -1,5 +1,5 @@
-import { MetricInterface } from '../../interfaces/json-report/metric.interface';
-import { Options } from '../options.model';
+import { MetricInterface } from '../interfaces/json-report/metric.interface';
+import { Options } from './options.model';
 
 export class Metric implements MetricInterface {
 

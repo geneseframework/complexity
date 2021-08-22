@@ -1,4 +1,4 @@
-import { JsonReportLineInterface } from '../../interfaces/json-report/json-report-line.interface';
+import { JsonReportLineInterface } from '../../core/interfaces/json-report/json-report-line.interface';
 
 export class ReportLine implements JsonReportLineInterface {
 

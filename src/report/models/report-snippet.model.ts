@@ -1,4 +1,4 @@
-import { JsonReportSnippetInterface } from '../../interfaces/json-report/json-report-snippet.interface';
+import { JsonReportSnippetInterface } from '../../core/interfaces/json-report/json-report-snippet.interface';
 import { ReportLine } from './report-line.model';
 
 export class ReportSnippet implements JsonReportSnippetInterface {
