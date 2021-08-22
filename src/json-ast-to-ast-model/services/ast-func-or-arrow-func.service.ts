@@ -1,6 +1,6 @@
 import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
-import { AstFunction } from '../../core/models/ast/ast-function.model';
-import { AstArrowFunction } from '../../core/models/ast/ast-arrow-function.model';
+import { AstFunction } from '../models/ast-function.model';
+import { AstArrowFunction } from '../models/ast-arrow-function.model';
 import { AstFunctionService } from './ast-function.service';
 import { AstArrowFunctionService } from './ast-arrow-function.service';
 

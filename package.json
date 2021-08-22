@@ -1,9 +1,9 @@
 {
-    "name": "@genese/complexity",
-    "version": "1.2.0",
-    "description": "Analyzes cognitive complexity of source code. Part of the @genese tool suite.",
+    "name": "@genese/metrics",
+    "version": "0.0.1",
+    "description": "Analyzes complexity of source code for multiple metrics. Part of the @genese tool suite.",
     "scripts": {
-        "build": "tsc && cp -r src/html-generation/templates dist/src/json-ast-to-reports/templates && cp -r src/core/chartjs dist/src/core/chartjs",
+        "build": "rm -rf report && tsc && mkdir -p report && cp -r src/report-generation/templates report/templates && cp src/core/chartjs/Chart.js report",
         "start": "npm run build && node dist/src/index.js",
         "publish_package": "npm run build && npm publish",
         "republish_package": "npm run build && npm unpublish -f && npm publish"

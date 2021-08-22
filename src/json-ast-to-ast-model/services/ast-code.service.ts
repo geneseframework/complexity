@@ -1,9 +1,9 @@
 /**
  * Service managing Code objects
  */
-import { AstCode } from '../../core/models/ast/ast-code.model';
+import { AstCode } from '../models/ast-code.model';
 import { Interval, isInInterval } from '../types/interval.type';
-import { AstAbstract } from '../../core/models/ast/ast-abstract.model';
+import { AstAbstract } from '../models/ast-abstract.model';
 import { firstElement } from '../../core/utils/arrays.util';
 import { AstLineService } from './ast-line.service';
 

@@ -7,13 +7,13 @@ import { Language } from './core/enum/language.enum';
 import { JsonAstCreationService } from './json-ast-creation/json-ast-creation.service';
 import { Framework } from './core/types/framework.type';
 import { HtmlGenerationService } from './html-generation/html-generation.service';
-import { ReportService } from './report/report.service';
+import { ReportService } from './report-generation/report.service';
 import { JsonAstInterface } from './core/interfaces/json-ast/json-ast.interface';
 import { JsonReportInterface } from './core/interfaces/json-report/json-report.interface';
-import { AstModel } from './core/models/ast/ast.model';
+import { AstModel } from './json-ast-to-ast-model/models/ast.model';
 import { AstModelService } from './json-ast-to-ast-model/services/ast-model.service';
 import { EvaluationService } from './evaluation/evaluation.service';
-import { ReportModel } from './core/models/report/report.model';
+import { ReportModel } from './report-generation/models/report.model';
 
 const ARGS: string[] = process.argv.slice(2);
 const LANGUAGE = ARGS[1] ?? 'ts';
@@ -40,8 +40,9 @@ export async function startDebug(): Promise<number> {
     const reportModel: ReportModel = Options.generateJsonReport ? await ReportService.start(jsonReport) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('HTML report generation...'));
     // const reportResult = HtmlGenerationService.start(reportModel, Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
-    const reportResult = HtmlGenerationService.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
-    return logResults(reportResult);
+    // const reportResult = HtmlGenerationService.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
+    // return logResults(reportResult);
+    return undefined;
 }
 
 function logReport(reportResult: any[]): number {

@@ -10,6 +10,7 @@ import {
 import { Options } from '../../../core/models/options.model';
 import { FileReport } from '../../models/report/file-report.model';
 import { AstFolder } from '../../models/ast/ast-folder.model';
+import * as chalk from 'chalk';
 
 /**
  * Service generating files reports

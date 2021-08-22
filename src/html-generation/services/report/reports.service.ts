@@ -90,12 +90,12 @@ export class ReportsService {
      * Copy the css files, prism.js and chart.js to a subfolder of the outDir
      */
     private static createStyleFiles(): void {
-        createRelativeDir('reports-styles');
-        copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/report.css`, `${Options.pathOutDir}/reports-styles/report.css`);
-        copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/styles.css`, `${Options.pathOutDir}/reports-styles/styles.css`);
-        copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/prettify.css`, `${Options.pathOutDir}/reports-styles/prettify.css`);
-        copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/prism.css`, `${Options.pathOutDir}/reports-styles/prism.css`);
-        copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/prism.js`, `${Options.pathOutDir}/reports-styles/prism.js`);
-        copyFile(`${Options.pathGeneseNodeJs}/core/chartjs/Chart.js`, `${Options.pathOutDir}/reports-styles/Chart.js`);
+        // createRelativeDir('reports-styles');
+        // copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/report.css`, `${Options.pathOutDir}/reports-styles/report.css`);
+        // copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/styles.css`, `${Options.pathOutDir}/reports-styles/styles.css`);
+        // copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/prettify.css`, `${Options.pathOutDir}/reports-styles/prettify.css`);
+        // copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/prism.css`, `${Options.pathOutDir}/reports-styles/prism.css`);
+        // copyFile(`${Options.pathGeneseNodeJs}/json-ast-to-reports/templates/styles/prism.js`, `${Options.pathOutDir}/reports-styles/prism.js`);
+        // copyFile(`${Options.pathGeneseNodeJs}/core/chartjs/Chart.js`, `${Options.pathOutDir}/reports-styles/Chart.js`);
     }
 }

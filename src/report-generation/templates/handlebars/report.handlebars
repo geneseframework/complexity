@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Genese metrics report</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./templates/styles/prettify.css" />
+    <link rel="stylesheet" href="./templates/styles/report.css" />
+    <link rel="stylesheet" href="./templates/styles/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<!--        -------------------------------------------------------------------------------------->
+<!--        ---------------------------------------   Header   ----------------------------------->
+<!--        -------------------------------------------------------------------------------------->
+
+
+<div class="header">
+    <div class="header-left">
+        <div>
+            <h1>Genese metrics report</h1>
+        </div>
+        <div class="pad1y">
+            {{stats.subject}}
+        </div>
+        <div class="clearfix">
+            <div class='fl pad1y space-right2'>
+                <span>Files : </span>
+                <span class="strong">{{stats.numberOfCodeSnippets}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="header-right">
+    </div>
+</div>
+
+<!--        -------------------------------------------------------------------------------------->
+<!--        -----------------------------------   Stats and charts   ----------------------------->
+<!--        -------------------------------------------------------------------------------------->
+
+<div class="mainContainer">
+    <div class="stats-and-charts">
+        <div class="stats-cognitive">
+            <div class="stats-and-doughnut stats-and-doughnut-cognitive">
+                <div class="doughnut">
+                    <canvas id="doughnut-cognitive-cpx" height="220"></canvas>
+                </div>
+                <div class="stats">
+                    <div class="clearfix">
+                        <div class='fl pad1y space-right2'>
+                            <span class="strong">Metric name</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bar bar-cognitive">
+                <canvas id="bar-cognitive-cpx" class="cognitive-charts"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!--        -------------------------------------------------------------------------------------->
+    <!--        -----------------------------------   Report arrays   -------------------------------->
+    <!--        -------------------------------------------------------------------------------------->
+
+
+    <div class="subfolders">
+        <div class="clearfix cognitive-subtitle">
+            <div class='fl pad1y space-right2'>
+                <span class="strong">Files <span class="italic">{{stats.subject}}</span></span>
+            </div>
+        </div>
+        <table class="array-report short-table">
+            <thead>
+            <tr>
+                <th style="width: 80%;">File</th>
+                {{#each metricNames}}
+                    <th style="width: 10%;">{{this}}</th>
+                {{/each}}
+            </tr>
+            </thead>
+            {{#each rowSnippets}}
+                {{>rowSnippet rowSnippet=.}}
+            {{/each}}
+        </table>
+    </div>
+
+
+    <!--        -------------------------------------------------------------------------------------->
+    <!--        -----------------------------------   Code snippets   -------------------------------->
+    <!--        -------------------------------------------------------------------------------------->
+
+
+    <div idclass="subfolders">
+        <div class="clearfix file-methods-subtitle">
+            <div class='fl pad1y space-right2'>
+                <span id="spanDisplayMethodsArray" class="strong">Code snippets</span>
+            </div>
+        </div>
+
+        <div id="methodsArray">
+            {{#each codeSnippets}}
+                {{>divCode divCode=.}}
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+
+<!--        -------------------------------------------------------------------------------------->
+<!--        -----------------------------------   Scripts-----   --------------------------------->
+<!--        -------------------------------------------------------------------------------------->
+
+
+
+<script src="./{{relativeRootReports}}/reports-styles/Chart.js"></script>
+
+</body>
+
+</html>
