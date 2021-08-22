@@ -6,8 +6,7 @@ import { ReportModel } from '../core/models/report/report.model';
 import { METRIC_SERVICES } from './metrics/const/metrics-list.const';
 import { AstFolder } from '../core/models/ast/ast-folder.model';
 import { AstFile } from '../core/models/ast/ast-file.model';
-import { ReportFolder } from '../core/models/report/report-folder.model';
-import { ReportFile } from '../core/models/report/report-file.model';
+import { ReportSnippet } from '../core/models/report/report-snippet.model';
 
 export class EvaluationService {
 
@@ -21,19 +20,18 @@ export class EvaluationService {
 
     private static evaluateAstFolderForMetric(astFolder: AstFolder, reportModel: ReportModel, metric: Metric): void {
         try {
-            reportModel.folder = new ReportFolder(astFolder.path);
             for (const astFile of astFolder.astFiles) {
-                const reportFile = new ReportFile(astFile.name, astFile.code, metric.name);
-                this.evaluateAstFileForMetric(astFile, reportFile, metric);
-                console.log(chalk.greenBright('REPORT FILE'), reportFile);
-                reportModel.folder.files.push(reportFile);
+                const reportSnippet = new ReportSnippet(astFile.name, astFile.code, metric.name);
+                this.evaluateAstFileForMetric(astFile, reportSnippet, metric);
+                console.log(chalk.greenBright('REPORT SNIPPET'), reportSnippet);
+                reportModel.codeSnippets.push(reportSnippet);
             }
         } catch (err) {
             console.log(chalk.redBright('METRIC NOT FOUND'), err);
         }
     }
 
-    private static evaluateAstFileForMetric(astFile: AstFile, reportFile: ReportFile, metric: Metric): void {
+    private static evaluateAstFileForMetric(astFile: AstFile, reportFile: ReportSnippet, metric: Metric): void {
         METRIC_SERVICES[metric.id].evaluate(astFile, reportFile);
     }
 }

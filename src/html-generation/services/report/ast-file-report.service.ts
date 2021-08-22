@@ -49,8 +49,6 @@ export class AstFileReportService {
      */
     generateReport(): void {
         this.methodReports = this.getMethodsArray();
-        // TODO: Adapt the code of ExportService to this project
-        // ExportService.addRows(this.methodReports, this.astFile);
         this.relativeRootReports = getRouteToRoot(this.astFile.astFolder?.relativePath);
         this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
         this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');

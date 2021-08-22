@@ -1,12 +1,13 @@
 import { AbstractMetricService } from '../services/abstract-metric.service';
 import { AstFile } from '../../../core/models/ast/ast-file.model';
 import { AstLine } from '../../../core/models/ast/ast-line.model';
-import { ReportFile } from '../../../core/models/report/report-file.model';
+import { ReportSnippet } from '../../../core/models/report/report-snippet.model';
 import { ReportLine } from '../../../core/models/report/report-line.model';
+import * as chalk from 'chalk';
 
 export class LocService extends AbstractMetricService {
 
-    evaluate(astFile: AstFile, reportFile: ReportFile): void {
+    evaluate(astFile: AstFile, reportFile: ReportSnippet): void {
         const astLines: AstLine[] = astFile.astCode.astLines;
         for (let i = 0; i < astLines.length; i++) {
             const reportLine = new ReportLine(i, astLines[i].text);
