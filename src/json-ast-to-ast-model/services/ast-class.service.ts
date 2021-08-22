@@ -1,5 +1,5 @@
-import { AstFile } from '../../core/models/ast/ast-file.model';
-import { AstClass } from '../../core/models/ast/ast-class.model';
+import { AstFile } from '../models/ast-file.model';
+import { AstClass } from '../models/ast-class.model';
 import { SyntaxKind } from '../../core/enum/syntax-kind.enum';
 import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
 import { AstFunctionService } from './ast-function.service';

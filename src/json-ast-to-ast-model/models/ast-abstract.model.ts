@@ -1,8 +1,8 @@
 import { AstNode } from './ast-node.model';
-import { AstNodeService } from '../../../json-ast-to-ast-model/services/ast-node.service';
-import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
+import { AstNodeService } from '../services/ast-node.service';
+import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
 import { AstCode } from './ast-code.model';
-import { Interval, isInInterval } from '../../../json-ast-to-ast-model/types/interval.type';
+import { Interval, isInInterval } from '../types/interval.type';
 import { AstArrowFunction } from './ast-arrow-function.model';
 import { AstClass } from './ast-class.model';
 import { AstFunction } from './ast-function.model';

@@ -1,4 +1,4 @@
-import { JsonAstFolderInterface } from '../../interfaces/json-ast/json-ast-folder.interface';
+import { JsonAstFolderInterface } from '../../core/interfaces/json-ast/json-ast-folder.interface';
 import { AstFile } from './ast-file.model';
 
 export class AstFolder {

@@ -1,7 +1,7 @@
 /**
  * A line of a Code object
  */
-import { AstNode } from '../ast/ast-node.model';
+import { AstNode } from './ast-node.model';
 
 export class AstLine {
 

@@ -1,4 +1,4 @@
-import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
+import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
 import { AstAbstract } from './ast-abstract.model';
 import { AstFunction } from './ast-function.model';
 import { AstArrowFunction } from './ast-arrow-function.model';

@@ -1,6 +1,6 @@
-import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
-import { AstNodeService } from '../../../json-ast-to-ast-model/services/ast-node.service';
-import { Interval } from '../../../json-ast-to-ast-model/types/interval.type';
+import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
+import { AstNodeService } from '../services/ast-node.service';
+import { Interval } from '../types/interval.type';
 
 export class AstNode {
 

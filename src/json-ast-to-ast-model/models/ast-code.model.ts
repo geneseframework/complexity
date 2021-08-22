@@ -1,5 +1,5 @@
 import { AstLine } from './ast-line.model';
-import { flat } from '../../utils/arrays.util';
+import { flat } from '../../core/utils/arrays.util';
 import { AstAbstract } from './ast-abstract.model';
 import * as chalk from 'chalk';
 

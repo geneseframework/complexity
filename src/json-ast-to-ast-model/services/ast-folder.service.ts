@@ -1,5 +1,5 @@
 import { JsonAstFolderInterface } from '../../core/interfaces/json-ast/json-ast-folder.interface';
-import { AstFolder } from '../../core/models/ast/ast-folder.model';
+import { AstFolder } from '../models/ast-folder.model';
 import { JsonAstFileInterface } from '../../core/interfaces/json-ast/json-ast-file.interface';
 import { AstFileService } from './ast-file.service';
 import * as chalk from 'chalk';

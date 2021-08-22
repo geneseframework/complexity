@@ -1,9 +1,7 @@
-import { MetricInterface } from './metric.interface';
-import { JsonReportSnippetInterface } from './json-report-snippet.interface';
+import { ReportMetric } from '../../models/report/report-metric.model';
 
 export interface JsonReportInterface {
 
-    codeSnippets: JsonReportSnippetInterface[];
-    metrics?: MetricInterface[];
+    reportMetrics: ReportMetric[];
 
 }

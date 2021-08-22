@@ -1,30 +1,34 @@
 import { JsonReportInterface } from '../core/interfaces/json-report/json-report.interface';
-import { AstModel } from '../core/models/ast/ast.model';
+import { AstModel } from '../json-ast-to-ast-model/models/ast.model';
 import * as chalk from 'chalk';
 import { Metric } from '../core/models/report/metric.model';
 import { ReportModel } from '../core/models/report/report.model';
 import { METRIC_SERVICES } from './metrics/const/metrics-list.const';
-import { AstFolder } from '../core/models/ast/ast-folder.model';
-import { AstFile } from '../core/models/ast/ast-file.model';
+import { AstFolder } from '../json-ast-to-ast-model/models/ast-folder.model';
+import { AstFile } from '../json-ast-to-ast-model/models/ast-file.model';
 import { ReportSnippet } from '../core/models/report/report-snippet.model';
+import { AstMetric } from '../json-ast-to-ast-model/models/ast-metric.model';
+import { ReportMetric } from '../core/models/report/report-metric.model';
 
 export class EvaluationService {
 
     static evaluate(astModel: AstModel): JsonReportInterface {
-        const reportModel = new ReportModel(astModel.metrics);
-        for (const metric of reportModel.metrics) {
-            this.evaluateAstFolderForMetric(astModel.astFolder, reportModel, metric);
+        const reportModel = new ReportModel();
+        for (const astMetric of astModel.astMetrics) {
+            this.evaluateAstMetric(reportModel, astMetric);
         }
         return reportModel;
     }
 
-    private static evaluateAstFolderForMetric(astFolder: AstFolder, reportModel: ReportModel, metric: Metric): void {
+    private static evaluateAstMetric(reportModel: ReportModel, astMetric: AstMetric): void {
         try {
-            for (const astFile of astFolder.astFiles) {
-                const reportSnippet = new ReportSnippet(astFile.name, astFile.code, metric.name);
-                this.evaluateAstFileForMetric(astFile, reportSnippet, metric);
+            const reportMetric = new ReportMetric(astMetric.metric.name);
+            for (const astFile of astMetric.astFiles) {
+                const reportSnippet = new ReportSnippet(astFile.name, astFile.code, astMetric.metric?.name);
+                this.evaluateAstFileForMetric(astFile, reportSnippet, astMetric.metric);
                 console.log(chalk.greenBright('REPORT SNIPPET'), reportSnippet);
-                reportModel.codeSnippets.push(reportSnippet);
+                reportMetric.reportSnippets.push(reportSnippet);
+                reportModel.reportMetrics.push(reportMetric);
             }
         } catch (err) {
             console.log(chalk.redBright('METRIC NOT FOUND'), err);

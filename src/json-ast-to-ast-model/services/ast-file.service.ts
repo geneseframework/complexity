@@ -1,5 +1,5 @@
 import { JsonAstFileInterface } from '../../core/interfaces/json-ast/json-ast-file.interface';
-import { AstFile } from '../../core/models/ast/ast-file.model';
+import { AstFile } from '../models/ast-file.model';
 import { AstClassService } from './ast-class.service';
 import { AstFunctionService } from './ast-function.service';
 import { AstArrowFunctionService } from './ast-arrow-function.service';

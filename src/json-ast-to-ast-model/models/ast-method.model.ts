@@ -1,5 +1,5 @@
 import { AstNode } from './ast-node.model';
-import { JsonAstNodeInterface } from '../../interfaces/json-ast/json-ast-node.interface';
+import { JsonAstNodeInterface } from '../../core/interfaces/json-ast/json-ast-node.interface';
 
 export class AstMethod {
 

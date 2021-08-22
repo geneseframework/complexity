@@ -1,4 +1,4 @@
-import { JsonAstFileInterface } from '../../interfaces/json-ast/json-ast-file.interface';
+import { JsonAstFileInterface } from '../../core/interfaces/json-ast/json-ast-file.interface';
 import { AstAbstract } from './ast-abstract.model';
 
 export class AstFile extends AstAbstract {

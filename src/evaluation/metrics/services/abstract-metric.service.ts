@@ -1,4 +1,4 @@
-import { AstFile } from '../../../core/models/ast/ast-file.model';
+import { AstFile } from '../../../json-ast-to-ast-model/models/ast-file.model';
 import { ReportSnippet } from '../../../core/models/report/report-snippet.model';
 
 export abstract class AbstractMetricService {

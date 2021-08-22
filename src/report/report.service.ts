@@ -15,28 +15,21 @@ import * as Handlebars from 'handlebars';
 export class ReportService {
 
     static async start(jsonReport: JsonReportInterface): Promise<any> {
-        console.log(chalk.greenBright('JSON REPORTTTTT '), jsonReport);
-        return undefined;
+        console.log(chalk.greenBright('JSON REPORTTTTT '), jsonReport.reportMetrics[0].reportSnippets);
+        let report: MethodReport[] = [];
+        for (const reportMetric of jsonReport.reportMetrics) {
+            // const methodReport: MethodReport = {
+            //     code: reportMetric.displayedCode?.text,
+            //     cognitiveColor: reportMetric.cognitiveLevel,
+            //     cpxIndex: reportMetric.cpxIndex,
+            //     cyclomaticColor: reportMetric.cyclomaticLevel,
+            //     cyclomaticValue: reportMetric.cyclomaticCpx,
+            //     name: reportMetric.name,
+            // };
+            // report.push(methodReport);
+        }
+        return report;
     }
-
-    /**
-     * Returns the array of methods with their analysis
-     */
-    // getMethodsArray(): MethodReport[] {
-    //     let report: MethodReport[] = [];
-    //     for (const method of this.astFile.astMethods) {
-    //         const methodReport: MethodReport = {
-    //             code: method.displayedCode?.text,
-    //             cognitiveColor: method.cognitiveLevel,
-    //             cpxIndex: method.cpxIndex,
-    //             cyclomaticColor: method.cyclomaticLevel,
-    //             cyclomaticValue: method.cyclomaticCpx,
-    //             name: method.name,
-    //         };
-    //         report.push(methodReport);
-    //     }
-    //     return report;
-    // }
 
     /**
      * Generates the file's report
