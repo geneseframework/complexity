@@ -2,7 +2,7 @@ import { InitService } from './services/init.service';
 import { JsonAst } from './models/ast/json-ast.model';
 import { ReportsService } from './services/report/reports.service';
 import { AstFolder } from './models/ast/ast-folder.model';
-import * as terminalLink from 'terminal-link';
+import terminalLink = require('terminal-link');
 
 
 /**
@@ -19,29 +19,10 @@ export class HtmlGenerationService {
      * @param markdown          // True if the user wants to get a report on markdown format
      * @param consoleMode       // True if the user wants to get a report on the console
      */
-    // static start(pathCommand: string, markdown: boolean, consoleMode: boolean, jsonAstPath = '/ast.json'): any {
-    //     let result = undefined;
-    //     const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(StartHtmlGenerationService.getJsonAst(pathCommand + jsonAstPath));
-    //     // jsonAst.astFolder.evaluate();
-    //     // const jsonReport: JsonReport = EvaluationService.createJsonReport();
-    //     if(markdown){
-    //         ReportsService.generateMarkdownReports(jsonReport)
-    //     } else if (consoleMode) {
-    //         result = ReportsService.generateConsoleReports(jsonReport)
-    //     } else {
-    //         ReportsService.generateAllReports(jsonReport)
-    //         const link = terminalLink('folderPath-report.html', `file://${pathCommand}/genese/complexity/reports/folder-report.html`);
-    //         result = `Please open in your browser the file ${link} located in your genese reports folder.`
-    //     }
-    //     this.astFolder = jsonAst.astFolder;
-    //     return result;
-    // }
-
     static start(pathCommand: string, markdown: boolean, consoleMode: boolean, jsonAstPath = '/ast.json'): any {
         let result = undefined;
         const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(HtmlGenerationService.getJsonAst(pathCommand + jsonAstPath));
         jsonAst.astFolder.evaluate();
-        // const jsonReport: JsonReport = EvaluationService.createJsonReport();
         if(markdown){
             ReportsService.generateMarkdownReports(jsonAst)
         } else if (consoleMode) {

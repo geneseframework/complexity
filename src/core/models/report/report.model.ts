@@ -1,11 +1,11 @@
 import { JsonReportInterface } from '../../interfaces/json-report/json-report.interface';
 import { MetricInterface } from '../../interfaces/json-report/metric.interface';
-import { ReportFolder } from './report-folder.model';
 import { Metric } from './metric.model';
+import { ReportSnippet } from './report-snippet.model';
 
 export class ReportModel implements JsonReportInterface {
 
-    folder: ReportFolder = undefined;
+    codeSnippets: ReportSnippet[] = [];
     metrics: Metric[] = [];
 
     constructor(metrics: MetricInterface[]) {

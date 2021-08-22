@@ -1,10 +1,11 @@
 import { JsonReportLineInterface } from './json-report-line.interface';
 
-export interface JsonReportMethodInterface {
+export interface JsonReportSnippetInterface {
 
+    name: string;
     lines: JsonReportLineInterface[];
-    methodName: string;
+    measure?: number;
     metricName: string;
-    score: number;
+    score?: number;
 
 }
