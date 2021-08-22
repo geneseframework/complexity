@@ -1,0 +1,8 @@
+{{#with rowSnippet}}
+    <tr>
+        <td><a href="{{linkFile}}">{{fileName}}</a></td>
+        {{#each scores}}
+            <td class="center">{{this}}</td>
+        {{/each}}
+    </tr>
+{{/with}}

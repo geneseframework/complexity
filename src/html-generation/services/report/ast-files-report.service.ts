@@ -50,7 +50,6 @@ export class AstFilesReportService {
     generateReport(): void {
         this.fileReports = this.getFilesArray();
         this.relativeRootReports = getRouteToRoot(this.astFolder?.relativePath);
-        console.log(chalk.redBright('ZZZZZZ'));
         this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
         this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');
         this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');

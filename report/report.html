@@ -23,12 +23,12 @@
             <h1>Genese metrics report</h1>
         </div>
         <div class="pad1y">
-            {{stats.subject}}
+            
         </div>
         <div class="clearfix">
             <div class='fl pad1y space-right2'>
                 <span>Files : </span>
-                <span class="strong">{{stats.numberOfCodeSnippets}}</span>
+                <span class="strong"></span>
             </div>
         </div>
     </div>
@@ -71,21 +71,19 @@
     <div class="subfolders">
         <div class="clearfix cognitive-subtitle">
             <div class='fl pad1y space-right2'>
-                <span class="strong">Files <span class="italic">{{stats.subject}}</span></span>
+                <span class="strong">Files <span class="italic"></span></span>
             </div>
         </div>
         <table class="array-report short-table">
             <thead>
             <tr>
                 <th style="width: 80%;">File</th>
-                {{#each metricNames}}
-                    <th style="width: 10%;">{{this}}</th>
-                {{/each}}
+                    <th style="width: 10%;">LOC</th>
             </tr>
             </thead>
-            {{#each rowSnippets}}
-                {{>rowSnippet rowSnippet=.}}
-            {{/each}}
+                    <tr>
+                        <td><a href="">debug-3.mock.ts</a></td>
+                    </tr>
         </table>
     </div>
 
@@ -103,9 +101,6 @@
         </div>
 
         <div id="methodsArray">
-            {{#each codeSnippets}}
-                {{>divCode divCode=.}}
-            {{/each}}
         </div>
     </div>
 </div>
@@ -117,7 +112,7 @@
 
 
 
-<script src="./{{relativeRootReports}}/reports-styles/Chart.js"></script>
+<script src=".//reports-styles/Chart.js"></script>
 
 </body>
 

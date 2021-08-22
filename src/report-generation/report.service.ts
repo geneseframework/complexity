@@ -1,57 +1,62 @@
 import { JsonReportInterface } from '../core/interfaces/json-report/json-report.interface';
 import * as fs from 'fs-extra';
 import * as chalk from 'chalk';
-import { MethodReport } from '../html-generation/models/report/method-report.model';
-import {
-    constructLink, copyFile, createRelativeDir, deleteLastSlash,
-    getFilenameWithoutExtension,
-    getPathWithDotSlash,
-    getRouteToRoot
-} from '../core/utils/file-system.util';
 import * as eol from 'eol';
 import { Options } from '../core/models/options.model';
 import * as Handlebars from 'handlebars';
 import { ReportMetric } from './models/report-metric.model';
+import { HtmlReport } from './models/html-report.model';
+import { RowSnippet } from './models/row-snippet.model';
+import { flat } from '../core/utils/arrays.util';
 
 export class ReportService {
 
     static async start(jsonReport: JsonReportInterface): Promise<any> {
-        console.log(chalk.greenBright('JSON REPORTTTTT '), jsonReport.reportMetrics[0].reportSnippets);
+        // console.log(chalk.greenBright('JSON REPORTTTTT '), jsonReport.reportMetrics[0].reportSnippets);
         this.createStyleFiles();
-        let report: MethodReport[] = [];
-        for (const reportMetric of jsonReport.reportMetrics) {
-            this.generateMetricReport(reportMetric);
-            // const methodReport: MethodReport = {
-            //     code: reportMetric.displayedCode?.text,
-            //     cognitiveColor: reportMetric.cognitiveLevel,
-            //     cpxIndex: reportMetric.cpxIndex,
-            //     cyclomaticColor: reportMetric.cyclomaticLevel,
-            //     cyclomaticValue: reportMetric.cyclomaticCpx,
-            //     name: reportMetric.name,
-            // };
-            // report.push(methodReport);
-        }
-        return report;
+        const htmlReport = new HtmlReport();
+        htmlReport.metricNames =jsonReport.reportMetrics.map(r => r.metricName);
+        this.generateRowSnippets(jsonReport.reportMetrics, htmlReport);
+        const template: HandlebarsTemplateDelegate = this.setTemplate();
+        this.writeReport(htmlReport, template);
+        return htmlReport;
     }
 
     /**
      * Generates the file's report
      */
-    private static generateMetricReport(reportMetric: ReportMetric): void {
-        // this.methodReports = this.getMethodsArray();
-        // this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
-        // this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');
+    private static generateRowSnippets(reportMetrics: ReportMetric[], htmlReport: HtmlReport): void {
+        const fileNames: string[] = flat(reportMetrics.map(r => r.reportSnippets.map(r => r.name)));
+        for (const fileName of fileNames) {
+            this.generateRowSnippet(fileName, reportMetrics, htmlReport);
+        }
+    }
+
+    /**
+     * Generates the file's report
+     */
+    private static generateRowSnippet(fileName: string, reportMetrics: ReportMetric[], htmlReport: HtmlReport): void {
+        const rowSnippet = new RowSnippet(fileName);
+        // const scores =
+        htmlReport.rowSnippets.push(rowSnippet);
+    }
+
+    /**
+     * Generates the file's report
+     */
+    private static setTemplate(): HandlebarsTemplateDelegate {
+        this.registerPartial("rowSnippet", 'row-snippet');
         this.registerPartial("divCode", 'div-code');
         const reportTemplate = eol.auto(fs.readFileSync(`${Options.pathCommand}/report/templates/handlebars/report.handlebars`, 'utf-8'));
-        const template: HandlebarsTemplateDelegate<any> = Handlebars.compile(reportTemplate);
-        this.writeReport(template);
+        return Handlebars.compile(reportTemplate);
     }
 
     /**
      * Creates the file of the report
      */
-    private static writeReport(template: HandlebarsTemplateDelegate<any>) {
-        const content = template({});
+    private static writeReport(htmlReport: HtmlReport, template: HandlebarsTemplateDelegate) {
+        console.log(chalk.cyanBright('HTML REPORTTTT'), htmlReport);
+        const content = template(htmlReport);
         // const template = this.template({
         //     colors: Options.colors,
         //     methods: this.methodReports,
@@ -66,15 +71,13 @@ export class ReportService {
         //     this.astFile.astFolder?.relativePath
         // );
         // const OUT_DIR = constructLink(Options.pathOutDir);
-        const pathReport = `${Options.pathCommand}/dist/report.html`;
+        const pathReport = `${Options.pathCommand}/report/report.html`;
         // let pathReport = `${deleteLastSlash(OUT_DIR)}/${deleteLastSlash(
         //     RELATIVE_PATH
         // )}/${filenameWithoutExtension}.html`;
         //
         //
-        // console.log(chalk.blueBright('CONTENTTTT'), content);
-        console.log(chalk.blueBright('PATH REPORTTTT'), pathReport);
-        // fs.writeFileSync(pathReport, template, { encoding: 'utf-8' });
+        fs.writeFileSync(pathReport, content, { encoding: 'utf-8' });
     }
 
     /**
