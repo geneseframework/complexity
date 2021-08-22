@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "Analyzes complexity of source code for multiple metrics. Part of the @genese tool suite.",
     "scripts": {
-        "build": "tsc && mkdir -p report && cp -r src/report-generation/templates report/templates && cp src/core/chartjs/Chart.js report",
+        "build": "rm -rf report && tsc && mkdir -p report && cp -r src/report-generation/templates report/templates && cp src/core/chartjs/Chart.js report",
         "start": "npm run build && node dist/src/index.js",
         "publish_package": "npm run build && npm publish",
         "republish_package": "npm run build && npm unpublish -f && npm publish"

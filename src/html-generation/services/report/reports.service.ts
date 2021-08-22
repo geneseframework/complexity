@@ -21,9 +21,9 @@ export class ReportsService {
      * @param jsonAst
      */
     static generateAllReports(jsonAst: JsonAst): void {
-        // ReportsService.createStyleFiles();
-        // const parentFolder: AstFolder = jsonAst.astFolder;
-        // ReportsService.generateSubfoldersReports(parentFolder);
+        ReportsService.createStyleFiles();
+        const parentFolder: AstFolder = jsonAst.astFolder;
+        ReportsService.generateSubfoldersReports(parentFolder);
     }
 
     /**

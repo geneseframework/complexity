@@ -51,7 +51,7 @@ export class ReportService {
      * Creates the file of the report
      */
     private static writeReport(template: HandlebarsTemplateDelegate<any>) {
-        // const content = template({});
+        const content = template({});
         // const template = this.template({
         //     colors: Options.colors,
         //     methods: this.methodReports,

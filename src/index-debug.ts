@@ -40,9 +40,9 @@ export async function startDebug(): Promise<number> {
     const reportModel: ReportModel = Options.generateJsonReport ? await ReportService.start(jsonReport) : require(Options.jsonReportPath);
     console.log(chalk.yellowBright('HTML report generation...'));
     // const reportResult = HtmlGenerationService.start(reportModel, Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
-    const reportResult = HtmlGenerationService.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
-    return logResults(reportResult);
-    // return undefined;
+    // const reportResult = HtmlGenerationService.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
+    // return logResults(reportResult);
+    return undefined;
 }
 
 function logReport(reportResult: any[]): number {

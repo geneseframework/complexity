@@ -10,6 +10,7 @@ import {
 import { Options } from '../../../core/models/options.model';
 import { FileReport } from '../../models/report/file-report.model';
 import { AstFolder } from '../../models/ast/ast-folder.model';
+import * as chalk from 'chalk';
 
 /**
  * Service generating files reports
@@ -49,6 +50,7 @@ export class AstFilesReportService {
     generateReport(): void {
         this.fileReports = this.getFilesArray();
         this.relativeRootReports = getRouteToRoot(this.astFolder?.relativePath);
+        console.log(chalk.redBright('ZZZZZZ'));
         this.registerPartial("cognitiveBarchartScript", 'cognitive-barchart');
         this.registerPartial("cyclomaticBarchartScript", 'cyclomatic-barchart');
         this.registerPartial("cognitiveDoughnutScript", 'cognitive-doughnut');
