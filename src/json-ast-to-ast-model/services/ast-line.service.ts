@@ -20,8 +20,8 @@ export class AstLineService {
             const line = new AstLine();
             line.text = textLine;
             line.issue = issue;
-            line.pos = this.getLinePos(position, astCode.astAbstract);
-            line.end = line.pos + textLine.length + 1;
+            line.pos = this.getLinePos(position, astCode.astAbstract, issue);
+            line.end = line.pos + textLine.length;
             line.astNodes = this.getAstNodes(astCode.astAbstract, line.pos, line.end);
             issue++;
             position += textLine.length;
@@ -36,14 +36,13 @@ export class AstLineService {
         }
     }
 
-    private static getAstNodes(astAbstract: AstAbstract, pos: number, end: number): AstNode[] {
-        return astAbstract.astNode.descendants.filter(d => d.pos >= pos && d.pos < end - 1);
+    private static getAstNodes(astAbstract: AstAbstract, linePos: number, lineEnd: number): AstNode[] {
+        return astAbstract.astNode.descendants.filter(d => d.start >= linePos && d.start < lineEnd);
     }
 
-    private static getLinePos(position: number, astAbstract: AstAbstract): number {
-        const posInterval: Interval = astAbstract.positionInterval(position + 1);
-        // console.log(chalk.greenBright('GET LINE POSSSS'), astAbstract.kind, astAbstract.name, astAbstract.classesAndFunctionsIntervals, position, posInterval);
-        return posInterval ? posInterval[1] + 1 : position;
+    private static getLinePos(position: number, astAbstract: AstAbstract, lineIssue: number): number {
+        const posInterval: Interval = astAbstract.positionInterval(position);
+        return posInterval ? posInterval[1] + 1 : position + lineIssue - 1;
     }
 
 }
