@@ -2,12 +2,12 @@ import { JsonReportInterface } from '../core/interfaces/json-report/json-report.
 import { AstModel } from '../json-ast-to-ast-model/models/ast.model';
 import * as chalk from 'chalk';
 import { Metric } from '../core/models/metric.model';
-import { ReportModel } from '../report/models/report.model';
+import { ReportModel } from '../report-generation/models/report.model';
 import { METRIC_SERVICES } from './metrics/const/metrics-list.const';
 import { AstFile } from '../json-ast-to-ast-model/models/ast-file.model';
-import { ReportSnippet } from '../report/models/report-snippet.model';
+import { ReportSnippet } from '../report-generation/models/report-snippet.model';
 import { AstMetric } from '../json-ast-to-ast-model/models/ast-metric.model';
-import { ReportMetric } from '../report/models/report-metric.model';
+import { ReportMetric } from '../report-generation/models/report-metric.model';
 
 export class EvaluationService {
 
