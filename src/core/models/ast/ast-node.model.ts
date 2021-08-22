@@ -17,6 +17,7 @@ export class AstNode {
     }
 
     get interval(): Interval {
+        // return [this.jsonAstNode.start, this.jsonAstNode.end];
         return [this.jsonAstNode.pos, this.jsonAstNode.end];
     }
 

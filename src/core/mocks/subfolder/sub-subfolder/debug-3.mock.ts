@@ -1,12 +1,14 @@
-const MOCK = 3;
-export class SubSubfolderMock {
+let c = 3;
 
-    // arrowFunc = () => {
-    //     return 3;
-    // }
+// zzzzzzzzzz
+class Cl {
 
-    ifVeryAlone(a) {
+
+    // aaaaaaaa
+
+    z(a: number): number {
         return a;
     }
-
 }
+
+c = c + 1;

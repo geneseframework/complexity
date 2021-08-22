@@ -18,7 +18,7 @@ export class LocService extends AbstractMetricService {
     }
 
     private evaluateLine(astLine: AstLine, reportLine: ReportLine): void {
-        console.log(chalk.magentaBright('EVAL LINEEEEE'), reportLine.issue, reportLine.text,  astLine.astNodes.map(a => a.kind));
+        console.log(chalk.cyanBright('EVAL LINEEEEE'), reportLine.issue, reportLine.text,  astLine.astNodes.map(a => a.kind));
         // console.log(chalk.magentaBright('EVAL LINEEEEE'),  astLine.astNodes.map(a => a.start));
         reportLine.score = astLine.astNodes.length > 0 ? 1 : 0;
         reportLine.comments = astLine.astNodes.length > 0 ? '+1' : '';
