@@ -3,7 +3,6 @@ import { ReportLine } from './report-line.model';
 
 export class ReportMethod implements JsonReportMethodInterface {
 
-    // code: string = undefined;
     lines: ReportLine[] = [];
     methodName: string = undefined;
     metricName: string = undefined;

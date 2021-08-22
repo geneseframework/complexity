@@ -12,7 +12,6 @@ import { ReportFile } from '../core/models/report/report-file.model';
 export class EvaluationService {
 
     static evaluate(astModel: AstModel): JsonReportInterface {
-        // console.log(chalk.magentaBright('EVAL SERVICEEEEE'), astModel);
         const reportModel = new ReportModel(astModel.metrics);
         for (const metric of reportModel.metrics) {
             this.evaluateAstFolderForMetric(astModel.astFolder, reportModel, metric);
@@ -26,6 +25,7 @@ export class EvaluationService {
             for (const astFile of astFolder.astFiles) {
                 const reportFile = new ReportFile(astFile.name, astFile.code, metric.name);
                 this.evaluateAstFileForMetric(astFile, reportFile, metric);
+                console.log(chalk.greenBright('REPORT FILE'), reportFile);
                 reportModel.folder.files.push(reportFile);
             }
         } catch (err) {
