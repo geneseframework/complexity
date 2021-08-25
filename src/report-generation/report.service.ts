@@ -8,6 +8,7 @@ import { ReportMetric } from './models/report-metric.model';
 import { HtmlReport } from './models/html-report.model';
 import { RowSnippet } from './models/row-snippet.model';
 import { flat } from '../core/utils/arrays.util';
+import { DivCodeMetric } from './models/div-code-metric.model';
 
 export class ReportService {
 
@@ -15,8 +16,9 @@ export class ReportService {
         // console.log(chalk.greenBright('JSON REPORTTTTT '), jsonReport.reportMetrics[0].reportSnippets);
         this.createStyleFiles();
         const htmlReport = new HtmlReport();
-        htmlReport.metricNames =jsonReport.reportMetrics.map(r => r.metricName);
+        htmlReport.metricNames = jsonReport.reportMetrics.map(r => r.metricName);
         this.generateRowSnippets(jsonReport.reportMetrics, htmlReport);
+        this.generateDivCodeMetrics(jsonReport.reportMetrics, htmlReport);
         const template: HandlebarsTemplateDelegate = this.setTemplate();
         this.writeReport(htmlReport, template);
         return htmlReport;
@@ -37,8 +39,32 @@ export class ReportService {
      */
     private static generateRowSnippet(fileName: string, reportMetrics: ReportMetric[], htmlReport: HtmlReport): void {
         const rowSnippet = new RowSnippet(fileName);
-        // const scores =
+        rowSnippet.scores = flat(reportMetrics.map(r => r.reportSnippets.map(r => r.score)));
         htmlReport.rowSnippets.push(rowSnippet);
+    }
+
+    private static generateDivCodeMetrics(reportMetrics: ReportMetric[], htmlReport: HtmlReport): void {
+        for (const metricName of htmlReport.metricNames) {
+            this.generateDivCodeMetric(metricName, reportMetrics, htmlReport);
+        }
+    }
+
+    private static generateDivCodeMetric(metricName: string, reportMetrics: ReportMetric[], htmlReport: HtmlReport): void {
+        const divCodeMetric = new DivCodeMetric();
+        const fileNames: string[] = flat(reportMetrics.map(r => r.reportSnippets.map(r => r.name)));
+        for (const fileName of fileNames) {
+            this.generateDivCode(metricName, fileName, reportMetrics, htmlReport);
+        }
+        htmlReport.divCodeMetrics.push(divCodeMetric);
+    }
+
+    /**
+     * Generates the file's report
+     */
+    private static generateDivCode(metricName: string, fileName: string, reportMetrics: ReportMetric[], htmlReport: HtmlReport): void {
+        console.log(chalk.blueBright('GEN DIV CODDDDD'), metricName, fileName);
+        console.log(chalk.cyanBright('GEN DIV CODDDDD reportMetrics'), reportMetrics);
+        console.log(chalk.blueBright('GEN DIV CODDDDD htmlReport'), htmlReport);
     }
 
     /**
@@ -47,6 +73,7 @@ export class ReportService {
     private static setTemplate(): HandlebarsTemplateDelegate {
         this.registerPartial("rowSnippet", 'row-snippet');
         this.registerPartial("divCode", 'div-code');
+        this.registerPartial("divCodeMetric", 'div-code-metric');
         const reportTemplate = eol.auto(fs.readFileSync(`${Options.pathCommand}/report/templates/handlebars/report.handlebars`, 'utf-8'));
         return Handlebars.compile(reportTemplate);
     }
