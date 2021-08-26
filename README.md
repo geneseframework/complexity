@@ -80,7 +80,7 @@ genese cpx ./src
 By default, Genese Cpx is launched for TS files.
 You can modify this with the `-l` option
 
-***Exemple:***
+***Example:***
 ```sh
 genese cpx -l java ./src
 ```
@@ -120,7 +120,7 @@ Some parameters are configurable by creating a file `geneseconfig.json` located 
 
 ### 5.1 Thresholds
 
-You can customize the warning and error thresholds of each kind of complexity like this :
+You can customize the "medium" and "high" thresholds of each kind of complexity like this :
 
  ```json
 {
@@ -132,7 +132,7 @@ You can customize the warning and error thresholds of each kind of complexity li
         "cyclomaticCpx": {
             "errorThreshold": 15,
             "warningThreshold": 10
-        },
+        }
     }
 }
 ```
