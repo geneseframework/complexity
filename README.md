@@ -58,7 +58,7 @@ npm i -g @genese/cli
 Then, you can install the Genese Cpx module:
 
 ```sh
-npm i -g Genese Cpx
+npm i -g @genese/complexity
 ```
 
 [Top](#table-of-contents)
