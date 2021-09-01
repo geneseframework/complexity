@@ -205,7 +205,7 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
 
 
     get text(): string {
-        return this._code.text;
+        return this._code?.text;
     }
 
 
