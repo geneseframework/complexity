@@ -206,9 +206,11 @@ Some frameworks may need specific calculations to be able to display a report re
 
 * **React**
 
-The React functional components are huge arrow functions containing some logic and Jsx code. Without specific configuration, Genese Cpx would only display the complexity index of this huge arrow function, which is not very relevant: a component may be huge without any bad coding practice.
+The React functional components are arrow functions containing some logic and Jsx code. Without specific configuration, Genese Cpx displays the complexity index of the logic of the functional component (excluding JSX). This is relevant if you respect the React best practices by extracting most of th logic from the component into custom hooks or extracted functions. A good article about React best practices is available [here](https://javascript.plainenglish.io/road-of-react-best-practices-software-design-and-architecture-83245c090cbf).
 
-The option in command-line `-f react` activates the analysis specific to React. With this option, the React hooks and the arrow functions nested in the ReactComponent are extracted and analyzed separately.
+However, you may prefer to keep the logic and the subcomponents inside the parent component. In this case, Genese Cpx will display the complexity scores of all the parent component, including its own logic, hooks and subcomponents. These scores are probably the most relevant because they represent the real complexity of the component, but you may prefer to display separately the results for each nested function of the component (hooks, subcomponents, ...).
+
+In this case, you may use the option `-f react`, which will extract the nested functions and display their complexity scores separately.
 
 **Example**
 
