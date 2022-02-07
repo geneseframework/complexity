@@ -1,6 +1,6 @@
 {
     "name": "@genese/complexity",
-    "version": "1.1.19",
+    "version": "1.1.20",
     "description": "Analyzes the difficulty of comprehension of source code. Part of the @genese tool suite.",
     "scripts": {
         "build": "tsc && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/core/chartjs dist/src/core/chartjs",
