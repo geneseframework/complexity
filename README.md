@@ -206,7 +206,7 @@ Some frameworks may need specific calculations to be able to display a report re
 
 * **React**
 
-The React functional components are arrow functions containing some logic and Jsx code. Without specific configuration, Genese Cpx displays the complexity index of the logic of the functional component (excluding JSX). This is relevant if you respect the React best practices by extracting most of th logic from the component into custom hooks or extracted functions. A good article about React best practices is available [here](https://javascript.plainenglish.io/road-of-react-best-practices-software-design-and-architecture-83245c090cbf).
+The React functional components are arrow functions containing some logic and Jsx code. Without specific configuration, Genese Cpx displays the complexity index of the logic of the functional component (excluding JSX). This is relevant if you respect the React best practices by extracting most of the logic from the component into custom hooks or extracted functions. A good article about React best practices is available [here](https://javascript.plainenglish.io/road-of-react-best-practices-software-design-and-architecture-83245c090cbf).
 
 However, you may prefer to keep the logic and the subcomponents inside the parent component. In this case, Genese Cpx will display the complexity scores of all the parent component, including its own logic, hooks and subcomponents. These scores are probably the most relevant because they represent the real complexity of the component, but you may prefer to display separately the results for each nested function of the component (hooks, subcomponents, ...).
 
@@ -217,6 +217,23 @@ In this case, you may use the option `-f react`, which will extract the nested f
 ```
 genese cpx ./src -f react
 ```
+
+### 5.6 Rules customization
+
+Usually, you should type everything in your code. However, in some specific cases, the types may decrease its readability. It may be true for React hooks, for example.
+
+By default, the lack of typing increases the score given by Genese Cpx. If you prefer to ignore the typing complexity, you must add a specific rule in the `geneseconfig.json` file.
+
+```json
+{
+    "complexity": {
+        "rules": {
+            "typing": false
+        }
+    }
+}
+```
+
 
 [Top](#table-of-contents)
 ## 6. Cyclomatic complexity

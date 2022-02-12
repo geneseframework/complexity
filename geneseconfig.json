@@ -1,0 +1,14 @@
+{
+    "complexity": {
+        "ast": {
+            "sourceFile": {
+                "variableStatement": {
+                    "context": "skip"
+                }
+            }
+        },
+        "rules": {
+            "typing": false
+        }
+    }
+}

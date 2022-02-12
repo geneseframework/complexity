@@ -9,8 +9,8 @@ import { Framework, isFramework } from '../types/framework.type';
 export var WINDOWS = false;
 
 /**
- * The options used by genese-complexity
- * Some options can be override by command-line options or with geneseconfig.json
+ * The options used by @genese/complexity
+ * Some options can be overridden by command-line options or with geneseconfig.json
  */
 export class Options {
 
@@ -39,7 +39,7 @@ export class Options {
     static typing = true;                   // True if we want to add a complexity weight for lacks of typing
 
     /**
-     * Sets the options of genese-complexity module
+     * Sets the options of @genese/complexity module
      * @param pathCommand               // The path of the folder where the command-line was entered (can't be overridden)
      * @param pathFolderToAnalyze       // The path of the folder to analyse (can be overridden)
      * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overridden)
@@ -68,7 +68,7 @@ export class Options {
 
 
     /**
-     * Sets the options of genese-complexity module with command-line options (lower priority than geneseconfig.json options)
+     * Sets the options of @genese/complexity module with command-line options (lower priority than geneseconfig.json options)
      * @param pathCommand               // The path of the folder where the command-line was entered (can't be overridden)
      * @param pathFolderToAnalyze       // The path of the folder to analyse (can be overridden)
      * @param pathGeneseNodeJs          // The path of the node_module Genese in the nodejs user environment (can't be overridden)
@@ -82,7 +82,7 @@ export class Options {
 
 
     /**
-     * Sets the options of genese-complexity module with geneseconfig.json options (higher priority than geneseconfig.json options)
+     * Sets the options of @genese/complexity module with geneseconfig.json options (higher priority than geneseconfig.json options)
      * @param geneseConfigPath  // The path of the geneseconfig.json file
      */
     static setOptionsFromConfig(geneseConfigPath: string): void {
@@ -98,7 +98,7 @@ export class Options {
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
-        Options.typing = !!config.complexity.typing;
+        Options.typing = config.complexity?.rules?.typing !== false;
     }
 
 
