@@ -10,7 +10,6 @@ import { Ts } from './ts.service';
 import { randomString } from '../../../core/services/tools.service';
 import { Options } from '../../../core/models/options.model';
 import { ReactService } from '../specific/react/react.service';
-import { isJsx } from '../utils/ast.util';
 
 /**
  * - AstFiles generation from their Abstract Syntax Tree (AST)
@@ -69,14 +68,12 @@ export class AstFileGenerationService {
             start: node.getStart()
         };
         astNode = this.addTypeAndCpxFactors(node, astNode);
-        if (!isJsx(node)) {
-            node.forEachChild((childNode: Node) => {
-                if (!astNode.children) {
-                    astNode.children = [];
-                }
-                astNode.children.push(this.createAstNodeChildren(childNode));
-            });
-        }
+        node.forEachChild((childNode: Node) => {
+            if (!astNode.children) {
+                astNode.children = [];
+            }
+            astNode.children.push(this.createAstNodeChildren(childNode));
+        });
         return astNode;
     }
 
@@ -104,6 +101,9 @@ export class AstFileGenerationService {
         }
         if (Ts.isVarStatement(node)) {
             astNode.type = Ts.getVarStatementType(node);
+        }
+        if (Ts.isJsxElement(node)) {
+            astNode.type = 'JsxElement';
         }
         return astNode;
     }

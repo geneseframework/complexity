@@ -1,5 +1,13 @@
 import { KindAliases } from '../../globals.const';
-import { Expression, Node, ParameterDeclaration, SyntaxKind, VariableDeclaration, VariableStatement } from 'ts-morph';
+import {
+    Expression,
+    JsxElement,
+    Node,
+    ParameterDeclaration,
+    SyntaxKind,
+    VariableDeclaration,
+    VariableStatement
+} from 'ts-morph';
 import { isFunctionKind } from '../types/function-kind.type';
 import { FunctionNode } from '../types/function-node.type';
 
@@ -80,6 +88,11 @@ export class Ts {
 
     static isFunctionNode(node: Node): node is FunctionNode {
         return isFunctionKind(node.getKind());
+    }
+
+
+    static isJsxElement(node: Node): node is JsxElement {
+        return node.getKind() === SyntaxKind.JsxElement;
     }
 
 
