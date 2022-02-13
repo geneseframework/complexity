@@ -91,8 +91,18 @@ export class Ts {
     }
 
 
+    static isJsxComponent(node: Node): node is JsxElement {
+        return this.isJsxElement(node) && !this.hasJsxElementAncestor(node);
+    }
+
+
     static isJsxElement(node: Node): node is JsxElement {
         return node.getKind() === SyntaxKind.JsxElement;
+    }
+
+
+    static hasJsxElementAncestor(node: Node): boolean {
+        return !!node.getFirstAncestorByKind(SyntaxKind.JsxElement);
     }
 
 

@@ -9,6 +9,7 @@ import { AstNodeService } from './ast/ast-node.service';
 import { Ast } from './ast/ast.service';
 import { AssignedFunctionsService } from './ast/assigned-functions.service';
 import { OutsideCodeService } from './ast/outside-code.service';
+import { AstJsxComponent } from '../models/ast/ast-jsx.model';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree of a folder
@@ -88,15 +89,27 @@ export class InitService {
         newAstFile.code = CodeService.getCode(astFileFromJsonAst.text);
         newAstFile.astNode = this.getFileAstNode(astFileFromJsonAst.astNode, newAstFile);
         newAstFile.astNodes = this.astNodeService.flatMapAstNodes(newAstFile.astNode, [newAstFile.astNode]);
-        newAstFile.astMethods = newAstFile.astNodes
-            .filter(e => {
-                return Ast.isFunctionOrMethod(e)
-            })
-            .map(e => e.astMethod);
+        newAstFile.astMethods = this.getFunctionsOrMethods(newAstFile);
+        newAstFile.astJsxComponents = this.getJsxComponents(newAstFile);
         const functionsAssignedToVars: AstMethod[] = AssignedFunctionsService.getArrowFunctions(newAstFile.astNode);
         newAstFile.astMethods = newAstFile.astMethods.concat(functionsAssignedToVars);
         newAstFile.astOutsideNodes = OutsideCodeService.getOutsideNodes(newAstFile.astNode);
+        console.log('AST JSX COMPONENTSSSS', newAstFile.astJsxComponents);
         return newAstFile;
+    }
+
+
+    private getFunctionsOrMethods(astFile: AstFile): AstMethod[] {
+        return astFile.astNodes
+            .filter(Ast.isFunctionOrMethod)
+            .map(e => e.astMethod);
+    }
+
+
+    private getJsxComponents(astFile: AstFile): AstJsxComponent[] {
+        return astFile.astNodes
+            .filter(Ast.isJsxComponent)
+            .map(e => e.astJsxComponent);
     }
 
 
@@ -152,6 +165,13 @@ export class InitService {
         newAstNode.text = astNodeFromJsonAst.text;
         newAstNode.type = astNodeFromJsonAst.type;
         newAstNode.children = this.generateAstNodes(astNodeFromJsonAst.children, newAstNode);
+        this.setAstMethodProperty(astNodeFromJsonAst, astParentNode, newAstNode);
+        this.setAstJsxComponentProperty(astNodeFromJsonAst, astParentNode, newAstNode);
+        return newAstNode;
+    }
+
+
+    private setAstMethodProperty(astNodeFromJsonAst: any, astParentNode: AstNode, newAstNode: AstNode): void {
         if (Ast.isFunctionOrMethod(astNodeFromJsonAst)) {
             if (!newAstNode.name && newAstNode.firstSon?.kind === SyntaxKind.Identifier) {
                 newAstNode.name = newAstNode.children[0].name;
@@ -160,7 +180,16 @@ export class InitService {
         } else {
             newAstNode.astMethod = astParentNode?.astMethod;
         }
-        return newAstNode;
+
+    }
+
+
+    private setAstJsxComponentProperty(astNodeFromJsonAst: any, astParentNode: AstNode, newAstNode: AstNode): void {
+        if (Ast.isJsxComponent(astNodeFromJsonAst)) {
+            newAstNode.astJsxComponent = this.generateAstJsxComponent(newAstNode);
+        } else {
+            newAstNode.astJsxComponent = astParentNode?.astJsxComponent;
+        }
     }
 
 
@@ -174,6 +203,19 @@ export class InitService {
         astMethod.astNode.text = this.astNodeService.getCode(astMethodNode);
         astMethod.codeLines = astMethodNode.astFile?.code?.lines?.slice(astMethodNode.linePos - 1, astMethodNode.lineEnd);
         return astMethod;
+    }
+
+
+    /**
+     * Generates the AstMethod corresponding to an AstNode with kind corresponding to a FunctionDeclaration or a MethodDeclaration
+     * @param astJsxComponentNode     // The AstNode which corresponds to a FunctionDeclaration or a MethodDeclaration
+     */
+    private generateAstJsxComponent(astJsxComponentNode: AstNode): AstJsxComponent {
+        const astJsxComponent = new AstJsxComponent();
+        astJsxComponent.astNode = astJsxComponentNode;
+        astJsxComponent.astNode.text = this.astNodeService.getCode(astJsxComponentNode);
+        astJsxComponent.codeLines = astJsxComponentNode.astFile?.code?.lines?.slice(astJsxComponentNode.linePos - 1, astJsxComponentNode.lineEnd);
+        return astJsxComponent;
     }
 
 

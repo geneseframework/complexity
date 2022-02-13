@@ -16,10 +16,12 @@ import { DepthCpx } from '../../../core/models/cpx-factor/depth-cpx.model';
 import { addObjects } from '../../../core/services/tools.service';
 import { AstMethodOrOutsideNode, isAstMethod } from '../../types/ast-method-or-outside-node.type';
 import { CpxLevel } from '../../enums/cpx-level.enum';
+import { AstJsxComponent } from './ast-jsx.model';
 
 export class AstFile implements AstFileInterface, Evaluate, Logg {
 
     private _astFolder?: AstFolder = undefined;                         // The AstFolder which includes this AstFile
+    private _astJsxComponents: AstJsxComponent[];
     private _astMethods?: AstMethod[] = [];                             // The AstMethods included in this AstFile
     private _astNode?: AstNode = undefined;                             // The AstNode corresponding to the file itself
     private _astNodes?: AstNode[] = undefined;                          // Array of all the AstNodes which are children of this.AstNode (including itself)
@@ -181,6 +183,16 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
     }
 
 
+    get astJsxComponents(): AstJsxComponent[] {
+        return this._astJsxComponents;
+    }
+
+
+    set astJsxComponents(astJsxComponents: AstJsxComponent[]) {
+        this._astJsxComponents = astJsxComponents;
+    }
+
+
     get name(): string {
         return this._name;
     }
@@ -226,6 +238,7 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
         for (const methodOrOutsideNode of methodsAndOutsideNodes) {
             this.evaluateMethodOrOutsideNode(methodOrOutsideNode);
         }
+        this.getJsx();
     }
 
 
@@ -233,6 +246,11 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
         const code = new Code();
         code.text = this.astNode.text;
         this.displayedCode = code;
+    }
+
+
+    private getJsx(): any[] {
+        return [];
     }
 
 

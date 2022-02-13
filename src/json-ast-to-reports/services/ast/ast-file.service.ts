@@ -4,6 +4,7 @@ import { StatsService } from '../report/stats.service';
 import { Stats } from '../../models/stats.model';
 import { ComplexityType } from '../../enums/complexity-type.enum';
 import { CpxLevel } from '../../enums/cpx-level.enum';
+import { AstJsxComponent } from '../../models/ast/ast-jsx.model';
 
 /**
  * - AstFiles generation from Abstract Syntax AstNode of a file
@@ -72,6 +73,12 @@ export class AstFileService extends StatsService {
      */
     getNameOrPath(astFile: AstFile): void {
         this._stats.subject = astFile.name;
+    }
+
+
+    getJsxElements(astFile: AstFile): AstJsxComponent[] {
+        console.log('GET JSXXXX')
+        return [];
     }
 
 }

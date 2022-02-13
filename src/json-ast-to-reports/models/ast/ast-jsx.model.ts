@@ -1,71 +1,34 @@
 import { AstNode } from './ast-node.model';
-import { Evaluate } from '../../interfaces/evaluate.interface';
-import { AstFileService } from '../../services/ast/ast-file.service';
-import { AstFolder } from './ast-folder.model';
-import { AstMethod } from './ast-method.model';
-import { ComplexitiesByStatus } from '../../interfaces/complexities-by-status.interface';
-import { CpxFactors } from '../../../core/models/cpx-factor/cpx-factors.model';
-import { Stats } from '../stats.model';
-import { AstMethodService } from '../../services/ast/ast-method.service';
-import { Logg } from '../../../core/interfaces/logg.interface';
-import * as chalk from 'chalk';
 import { Code } from '../code/code.model';
-import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
-import { NestingCpx } from '../../../core/models/cpx-factor/nesting-cpx.model';
-import { DepthCpx } from '../../../core/models/cpx-factor/depth-cpx.model';
-import { addObjects } from '../../../core/services/tools.service';
-import { AstMethodOrOutsideNode, isAstMethod } from '../../types/ast-method-or-outside-node.type';
+import { Ast } from '../../services/ast/ast.service';
+import { Evaluate } from '../../interfaces/evaluate.interface';
+import { CpxFactors } from '../../../core/models/cpx-factor/cpx-factors.model';
+import { ComplexityType } from '../../enums/complexity-type.enum';
+import { CodeLine } from '../code/code-line.model';
+import { cpxFactors } from '../../../core/const/cpx-factors';
+import { FactorCategory } from '../../enums/factor-category.enum';
+import { Options } from '../../../core/models/options.model';
 import { CpxLevel } from '../../enums/cpx-level.enum';
-import { JsxElement } from 'ts-morph';
 
-export class AstFile implements AstFileInterface, Evaluate, Logg {
+/**
+ * Element of the AstNode structure corresponding to a given method
+ */
+export class AstJsxComponent implements Evaluate {
 
-    private _astFolder?: AstFolder = undefined;                         // The AstFolder which includes this AstFile
-    private _astMethods?: AstMethod[] = [];                             // The AstMethods included in this AstFile
-    private _astNode?: AstNode = undefined;                             // The AstNode corresponding to the file itself
-    private _astNodes?: AstNode[] = undefined;                          // Array of all the AstNodes which are children of this.AstNode (including itself)
-    private _astOutsideNodes?: AstNode[] = [];                          // The AstNodes outside classes and functions
-    private _code?: Code = undefined;                                   // The Code object corresponding to the AstFile
-    private _cognitiveLevel: CpxLevel = CpxLevel.LOW;                   // The cognitive level of the file
-    private _complexitiesByStatus?: ComplexitiesByStatus = undefined;   // The file complexities spread by complexity status
-    private _cpxFactors?: CpxFactors = undefined;                       // The complexity factors of the AstFile
-    private _cpxIndex = undefined;                                      // The complexity index of the file
-    private _cyclomaticCpx ?= 0;                                        // The complexity factors of the AstFile
-    private _cyclomaticLevel: CpxLevel = CpxLevel.LOW;                  // The cyclomatic level of the file
-    private _displayedCode?: Code = undefined;                          // The code to display in the report
-    private _end: number = undefined;                                   // The pos of the end of the source code
-    private _jsxElements: JsxElement[];
-    private _name: string = undefined;                                  // The name of the AstFile
-    private _stats?: Stats = undefined;                                 // The statistics of the AstFile
+    private _astNode?: AstNode = undefined;                                     // The AST of the method itself
+    private _codeLines?: CodeLine[] = [];                                       // The array of CodeLine of the AstMethod (elements of the array of CodeLine of the corresponding AstFile)
+    private _cognitiveLevel: CpxLevel = CpxLevel.LOW;                           // The cognitive level of the method
+    private _cpxFactors?: CpxFactors = undefined;                               // The complexity factors of the AstMethod
+    private _cpxIndex = undefined;                                              // The complexity index of the method
+    private _displayedCode?: Code = undefined;                                  // The code to display in the report
+    private _maxLineLength ?= 0;                                                // The max length of the lines of the code
+    private _name: string = undefined;                                          // The name of the method
 
 
 
     // ---------------------------------------------------------------------------------
     //                                Getters and setters
     // ---------------------------------------------------------------------------------
-
-
-    get astFolder(): AstFolder {
-        return this._astFolder;
-    }
-
-
-    set astFolder(astFolder: AstFolder) {
-        this._astFolder = astFolder;
-    }
-
-
-    get astMethods(): AstMethod[] {
-        if (this._astMethods) {
-            return this._astMethods;
-        }
-        return [];
-    }
-
-
-    set astMethods(astMethods: AstMethod[]) {
-        this._astMethods = astMethods;
-    }
 
 
     get astNode(): AstNode {
@@ -78,33 +41,13 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
     }
 
 
-    get astNodes() : AstNode[] {
-        return this._astNodes;
+    get codeLines(): CodeLine[] {
+        return this._codeLines;
     }
 
 
-    set astNodes(astNodes: AstNode[])  {
-        this._astNodes = astNodes;
-    }
-
-
-    get astOutsideNodes(): AstNode[] {
-        return this._astOutsideNodes;
-    }
-
-
-    set astOutsideNodes(astOutsideNodes: AstNode[]) {
-        this._astOutsideNodes = astOutsideNodes;
-    }
-
-
-    get code() : Code {
-        return this._code;
-    }
-
-
-    set code(code: Code)  {
-        this._code = code;
+    set codeLines(codeLines: CodeLine[]) {
+        this._codeLines = codeLines;
     }
 
 
@@ -115,16 +58,6 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
 
     set cognitiveLevel(cognitiveStatus: CpxLevel) {
         this._cognitiveLevel = cognitiveStatus;
-    }
-
-
-    get complexitiesByStatus(): ComplexitiesByStatus {
-        return this._complexitiesByStatus;
-    }
-
-
-    set complexitiesByStatus(cpxByStatus: ComplexitiesByStatus) {
-        this._complexitiesByStatus = cpxByStatus;
     }
 
 
@@ -143,57 +76,30 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
     }
 
 
-    get cyclomaticCpx(): number {
-        return this._cyclomaticCpx;
-    }
-
-
-    set cyclomaticCpx(cyclomaticCpx: number) {
-        this._cyclomaticCpx = cyclomaticCpx;
-    }
-
-
-    get cyclomaticLevel(): CpxLevel {
-        return this._cyclomaticLevel;
-    }
-
-
-    set cyclomaticLevel(cyclomaticStatus: CpxLevel) {
-        this._cyclomaticLevel = cyclomaticStatus;
-    }
-
-
     get displayedCode(): Code {
         return this._displayedCode;
     }
 
 
-    set displayedCode(displayedCode: Code) {
-        this._displayedCode = displayedCode;
-    }
-
-
     get end(): number {
-        return this._end ?? this._astNode?.end;
+        return this.astNode.end;
     }
 
 
-    set end(end: number) {
-        this._end = end;
-    }
-
-
-    get jsxElements(): JsxElement[] {
-        return this._jsxElements;
-    }
-
-
-    set jsxElements(jsxElements: JsxElement[]) {
-        this._jsxElements = new AstFileService().getJsxElements(this);
+    get maxLineLength(): number {
+        if (this._maxLineLength) {
+            return this._maxLineLength;
+        }
+        this._maxLineLength = Math.max(...this.codeLines?.map(l => l.end - l.start));
+        return this._maxLineLength;
     }
 
 
     get name(): string {
+        if (this._name) {
+            return this._name;
+        }
+        this._name = this._astNode.name;
         return this._name;
     }
 
@@ -203,22 +109,15 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
     }
 
 
-    get stats(): Stats {
-        if (!this._stats) {
-            this._stats = new AstFileService().getStats(this);
-        }
-        return this._stats;
+    get pos() {
+        return this.astNode?.pos;
     }
 
 
-    set stats(stats: Stats) {
-        this._stats = stats;
+    get start() {
+        return this.astNode?.start;
     }
 
-
-    get text(): string {
-        return this._code?.text;
-    }
 
 
     // ---------------------------------------------------------------------------------
@@ -228,83 +127,151 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
 
 
     /**
-     * Evaluates the complexities of the AstNodes and the AstMethods of this AstFile
+     * Creates the displayed code of this AstMethod and evaluates its complexity
      */
     evaluate(): void {
-        this.cpxFactors = new CpxFactors();
-        this.setDisplayedCode();
-        this.astNode.evaluate();
-        const methodsAndOutsideNodes: AstMethodOrOutsideNode[] = (this.astMethods as AstMethodOrOutsideNode[]).concat(this.astOutsideNodes);
-        for (const methodOrOutsideNode of methodsAndOutsideNodes) {
-            this.evaluateMethodOrOutsideNode(methodOrOutsideNode);
+        this.createDisplayedCodeAndCalculateCpxFactors();
+        // LogService.logMethod(this);
+        this.cognitiveLevel = this.getComplexityStatus(ComplexityType.COGNITIVE);
+    }
+
+
+    /**
+     * Gets the complexity status of the method for a given complexity type
+     * @param cpxType
+     */
+    getComplexityStatus(cpxType: ComplexityType): CpxLevel {
+        let status = CpxLevel.MEDIUM;
+        if (cpxType === ComplexityType.COGNITIVE && this.cpxIndex <= Options.cognitiveCpx.warningThreshold) {
+            status = CpxLevel.LOW;
+        } else if (cpxType === ComplexityType.COGNITIVE && Math.round(this.cpxIndex) > Options.cognitiveCpx.errorThreshold) {
+            status = CpxLevel.HIGH;
         }
-        this.getJsx();
+        return status;
     }
 
 
-    private setDisplayedCode(): void {
-        const code = new Code();
-        code.text = this.astNode.text;
-        this.displayedCode = code;
+    /**
+     * Creates the method's code to display, with comments
+     * @param astNode  // The AstNode to analyse (by default: the AstNode associated to this AstMethod)
+     */
+    createDisplayedCodeAndCalculateCpxFactors(astNode: AstNode = this.astNode): void {
+        this.setDisplayedCodeLines();
+        this.setDeclarationCpxFactors();
+        this.setCpxFactorsToDisplayedCode(astNode, false);
+        this._displayedCode.setLinesDepthAndNestingCpx();
+        this.addCommentsToDisplayedCode();
+        this.calculateCpxFactors();
+        this._displayedCode.setTextWithLines();
     }
 
 
-    private getJsx(): any[] {
-        return [];
-    }
-
-
-    private evaluateMethodOrOutsideNode(methodOrOutsideNode: AstMethodOrOutsideNode): void {
-        methodOrOutsideNode.evaluate();
-        this.cpxFactors = this.cpxFactors.add(methodOrOutsideNode.cpxFactors);
-        this.cyclomaticCpx = this.cyclomaticCpx + methodOrOutsideNode.cyclomaticCpx;
-        if (isAstMethod(methodOrOutsideNode)) {
-            const astMethodService = new AstMethodService();
-            this.complexitiesByStatus = astMethodService.addMethodCpxByStatus(this.complexitiesByStatus, methodOrOutsideNode as AstMethod);
+    /**
+     * Creates the Code object corresponding to the code to display
+     */
+    private setDisplayedCodeLines(): void {
+        this._displayedCode = new Code();
+        for (const line of this.codeLines) {
+            const displayedLine = new CodeLine();
+            displayedLine.issue = line.issue;
+            displayedLine.end = line.end;
+            displayedLine.start = line.start;
+            displayedLine.text = line.text;
+            displayedLine.text = this.getDisplayedLineText(displayedLine);
+            this._displayedCode.lines.push(displayedLine);
         }
     }
 
 
     /**
-     * Evaluates the complexities of the AstNodes of this AstFile
-     * But not based on methods
+     * Returns the text to display for a given line. Removes characters of the first and the last lines which are not inside the AstMethod
+     * @param line      // The line to display
      */
-    evaluateStandalone(): void {
-        this.astMethods = [];
-        this.cpxFactors = new CpxFactors();
-        this.astNode.evaluate();
-        for (const node of this.astNodes) {
-            node.cpxFactors.nesting = new NestingCpx();
-            node.cpxFactors.depth = new DepthCpx();
-            for (const astNode of node.children) {
-                if (astNode.intrinsicNestingCpx > 0) {
-                    node.cpxFactors.depth = addObjects(this.cpxFactors.depth, astNode.cpxFactors?.depth);
-                    node.cpxFactors.nesting = addObjects(this.cpxFactors.nesting, astNode.parent?.cpxFactors?.nesting);
-                }
-                if (astNode.intrinsicDepthCpx > 0) {
-                    node.cpxFactors.depth = addObjects(this.cpxFactors.depth, astNode.parent?.cpxFactors?.depth);
-                }
+    private getDisplayedLineText(line: CodeLine): string {
+        let text = line.text;
+        if (line.issue === this.codeLines[0]?.issue) {
+            const firstCharPosition = this.start - line.start;
+            const indentation = text.slice(0, text.length - text.trimLeft().length)
+            text = `\n${indentation}${text.slice(firstCharPosition)}`;
+        }
+        if (line.issue === this.codeLines[this.codeLines.length - 1]?.issue) {
+            const lastCharPosition = this.end - line.start;
+            text = text.slice(0, lastCharPosition);
+        }
+        return text;
+    }
+
+
+    private setDeclarationCpxFactors(): void {
+        this.increaseLineCpxFactors(this.astNode, this._displayedCode.getLine(this.astNode.lineStart));
+        this._displayedCode.getLine(this.astNode.lineStart).astNodes.push(this.astNode);
+    }
+
+
+    /**
+     * Calculates the complexity factors of each CodeLine
+     * @param astNode                   // The AstNode of the method
+     * @param startedUncommentedLines   // Param for recursion (checks if the current line is the first uncommented one)
+     */
+    private setCpxFactorsToDisplayedCode(astNode: AstNode, startedUncommentedLines = false): void {
+        for (const childAst of astNode.children) {
+            let issue = Math.max(childAst.lineStart, this.codeLines[0]?.issue);
+            const codeLine: CodeLine = this._displayedCode.lines.find(l => l.issue === issue);
+            if (Ast.isElseStatement(childAst)) {
+                childAst.cpxFactors.atomic.node = cpxFactors.atomic.node;
+                issue--;
             }
-
-            this.cpxFactors = this.cpxFactors.add(node.cpxFactors);
+            this.increaseLineCpxFactors(childAst, codeLine);
+            this._displayedCode.getLine(issue).astNodes.push(childAst);
+            this.setCpxFactorsToDisplayedCode(childAst, startedUncommentedLines);
         }
     }
 
 
     /**
-     * Logs the main elements of an AstFile
-     * @param message       // Optional message
+     * Adds the Complexity of a AstNode to its CodeLine
+     * @param astNode      // The AstNode inside the line of code
+     * @param codeLine      // The CodeLine containing the AstNode
      */
-    logg(message?: string): void {
-        console.log('-----------------------------');
-        console.log(chalk.yellowBright(message ?? 'AST_FILE'));
-        console.log(this.name);
-        console.log('-----------------------------');
-        console.log(chalk.blueBright('end :'), this.end);
-        console.log(chalk.blueBright('text :'), this.text);
-        console.log(chalk.blueBright('astNode :'), this.astNode?.kind);
-        console.log(chalk.blueBright('astFolder :'), this.astFolder?.path);
+    private increaseLineCpxFactors(astNode: AstNode, codeLine: CodeLine): void {
+        if (!codeLine.isCommented) {
+            codeLine.cpxFactors = codeLine.cpxFactors.add(astNode?.cpxFactors);
+        }
     }
 
 
+    /**
+     * Adds information about complexity factors for each line of the displayed code
+     */
+    private addCommentsToDisplayedCode(): void {
+        this._displayedCode.lines
+            .filter(line => line.cpxFactors.total > 0)
+            .forEach(line => {
+                let comment = `+${line.cpxFactors.total.toFixed(1)} Complexity index (+${line.cpxFactors.totalAtomic.toFixed(1)} ${FactorCategory.ATOMIC}`;
+                comment = line.cpxFactors.totalStructural > 0 ? `${comment}, +${line.cpxFactors.totalStructural} ${FactorCategory.STRUCTURAL}` : comment;
+                comment = line.cpxFactors.totalNesting > 0 ? `${comment}, +${line.cpxFactors.totalNesting} nesting` : comment;
+                comment = line.cpxFactors.totalTyping > 0 ? `${comment}, +${line.cpxFactors.totalTyping} typing` : comment;
+                comment = line.cpxFactors.totalAggregation > 0 ? `${comment}, +${line.cpxFactors.totalAggregation} ${FactorCategory.AGGREGATION}` : comment;
+                comment = line.cpxFactors.totalDepth > 0 ? `${comment}, +${line.cpxFactors.totalDepth} depth` : comment;
+                comment = line.cpxFactors.totalRecursion > 0 ? `${comment}, +${line.cpxFactors.totalRecursion} recursivity` : comment;
+                comment = line.cpxFactors.totalUse > 0 ? `${comment}, +${line.cpxFactors.totalUse} ${FactorCategory.USE}` : comment;
+                comment = `${comment})`;
+                this._displayedCode.getLine(line.issue).addComment(comment, this.maxLineLength);
+            });
+    }
+
+
+    /**
+     * Calculates the Complexity Factors of the method
+     */
+    private calculateCpxFactors(): void {
+        const lines: CodeLine[] = this._displayedCode?.lines;
+        if (lines.length === 0) {
+            this.createDisplayedCodeAndCalculateCpxFactors();
+        }
+        this.cpxFactors = new CpxFactors();
+        for (const line of this._displayedCode?.lines) {
+            this.cpxFactors = this.cpxFactors.add(line.cpxFactors);
+        }
+    }
 }

@@ -193,6 +193,7 @@ export enum SyntaxKind {
     JsxAttributes = 'JsxAttributes',
     JsxClosingElement = 'JsxClosingElement',
     JsxClosingFragment = 'JsxClosingFragment',
+    JsxComponent = 'JsxComponent',
     JsxElement = 'JsxElement',
     JsxExpression = 'JsxExpression',
     JsxFragment = 'JsxFragment',

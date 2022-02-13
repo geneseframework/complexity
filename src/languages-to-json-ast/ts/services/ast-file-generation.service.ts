@@ -102,8 +102,8 @@ export class AstFileGenerationService {
         if (Ts.isVarStatement(node)) {
             astNode.type = Ts.getVarStatementType(node);
         }
-        if (Ts.isJsxElement(node)) {
-            astNode.type = 'JsxElement';
+        if (Ts.isJsxComponent(node)) {
+            astNode.type = SyntaxKind.JsxComponent;
         }
         return astNode;
     }
