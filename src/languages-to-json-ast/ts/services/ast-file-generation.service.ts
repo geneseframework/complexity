@@ -69,14 +69,15 @@ export class AstFileGenerationService {
             start: node.getStart()
         };
         astNode = this.addTypeAndCpxFactors(node, astNode);
-        if (!isJsx(node)) {
+        // TODO: uncomment if we choose to exclude JSX from analyse
+        // if (!isJsx(node)) {
             node.forEachChild((childNode: Node) => {
                 if (!astNode.children) {
                     astNode.children = [];
                 }
                 astNode.children.push(this.createAstNodeChildren(childNode));
             });
-        }
+        // }
         return astNode;
     }
 

@@ -16,7 +16,7 @@ let FRAMEWORK = ARGS[5] ?? undefined;
 
 export async function startDebug(): Promise<number> {
     const pathToAnalyse = `${process.cwd()}/src/core/mocks`;
-    FRAMEWORK = 'react';
+    // FRAMEWORK = 'react';
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {
         createOutDir();
