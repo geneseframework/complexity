@@ -149,6 +149,14 @@ export class Ast {
      * Checks if an AST node is a function or a method
      * @param astNode
      */
+    static isJsxComponent(astNode: AstNode): boolean {
+        return astNode?.type === SyntaxKind.JsxComponent;
+    }
+
+    /**
+     * Checks if an AST node is a function or a method
+     * @param astNode
+     */
     static isIdentifier(astNode: AstNode): boolean {
         return astNode?.kind === SyntaxKind.Identifier;
     }

@@ -18,10 +18,12 @@ import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interf
 import { FactorCategory } from '../../enums/factor-category.enum';
 import { TypingCpx } from '../../../core/models/cpx-factor/typing-cpx.model';
 import { Options } from '../../../core/models/options.model';
+import { AstJsxComponent } from './ast-jsx.model';
 
 export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     private _astFile?: AstFile = undefined;                                             // The AstFile containing the AST node of the AstNode
+    private _astJsxComponent?: AstJsxComponent = undefined;                                         // The method at the root of the current ast (if this ast is inside a method)
     private _astMethod?: AstMethod = undefined;                                         // The method at the root of the current ast (if this ast is inside a method)
     private _astNodeService?: AstNodeService = new AstNodeService();                    // The service managing AstNodes
     private _children?: AstNode[] = [];                                                 // The children AstNodes of the AstNode
@@ -66,6 +68,16 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     set astFile(astFile: AstFile) {
         this._astFile = astFile;
+    }
+
+
+    get astJsxComponent(): AstJsxComponent {
+        return this._astJsxComponent;
+    }
+
+
+    set astJsxComponent(astJsxComponent: AstJsxComponent) {
+        this._astJsxComponent = astJsxComponent;
     }
 
 
