@@ -1,17 +1,29 @@
 import React from 'react';
 
-const Component = () => {
-    return (
-        <div>
-            <p>Some text</p>
-        </div>
-    )
-}
+// const Component = () => {
+//     return (
+//         <div>
+//             <p>Some text</p>
+//         </div>
+//     )
+// }
+//
+// export const OtherComponent = () => {
+//     return (
+//         <div>
+//             <p>Some other text</p>
+//         </div>
+//     )
+// }
 
-export const OtherComponent = () => {
+const ComponentDisplay: React.FC<any> = (display: boolean) => {
     return (
-        <div>
-            <p>Some other text</p>
-        </div>
-    )
-}
+        <>
+            {display && (
+                <div>
+                    <p>Some text</p>
+                </div>
+            )}
+        </>
+    );
+};
