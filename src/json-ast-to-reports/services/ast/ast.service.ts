@@ -83,6 +83,14 @@ export class Ast {
     }
 
     /**
+     * Checks if an AST node is a VariableDeclarationList
+     * @param astNode   // The AST node to check
+     */
+    static isVarDeclarationList(astNode: AstNode): boolean {
+        return astNode?.kind === SyntaxKind.VariableDeclarationList ?? false;
+    }
+
+    /**
      * Checks if an AST node is a VariableStatement
      * @param astNode   // The AST node to check
      */

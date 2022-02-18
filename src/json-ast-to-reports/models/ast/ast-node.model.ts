@@ -205,6 +205,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     }
 
 
+    get isCallDeclaration(): boolean {
+        return this.factorCategory === NodeFeature.CALL_DECLARATION;
+    }
+
+
     get isCallIdentifier(): boolean {
         return Ast.isCallIdentifier(this) && this === this.parent.firstSon;
     }
@@ -212,11 +217,6 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
 
     get isExpressionStatement(): boolean {
         return Ast.isExpressionStatement(this);
-    }
-
-
-    get isCallDeclaration(): boolean {
-        return this.factorCategory === NodeFeature.CALL_DECLARATION;
     }
 
 
@@ -251,6 +251,11 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
     get isVarArrowFunction(): boolean {
         const ancestor: AstNode = this.parent?.parent?.parent;
         return this.kind === 'ArrowFunction' && ancestor?.kind === 'VariableStatement' && ancestor.parent?.kind === 'SourceFile';
+    }
+
+
+    get isVarDeclarationList(): boolean {
+        return Ast.isVarDeclarationList(this);
     }
 
 
