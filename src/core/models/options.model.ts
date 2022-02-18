@@ -36,7 +36,11 @@ export class Options {
     static pathFolderToAnalyze = './';      // The path of the folder to analyse (can be overridden)
     static pathGeneseNodeJs = '';           // The path of the node_module Genese in the nodejs user environment (can't be overridden)
     static pathOutDir = '';                 // The path where the reports are created (can be overridden)
-    static typing = true;                   // True if we want to add a complexity weight for lacks of typing
+    static rules = {
+        ignoreJsx: false,                   // True if we want to ignore the JSX Elements
+        typing: true,                       // True if we want to add a complexity weight for lacks of typing
+    }
+    // static typing = true;                   // True if we want to add a complexity weight for lacks of typing
 
     /**
      * Sets the options of @genese/complexity module
@@ -98,7 +102,8 @@ export class Options {
         Options.ignore.push(Options.pathOutDir);
         Options.cognitiveCpx = config.complexity.cognitiveCpx ?? Options.cognitiveCpx;
         Options.cyclomaticCpx = config.complexity.cyclomaticCpx ?? Options.cyclomaticCpx;
-        Options.typing = config.complexity?.rules?.typing !== false;
+        Options.rules.typing = config.complexity?.rules?.typing !== false;
+        Options.rules.ignoreJsx = !!config.complexity?.rules?.ignoreJsx;
     }
 
 

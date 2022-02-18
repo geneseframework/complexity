@@ -1,10 +1,17 @@
 import React from 'react';
 
-const component = () => {
-    console.log('TSX MOCKKKK');
+const Component = () => {
     return (
         <div>
             <p>Some text</p>
+        </div>
+    )
+}
+
+export const OtherComponent = () => {
+    return (
+        <div>
+            <p>Some other text</p>
         </div>
     )
 }

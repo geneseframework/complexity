@@ -1,4 +1,4 @@
-# @genese/complexity (Genese Cpx) [![npm version](https://badge.fury.io/js/%40genese%2Fcomplexity.svg)](https://badge.fury.io/js/%40genese%2Fcomplexity)
+# Genese Cpx (@genese/complexity) [![npm version](https://badge.fury.io/js/%40genese%2Fcomplexity.svg)](https://badge.fury.io/js/%40genese%2Fcomplexity)
 
 Genese Cpx analyzes the source code of your project and estimates the cognitive complexity of each code snippet. It creates an HTML report displaying an overview of the complexities index for each folder, file or method of your project. Moreover, you will find for each method the elements increasing the cognitive complexity, which will help you to refactor your code.
 
@@ -21,6 +21,7 @@ This module is a part of the [@genese]('https://github.com/geneseframework/genes
     * [Path of folder to analyze](#53-path-of-folder-to-analyse)
     * [Reports path](#54-reports-path)
     * [Frameworks](#55-frameworks)
+    * [Rules customization](#56-rules-customization)
 * [Cyclomatic complexity](#6-cyclomatic-complexity)
     * [Definition](#61-definition)
 * [Cognitive complexity](#7-cognitive-complexity)
@@ -220,6 +221,8 @@ genese cpx ./src -f react
 
 ### 5.6 Rules customization
 
+#### 5.6.1 Typing
+
 Usually, you should type everything in your code. However, in some specific cases, the types may decrease its readability. It may be true for React hooks, for example.
 
 By default, the lack of typing increases the score given by Genese Cpx. If you prefer to ignore the typing complexity, you must add a specific rule in the `geneseconfig.json` file.
@@ -234,6 +237,19 @@ By default, the lack of typing increases the score given by Genese Cpx. If you p
 }
 ```
 
+#### 5.6.2 JSX
+
+It is a good practice to analyze the complexity of the entire file, including the JSX elements. However, you may ignore the complexity of these elements by changing the default value of the rule `ignoreJsx`.
+
+```json
+{
+    "complexity": {
+        "rules": {
+            "ignoreJsx": true
+        }
+    }
+}
+```
 
 [Top](#table-of-contents)
 ## 6. Cyclomatic complexity

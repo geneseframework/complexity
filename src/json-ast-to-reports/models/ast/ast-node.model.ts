@@ -446,7 +446,7 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
      * @private
      */
     private setTypingCpxFactors(): void {
-        if (this.shouldBeTyped && !this.type && Options.typing) {
+        if (this.shouldBeTyped && !this.type && Options.rules.typing) {
             const category: string = this.isCallDeclaration ? 'func' : this.factorCategory;
             this.cpxFactors.typing[category] = cpxFactors.typing[category];
         }
