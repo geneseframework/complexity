@@ -322,6 +322,7 @@ export enum SyntaxKind {
     TemplateExpression = 'TemplateExpression',
     TemplateHead = 'TemplateHead',
     TemplateMiddle = 'TemplateMiddle',
+    TemplateRoot = 'TemplateRoot',
     TemplateSpan = 'TemplateSpan',
     TemplateTail = 'TemplateTail',
     ThisKeyword = 'ThisKeyword',
