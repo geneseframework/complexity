@@ -23,7 +23,10 @@ export class AstFileGenerationJavaService {
         }
         const fileContent = fs.readFileSync(path, 'utf8');
         const cst = parse(fileContent)
+        // TODO: fix deprecated property "children" after java-parser and lodash upgrade
+        // @ts-ignore
         let classDeclaration = cst.children.ordinaryCompilationUnit[0].children?.typeDeclaration?.[0]?.children?.classDeclaration?.[0];
+        // @ts-ignore
         let interfaceDeclaration = cst.children.ordinaryCompilationUnit[0].children?.typeDeclaration?.[0]?.children?.interfaceDeclaration?.[0];
         let ast: any = [];
         if(classDeclaration) {

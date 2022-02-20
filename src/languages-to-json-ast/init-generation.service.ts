@@ -8,6 +8,7 @@ import { DEV_MOCK, LIMIT_GENERATIONS } from './globals.const';
 import { isLanguage, Language } from '../core/enum/language.enum';
 import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
 import * as chalk from 'chalk';
+import { JsxTemplateService } from './ts/services/jsxTemplate.service';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree (AST) of its files (including files in subfolders)
@@ -27,9 +28,9 @@ export class InitGenerationService {
             console.log('ERROR: no path.');
             return undefined;
         }
-        return {
-            astFolder: this.generateAstFolder(path, language)
-        };
+        const astFolder: AstFolderInterface = this.generateAstFolder(path, language);
+        this.addTemplateRootNodes(astFolder, language);
+        return { astFolder }
     }
 
 
@@ -113,5 +114,20 @@ export class InitGenerationService {
      */
     private isFileToGenerate(path: string, language: Language): boolean {
         return (isLanguage(getFileExtension(path)) && !LIMIT_GENERATIONS) || path === DEV_MOCK;
+    }
+
+
+    private addTemplateRootNodes(astFolder: AstFolderInterface, language: Language): void {
+        switch (language) {
+            case Language.JS:
+            case Language.TS:
+            case Language.JSX:
+            case Language.TSX:
+                JsxTemplateService.addTemplateRootNodes(astFolder);
+                break
+            default:
+                return;
+        }
+
     }
 }

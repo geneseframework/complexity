@@ -49,7 +49,6 @@ export class LanguageToJsonAst {
     }
 
 
-    // TODO: implement for all languages
     private static generateFromAllFiles(pathToAnalyze: string): JsonAstInterface {
         return LanguageToJsonAst.generateFromFiles(pathToAnalyze, Language.TS);
     }
@@ -69,16 +68,5 @@ export class LanguageToJsonAst {
         jsonAst.astFolder = astFolder;
         return jsonAst;
     }
-
-
-    private static findInObject(o, f) {
-        return Object.keys(o).some(function (a) {
-            if (Array.isArray(o[a]) || typeof o[a] === 'object' && o[a] !== null) {
-                return LanguageToJsonAst.findInObject(o[a], f);
-            }
-            return o[a] === f;
-        });
-    }
-
 
 }
