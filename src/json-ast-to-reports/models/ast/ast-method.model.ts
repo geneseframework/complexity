@@ -10,6 +10,7 @@ import { cpxFactors } from '../../../core/const/cpx-factors';
 import { FactorCategory } from '../../enums/factor-category.enum';
 import { Options } from '../../../core/models/options.model';
 import { CpxLevel } from '../../enums/cpx-level.enum';
+import { LogService } from '../../services/log.service';
 
 /**
  * Element of the AstNode structure corresponding to a given method
@@ -276,7 +277,7 @@ export class AstMethod implements Evaluate {
      * @param codeLine      // The CodeLine containing the AstNode
      */
     private increaseLineCpxFactors(astNode: AstNode, codeLine: CodeLine): void {
-        if (!codeLine.isCommented) {
+        if (codeLine && !codeLine.isCommented) {
             codeLine.cpxFactors = codeLine.cpxFactors.add(astNode?.cpxFactors);
         }
     }

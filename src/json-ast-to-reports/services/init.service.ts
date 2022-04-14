@@ -85,6 +85,7 @@ export class InitService {
         const newAstFile = new AstFile();
         newAstFile.name = astFileFromJsonAst.name;
         newAstFile.astFolder = astFolder;
+        newAstFile.end = astFileFromJsonAst.astNode?.end;
         newAstFile.code = CodeService.getCode(astFileFromJsonAst.text);
         newAstFile.astNode = this.getFileAstNode(astFileFromJsonAst.astNode, newAstFile);
         newAstFile.astNodes = this.astNodeService.flatMapAstNodes(newAstFile.astNode, [newAstFile.astNode]);
