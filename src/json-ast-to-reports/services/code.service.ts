@@ -52,7 +52,6 @@ export class CodeService {
     }
 
 
-
     isEndingWithBlockComments(line: CodeLine): boolean {
         const text = line.textWithoutSlashComments;
         if (line.previousLine?.isEndingWithBlockComments) {

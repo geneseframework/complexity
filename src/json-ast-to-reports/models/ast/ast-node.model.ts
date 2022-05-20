@@ -195,6 +195,10 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
         return [NodeFeature.VARIABLE, NodeFeature.PARAMETER].includes(this.factorCategory);
     }
 
+    get isAtTheEndOfTheFile(): boolean {
+        return this.end === this.astFile.end;
+    }
+
 
     get isCallback(): boolean {
         if (this._isCallback) {
@@ -278,7 +282,8 @@ export class AstNode implements AstNodeInterface, Evaluate, Logg {
         if (this._lineEnd) {
             return this._lineEnd;
         }
-        this._lineEnd = CodeService.getLineIssue(this.astFile?.code, this.end);
+        const lastCharPosition: number = this.isAtTheEndOfTheFile ? this.end - 1 : this.end;
+        this._lineEnd = CodeService.getLineIssue(this.astFile?.code, lastCharPosition);
         return this._lineEnd;
     }
 
