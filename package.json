@@ -1,6 +1,6 @@
 {
     "name": "@genese/complexity",
-    "version": "1.1.28",
+    "version": "1.1.29",
     "description": "Analyzes the difficulty of comprehension of source code (its cognitive complexity). Part of the @genese tool suite.",
     "scripts": {
         "build": "tsc && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/core/chartjs dist/src/core/chartjs",
@@ -23,7 +23,6 @@
     },
     "homepage": "https://github.com/geneseframework/complexity#readme",
     "dependencies": {
-        "@genese/core": "^1.0.0-alpha.1",
         "@types/node": "^14.14.8",
         "chalk": "^4.1.0",
         "csv-writer": "^1.6.0",

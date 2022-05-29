@@ -1,8 +1,7 @@
 import { cstToAst } from '../cst-to-ast';
 import { Primary } from '../models/primary.model';
 import { PrimaryChildren } from '../models/primary-children.model';
-import { clone } from '@genese/core';
-
+import { clone } from '../../../core/utils/arrays.util';
 
 export function run(cstNode: Primary, children: PrimaryChildren): any {
     const primaryPrefix = children.primaryPrefix;
