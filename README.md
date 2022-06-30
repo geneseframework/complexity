@@ -89,6 +89,14 @@ Available options are: `ts`, `js`, `tsx`, `jsx` and `java`.
 
 This command line will generate a report in the folder `genese/complexity/reports` (it can be customized) named `folder-report.html`. You just need to open it in a browser to display the results.
 
+If you prefer to read the report in a nutshell in your console, just add `-c` to your command :
+
+***Example:***
+```sh
+genese cpx -c ./src
+```
+
+
 [Top](#table-of-contents)
 ## 4. Interpretation of results
 

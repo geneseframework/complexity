@@ -4,6 +4,7 @@ import { ReportsService } from './services/report/reports.service';
 import * as chalk from 'chalk';
 import { AstFolder } from './models/ast/ast-folder.model';
 import * as terminalLink from 'terminal-link';
+import { JsonReportService } from './services/json-report.service';
 
 
 /**
@@ -34,6 +35,7 @@ export class JsonAstToReports {
             result = `Please open in your browser the file ${link} located in your genese reports folder.`
         }
         this.astFolder = jsonAst.astFolder;
+        JsonReportService.createJsonFileReport(this.astFolder);
         return result;
     }
 
