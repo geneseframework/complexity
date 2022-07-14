@@ -16,7 +16,7 @@ export function cstToAst(cstNode, kind = undefined): any {
     } catch (e) {
         const error = new Error(e.message + '!!!' + cstNode.location ? cstNode.location.startLine : cstNode.startLine)
         error.stack = e.stack;
-        throw error;
+        console.log('Error in cstToAst \n', cstNode);
     }
 }
 

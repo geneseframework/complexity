@@ -5,9 +5,9 @@ import { Options } from '../core/models/options.model';
 import { AstFolderInterface } from '../core/interfaces/ast/ast-folder.interface';
 import { JsonAstInterface } from '../core/interfaces/ast/json-ast.interface';
 import { DEV_MOCK, LIMIT_GENERATIONS } from './globals.const';
-import { isLanguage, Language } from '../core/enum/language.enum';
+import { Language } from '../core/enum/language.enum';
 import { AstFileGenerationService } from './ts/services/ast-file-generation.service';
-import * as chalk from 'chalk';
+import { hasCorrectExtension, isJsOrTsLanguage } from '../core/utils/languages.util';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree (AST) of its files (including files in subfolders)
@@ -64,18 +64,13 @@ export class InitGenerationService {
             astFiles: []
         };
         let initService;
-        switch (language) {
-            case Language.JS:
-            case Language.TS:
-            case Language.JSX:
-            case Language.TSX:
-                initService = new AstFileGenerationService();
-                break
-            case Language.JAVA:
-                initService = new AstFileGenerationJavaService();
-                break
-            default:
-                initService = new AstFileGenerationService();
+        if (isJsOrTsLanguage(language)) {
+            initService = new AstFileGenerationService();
+        } else if (language === Language.JAVA) {
+            initService = new AstFileGenerationJavaService();
+        } else {
+            console.warn('No language found', language)
+            initService = new AstFileGenerationService();
         }
         const filesOrDirs = fs.readdirSync(path);
         let currentFile = undefined;
@@ -112,6 +107,6 @@ export class InitGenerationService {
      * @returns boolean
      */
     private isFileToGenerate(path: string, language: Language): boolean {
-        return (isLanguage(getFileExtension(path)) && !LIMIT_GENERATIONS) || path === DEV_MOCK;
+        return (hasCorrectExtension(getFileExtension(path), language) && !LIMIT_GENERATIONS) || path === DEV_MOCK;
     }
 }

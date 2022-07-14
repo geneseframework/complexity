@@ -1,7 +1,7 @@
 import { getFilename } from '../../../core/services/file.service';
 import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
 import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
-import { parse } from 'java-parser';
+import { CstElement, CstNode, parse } from 'java-parser';
 import * as fs from 'fs-extra';
 import { cstToAst } from '../cst-to-ast';
 
@@ -22,9 +22,13 @@ export class AstFileGenerationJavaService {
             return undefined;
         }
         const fileContent = fs.readFileSync(path, 'utf8');
-        const cst = parse(fileContent)
-        let classDeclaration = cst.children.ordinaryCompilationUnit[0].children?.typeDeclaration?.[0]?.children?.classDeclaration?.[0];
-        let interfaceDeclaration = cst.children.ordinaryCompilationUnit[0].children?.typeDeclaration?.[0]?.children?.interfaceDeclaration?.[0];
+        const cst: CstNode = parse(fileContent);
+        const firstOrdinaryCompilationUnit: CstElement = cst.children.ordinaryCompilationUnit[0];
+        let classDeclaration;
+        let interfaceDeclaration;
+        const firstTypeDeclaration: CstElement = firstOrdinaryCompilationUnit['children']?.typeDeclaration?.[0];
+        classDeclaration = firstTypeDeclaration?.['children']?.classDeclaration?.[0];
+        interfaceDeclaration = firstTypeDeclaration?.['children']?.interfaceDeclaration?.[0];
         let ast: any = [];
         if(classDeclaration) {
             ast = cstToAst(classDeclaration);
