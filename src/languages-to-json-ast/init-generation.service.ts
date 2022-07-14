@@ -64,7 +64,6 @@ export class InitGenerationService {
             astFiles: []
         };
         let initService;
-        // console.log('PAAATH', path, getFileExtension(path))
         if (isJsOrTsLanguage(language)) {
             initService = new AstFileGenerationService();
         } else if (language === Language.JAVA) {
@@ -73,21 +72,6 @@ export class InitGenerationService {
             console.warn('No language found', language)
             initService = new AstFileGenerationService();
         }
-        // switch (language) {
-        //     case Language.JS:
-        //     case Language.TS:
-        //     case Language.JSX:
-        //     case Language.TSX:
-        //         initService = new AstFileGenerationService();
-        //         break
-        //     case Language.JAVA:
-        //         console.log('generateAstFolder language', language)
-        //         initService = new AstFileGenerationJavaService();
-        //         break
-        //     default:
-        //         console.warn('No language found', language)
-        //         initService = new AstFileGenerationService();
-        // }
         const filesOrDirs = fs.readdirSync(path);
         let currentFile = undefined;
         try {
@@ -95,7 +79,7 @@ export class InitGenerationService {
                 const pathElement = path + elementName;
                 currentFile = pathElement;
                 if (!Options.isIgnored(pathElement)) {
-                    console.log('pathElement', pathElement, this.isFileToGenerate(pathElement, language))
+                    // console.log('pathElement', pathElement, this.isFileToGenerate(pathElement, language))
                     if (fs.statSync(pathElement).isDirectory() && !LIMIT_GENERATIONS) {
                         astFolder.children = astFolder.children ?? [];
                         astFolder.children.push(this.generateAstFolder(`${pathElement}/`, language));

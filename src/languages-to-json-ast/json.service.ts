@@ -110,6 +110,10 @@ export class JsonService {
     private static jsonArray(obj: object, key: string, indentation: string, json: string): string {
         json = `${json}[\n`;
         for (let i = 0; i < obj[key].length; i++) {
+            if (!obj[key][i]) {
+                console.log('jsonArray obj', obj)
+                console.log('jsonArray obj[key]', obj[key], key)
+            }
             json = `${json}${indentation}\t${JsonService.prettifyJson(obj[key][i], `${indentation}\t`)}`;
             json = isLastIndex(i, obj[key]) ? `${json}\n` : `${json},\n`;
         }

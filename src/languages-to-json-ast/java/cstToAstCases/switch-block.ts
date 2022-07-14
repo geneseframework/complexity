@@ -11,8 +11,8 @@ export function run(cstNode: SwitchBlock, children: SwitchBlockChildren): any {
         start: cstNode.location.startOffset,
         end: cstNode.location.endOffset + 1,
         pos: cstNode.location.startOffset,
-        children: [
+        children: switchCase ? [
             ...[].concat(...switchCase.map(e => cstToAst(e)) ?? []),
-        ]
+        ] : [],
     };
 }
