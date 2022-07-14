@@ -79,7 +79,6 @@ export class InitGenerationService {
                 const pathElement = path + elementName;
                 currentFile = pathElement;
                 if (!Options.isIgnored(pathElement)) {
-                    // console.log('pathElement', pathElement, this.isFileToGenerate(pathElement, language))
                     if (fs.statSync(pathElement).isDirectory() && !LIMIT_GENERATIONS) {
                         astFolder.children = astFolder.children ?? [];
                         astFolder.children.push(this.generateAstFolder(`${pathElement}/`, language));
