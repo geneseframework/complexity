@@ -1,4 +1,4 @@
-import { getFilename } from '../../../core/services/file.service';
+import { getFileExtension, getFilename } from '../../../core/services/file.service';
 import { AstFileInterface } from '../../../core/interfaces/ast/ast-file.interface';
 import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
 import { CstElement, CstNode, parse } from 'java-parser';
@@ -21,7 +21,15 @@ export class AstFileGenerationJavaService {
             console.warn('No path or AstFolder : impossible to create AstFile');
             return undefined;
         }
+        // if (getFileExtension(path) !== 'java') {
+        //     console.log('NO JAVA file', path)
+        //     return undefined;
+        // }
         const fileContent = fs.readFileSync(path, 'utf8');
+        console.log('\n path', path);
+        const zzz = getFileExtension(path)
+        console.log('Extension : ', zzz)
+        // console.log('\n fileContent', fileContent);
         const cst: CstNode = parse(fileContent);
         const firstOrdinaryCompilationUnit: CstElement = cst.children.ordinaryCompilationUnit[0];
         let classDeclaration;

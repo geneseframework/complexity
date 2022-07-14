@@ -15,7 +15,8 @@ const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 let FRAMEWORK = ARGS[5] ?? undefined;
 
 export async function startDebug(): Promise<number> {
-    const pathToAnalyse = `${process.cwd()}/src/core/mocks`;
+    const pathToAnalyse = `${process.cwd()}/../../../applications-web/local-job-projects/altran/sanofi/trackandtrace/sanofi-tnt-back`;
+    // const pathToAnalyse = `${process.cwd()}/src/core/mocks`;
     // FRAMEWORK = 'react';
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {

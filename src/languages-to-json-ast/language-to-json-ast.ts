@@ -27,6 +27,7 @@ export class LanguageToJsonAst {
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break
             case Language.JAVA:
+                console.log('JAVA PROJECT', project.getSourceFiles().map(s => s.getBaseName()))
                 jsonAst = LanguageToJsonAst.generateFromFiles(pathToAnalyze, language);
                 break;
             case Language.JS:

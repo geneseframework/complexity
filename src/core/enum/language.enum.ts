@@ -1,3 +1,5 @@
+import { isJsOrTsLanguage } from '../utils/languages.util';
+
 export enum Language {
     JAVA = 'java',
     PHP = 'php',
@@ -8,7 +10,3 @@ export enum Language {
     JSX = 'jsx'
 }
 
-
-export function isLanguage(extension: string): extension is Language {
-    return Object.values(Language).includes(extension as Language);
-}
