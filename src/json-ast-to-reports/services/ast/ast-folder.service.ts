@@ -136,48 +136,12 @@ export class AstFolderService extends StatsService {
     private getChildrenFoldersNumberOfLinesOfCode(astFolder: AstFolder): number {
         let nbLinesOfCode = 0;
         for (const childAstFolder of astFolder.children) {
-            nbLinesOfCode += new AstFileService().getNumberOfLinesOfCode(childAstFolder.astFiles);;
+            nbLinesOfCode += new AstFileService().getNumberOfLinesOfCode(childAstFolder.astFiles);
+            ;
             nbLinesOfCode += this.getChildrenFoldersNumberOfLinesOfCode(childAstFolder);
         }
         return nbLinesOfCode;
     }
-
-
-    // /**
-    //  * Returns the number of lines of code of an astFolder and its subfolders
-    //  * @param astFolder     // The astFolder to analyse
-    //  */
-    // setNumberOfLinesOfCodeWithSubfolders(astFolder: AstFolder): void {
-    //     astFolder.numberOfLinesOfCodeWithSubfolders = astFolder.numberOfLinesOfCode + this.getChildrenNumberOfLinesOfCodeWithSubfolders(astFolder);
-    // }
-    //
-    //
-    // /**
-    //  * Returns the number of lines of code of an astFolder and its subfolders
-    //  * @param astFolder     // The astFolder to analyse
-    //  */
-    // getNumberOfLinesOfCodeWithSubfolders(astFolder: AstFolder): number {
-    //     let nbLinesOfCode = astFolder.numberOfLinesOfCode + this.getChildrenNumberOfLinesOfCodeWithSubfolders(astFolder);
-    //     return nbLinesOfCode;
-    // }
-
-
-    /**
-     * Returns the number of lines of code of the subfolders of a given AstFolder
-     * @param astFolder     // The astFolder to analyse
-     */
-    // private getChildrenNumberOfLinesOfCodeWithSubfolders(astFolder: AstFolder): number {
-    //     let nbLinesOfCode = 0;
-    //     console.log('GET CH W SBF astFolder', `path ${astFolder.relativePath}`)
-    //     for (const childAstFolder of astFolder.children) {
-    //         nbLinesOfCode += childAstFolder.numberOfLinesOfCode;
-    //         console.log('GET CH W SBF LOOP ', nbLinesOfCode, `path ${childAstFolder.relativePath}`)
-    //         nbLinesOfCode += this.getChildrenNumberOfLinesOfCodeWithSubfolders(childAstFolder);
-    //     }
-    //     console.log('END OF GET CH W SBF childre loc', nbLinesOfCode)
-    //     astFolder.numberOfLinesOfCodeWithSubfolders = nbLinesOfCode;
-    //     return nbLinesOfCode;
-    // }
 
 
     /**

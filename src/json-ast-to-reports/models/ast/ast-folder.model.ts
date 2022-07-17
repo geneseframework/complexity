@@ -11,7 +11,7 @@ import { Logg } from '../../../core/interfaces/logg.interface';
 import * as chalk from 'chalk';
 import { AstNode } from './ast-node.model';
 import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
-import { isEmpty, isNotEmpty } from '../../../core/utils/arrays.util';
+import { isEmpty } from '../../../core/utils/arrays.util';
 
 export class AstFolder implements AstFolderInterface, Evaluate, Logg {
 
@@ -23,7 +23,6 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
     private _cyclomaticCpx ?= 0;                                                            // The cyclomatic complexity of the AstFolder
     private _numberOfFiles: number = undefined;                                             // The number of files of the AstFolder
     private _numberOfLinesOfCode: number = undefined;                                       // The number of lines of code of the AstFolder
-    private _numberOfLinesOfCodeWithSubfolders: number = undefined;                                       // The number of lines of code of the AstFolder
     private _numberOfMethods: number = undefined;                                           // The number of methods of the AstFolder
     private _parent?: AstFolder = undefined;                                                // The AstFolder corresponding to the parent folder of this AstFolder
     private _path?: string = undefined;                                                     // The absolute path of this folder
@@ -111,14 +110,9 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
     }
 
 
-    // get numberOfLinesOfCodeWithSubfolders(): number {
-    //     return this._numberOfLinesOfCodeWithSubfolders ?? this._astFolderService.getNumberOfLinesOfCodeWithSubfolders(this);
-    // }
-    //
-    //
-    // set numberOfLinesOfCodeWithSubfolders(numberOfLinesOfCodeWithSubfolders: number) {
-    //     this._numberOfLinesOfCodeWithSubfolders = numberOfLinesOfCodeWithSubfolders;
-    // }
+    get numberOfLinesOfCodeWithSubfolders(): number {
+        return this.numberOfLinesOfCode + this.getChildrenNumberOfLinesOfCodeWithSubfolders(this);
+    }
 
 
     get numberOfMethods(): number {
@@ -221,30 +215,15 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
     }
 
 
-    getNumberOfLinesOfCodeWithSubfolders(): number {
-        // let nbLines = astFolder.numberOfLinesOfCode;
-        console.log('PARENT PATH', this.relativePath)
-        const zzz = this.numberOfLinesOfCode + this.getChildrenNumberOfLinesOfCodeWithSubfolders(this);
-        console.log('PARENT LOC', zzz, this.relativePath)
-        return zzz;
-    }
-
-
     getChildrenNumberOfLinesOfCodeWithSubfolders(parentAstFolder: AstFolder): number {
-        // console.log('PARENT ', parentAstFolder.relativePath)
         if (isEmpty(parentAstFolder.children)) {
-            console.log(' IS EMPTY NB LINES');
             return 0;
         } else {
             let nbLinesOfChildren = 0;
             const children: AstFolder[] = parentAstFolder.children ?? [];
             for (const child of children) {
-                console.log(' LOOP CHILD', child.numberOfLinesOfCode, child.relativePath)
-                // if (isNotEmpty(child.children)) {
-                    nbLinesOfChildren += child.getNumberOfLinesOfCodeWithSubfolders();
-                // }
+                nbLinesOfChildren += child.numberOfLinesOfCodeWithSubfolders;
             }
-            console.log('END OF LOOP LINES WITH CHLDR', nbLinesOfChildren, parentAstFolder.relativePath)
             return nbLinesOfChildren;
         }
     }

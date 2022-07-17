@@ -82,7 +82,7 @@ async function start(): Promise<number> {
             const stats: any = reportResult.astFolder['_stats'];
             console.log(chalk.blueBright('Files : '), stats.numberOfFiles);
             console.log(chalk.blueBright('Methods : '), stats.numberOfMethods);
-            console.log(chalk.blueBright('Lines of code : '), reportResult.astFolder['_numberOfLinesOfCode']);
+            console.log(chalk.blueBright('Lines of code : '), reportResult.astFolder.numberOfLinesOfCodeWithSubfolders);
             console.log(chalk.blueBright('Cognitive Complexity : '), stats.totalCognitiveComplexity);
             console.log(chalk.blueBright('Cyclomatic Complexity : '), stats.totalCyclomaticComplexity);
             console.log(reportResult.message);
