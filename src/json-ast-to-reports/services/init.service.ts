@@ -39,9 +39,6 @@ export class InitService {
                 astFolder.children.push(newChild);
             }
         }
-        // console.log('BEFORE CALC')
-        // astFolder.numberOfLinesOfCodeWithSubfolders = new AstFolderService().setNumberOfLinesOfCodeWithSubfolders(astFolder);
-        // astFolder.numberOfLinesOfCodeWithSubfolders = new AstFolderService().getNumberOfLinesOfCodeWithSubfolders(astFolder);
         newJsonAst.astFolder = astFolder;
         return newJsonAst;
     }
