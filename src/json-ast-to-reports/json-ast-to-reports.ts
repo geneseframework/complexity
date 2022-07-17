@@ -20,9 +20,9 @@ export class JsonAstToReports {
      * @param markdown          // True if the user wants to get a report on markdown format
      * @param consoleMode       // True if the user wants to get a report on the console
      */
-    static start(pathCommand: string, jsonAstPath = '/ast.json', markdown: boolean, consoleMode: boolean): any {
+    static start(pathCommand: string, markdown: boolean, consoleMode: boolean, jsonAstPath = '/ast.json'): any {
         let result = undefined;
-        const jsonAst = new InitService().generateAllFromJsonAst(JsonAstToReports.getJsonAst(pathCommand + jsonAstPath));
+        const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(JsonAstToReports.getJsonAst(pathCommand + jsonAstPath));
         jsonAst.astFolder.evaluate();
         if(markdown){
             ReportsService.generateMarkdownReports(jsonAst)

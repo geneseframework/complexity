@@ -20,6 +20,7 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
     private _complexitiesByStatus?: ComplexitiesByStatus = new ComplexitiesByStatus();      // The folder complexities spread by complexity status
     private _cpxFactors?: CpxFactors = undefined;                                           // The complexity factors of the AstFolder
     private _cyclomaticCpx ?= 0;                                                            // The cyclomatic complexity of the AstFolder
+    private _numberOfLinesOfCode: number = undefined;                                             // The number of files of the AstFolder
     private _numberOfFiles: number = undefined;                                             // The number of files of the AstFolder
     private _numberOfMethods: number = undefined;                                           // The number of methods of the AstFolder
     private _parent?: AstFolder = undefined;                                                // The AstFolder corresponding to the parent folder of this AstFolder
@@ -95,6 +96,16 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
 
     set numberOfFiles(numberOfFiles: number) {
         this._numberOfFiles = numberOfFiles;
+    }
+
+
+    get numberOfLinesOfCode(): number {
+        return this._numberOfLinesOfCode ?? this._astFolderService.getNumberOfLinesOfCode(this);
+    }
+
+
+    set numberOfLinesOfCode(numberOfLinesOfCode: number) {
+        this._numberOfLinesOfCode = numberOfLinesOfCode;
     }
 
 

@@ -6,6 +6,8 @@ import { ComplexityType } from '../../enums/complexity-type.enum';
 import { BarchartService } from '../report/barchart.service';
 import { constructLink, getOS } from '../../../core/services/file.service';
 import { OS } from '../../enums/os.enum';
+import { isArray } from '../../../core/utils/arrays.util';
+import { AstFileService } from './ast-file.service';
 
 /**
  * - AstFolders generation from Abstract Syntax AstNode of a folder
@@ -109,6 +111,34 @@ export class AstFolderService extends StatsService {
             nbFiles += this.getChildrenFoldersNumberOfFiles(childAstFolder);
         }
         return nbFiles;
+    }
+
+
+    /**
+     * Returns the number of files of an astFolder and its subfolders
+     * @param astFolder     // The astFolder to analyse
+     */
+    getNumberOfLinesOfCode(astFolder: AstFolder): number {
+        if (!isArray(astFolder?.astFiles)) {
+            return 0;
+        }
+        let nbLinesOfCode = 0;
+        nbLinesOfCode += this.getChildrenFoldersNumberOfLinesOfCode(astFolder);
+        return nbLinesOfCode;
+    }
+
+
+    /**
+     * Returns the number of files of the subfolders of a given AstFolder
+     * @param astFolder     // The astFolder to analyse
+     */
+    private getChildrenFoldersNumberOfLinesOfCode(astFolder: AstFolder): number {
+        let nbLinesOfCode = 0;
+        for (const childAstFolder of astFolder.children) {
+            nbLinesOfCode += new AstFileService().getNumberOfLinesOfCode(childAstFolder.astFiles);
+            nbLinesOfCode += this.getChildrenFoldersNumberOfFiles(childAstFolder);
+        }
+        return nbLinesOfCode;
     }
 
 

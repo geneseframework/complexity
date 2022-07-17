@@ -1,4 +1,24 @@
 /**
+ * Returns true if the param "array" contains a value, false if not.
+ * @param array
+ */
+export function isNotEmpty<T>(array: T[] | undefined): array is T[] {
+    return !!array && array.length > 0;
+}
+
+/**
+ * Returns true if the param "array" contains a value, false if not.
+ * @param array
+ */
+export function isEmpty<T>(array: T[] | undefined): array is T[] {
+    return !!array && array.length === 0;
+}
+
+export function isArray(value: any): value is any[] {
+    return Array.isArray(value);
+}
+
+/**
  * Returns a flatten array from a given array
  * @param array     // The array to flat
  */
