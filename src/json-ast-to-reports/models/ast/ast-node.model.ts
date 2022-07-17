@@ -13,10 +13,7 @@ import * as chalk from 'chalk';
 import { Logg } from '../../../core/interfaces/logg.interface';
 import { CodeService } from '../../services/code.service';
 import { AstNodeInterface } from '../../../core/interfaces/ast/ast-node.interface';
-import { IdentifierType } from '../../../core/interfaces/identifier-type.type';
 import { CpxFactorsInterface } from '../../../core/interfaces/cpx-factors.interface';
-import { FactorCategory } from '../../enums/factor-category.enum';
-import { TypingCpx } from '../../../core/models/cpx-factor/typing-cpx.model';
 import { Options } from '../../../core/models/options.model';
 
 export class AstNode implements AstNodeInterface, Evaluate, Logg {

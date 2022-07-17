@@ -6,7 +6,6 @@ import { createOutDir } from './core/services/file.service';
 import { AstFolder } from './json-ast-to-reports/models/ast/ast-folder.model';
 import * as chalk from 'chalk';
 import { startDebug } from './index-debug';
-import { JsonAstToReports } from './json-ast-to-reports/json-ast-to-reports';
 
 const ora = require('ora');
 const path = require('path');

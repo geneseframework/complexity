@@ -167,7 +167,6 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
     evaluate(): void {
         this.cpxFactors = new CpxFactors();
         this.evaluateCpxFactors(this);
-        // this.numberOfLinesOfCode = this._astFolderService.getNumberOfLinesOfCode(this);
         this.numberOfMethods = this._astFolderService.getNumberOfMethods(this);
         this.stats = this._astFolderService.calculateStats(this);
     }

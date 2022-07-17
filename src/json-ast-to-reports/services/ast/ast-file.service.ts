@@ -4,7 +4,6 @@ import { StatsService } from '../report/stats.service';
 import { Stats } from '../../models/stats.model';
 import { ComplexityType } from '../../enums/complexity-type.enum';
 import { CpxLevel } from '../../enums/cpx-level.enum';
-import { AstFolder } from '../../models/ast/ast-folder.model';
 import { isArray } from '../../../core/utils/arrays.util';
 
 /**
@@ -99,14 +98,7 @@ export class AstFileService extends StatsService {
      * @param astFile   // The AstFile to analyse
      */
     getNumberOfLinesOfCodeForOneFile(astFile: AstFile): number {
-    // private getNumberOfLinesOfCodeForOneFile(astFile: AstFile): number {
-        if (!astFile?.text) {
-            return 0;
-        }
-        const linesOfCode = astFile.text.split('\n');
-        const nonEmptyLines: number = linesOfCode.filter(l => l.length > 0).length;
-        // astFile.numberOfLinesOfCode = nonEmptyLines;
-        return nonEmptyLines;
+        return astFile?.text ? astFile.text.split('\n').filter(l => l.length > 0).length : 0;
     }
 
 }
