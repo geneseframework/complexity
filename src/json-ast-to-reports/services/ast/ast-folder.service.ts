@@ -136,7 +136,7 @@ export class AstFolderService extends StatsService {
     private getChildrenFoldersNumberOfLinesOfCode(astFolder: AstFolder): number {
         let nbLinesOfCode = 0;
         for (const childAstFolder of astFolder.children) {
-            nbLinesOfCode += new AstFileService().getNumberOfLinesOfCode(childAstFolder.astFiles);;
+            nbLinesOfCode += new AstFileService().getNumberOfLinesOfCode(childAstFolder.astFiles);
             nbLinesOfCode += this.getChildrenFoldersNumberOfLinesOfCode(childAstFolder);
         }
         return nbLinesOfCode;

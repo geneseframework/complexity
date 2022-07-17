@@ -11,6 +11,7 @@ import { Logg } from '../../../core/interfaces/logg.interface';
 import * as chalk from 'chalk';
 import { AstNode } from './ast-node.model';
 import { AstFolderInterface } from '../../../core/interfaces/ast/ast-folder.interface';
+import { isEmpty } from '../../../core/utils/arrays.util';
 
 export class AstFolder implements AstFolderInterface, Evaluate, Logg {
 
@@ -22,6 +23,7 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
     private _cyclomaticCpx ?= 0;                                                            // The cyclomatic complexity of the AstFolder
     private _numberOfFiles: number = undefined;                                             // The number of files of the AstFolder
     private _numberOfLinesOfCode: number = undefined;                                       // The number of lines of code of the AstFolder
+    private _numberOfLinesOfCodeWithSubfolders: number = undefined;                                       // The number of lines of code of the AstFolder
     private _numberOfMethods: number = undefined;                                           // The number of methods of the AstFolder
     private _parent?: AstFolder = undefined;                                                // The AstFolder corresponding to the parent folder of this AstFolder
     private _path?: string = undefined;                                                     // The absolute path of this folder
@@ -106,6 +108,12 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
 
     set numberOfLinesOfCode(numberOfLinesOfCode: number) {
         this._numberOfLinesOfCode = numberOfLinesOfCode;
+    }
+
+
+    get numberOfLinesOfCodeWithSubfolders(): number {
+        this._numberOfLinesOfCodeWithSubfolders = this.numberOfLinesOfCode + this.getChildrenNumberOfLinesOfCodeWithSubfolders(this);
+        return this._numberOfLinesOfCodeWithSubfolders;
     }
 
 
@@ -206,6 +214,20 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
         this.cpxFactors = this.cpxFactors.add(element.cpxFactors);
         this.cyclomaticCpx = this.cyclomaticCpx + element.cyclomaticCpx;
         this.complexitiesByStatus = this.complexitiesByStatus.add(element.complexitiesByStatus);
+    }
+
+
+    getChildrenNumberOfLinesOfCodeWithSubfolders(parentAstFolder: AstFolder): number {
+        if (isEmpty(parentAstFolder.children)) {
+            return 0;
+        } else {
+            let nbLinesOfChildren = 0;
+            const children: AstFolder[] = parentAstFolder.children ?? [];
+            for (const child of children) {
+                nbLinesOfChildren += child.numberOfLinesOfCodeWithSubfolders;
+            }
+            return nbLinesOfChildren;
+        }
     }
 
 
