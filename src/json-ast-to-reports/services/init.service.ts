@@ -32,7 +32,6 @@ export class InitService {
         astFolder.path = this.getPathFromJsonAstFolder(jsonAst.astFolder);
         astFolder.astFiles = this.generateAstFiles(jsonAst.astFolder, astFolder);
         astFolder.numberOfLinesOfCode = new AstFolderService().getNumberOfLinesOfCode(astFolder);
-        console.log('astFolder.numberOfLinesOfCode', astFolder.numberOfLinesOfCode)
         if (Array.isArray(jsonAst.astFolder?.children)) {
             for (const child of jsonAst.astFolder?.children) {
                 const newChild = this.generateChildrenAstFolder(child, astFolder);
@@ -103,7 +102,6 @@ export class InitService {
         const functionsAssignedToVars: AstMethod[] = AssignedFunctionsService.getArrowFunctions(newAstFile.astNode);
         newAstFile.astMethods = newAstFile.astMethods.concat(functionsAssignedToVars);
         newAstFile.astOutsideNodes = OutsideCodeService.getOutsideNodes(newAstFile.astNode);
-        newAstFile.logg('AST FILEEEE LOG')
         return newAstFile;
     }
 

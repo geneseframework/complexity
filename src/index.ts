@@ -6,6 +6,7 @@ import { createOutDir } from './core/services/file.service';
 import { AstFolder } from './json-ast-to-reports/models/ast/ast-folder.model';
 import * as chalk from 'chalk';
 import { startDebug } from './index-debug';
+import { JsonAstToReports } from './json-ast-to-reports/json-ast-to-reports';
 
 const ora = require('ora');
 const path = require('path');
@@ -19,7 +20,7 @@ const ENABLE_MARKDOWN_REPORT = ARGS[2] === 'true';
 const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 const ENABLE_REFACTORING = ARGS[4] === 'true';
 let FRAMEWORK = ARGS[5] ?? undefined;
-const DEBUG = true;
+const DEBUG = false;
 if (DEBUG) {
     console.log('DEBUG MODE');
 }
@@ -82,6 +83,7 @@ async function start(): Promise<number> {
             const stats: any = reportResult.astFolder['_stats'];
             console.log(chalk.blueBright('Files : '), stats.numberOfFiles);
             console.log(chalk.blueBright('Methods : '), stats.numberOfMethods);
+            console.log(chalk.blueBright('Lines of code : '), reportResult.astFolder['_numberOfLinesOfCode']);
             console.log(chalk.blueBright('Cognitive Complexity : '), stats.totalCognitiveComplexity);
             console.log(chalk.blueBright('Cyclomatic Complexity : '), stats.totalCyclomaticComplexity);
             console.log(reportResult.message);

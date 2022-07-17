@@ -15,7 +15,7 @@ const ENABLE_CONSOLE_REPORT = ARGS[3] === 'true';
 let FRAMEWORK = ARGS[5] ?? undefined;
 
 export async function startDebug(): Promise<number> {
-    const pathToAnalyse = `${process.cwd()}/src/core/mocks/jsx`;
+    const pathToAnalyse = `${process.cwd()}/src/core/mocks`;
     // FRAMEWORK = 'react';
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname);
     if (!ENABLE_CONSOLE_REPORT) {
@@ -35,6 +35,7 @@ export async function startDebug(): Promise<number> {
             const stats: any = JsonAstToReports.astFolder['_stats'];
             console.log(chalk.blueBright('Files : '), stats.numberOfFiles);
             console.log(chalk.blueBright('Methods : '), stats.numberOfMethods);
+            console.log(chalk.blueBright('Lines of code : '), JsonAstToReports.astFolder?.['_numberOfLinesOfCode']);
             console.log(chalk.blueBright('Cognitive Complexity : '), stats.totalCognitiveComplexity);
             console.log(chalk.blueBright('Cyclomatic Complexity : '), stats.totalCyclomaticComplexity);
             console.log(reportResult);

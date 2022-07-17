@@ -74,8 +74,6 @@ export class AstFileReportService {
             stats: this.astFile.stats,
             thresholds: Options.getThresholds()
         });
-        // console.log('WRITE REPORT STATS', this.astFile.stats)
-        console.log('WRITE REPORT LOC', this.astFile.numberOfLinesOfCode)
         const filenameWithoutExtension = getFilenameWithoutExtension(
             this.astFile.name
         );
