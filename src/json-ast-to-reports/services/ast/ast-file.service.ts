@@ -77,28 +77,28 @@ export class AstFileService extends StatsService {
     }
 
 
-    // /**
-    //  * Returns the number of lines of code of an astFile
-    //  * @param astFiles   // The AstFile or AstFiles to analyse
-    //  */
-    // getNumberOfLinesOfCode(astFiles: AstFile | AstFile[]): number {
-    //     let linesOfCode = 0;
-    //     if (isArray(astFiles)) {
-    //         for (const astFile of astFiles) {
-    //             linesOfCode += this.getNumberOfLinesOfCodeForOneFile(astFile);
-    //         }
-    //     } else {
-    //         linesOfCode = this.getNumberOfLinesOfCodeForOneFile(astFiles);
-    //     }
-    //     return linesOfCode;
-    // }
+    /**
+     * Returns the number of lines of code of an astFile
+     * @param astFiles   // The AstFile or AstFiles to analyse
+     */
+    getNumberOfLinesOfCode(astFiles: AstFile | AstFile[]): number {
+        let linesOfCode = 0;
+        if (isArray(astFiles)) {
+            for (const astFile of astFiles) {
+                linesOfCode += this.getNumberOfLinesOfCodeForOneFile(astFile);
+            }
+        } else {
+            linesOfCode = this.getNumberOfLinesOfCodeForOneFile(astFiles);
+        }
+        return linesOfCode;
+    }
 
 
     /**
      * Returns the number of lines of code of an astFile
      * @param astFile   // The AstFile to analyse
      */
-    getNumberOfLinesOfCode(astFile: AstFile): number {
+    getNumberOfLinesOfCodeForOneFile(astFile: AstFile): number {
     // private getNumberOfLinesOfCodeForOneFile(astFile: AstFile): number {
         if (!astFile?.text) {
             return 0;
