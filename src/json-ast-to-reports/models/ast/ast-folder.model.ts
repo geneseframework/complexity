@@ -23,6 +23,7 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
     private _cyclomaticCpx ?= 0;                                                            // The cyclomatic complexity of the AstFolder
     private _numberOfFiles: number = undefined;                                             // The number of files of the AstFolder
     private _numberOfLinesOfCode: number = undefined;                                       // The number of lines of code of the AstFolder
+    private _numberOfLinesOfCodeWithSubfolders: number = undefined;                                       // The number of lines of code of the AstFolder
     private _numberOfMethods: number = undefined;                                           // The number of methods of the AstFolder
     private _parent?: AstFolder = undefined;                                                // The AstFolder corresponding to the parent folder of this AstFolder
     private _path?: string = undefined;                                                     // The absolute path of this folder
@@ -111,7 +112,8 @@ export class AstFolder implements AstFolderInterface, Evaluate, Logg {
 
 
     get numberOfLinesOfCodeWithSubfolders(): number {
-        return this.numberOfLinesOfCode + this.getChildrenNumberOfLinesOfCodeWithSubfolders(this);
+        this._numberOfLinesOfCodeWithSubfolders = this.numberOfLinesOfCode + this.getChildrenNumberOfLinesOfCodeWithSubfolders(this);
+        return this._numberOfLinesOfCodeWithSubfolders;
     }
 
 
