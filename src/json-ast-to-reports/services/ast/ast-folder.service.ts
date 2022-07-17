@@ -7,7 +7,6 @@ import { BarchartService } from '../report/barchart.service';
 import { constructLink, getOS } from '../../../core/services/file.service';
 import { OS } from '../../enums/os.enum';
 import { isArray } from '../../../core/utils/arrays.util';
-import { AstFileService } from './ast-file.service';
 
 /**
  * - AstFolders generation from Abstract Syntax AstNode of a folder
@@ -115,7 +114,7 @@ export class AstFolderService extends StatsService {
 
 
     /**
-     * Returns the number of files of an astFolder and its subfolders
+     * Returns the number of lines of code of an astFolder and its subfolders
      * @param astFolder     // The astFolder to analyse
      */
     getNumberOfLinesOfCode(astFolder: AstFolder): number {
@@ -124,19 +123,23 @@ export class AstFolderService extends StatsService {
         }
         let nbLinesOfCode = 0;
         nbLinesOfCode += this.getChildrenFoldersNumberOfLinesOfCode(astFolder);
+        astFolder.numberOfLinesOfCode = nbLinesOfCode;
         return nbLinesOfCode;
     }
 
 
     /**
-     * Returns the number of files of the subfolders of a given AstFolder
+     * Returns the number of lines of code of the subfolders of a given AstFolder
      * @param astFolder     // The astFolder to analyse
      */
     private getChildrenFoldersNumberOfLinesOfCode(astFolder: AstFolder): number {
         let nbLinesOfCode = 0;
         for (const childAstFolder of astFolder.children) {
-            nbLinesOfCode += new AstFileService().getNumberOfLinesOfCode(childAstFolder.astFiles);
-            nbLinesOfCode += this.getChildrenFoldersNumberOfFiles(childAstFolder);
+            const astFiles: AstFile[] = childAstFolder.astFiles || [];
+            for (const astFile of astFiles) {
+                nbLinesOfCode += astFile.numberOfLinesOfCode;
+            }
+            nbLinesOfCode += this.getChildrenFoldersNumberOfLinesOfCode(childAstFolder);
         }
         return nbLinesOfCode;
     }

@@ -9,6 +9,7 @@ import { AstNodeService } from './ast/ast-node.service';
 import { Ast } from './ast/ast.service';
 import { AssignedFunctionsService } from './ast/assigned-functions.service';
 import { OutsideCodeService } from './ast/outside-code.service';
+import { AstFileService } from './ast/ast-file.service';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree of a folder
@@ -87,6 +88,7 @@ export class InitService {
         newAstFile.astFolder = astFolder;
         newAstFile.end = astFileFromJsonAst.astNode?.end;
         newAstFile.code = CodeService.getCode(astFileFromJsonAst.text);
+        newAstFile.numberOfLinesOfCode = new AstFileService().getNumberOfLinesOfCode(newAstFile);
         newAstFile.astNode = this.getFileAstNode(astFileFromJsonAst.astNode, newAstFile);
         newAstFile.astNodes = this.astNodeService.flatMapAstNodes(newAstFile.astNode, [newAstFile.astNode]);
         newAstFile.astMethods = newAstFile.astNodes
@@ -97,6 +99,7 @@ export class InitService {
         const functionsAssignedToVars: AstMethod[] = AssignedFunctionsService.getArrowFunctions(newAstFile.astNode);
         newAstFile.astMethods = newAstFile.astMethods.concat(functionsAssignedToVars);
         newAstFile.astOutsideNodes = OutsideCodeService.getOutsideNodes(newAstFile.astNode);
+        newAstFile.logg('AST FILEEEE')
         return newAstFile;
     }
 
