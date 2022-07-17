@@ -215,7 +215,7 @@ export class AstFolderReportService {
             foldersArray: this.foldersArray,
             isRootFolder: this.isRootFolder,
             methodsArray: this.methodsArray,
-            numberOfLinesOfCode: this.astFolder.numberOfLinesOfCode,
+            numberOfLinesOfCodeWithSubfolders: this.astFolder.getNumberOfLinesOfCodeWithSubfolders(),
             relativeRootReports: this.relativeRootReports,
             stats: this.astFolder.stats,
             thresholds: Options.getThresholds()
