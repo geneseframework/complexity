@@ -69,10 +69,13 @@ export class AstFileReportService {
         const template = this.template({
             colors: Options.colors,
             methods: this.methodReports,
+            numberOfLinesOfCode: this.astFile.numberOfLinesOfCode,
             relativeRootReports: getPathWithDotSlash(this.relativeRootReports),
             stats: this.astFile.stats,
             thresholds: Options.getThresholds()
         });
+        // console.log('WRITE REPORT STATS', this.astFile.stats)
+        console.log('WRITE REPORT LOC', this.astFile.numberOfLinesOfCode)
         const filenameWithoutExtension = getFilenameWithoutExtension(
             this.astFile.name
         );

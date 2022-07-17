@@ -23,6 +23,7 @@ export class JsonAstToReports {
     static start(pathCommand: string, markdown: boolean, consoleMode: boolean, jsonAstPath = '/ast.json'): any {
         let result = undefined;
         const jsonAst: JsonAst = new InitService().generateAllFromJsonAst(JsonAstToReports.getJsonAst(pathCommand + jsonAstPath));
+        console.log('jsonAst 1', jsonAst.astFolder.astFiles[0].numberOfLinesOfCode)
         jsonAst.astFolder.evaluate();
         if(markdown){
             ReportsService.generateMarkdownReports(jsonAst)
@@ -30,6 +31,7 @@ export class JsonAstToReports {
             result = ReportsService.generateConsoleReports(jsonAst)
         } else {
             ReportsService.generateAllReports(jsonAst)
+            console.log('jsonAst 2', jsonAst.astFolder.astFiles[0].numberOfLinesOfCode)
             const link = terminalLink('folderPath-report.html', `file://${pathCommand}/genese/complexity/reports/folder-report.html`);
             result = `Please open in your browser the file ${link} located in your genese reports folder.`
         }

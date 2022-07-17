@@ -3,7 +3,7 @@
     "version": "1.2.0",
     "description": "Analyzes the difficulty of comprehension of source code (its cognitive complexity). Part of the @genese tool suite.",
     "scripts": {
-        "build": "tsc && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/core/chartjs dist/src/core/chartjs",
+        "build": "tsc && rm -rf dist/src/json-ast-to-reports/templates && cp -r src/json-ast-to-reports/templates dist/src/json-ast-to-reports/templates && cp -r src/core/chartjs dist/src/core/chartjs",
         "start": "npm run build && node dist/src/index.js",
         "publish_package": "npm run build && npm publish",
         "republish_package": "npm run build && npm unpublish -f && npm publish"

@@ -105,7 +105,7 @@ export class AstFileService extends StatsService {
         }
         const linesOfCode = astFile.text.split('\n');
         const nonEmptyLines: number = linesOfCode.filter(l => l.length > 0).length;
-        astFile.numberOfLinesOfCode = nonEmptyLines;
+        // astFile.numberOfLinesOfCode = nonEmptyLines;
         return nonEmptyLines;
     }
 
