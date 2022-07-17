@@ -25,7 +25,7 @@ export async function startDebug(): Promise<number> {
     Options.setOptions(process.cwd(), pathToAnalyse, __dirname, FRAMEWORK as Framework);
     LanguageToJsonAst.start(Options.pathFolderToAnalyze, LANGUAGE as Language)
     console.log(chalk.yellowBright('Report generation...'));
-    const reportResult = JsonAstToReports.start(Options.pathCommand, undefined, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT);
+    const reportResult = JsonAstToReports.start(Options.pathCommand, ENABLE_MARKDOWN_REPORT, ENABLE_CONSOLE_REPORT, undefined);
     // await ExportService.exportReport();
     if (reportResult?.length > 0) {
         console.log();
@@ -35,6 +35,7 @@ export async function startDebug(): Promise<number> {
             const stats: any = JsonAstToReports.astFolder['_stats'];
             console.log(chalk.blueBright('Files : '), stats.numberOfFiles);
             console.log(chalk.blueBright('Methods : '), stats.numberOfMethods);
+            console.log(chalk.blueBright('Lines of code : '), JsonAstToReports.astFolder?.['_numberOfLinesOfCode']);
             console.log(chalk.blueBright('Cognitive Complexity : '), stats.totalCognitiveComplexity);
             console.log(chalk.blueBright('Cyclomatic Complexity : '), stats.totalCyclomaticComplexity);
             console.log(reportResult);

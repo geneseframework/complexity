@@ -6,7 +6,7 @@ const { parentPort, workerData } = require('worker_threads')
 
 function run() {
     Options.setOptions(workerData.pathCommand, workerData.modifiedPath, workerData.pathGeneseNodeJs, workerData.framework);
-    const result = JsonAstToReports.start(Options.pathCommand, undefined, workerData.markdown, workerData.consoleMode)
+    const result = JsonAstToReports.start(Options.pathCommand, workerData.markdown, workerData.consoleMode, undefined)
     parentPort.postMessage({message: result, astFolder: JsonAstToReports.astFolder})
 }
 

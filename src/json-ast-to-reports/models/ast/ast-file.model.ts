@@ -19,6 +19,7 @@ import { CpxLevel } from '../../enums/cpx-level.enum';
 
 export class AstFile implements AstFileInterface, Evaluate, Logg {
 
+    private _astFileService?: AstFileService = new AstFileService();    // The service managing AstFiles
     private _astFolder?: AstFolder = undefined;                         // The AstFolder which includes this AstFile
     private _astMethods?: AstMethod[] = [];                             // The AstMethods included in this AstFile
     private _astNode?: AstNode = undefined;                             // The AstNode corresponding to the file itself
@@ -34,6 +35,7 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
     private _displayedCode?: Code = undefined;                          // The code to display in the report
     private _end: number = undefined;                                   // The pos of the end of the source code
     private _name: string = undefined;                                  // The name of the AstFile
+    private _numberOfLinesOfCode: number = undefined;                   // The number of lines of code of the AstFile
     private _stats?: Stats = undefined;                                 // The statistics of the AstFile
 
 
@@ -191,6 +193,16 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
     }
 
 
+    get numberOfLinesOfCode(): number {
+        return this._numberOfLinesOfCode || this._astFileService.getNumberOfLinesOfCode(this);
+    }
+
+
+    set numberOfLinesOfCode(numberOfLinesOfCode: number) {
+        this._numberOfLinesOfCode = numberOfLinesOfCode;
+    }
+
+
     get stats(): Stats {
         if (!this._stats) {
             this._stats = new AstFileService().getStats(this);
@@ -284,6 +296,7 @@ export class AstFile implements AstFileInterface, Evaluate, Logg {
         console.log('-----------------------------');
         console.log(chalk.blueBright('end :'), this.end);
         console.log(chalk.blueBright('text :'), this.text);
+        console.log(chalk.blueBright('lines of code :'), this.numberOfLinesOfCode);
         console.log(chalk.blueBright('astNode :'), this.astNode?.kind);
         console.log(chalk.blueBright('astFolder :'), this.astFolder?.path);
     }

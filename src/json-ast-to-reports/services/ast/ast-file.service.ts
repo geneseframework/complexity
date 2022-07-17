@@ -4,6 +4,7 @@ import { StatsService } from '../report/stats.service';
 import { Stats } from '../../models/stats.model';
 import { ComplexityType } from '../../enums/complexity-type.enum';
 import { CpxLevel } from '../../enums/cpx-level.enum';
+import { isArray } from '../../../core/utils/arrays.util';
 
 /**
  * - AstFiles generation from Abstract Syntax AstNode of a file
@@ -72,6 +73,32 @@ export class AstFileService extends StatsService {
      */
     getNameOrPath(astFile: AstFile): void {
         this._stats.subject = astFile.name;
+    }
+
+
+    /**
+     * Returns the number of lines of code of an astFile
+     * @param astFiles   // The AstFile or AstFiles to analyse
+     */
+    getNumberOfLinesOfCode(astFiles: AstFile | AstFile[]): number {
+        let linesOfCode = 0;
+        if (isArray(astFiles)) {
+            for (const astFile of astFiles) {
+                linesOfCode += this.getNumberOfLinesOfCodeForOneFile(astFile);
+            }
+        } else {
+            linesOfCode = this.getNumberOfLinesOfCodeForOneFile(astFiles);
+        }
+        return linesOfCode;
+    }
+
+
+    /**
+     * Returns the number of lines of code of an astFile
+     * @param astFile   // The AstFile to analyse
+     */
+    getNumberOfLinesOfCodeForOneFile(astFile: AstFile): number {
+        return astFile?.text ? astFile.text.split('\n').filter(l => l.length > 0).length : 0;
     }
 
 }

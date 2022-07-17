@@ -9,6 +9,8 @@ import { AstNodeService } from './ast/ast-node.service';
 import { Ast } from './ast/ast.service';
 import { AssignedFunctionsService } from './ast/assigned-functions.service';
 import { OutsideCodeService } from './ast/outside-code.service';
+import { AstFileService } from './ast/ast-file.service';
+import { AstFolderService } from './ast/ast-folder.service';
 
 /**
  * - AstFolders generation from Abstract Syntax Tree of a folder
@@ -29,6 +31,7 @@ export class InitService {
         const astFolder = new AstFolder();
         astFolder.path = this.getPathFromJsonAstFolder(jsonAst.astFolder);
         astFolder.astFiles = this.generateAstFiles(jsonAst.astFolder, astFolder);
+        astFolder.numberOfLinesOfCode = new AstFolderService().getNumberOfLinesOfCode(astFolder);
         if (Array.isArray(jsonAst.astFolder?.children)) {
             for (const child of jsonAst.astFolder?.children) {
                 const newChild = this.generateChildrenAstFolder(child, astFolder);
@@ -51,6 +54,7 @@ export class InitService {
         newAstFolder.path = this.getPathFromJsonAstFolder(astFolderFromJsonAst);
         newAstFolder.parent = parentAstFolder;
         newAstFolder.astFiles = this.generateAstFiles(astFolderFromJsonAst, newAstFolder);
+        newAstFolder.numberOfLinesOfCode = new AstFolderService().getNumberOfLinesOfCode(newAstFolder);
         for (const childFolderFromJsonAst of astFolderFromJsonAst.children ?? []) {
             newAstFolder.children.push(this.generateChildrenAstFolder(childFolderFromJsonAst, newAstFolder));
         }
@@ -87,6 +91,7 @@ export class InitService {
         newAstFile.astFolder = astFolder;
         newAstFile.end = astFileFromJsonAst.astNode?.end;
         newAstFile.code = CodeService.getCode(astFileFromJsonAst.text);
+        newAstFile.numberOfLinesOfCode = new AstFileService().getNumberOfLinesOfCode(newAstFile);
         newAstFile.astNode = this.getFileAstNode(astFileFromJsonAst.astNode, newAstFile);
         newAstFile.astNodes = this.astNodeService.flatMapAstNodes(newAstFile.astNode, [newAstFile.astNode]);
         newAstFile.astMethods = newAstFile.astNodes

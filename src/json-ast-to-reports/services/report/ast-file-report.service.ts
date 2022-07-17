@@ -69,6 +69,7 @@ export class AstFileReportService {
         const template = this.template({
             colors: Options.colors,
             methods: this.methodReports,
+            numberOfLinesOfCode: this.astFile.numberOfLinesOfCode,
             relativeRootReports: getPathWithDotSlash(this.relativeRootReports),
             stats: this.astFile.stats,
             thresholds: Options.getThresholds()
